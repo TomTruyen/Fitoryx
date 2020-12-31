@@ -17,7 +17,7 @@ class ExercisesPage extends StatefulWidget {
 
 // TODO
 
-// 1. ExerciseFilter Function (voor ExerciseFilterPage)
+// 1. ExerciseFilter Function (voor ExerciseFilterPage) ==> Zorg ook dat de exercises dividers hebben van alfabaet (A, B, C,...)
 // 1.1 Use ExerciseCount value for filterwidget
 // 1.2 User filtered exercises to display
 // 2. Start using SearchValue to filter through exercises
