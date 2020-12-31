@@ -1,0 +1,16 @@
+List<String> categories = [
+  'Back',
+  'Biceps',
+  'Calves',
+  'Cardio',
+  'Chest',
+  'Core',
+  'Forearms',
+  'Full Body',
+  'Glutes',
+  'Legs',
+  'Olympic',
+  'Other',
+  'Shoulders',
+  'Triceps',
+];
