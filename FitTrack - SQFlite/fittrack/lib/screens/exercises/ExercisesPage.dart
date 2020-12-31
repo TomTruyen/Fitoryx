@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:fittrack/screens/exercises/ExerciseFilterPage.dart';
+import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/shared/ExerciseList.dart';
+import 'package:fittrack/shared/Loader.dart';
 
 class ExercisesPage extends StatefulWidget {
   final bool isSelectActive;
@@ -10,6 +14,13 @@ class ExercisesPage extends StatefulWidget {
   @override
   _ExercisesPageState createState() => _ExercisesPageState();
 }
+
+// TODO
+
+// 1. ExerciseFilter Function (voor ExerciseFilterPage)
+// 1.1 Use ExerciseCount value for filterwidget
+// 1.2 User filtered exercises to display
+// 2. Start using SearchValue to filter through exercises
 
 class _ExercisesPageState extends State<ExercisesPage> {
   bool isSearchActive = false;
@@ -43,7 +54,13 @@ class _ExercisesPageState extends State<ExercisesPage> {
             Icons.filter_list_outlined,
             color: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => ExerciseFilterPage(),
+              ),
+            );
+          },
         ),
         if (!widget.isSelectActive)
           IconButton(
@@ -57,7 +74,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
     );
   }
 
-  SliverAppBar searchAppBar() {
+  SliverAppBar searchAppBar(ExerciseFilter filter) {
     return SliverAppBar(
       backgroundColor: Colors.grey[50],
       floating: true,
@@ -87,7 +104,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
             color: Colors.black,
           ),
           onPressed: () {
-            // Clear text field
+            filter.updateSearchValue("");
           },
         ),
         IconButton(
@@ -95,7 +112,13 @@ class _ExercisesPageState extends State<ExercisesPage> {
             Icons.filter_list_outlined,
             color: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => ExerciseFilterPage(),
+              ),
+            );
+          },
         ),
         if (!widget.isSelectActive)
           IconButton(
@@ -111,34 +134,38 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        isSearchActive ? searchAppBar() : defaultAppBar(),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int i) {
-              String name = exercises[i].name;
+    final ExerciseFilter filter = Provider.of<ExerciseFilter>(context) ?? null;
 
-              if (exercises[i].equipment != "") {
-                name += ' (${exercises[i].equipment})';
-              }
+    return filter == null
+        ? Loader()
+        : CustomScrollView(
+            slivers: <Widget>[
+              isSearchActive ? searchAppBar(filter) : defaultAppBar(),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int i) {
+                    String name = exercises[i].name;
 
-              String category = exercises[i].category;
+                    if (exercises[i].equipment != "") {
+                      name += ' (${exercises[i].equipment})';
+                    }
 
-              return ListTile(
-                title: Text(name, overflow: TextOverflow.ellipsis),
-                subtitle: Text(category, overflow: TextOverflow.ellipsis),
-                onTap: widget.isSelectActive
-                    ? () {
-                        print("Tapped Widget Number: $i");
-                      }
-                    : null,
-              );
-            },
-            childCount: exercises.length,
-          ),
-        ),
-      ],
-    );
+                    String category = exercises[i].category;
+
+                    return ListTile(
+                      title: Text(name, overflow: TextOverflow.ellipsis),
+                      subtitle: Text(category, overflow: TextOverflow.ellipsis),
+                      onTap: widget.isSelectActive
+                          ? () {
+                              print("Tapped Widget Number: $i");
+                            }
+                          : null,
+                    );
+                  },
+                  childCount: exercises.length,
+                ),
+              ),
+            ],
+          );
   }
 }
