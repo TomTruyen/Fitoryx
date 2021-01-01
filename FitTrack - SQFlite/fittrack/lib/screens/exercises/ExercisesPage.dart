@@ -1,4 +1,5 @@
 import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,15 +17,18 @@ class ExercisesPage extends StatefulWidget {
   _ExercisesPageState createState() => _ExercisesPageState();
 }
 
-// TODO
-
-// 1. FIX filterExercise filtering too much! ==> lagging app
-// 2. Start using SearchValue to filter through exercises
-
 class _ExercisesPageState extends State<ExercisesPage> {
-  List<dynamic> _filteredExercises;
+  // Variables used to limit the amount of times the filterExercise function gets called
+  bool filterLoaded = false;
+  int isUserCreated;
+  String searchValue;
+  List<String> selectedCategories;
+  List<String> selectedEquipment;
 
+  // Variables
+  List<dynamic> _filteredExercises;
   bool isSearchActive = false;
+  TextEditingController searchController = TextEditingController();
 
   void filterExercises(ExerciseFilter filter) {
     List<dynamic> filtered = [];
@@ -59,18 +63,14 @@ class _ExercisesPageState extends State<ExercisesPage> {
       }
 
       if (addExercise) {
-        selectedExercises.add(_exercises[i]);
+        if (_exercises[i].isUserCreated == isUserCreated &&
+            _exercises[i]
+                .name
+                .toLowerCase()
+                .contains(searchValue.toLowerCase())) {
+          selectedExercises.add(_exercises[i]);
+        }
       }
-    }
-
-    if (selectedExercises.isNotEmpty) {
-      selectedExercises.where(
-          (Exercise exercise) => exercise.isUserCreated == isUserCreated);
-    }
-
-    if (selectedExercises.isNotEmpty) {
-      selectedExercises
-          .where((Exercise exercise) => exercise.name.contains(searchValue));
     }
 
     if (selectedExercises.isNotEmpty) {
@@ -152,12 +152,23 @@ class _ExercisesPageState extends State<ExercisesPage> {
       backgroundColor: Colors.grey[50],
       floating: true,
       pinned: true,
-      title: Text(
-        'searchbar hier',
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
+      title: TextField(
+        controller: searchController,
+        autofocus: true,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(12.0),
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          fillColor: Colors.grey[300],
+          filled: true,
+          hintText: 'Search exercises...',
+          hintStyle: TextStyle(color: Colors.black54),
         ),
+        onChanged: (query) {
+          filter.updateSearchValue(query);
+        },
       ),
       leading: IconButton(
         icon: Icon(
@@ -177,6 +188,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
             color: Colors.black,
           ),
           onPressed: () {
+            searchController.text = "";
             filter.updateSearchValue("");
           },
         ),
@@ -209,14 +221,47 @@ class _ExercisesPageState extends State<ExercisesPage> {
   Widget build(BuildContext context) {
     final ExerciseFilter filter = Provider.of<ExerciseFilter>(context) ?? null;
 
+    bool filterRequired = false;
+
     if (filter != null) {
-      print("Update build");
-      filterExercises(filter);
+      if (!filterLoaded) {
+        filterLoaded = true;
+        filterRequired = true;
+      }
+
+      if (searchValue != filter.searchValue) {
+        searchValue = filter.searchValue;
+        filterRequired = true;
+      }
+
+      if (isUserCreated != filter.isUserCreated) {
+        isUserCreated = filter.isUserCreated;
+        filterRequired = true;
+      }
+
+      if (!listEquals(
+        selectedCategories,
+        filter.selectedCategories,
+      )) {
+        selectedCategories = List.of(filter.selectedCategories);
+        filterRequired = true;
+      }
+
+      if (!listEquals(selectedEquipment, filter.selectedEquipment)) {
+        selectedEquipment = List.of(filter.selectedEquipment);
+        filterRequired = true;
+      }
+
+      if (filterRequired) {
+        print("FILTER");
+        filterExercises(filter);
+      }
     }
 
     return filter == null
         ? Loader()
         : CustomScrollView(
+            physics: BouncingScrollPhysics(),
             slivers: <Widget>[
               isSearchActive ? searchAppBar(filter) : defaultAppBar(),
               SliverList(
