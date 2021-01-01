@@ -1,3 +1,4 @@
+import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,13 +18,85 @@ class ExercisesPage extends StatefulWidget {
 
 // TODO
 
-// 1. ExerciseFilter Function (voor ExerciseFilterPage) ==> Zorg ook dat de exercises dividers hebben van alfabaet (A, B, C,...)
-// 1.1 Use ExerciseCount value for filterwidget
-// 1.2 User filtered exercises to display
+// 1. FIX filterExercise filtering too much! ==> lagging app
 // 2. Start using SearchValue to filter through exercises
 
 class _ExercisesPageState extends State<ExercisesPage> {
+  List<dynamic> _filteredExercises;
+
   bool isSearchActive = false;
+
+  void filterExercises(ExerciseFilter filter) {
+    List<dynamic> filtered = [];
+
+    List<Exercise> _exercises = List.of(exercises);
+    _exercises.sort((Exercise a, Exercise b) =>
+        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+    List<String> selectedCategories = filter.selectedCategories ?? [];
+    List<String> selectedEquipment = filter.selectedEquipment ?? [];
+    int isUserCreated = filter.isUserCreated ?? 0;
+    String searchValue = filter.searchValue ?? "";
+
+    List<Exercise> selectedExercises = [];
+
+    for (int i = 0; i < _exercises.length; i++) {
+      bool addExercise = true;
+
+      if (selectedCategories.isNotEmpty && selectedEquipment.isNotEmpty) {
+        if (!selectedCategories.contains(_exercises[i].category) ||
+            !selectedEquipment.contains(_exercises[i].equipment)) {
+          addExercise = false;
+        }
+      } else if (selectedCategories.isNotEmpty) {
+        if (!selectedCategories.contains(_exercises[i].category)) {
+          addExercise = false;
+        }
+      } else if (selectedEquipment.isNotEmpty) {
+        if (!selectedEquipment.contains(_exercises[i].equipment)) {
+          addExercise = false;
+        }
+      }
+
+      if (addExercise) {
+        selectedExercises.add(_exercises[i]);
+      }
+    }
+
+    if (selectedExercises.isNotEmpty) {
+      selectedExercises.where(
+          (Exercise exercise) => exercise.isUserCreated == isUserCreated);
+    }
+
+    if (selectedExercises.isNotEmpty) {
+      selectedExercises
+          .where((Exercise exercise) => exercise.name.contains(searchValue));
+    }
+
+    if (selectedExercises.isNotEmpty) {
+      String letter = "";
+
+      selectedExercises.forEach((Exercise exercise) {
+        String exerciseLetter = exercise.name.substring(0, 1).toUpperCase();
+        if (letter != exerciseLetter) {
+          letter = exerciseLetter;
+
+          filtered.add(exerciseLetter);
+        }
+
+        filtered.add(exercise);
+      });
+    }
+
+    setState(() {
+      _filteredExercises = filtered;
+    });
+
+    Future.delayed(
+      Duration(seconds: 0),
+      () => filter.updateExerciseCount(selectedExercises.length),
+    );
+  }
 
   SliverAppBar defaultAppBar() {
     return SliverAppBar(
@@ -136,6 +209,11 @@ class _ExercisesPageState extends State<ExercisesPage> {
   Widget build(BuildContext context) {
     final ExerciseFilter filter = Provider.of<ExerciseFilter>(context) ?? null;
 
+    if (filter != null) {
+      print("Update build");
+      filterExercises(filter);
+    }
+
     return filter == null
         ? Loader()
         : CustomScrollView(
@@ -144,25 +222,41 @@ class _ExercisesPageState extends State<ExercisesPage> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int i) {
-                    String name = exercises[i].name;
+                    if (_filteredExercises[i] is Exercise) {
+                      String name = _filteredExercises[i].name;
 
-                    if (exercises[i].equipment != "") {
-                      name += ' (${exercises[i].equipment})';
+                      if (_filteredExercises[i].equipment != "") {
+                        name += ' (${_filteredExercises[i].equipment})';
+                      }
+
+                      String category = _filteredExercises[i].category;
+
+                      return ListTile(
+                        title: Text(name, overflow: TextOverflow.ellipsis),
+                        subtitle:
+                            Text(category, overflow: TextOverflow.ellipsis),
+                        onTap: widget.isSelectActive
+                            ? () {
+                                print("Tapped Widget Number: $i");
+                              }
+                            : null,
+                      );
+                    } else {
+                      return Container(
+                        alignment: Alignment.centerLeft,
+                        height: 30.0,
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          _filteredExercises[i],
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
                     }
-
-                    String category = exercises[i].category;
-
-                    return ListTile(
-                      title: Text(name, overflow: TextOverflow.ellipsis),
-                      subtitle: Text(category, overflow: TextOverflow.ellipsis),
-                      onTap: widget.isSelectActive
-                          ? () {
-                              print("Tapped Widget Number: $i");
-                            }
-                          : null,
-                    );
                   },
-                  childCount: exercises.length,
+                  childCount: _filteredExercises.length,
                 ),
               ),
             ],

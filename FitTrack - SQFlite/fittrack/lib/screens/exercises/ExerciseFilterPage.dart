@@ -19,7 +19,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
         InkWell(
           child: FilterWidget(
             value: 'User Created Exercise',
-            selected: filter.isUserCreated,
+            selected: filter.isUserCreated == 0 ? false : true,
           ),
           onTap: () {
             filter.toggleUserCreated();
@@ -83,7 +83,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
             body: ScrollConfiguration(
               behavior: ScrollBehavior(),
               child: CustomScrollView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: BouncingScrollPhysics(),
                 slivers: <Widget>[
                   SliverAppBar(
                     backgroundColor: Colors.grey[50],
@@ -178,7 +178,7 @@ class FilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-      height: 40.0,
+      height: 38.0,
       decoration: BoxDecoration(
         color: selected ? Theme.of(context).accentColor : Colors.white,
         borderRadius: BorderRadius.all(

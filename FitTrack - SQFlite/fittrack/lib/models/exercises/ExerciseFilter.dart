@@ -5,12 +5,12 @@ class ExerciseFilter extends ChangeNotifier {
   int exerciseCount;
   List<String> selectedCategories = [];
   List<String> selectedEquipment = [];
-  bool isUserCreated;
+  int isUserCreated;
 
   ExerciseFilter({
     this.searchValue = "",
     this.exerciseCount = 0,
-    this.isUserCreated = false,
+    this.isUserCreated = 0,
   });
 
   void updateSearchValue(String value) {
@@ -24,7 +24,7 @@ class ExerciseFilter extends ChangeNotifier {
   }
 
   void toggleUserCreated() {
-    isUserCreated = !isUserCreated;
+    isUserCreated = isUserCreated == 0 ? 1 : 0;
     notifyListeners();
   }
 
@@ -61,7 +61,18 @@ class ExerciseFilter extends ChangeNotifier {
   void clearAllFilters() {
     selectedCategories = [];
     selectedEquipment = [];
-    isUserCreated = false;
+    isUserCreated = 0;
     notifyListeners();
+  }
+
+  ExerciseFilter copy() {
+    ExerciseFilter copy = new ExerciseFilter();
+    copy.searchValue = searchValue;
+    copy.isUserCreated = isUserCreated;
+    copy.selectedCategories = selectedCategories;
+    copy.selectedEquipment = selectedEquipment;
+    copy.exerciseCount = exerciseCount;
+
+    return copy;
   }
 }
