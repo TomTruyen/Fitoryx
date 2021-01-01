@@ -34,9 +34,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
     List<dynamic> filtered = [];
 
     List<Exercise> _exercises = List.of(exercises);
-    _exercises.sort((Exercise a, Exercise b) =>
-        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-
     List<String> selectedCategories = filter.selectedCategories ?? [];
     List<String> selectedEquipment = filter.selectedEquipment ?? [];
     int isUserCreated = filter.isUserCreated ?? 0;
@@ -72,6 +69,13 @@ class _ExercisesPageState extends State<ExercisesPage> {
         }
       }
     }
+
+    // Sort Exercise by Name, then by Equipment
+    selectedExercises.sort((Exercise a, Exercise b) {
+      int cmp = a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      if (cmp != 0) return cmp;
+      return a.equipment.toLowerCase().compareTo(b.equipment.toLowerCase());
+    });
 
     if (selectedExercises.isNotEmpty) {
       String letter = "";
