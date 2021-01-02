@@ -1,18 +1,24 @@
+import 'package:flutter/material.dart';
+
 import 'package:fittrack/shared/CategoryList.dart';
 import 'package:fittrack/shared/EquipmentList.dart';
 import 'package:fittrack/shared/Functions.dart';
-import 'package:flutter/material.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ExerciseAddPage extends StatefulWidget {
+  final Function updateUserExercises;
+
+  ExerciseAddPage(this.updateUserExercises);
+
   @override
   _ExerciseAddPageState createState() => _ExerciseAddPageState();
 }
 
 class _ExerciseAddPageState extends State<ExerciseAddPage> {
+  final formKey = GlobalKey<FormState>();
+
   String exerciseName = "";
-
   String exerciseCategory = "";
-
   String exerciseEquipment = "";
 
   @override
@@ -137,69 +143,72 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
             SliverFillRemaining(
               child: Container(
                 padding: EdgeInsets.all(16.0),
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(8.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          fillColor: Colors.grey[300],
+                          filled: true,
+                          hintText: 'Exercise Name',
+                          hintStyle: TextStyle(color: Colors.black54),
                         ),
-                        fillColor: Colors.grey[300],
-                        filled: true,
-                        hintText: 'Exercise Name',
-                        hintStyle: TextStyle(color: Colors.black54),
-                      ),
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return 'Exercise name is required';
-                        }
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Exercise name is required';
+                          }
 
-                        return null;
-                      },
-                      onChanged: (String value) {
-                        exerciseName = value;
-                      },
-                    ),
-                    SizedBox(height: 10.0),
-                    Container(
-                      height: 50.0,
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: InkWell(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('Category'),
-                            Text(exerciseCategory == ""
-                                ? "None"
-                                : exerciseCategory),
-                          ],
-                        ),
-                        onTap: () {
-                          showPopupMenu(true);
+                          return null;
+                        },
+                        onChanged: (String value) {
+                          exerciseName = value;
                         },
                       ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Container(
-                      height: 50.0,
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: InkWell(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('Equipment'),
-                            Text(exerciseEquipment == ""
-                                ? "None"
-                                : exerciseEquipment),
-                          ],
+                      SizedBox(height: 10.0),
+                      Container(
+                        height: 50.0,
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: InkWell(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('Category'),
+                              Text(exerciseCategory == ""
+                                  ? "None"
+                                  : exerciseCategory),
+                            ],
+                          ),
+                          onTap: () {
+                            showPopupMenu(true);
+                          },
                         ),
-                        onTap: () {
-                          showPopupMenu(false);
-                        },
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 10.0),
+                      Container(
+                        height: 50.0,
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: InkWell(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('Equipment'),
+                              Text(exerciseEquipment == ""
+                                  ? "None"
+                                  : exerciseEquipment),
+                            ],
+                          ),
+                          onTap: () {
+                            showPopupMenu(false);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -208,7 +217,21 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check),
-        onPressed: () async {},
+        onPressed: () async {
+          if (formKey.currentState.validate()) {
+            dynamic result = await globals.sqlDatabase
+                .addExercise(exerciseName, exerciseCategory, exerciseEquipment);
+
+            if (result == null) {
+              print("ERROR");
+              // Show popup error here
+            } else {
+              await widget.updateUserExercises();
+
+              tryPopContext(context);
+            }
+          }
+        },
       ),
     );
   }
