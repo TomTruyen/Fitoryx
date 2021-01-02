@@ -3,9 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fittrack/screens/Wrapper.dart';
+import 'package:fittrack/services/SQLDatabase.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  globals.sqlDatabase = new SQLDatabase();
+  await globals.sqlDatabase.setupDatabase();
   runApp(MyApp());
 }
 
