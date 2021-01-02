@@ -180,7 +180,7 @@ class FilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-      height: 38.0,
+      height: 35.0,
       decoration: BoxDecoration(
         color: selected ? Theme.of(context).accentColor : Colors.white,
         borderRadius: BorderRadius.all(
@@ -195,6 +195,7 @@ class FilterWidget extends StatelessWidget {
         value,
         style: TextStyle(
           color: selected ? Colors.white : Theme.of(context).accentColor,
+          fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.95,
         ),
         textAlign: TextAlign.center,
       ),
