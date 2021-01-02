@@ -98,6 +98,13 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                         tryPopContext(context);
                       },
                     ),
+                    title: Text(
+                      'Filter (${filter.exerciseCount})',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                   SliverFillRemaining(
                     child: Container(
@@ -105,11 +112,6 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Filter (${filter.exerciseCount})',
-                            style: TextStyle(fontSize: 24.0),
-                          ),
-                          SizedBox(height: 20.0),
                           Text('Category'),
                           SizedBox(height: 20.0),
                           Wrap(
