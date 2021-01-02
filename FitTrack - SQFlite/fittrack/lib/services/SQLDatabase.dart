@@ -1,9 +1,11 @@
+import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLDatabase {
   Database db;
+  List<Exercise> userExercises;
 
-  Future<Database> setupDatabase() async {
+  Future<void> setupDatabase() async {
     try {
       String dbPath = await getDatabasesPath();
 
@@ -16,14 +18,69 @@ class SQLDatabase {
         );
       });
 
-      return db;
+      await updateUserExercises();
     } catch (e) {
+      print("Setup Database Error: $e");
+    }
+  }
+
+  Future<dynamic> addExercise(String exerciseName, String exerciseCategory,
+      String exerciseEquipment) async {
+    try {
+      await db.rawInsert(
+          'INSERT INTO exercises (name, category, equipment, isUserCreated) VALUES (?, ?, ?, ?)',
+          [
+            exerciseName,
+            exerciseCategory,
+            exerciseEquipment,
+            1,
+          ]);
+
+      return "";
+    } catch (e) {
+      print("Add Exercise Error: $e");
       return null;
     }
   }
 
-  Future<Database> getDatabase() async {
-    return db;
+  Future<dynamic> deleteExercise(int id) async {
+    try {
+      await db.rawDelete('DELETE FROM exercises WHERE id = ?', [id]);
+
+      return "";
+    } catch (e) {
+      print("Delete Exercise Error: $e");
+      return null;
+    }
+  }
+
+  Future<void> updateUserExercises() async {
+    try {
+      List<Map<String, dynamic>> dbExercises =
+          await db.rawQuery("SELECT * FROM exercises");
+
+      if (dbExercises.isEmpty) {
+        return [];
+      }
+
+      List<Exercise> exercises = [];
+      dbExercises.forEach((Map<String, dynamic> dbExercise) {
+        Exercise exercise = new Exercise(
+          id: dbExercise['id'],
+          name: dbExercise['name'],
+          category: dbExercise['category'],
+          equipment: dbExercise['equipment'],
+          isUserCreated: dbExercise['isUserCreated'],
+        );
+
+        exercises.add(exercise);
+      });
+
+      userExercises = exercises;
+    } catch (e) {
+      print("Get UserExercise Error: $e");
+      return null;
+    }
   }
 }
 /* Tables:
