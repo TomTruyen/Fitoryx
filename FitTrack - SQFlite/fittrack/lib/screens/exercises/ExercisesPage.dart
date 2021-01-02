@@ -8,6 +8,7 @@ import 'package:fittrack/screens/exercises/ExerciseFilterPage.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/shared/ExerciseList.dart';
 import 'package:fittrack/shared/Loader.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ExercisesPage extends StatefulWidget {
   final bool isSelectActive;
@@ -20,21 +21,36 @@ class ExercisesPage extends StatefulWidget {
 
 class _ExercisesPageState extends State<ExercisesPage> {
   // Variables used to limit the amount of times the filterExercise function gets called
-  bool filterLoaded = false;
+  bool forceFilter = false;
   int isUserCreated;
   String searchValue;
   List<String> selectedCategories;
   List<String> selectedEquipment;
 
   // Variables
+  List<Exercise> userExercises;
   List<dynamic> _filteredExercises;
   bool isSearchActive = false;
   TextEditingController searchController = TextEditingController();
+
+  Future<void> updateUserExercises() async {
+    await globals.sqlDatabase.updateUserExercises();
+
+    setState(() {
+      forceFilter = false;
+    });
+  }
 
   void filterExercises(ExerciseFilter filter) {
     List<dynamic> filtered = [];
 
     List<Exercise> _exercises = List.of(exercises);
+
+    if (globals.sqlDatabase.userExercises != null &&
+        globals.sqlDatabase.userExercises.isNotEmpty) {
+      _exercises.addAll(List.of(globals.sqlDatabase.userExercises));
+    }
+
     List<String> selectedCategories = filter.selectedCategories ?? [];
     List<String> selectedEquipment = filter.selectedEquipment ?? [];
     int isUserCreated = filter.isUserCreated ?? 0;
@@ -61,12 +77,15 @@ class _ExercisesPageState extends State<ExercisesPage> {
       }
 
       if (addExercise) {
-        if (_exercises[i].isUserCreated == isUserCreated &&
-            _exercises[i]
-                .name
-                .toLowerCase()
-                .contains(searchValue.toLowerCase())) {
-          selectedExercises.add(_exercises[i]);
+        if (_exercises[i]
+            .name
+            .toLowerCase()
+            .contains(searchValue.toLowerCase())) {
+          if ((isUserCreated == 1 &&
+                  isUserCreated == _exercises[i].isUserCreated) ||
+              filter.isUserCreated == 0) {
+            selectedExercises.add(_exercises[i]);
+          }
         }
       }
     }
@@ -158,7 +177,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ExerciseAddPage(),
+                        builder: (context) =>
+                            ExerciseAddPage(updateUserExercises),
                       ),
                     )
                   },
@@ -258,7 +278,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ExerciseAddPage(),
+                        builder: (context) =>
+                            ExerciseAddPage(updateUserExercises),
                       ),
                     )
                   },
@@ -289,8 +310,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
     bool filterRequired = false;
 
     if (filter != null) {
-      if (!filterLoaded) {
-        filterLoaded = true;
+      if (!forceFilter) {
+        forceFilter = true;
         filterRequired = true;
       }
 
@@ -318,7 +339,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
       }
 
       if (filterRequired) {
-        print("FILTER");
         filterExercises(filter);
       }
     }
@@ -340,11 +360,30 @@ class _ExercisesPageState extends State<ExercisesPage> {
                       }
 
                       String category = _filteredExercises[i].category;
+                      bool isUserCreated =
+                          _filteredExercises[i].isUserCreated == 0
+                              ? false
+                              : true;
 
                       return ListTile(
                         title: Text(name, overflow: TextOverflow.ellipsis),
-                        subtitle:
-                            Text(category, overflow: TextOverflow.ellipsis),
+                        subtitle: Text(category == "" ? "None" : category,
+                            overflow: TextOverflow.ellipsis),
+                        trailing: !widget.isSelectActive && isUserCreated
+                            ? IconButton(
+                                icon: Icon(Icons.delete, color: Colors.black),
+                                onPressed: () async {
+                                  dynamic result = globals.sqlDatabase
+                                      .deleteExercise(_filteredExercises[i].id);
+
+                                  if (result == null) {
+                                    // show error popup
+                                  } else {
+                                    await updateUserExercises();
+                                  }
+                                },
+                              )
+                            : null,
                         onTap: widget.isSelectActive
                             ? () {
                                 print("Tapped Widget Number: $i");
