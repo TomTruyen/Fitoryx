@@ -1,4 +1,5 @@
 import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/screens/exercises/ExerciseAddPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -140,12 +141,42 @@ class _ExercisesPageState extends State<ExercisesPage> {
           },
         ),
         if (!widget.isSelectActive)
-          IconButton(
-            icon: Icon(
-              Icons.more_vert_outlined,
-              color: Colors.black,
+          Theme(
+            data: Theme.of(context).copyWith(
+              cardColor: Color.fromRGBO(35, 35, 35, 1),
+              dividerColor: Color.fromRGBO(70, 70, 70, 1),
             ),
-            onPressed: () {},
+            child: PopupMenuButton(
+              offset: Offset(0.0, 80.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              icon: Icon(Icons.more_vert, color: Colors.black),
+              onSelected: (selection) => {
+                if (selection == 'create')
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExerciseAddPage(),
+                      ),
+                    )
+                  },
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuItem>[
+                PopupMenuItem(
+                  height: 40.0,
+                  value: 'create',
+                  child: Text(
+                    'Create exercise',
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                  ),
+                ),
+              ],
+            ),
           ),
       ],
     );
@@ -210,12 +241,42 @@ class _ExercisesPageState extends State<ExercisesPage> {
           },
         ),
         if (!widget.isSelectActive)
-          IconButton(
-            icon: Icon(
-              Icons.more_vert_outlined,
-              color: Colors.black,
+          Theme(
+            data: Theme.of(context).copyWith(
+              cardColor: Color.fromRGBO(35, 35, 35, 1),
+              dividerColor: Color.fromRGBO(70, 70, 70, 1),
             ),
-            onPressed: () {},
+            child: PopupMenuButton(
+              offset: Offset(0.0, 80.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              icon: Icon(Icons.more_vert, color: Colors.black),
+              onSelected: (selection) => {
+                if (selection == 'create')
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExerciseAddPage(),
+                      ),
+                    )
+                  },
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuItem>[
+                PopupMenuItem(
+                  height: 40.0,
+                  value: 'create',
+                  child: Text(
+                    'Create exercise',
+                    style: Theme.of(context).textTheme.button.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                  ),
+                ),
+              ],
+            ),
           ),
       ],
     );
