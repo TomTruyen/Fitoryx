@@ -170,7 +170,9 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text('Category'),
-                            Text(exerciseCategory),
+                            Text(exerciseCategory == ""
+                                ? "None"
+                                : exerciseCategory),
                           ],
                         ),
                         onTap: () {
@@ -187,7 +189,9 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text('Equipment'),
-                            Text(exerciseEquipment),
+                            Text(exerciseEquipment == ""
+                                ? "None"
+                                : exerciseEquipment),
                           ],
                         ),
                         onTap: () {
