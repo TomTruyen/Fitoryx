@@ -60,7 +60,7 @@ class SQLDatabase {
           await db.rawQuery("SELECT * FROM exercises");
 
       if (dbExercises.isEmpty) {
-        return [];
+        userExercises = [];
       }
 
       List<Exercise> exercises = [];
@@ -79,7 +79,6 @@ class SQLDatabase {
       userExercises = exercises;
     } catch (e) {
       print("Get UserExercise Error: $e");
-      return null;
     }
   }
 }
