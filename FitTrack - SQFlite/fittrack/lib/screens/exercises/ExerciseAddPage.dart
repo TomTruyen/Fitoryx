@@ -1,3 +1,4 @@
+import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/shared/CategoryList.dart';
@@ -223,8 +224,11 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                 .addExercise(exerciseName, exerciseCategory, exerciseEquipment);
 
             if (result == null) {
-              print("ERROR");
-              // Show popup error here
+              showPopupError(
+                context,
+                'Adding exercise failed',
+                'Something went wrong adding the exercise. Please try again.',
+              );
             } else {
               await widget.updateUserExercises();
 
