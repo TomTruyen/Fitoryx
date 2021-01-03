@@ -1,9 +1,10 @@
-import 'package:fittrack/models/exercises/Exercise.dart';
-import 'package:fittrack/screens/exercises/ExerciseAddPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/screens/exercises/ExerciseAddPage.dart';
+import 'package:fittrack/screens/exercises/popups/DeleteExercisePopup.dart';
 import 'package:fittrack/screens/exercises/ExerciseFilterPage.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/shared/ExerciseList.dart';
@@ -373,14 +374,12 @@ class _ExercisesPageState extends State<ExercisesPage> {
                             ? IconButton(
                                 icon: Icon(Icons.delete, color: Colors.black),
                                 onPressed: () async {
-                                  dynamic result = globals.sqlDatabase
-                                      .deleteExercise(_filteredExercises[i].id);
-
-                                  if (result == null) {
-                                    // show error popup
-                                  } else {
-                                    await updateUserExercises();
-                                  }
+                                  await showPopupDeleteExercise(
+                                    context,
+                                    _filteredExercises[i].id,
+                                    name,
+                                    updateUserExercises,
+                                  );
                                 },
                               )
                             : null,
