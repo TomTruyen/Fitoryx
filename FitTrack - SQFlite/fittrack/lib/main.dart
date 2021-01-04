@@ -30,14 +30,14 @@ class MyApp extends StatelessWidget {
         title: 'FitTrack',
         theme: ThemeData(
           fontFamily: 'OpenSans',
-          accentColor: Color.fromRGBO(50, 100, 200, 1),
+          accentColor: Color.fromRGBO(50, 100, 255, 1),
           iconTheme: IconThemeData(
-            color: Color.fromRGBO(50, 100, 200, 1),
+            color: Color.fromRGBO(50, 100, 255, 1),
           ),
-          buttonColor: Color.fromRGBO(50, 100, 200, 1),
+          buttonColor: Color.fromRGBO(50, 100, 255, 1),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             unselectedItemColor: Colors.grey,
-            selectedItemColor: Color.fromRGBO(50, 100, 200, 1),
+            selectedItemColor: Color.fromRGBO(50, 100, 255, 1),
             unselectedIconTheme: IconThemeData(
               size: 24.0,
             ),
