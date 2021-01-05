@@ -1,5 +1,7 @@
-import 'package:fittrack/screens/workout/WorkoutCreatePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'package:fittrack/screens/workout/WorkoutCreatePage.dart';
 
 class WorkoutPage extends StatelessWidget {
   @override
@@ -35,7 +37,8 @@ class WorkoutPage extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
+                  CupertinoPageRoute(
+                    fullscreenDialog: true,
                     builder: (BuildContext context) => WorkoutCreatePage(),
                   ),
                 );
