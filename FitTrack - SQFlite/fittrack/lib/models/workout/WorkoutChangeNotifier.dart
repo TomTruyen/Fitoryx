@@ -46,7 +46,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     }
 
     return {
-      'id': id ?? "",
+      'id': id,
       'name': name ?? "",
       'workoutNote': workoutNote ?? "",
       'weightUnit': weightUnit ?? "",
