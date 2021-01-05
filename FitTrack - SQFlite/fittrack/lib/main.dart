@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:fittrack/screens/Wrapper.dart';
 import 'package:fittrack/services/SQLDatabase.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
+import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
 Future<void> main() async {
@@ -24,7 +25,12 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ExerciseFilter>(create: (_) => ExerciseFilter()),
+        ChangeNotifierProvider<ExerciseFilter>(
+          create: (_) => ExerciseFilter(),
+        ),
+        ChangeNotifierProvider<WorkoutChangeNotifier>(
+          create: (_) => WorkoutChangeNotifier(exercises: []),
+        ),
       ],
       child: MaterialApp(
         title: 'FitTrack',
