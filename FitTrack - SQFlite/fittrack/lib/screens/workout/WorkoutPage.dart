@@ -45,7 +45,7 @@ class WorkoutPage extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: Text(
-            'Finish workoutcreatepage, and show all workouts here in a sliverlist with as childs: \'Card\' widgets',
+            'Finish workoutcreatepage, and show all workouts here in a sliverlist with as childs: \'Card\' widgets. Show 3 exercisees, if more than 3 then have the 4th line contain \'More...\'',
           ),
         )
       ],
