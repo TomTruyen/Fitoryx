@@ -25,11 +25,11 @@ class Exercise {
 
   Map<String, dynamic> toJSON() {
     return {
-      'id': id,
-      'name': name,
-      'category': category,
-      'equipment': equipment,
-      'isUserCreated': isUserCreated,
+      'id': id ?? "",
+      'name': name ?? "",
+      'category': category ?? "",
+      'equipment': equipment ?? "",
+      'isUserCreated': isUserCreated ?? 0,
     };
   }
 }
