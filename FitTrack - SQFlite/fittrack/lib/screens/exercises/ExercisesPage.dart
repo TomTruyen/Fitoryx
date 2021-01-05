@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
@@ -154,7 +156,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
           ),
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(
+              CupertinoPageRoute(
+                fullscreenDialog: true,
                 builder: (BuildContext context) => ExerciseFilterPage(),
               ),
             );
@@ -177,7 +180,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
                   {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
+                        fullscreenDialog: true,
                         builder: (context) =>
                             ExerciseAddPage(updateUserExercises),
                       ),
@@ -255,7 +259,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
           ),
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(
+              CupertinoPageRoute(
+                fullscreenDialog: true,
                 builder: (BuildContext context) => ExerciseFilterPage(),
               ),
             );
@@ -278,7 +283,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
                   {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
+                        fullscreenDialog: true,
                         builder: (context) =>
                             ExerciseAddPage(updateUserExercises),
                       ),
