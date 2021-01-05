@@ -18,7 +18,7 @@ class SQLDatabase {
         );
       });
 
-      await updateUserExercises();
+      await getUserExercises();
     } catch (e) {
       print("Setup Database Error: $e");
     }
@@ -54,7 +54,7 @@ class SQLDatabase {
     }
   }
 
-  Future<void> updateUserExercises() async {
+  Future<void> getUserExercises() async {
     try {
       List<Map<String, dynamic>> dbExercises =
           await db.rawQuery("SELECT * FROM exercises");
@@ -65,13 +65,7 @@ class SQLDatabase {
 
       List<Exercise> exercises = [];
       dbExercises.forEach((Map<String, dynamic> dbExercise) {
-        Exercise exercise = new Exercise(
-          id: dbExercise['id'],
-          name: dbExercise['name'],
-          category: dbExercise['category'],
-          equipment: dbExercise['equipment'],
-          isUserCreated: dbExercise['isUserCreated'],
-        );
+        Exercise exercise = new Exercise().fromJSON(dbExercise);
 
         exercises.add(exercise);
       });
