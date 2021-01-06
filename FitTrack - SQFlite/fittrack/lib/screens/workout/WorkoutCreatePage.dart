@@ -1,3 +1,4 @@
+import 'package:fittrack/screens/exercises/ExercisesPage.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,19 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
             ),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.check),
+        onPressed: () {
+          Navigator.of(context).push(
+            CupertinoPageRoute(
+              fullscreenDialog: true,
+              builder: (_) => ExercisesPage(
+                isSelectActive: true,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
