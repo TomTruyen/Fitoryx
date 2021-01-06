@@ -2,7 +2,12 @@ import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WorkoutCreatePage extends StatelessWidget {
+class WorkoutCreatePage extends StatefulWidget {
+  @override
+  _WorkoutCreatePageState createState() => _WorkoutCreatePageState();
+}
+
+class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
