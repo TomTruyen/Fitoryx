@@ -1,8 +1,10 @@
 import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/models/workout/Workout.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLDatabase {
   Database db;
+  List<Workout> workouts;
   List<Exercise> userExercises;
 
   Future<void> setupDatabase() async {
@@ -15,6 +17,9 @@ class SQLDatabase {
           onCreate: (Database db, int version) async {
         await db.execute(
           'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
+        );
+        await db.execute(
+          'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, workoutNote TEXT, exercises TEXT',
         );
       });
 
@@ -83,4 +88,11 @@ class SQLDatabase {
     category TEXT
     equipment TEXT
     isUserCreated INTEGER
+
+  - Workouts Table
+    id INTEGER
+    name TEXT
+    workoutNote TEXT
+    weightUnit TEXT
+    exercises TEXT
 */
