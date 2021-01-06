@@ -14,8 +14,22 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.name = "",
     this.workoutNote = "",
     this.weightUnit = "kg",
-    this.exercises,
+    this.exercises = const [],
   });
+
+  void updateName(String _name) {
+    name = _name;
+  }
+
+  void updateWorkoutNote(String _workoutNote) {
+    workoutNote = _workoutNote;
+  }
+
+  void updateExercises(List<Exercise> _exercises) {
+    exercises = _exercises;
+
+    notifyListeners();
+  }
 
   WorkoutChangeNotifier fromJSON(Map<String, dynamic> workout) {
     List<Exercise> exerciseList = [];
