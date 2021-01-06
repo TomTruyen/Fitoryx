@@ -68,3 +68,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     };
   }
 }
+
+// Add a way to convert exercises to a String, and convert it back to ExerciseObjects
+// Maybe toJSON the exercise and then --> make the returned Map a String
