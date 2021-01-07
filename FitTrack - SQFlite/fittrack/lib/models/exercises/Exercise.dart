@@ -1,9 +1,15 @@
+import 'package:fittrack/models/exercises/ExerciseSet.dart';
+
 class Exercise {
   int id;
   String name;
   String category;
   String equipment;
   int isUserCreated;
+
+  List<ExerciseSet> sets = [ExerciseSet()];
+  int hasNotes = 0;
+  String notes = "";
 
   Exercise({
     this.id,
