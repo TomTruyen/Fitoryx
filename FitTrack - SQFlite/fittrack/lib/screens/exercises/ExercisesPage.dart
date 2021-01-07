@@ -1,3 +1,4 @@
+import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,18 @@ import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ExercisesPage extends StatefulWidget {
   final bool isSelectActive;
+  final WorkoutChangeNotifier workout;
 
-  ExercisesPage({this.isSelectActive = false});
+  ExercisesPage({this.isSelectActive = false, this.workout});
 
   @override
   _ExercisesPageState createState() => _ExercisesPageState();
 }
 
 class _ExercisesPageState extends State<ExercisesPage> {
+  // WorkoutCreatePage (widget.selectActive)
+  List<Exercise> workoutExercises = [];
+
   // Variables used to limit the amount of times the filterExercise function gets called
   bool forceFilter = false;
   int isUserCreated;
@@ -43,6 +48,14 @@ class _ExercisesPageState extends State<ExercisesPage> {
     setState(() {
       forceFilter = false;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.workout != null && widget.isSelectActive) {
+      workoutExercises = List.of(widget.workout.exercises);
+    }
   }
 
   void filterExercises(ExerciseFilter filter) {
@@ -373,22 +386,36 @@ class _ExercisesPageState extends State<ExercisesPage> {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int i) {
                       if (_filteredExercises[i] is Exercise) {
-                        String name = _filteredExercises[i].name;
+                        Exercise _exercise = _filteredExercises[i] as Exercise;
 
-                        if (_filteredExercises[i].equipment != "") {
-                          name += ' (${_filteredExercises[i].equipment})';
+                        String name = _exercise.name;
+
+                        if (_exercise.equipment != "") {
+                          name += ' (${_exercise.equipment})';
                         }
 
-                        String category = _filteredExercises[i].category;
+                        String category = _exercise.category;
                         bool isUserCreated =
-                            _filteredExercises[i].isUserCreated == 0
-                                ? false
-                                : true;
+                            _exercise.isUserCreated == 0 ? false : true;
+
+                        TextStyle style;
+
+                        if (workoutExercises.contains(_exercise)) {
+                          style =
+                              TextStyle(color: Theme.of(context).accentColor);
+                        }
 
                         return ListTile(
-                          title: Text(name, overflow: TextOverflow.ellipsis),
-                          subtitle: Text(category == "" ? "None" : category,
-                              overflow: TextOverflow.ellipsis),
+                          title: Text(
+                            name,
+                            overflow: TextOverflow.ellipsis,
+                            style: style,
+                          ),
+                          subtitle: Text(
+                            category == "" ? "None" : category,
+                            overflow: TextOverflow.ellipsis,
+                            style: style,
+                          ),
                           trailing: !widget.isSelectActive && isUserCreated
                               ? IconButton(
                                   icon: Icon(Icons.delete, color: Colors.black),
@@ -404,7 +431,16 @@ class _ExercisesPageState extends State<ExercisesPage> {
                               : null,
                           onTap: widget.isSelectActive
                               ? () {
-                                  print("Tapped Widget Number: $i");
+                                  if (workoutExercises.contains(_exercise)) {
+                                    workoutExercises.remove(_exercise);
+                                  } else {
+                                    workoutExercises.add(_exercise);
+                                  }
+
+                                  setState(() {
+                                    workoutExercises =
+                                        List.of(workoutExercises);
+                                  });
                                 }
                               : null,
                         );
@@ -428,6 +464,16 @@ class _ExercisesPageState extends State<ExercisesPage> {
                 ),
               ],
             ),
+            floatingActionButton:
+                widget.isSelectActive && workoutExercises.isNotEmpty
+                    ? FloatingActionButton(
+                        child: Icon(Icons.check),
+                        onPressed: () {
+                          widget.workout.updateExercises(workoutExercises);
+                          tryPopContext(context);
+                        },
+                      )
+                    : null,
           );
   }
 }
