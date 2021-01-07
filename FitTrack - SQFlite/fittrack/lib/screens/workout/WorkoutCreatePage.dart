@@ -13,6 +13,8 @@ import 'package:fittrack/shared/Loader.dart';
   Add Popupmenu functionalities (exercises)
   Add workout name textfield & allow editing it
   Add save button
+  On delete of a set, if I just typed in a value, it deletes the correct set, but the typed in value is just given to the set that is in that position
+  // Example: set 0 --> weight: 123, set 1 --> null, if I then delete set 0, set 1 gets 123 in the textfield, but not on the actual object
 */
 
 class WorkoutCreatePage extends StatefulWidget {
@@ -49,6 +51,7 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                       color: Colors.black,
                     ),
                     onPressed: () {
+                      workout.reset();
                       tryPopContext(context);
                     },
                   ),
