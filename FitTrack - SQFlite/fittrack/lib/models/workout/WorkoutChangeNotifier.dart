@@ -18,6 +18,14 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.exercises = const [],
   });
 
+  void reset() {
+    id = "";
+    name = "";
+    workoutNote = "";
+    weightUnit = "kg";
+    exercises = [];
+  }
+
   void updateName(String _name) {
     name = _name;
   }
@@ -34,18 +42,17 @@ class WorkoutChangeNotifier extends ChangeNotifier {
 
   void updateExerciseSetWeight(exerciseIndex, setIndex, String value) {
     exercises[exerciseIndex].sets[setIndex].weight = double.parse(value);
-
-    notifyListeners();
   }
 
   void updateExerciseSetReps(int exerciseIndex, int setIndex, String value) {
     exercises[exerciseIndex].sets[setIndex].reps = double.parse(value);
-
-    notifyListeners();
   }
 
   void deleteExerciseSet(int exerciseIndex, int setIndex) {
     if (exercises[exerciseIndex].sets.length > 1) {
+      print("removing set $setIndex");
+      print("weight of set: ${exercises[exerciseIndex].sets[setIndex].weight}");
+
       exercises[exerciseIndex].sets.removeAt(setIndex);
 
       notifyListeners();
