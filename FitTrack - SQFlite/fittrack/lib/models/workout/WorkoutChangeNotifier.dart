@@ -1,3 +1,4 @@
+import 'package:fittrack/models/exercises/ExerciseSet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
@@ -27,6 +28,32 @@ class WorkoutChangeNotifier extends ChangeNotifier {
 
   void updateExercises(List<Exercise> _exercises) {
     exercises = _exercises;
+
+    notifyListeners();
+  }
+
+  void updateExerciseSetWeight(exerciseIndex, setIndex, String value) {
+    exercises[exerciseIndex].sets[setIndex].weight = double.parse(value);
+
+    notifyListeners();
+  }
+
+  void updateExerciseSetReps(int exerciseIndex, int setIndex, String value) {
+    exercises[exerciseIndex].sets[setIndex].reps = double.parse(value);
+
+    notifyListeners();
+  }
+
+  void deleteExerciseSet(int exerciseIndex, int setIndex) {
+    if (exercises[exerciseIndex].sets.length > 1) {
+      exercises[exerciseIndex].sets.removeAt(setIndex);
+
+      notifyListeners();
+    }
+  }
+
+  void addExerciseSet(int exerciseIndex) {
+    exercises[exerciseIndex].sets.add(ExerciseSet());
 
     notifyListeners();
   }
