@@ -44,7 +44,7 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check),
+        child: Icon(Icons.add_outlined),
         onPressed: () {
           Navigator.of(context).push(
             CupertinoPageRoute(
