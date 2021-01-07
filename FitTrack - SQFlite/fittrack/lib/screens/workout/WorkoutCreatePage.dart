@@ -1,13 +1,19 @@
-import 'package:fittrack/models/exercises/Exercise.dart';
-import 'package:fittrack/models/exercises/ExerciseSet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
+import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/models/exercises/ExerciseSet.dart';
 import 'package:fittrack/screens/exercises/ExercisesPage.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Loader.dart';
+
+/*
+  Add Popupmenu functionalities (exercises)
+  Add workout name textfield & allow editing it
+  Add save button
+*/
 
 class WorkoutCreatePage extends StatefulWidget {
   @override
