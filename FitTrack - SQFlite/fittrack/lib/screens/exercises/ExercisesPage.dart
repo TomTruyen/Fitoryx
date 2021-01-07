@@ -1,3 +1,4 @@
+import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -130,6 +131,17 @@ class _ExercisesPageState extends State<ExercisesPage> {
       backgroundColor: Colors.grey[50],
       floating: true,
       pinned: true,
+      leading: widget.isSelectActive
+          ? IconButton(
+              icon: Icon(
+                Icons.close,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                tryPopContext(context);
+              },
+            )
+          : null,
       title: Text(
         'Exercises',
         style: TextStyle(
@@ -352,68 +364,70 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
     return filter == null
         ? Loader()
-        : CustomScrollView(
-            physics: BouncingScrollPhysics(),
-            slivers: <Widget>[
-              isSearchActive ? searchAppBar(filter) : defaultAppBar(),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int i) {
-                    if (_filteredExercises[i] is Exercise) {
-                      String name = _filteredExercises[i].name;
+        : Scaffold(
+            body: CustomScrollView(
+              physics: BouncingScrollPhysics(),
+              slivers: <Widget>[
+                isSearchActive ? searchAppBar(filter) : defaultAppBar(),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int i) {
+                      if (_filteredExercises[i] is Exercise) {
+                        String name = _filteredExercises[i].name;
 
-                      if (_filteredExercises[i].equipment != "") {
-                        name += ' (${_filteredExercises[i].equipment})';
-                      }
+                        if (_filteredExercises[i].equipment != "") {
+                          name += ' (${_filteredExercises[i].equipment})';
+                        }
 
-                      String category = _filteredExercises[i].category;
-                      bool isUserCreated =
-                          _filteredExercises[i].isUserCreated == 0
-                              ? false
-                              : true;
+                        String category = _filteredExercises[i].category;
+                        bool isUserCreated =
+                            _filteredExercises[i].isUserCreated == 0
+                                ? false
+                                : true;
 
-                      return ListTile(
-                        title: Text(name, overflow: TextOverflow.ellipsis),
-                        subtitle: Text(category == "" ? "None" : category,
-                            overflow: TextOverflow.ellipsis),
-                        trailing: !widget.isSelectActive && isUserCreated
-                            ? IconButton(
-                                icon: Icon(Icons.delete, color: Colors.black),
-                                onPressed: () async {
-                                  await showPopupDeleteExercise(
-                                    context,
-                                    _filteredExercises[i].id,
-                                    name,
-                                    updateUserExercises,
-                                  );
-                                },
-                              )
-                            : null,
-                        onTap: widget.isSelectActive
-                            ? () {
-                                print("Tapped Widget Number: $i");
-                              }
-                            : null,
-                      );
-                    } else {
-                      return Container(
-                        alignment: Alignment.centerLeft,
-                        height: 30.0,
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          _filteredExercises[i],
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.bold,
+                        return ListTile(
+                          title: Text(name, overflow: TextOverflow.ellipsis),
+                          subtitle: Text(category == "" ? "None" : category,
+                              overflow: TextOverflow.ellipsis),
+                          trailing: !widget.isSelectActive && isUserCreated
+                              ? IconButton(
+                                  icon: Icon(Icons.delete, color: Colors.black),
+                                  onPressed: () async {
+                                    await showPopupDeleteExercise(
+                                      context,
+                                      _filteredExercises[i].id,
+                                      name,
+                                      updateUserExercises,
+                                    );
+                                  },
+                                )
+                              : null,
+                          onTap: widget.isSelectActive
+                              ? () {
+                                  print("Tapped Widget Number: $i");
+                                }
+                              : null,
+                        );
+                      } else {
+                        return Container(
+                          alignment: Alignment.centerLeft,
+                          height: 30.0,
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            _filteredExercises[i],
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      );
-                    }
-                  },
-                  childCount: _filteredExercises.length,
+                        );
+                      }
+                    },
+                    childCount: _filteredExercises.length,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
   }
 }
