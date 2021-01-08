@@ -19,6 +19,14 @@ class Exercise {
     this.isUserCreated = 0,
   });
 
+  bool compare(Exercise exercise) {
+    return id == exercise.id &&
+        name == exercise.name &&
+        category == exercise.category &&
+        equipment == exercise.equipment &&
+        isUserCreated == exercise.isUserCreated;
+  }
+
   Exercise fromJSON(Map<String, dynamic> exercise) {
     return new Exercise(
       id: exercise['id'] ?? "",
