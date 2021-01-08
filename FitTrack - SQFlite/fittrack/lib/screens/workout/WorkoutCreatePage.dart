@@ -14,6 +14,8 @@ import 'package:fittrack/shared/Loader.dart';
   Add save button + save functionality NOTE: if workout name is empty then make the name 'Workout' in the database
   On delete of a set, if I just typed in a value, it deletes the correct set, but the typed in value is just given to the set that is in that position
   // Example: set 0 --> weight: 123, set 1 --> null, if I then delete set 0, set 1 gets 123 in the textfield, but not on the actual object
+
+  Make it so that this file can also be used for the 'edit' feature of workouts
 */
 
 class WorkoutCreatePage extends StatefulWidget {
