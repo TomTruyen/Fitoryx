@@ -10,9 +10,8 @@ import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Loader.dart';
 
 /*
-  Add Popupmenu functionalities (exercises)
-  Add workout name textfield & allow editing it
-  Add save button
+  Add rest timer popupmenu
+  Add save button + save functionality NOTE: if workout name is empty then make the name 'Workout' in the database
   On delete of a set, if I just typed in a value, it deletes the correct set, but the typed in value is just given to the set that is in that position
   // Example: set 0 --> weight: 123, set 1 --> null, if I then delete set 0, set 1 gets 123 in the textfield, but not on the actual object
 */
@@ -54,6 +53,27 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                       workout.reset();
                       tryPopContext(context);
                     },
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: TextFormField(
+                      autofocus: false,
+                      initialValue: workout.name,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Workout Name',
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (value) {
+                        workout.updateName(value);
+                      },
+                    ),
                   ),
                 ),
                 SliverList(
@@ -118,24 +138,30 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                                         ),
                                         onSelected: (selection) {
                                           if (selection == 'remove') {
-                                            // workout.removeExercise(currentExercise);
+                                            workout.removeExercise(index);
                                           } else if (selection == 'rest') {
                                             // showRestDialog(context, workout, currentExercise);
                                           } else if (selection == 'notes') {
-                                            // workout.toggleNotes(currentExercise);
+                                            workout.toggleNotes(index);
                                           } else if (selection == 'replace') {
-                                            // _exerciseFilter.clearFilters();
+                                            workout.exerciseToReplaceIndex =
+                                                index;
 
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (BuildContext context) => ExercisePage(
-                                            //       isSelectActive: true,
-                                            //       isReplaceExercise: true,
-                                            //       exerciseIndexToReplace: index,
-                                            //     ),
-                                            //   ),
-                                            // );
+                                            workout.exerciseToReplace =
+                                                _exercise;
+
+                                            Navigator.of(context).push(
+                                              CupertinoPageRoute(
+                                                fullscreenDialog: true,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        ExercisesPage(
+                                                  isSelectActive: true,
+                                                  isReplaceActive: true,
+                                                  workout: workout,
+                                                ),
+                                              ),
+                                            );
                                           }
                                         },
                                         itemBuilder: (BuildContext context) =>
