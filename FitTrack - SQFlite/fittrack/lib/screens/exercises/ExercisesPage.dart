@@ -17,9 +17,14 @@ import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ExercisesPage extends StatefulWidget {
   final bool isSelectActive;
+  final bool isReplaceActive;
   final WorkoutChangeNotifier workout;
 
-  ExercisesPage({this.isSelectActive = false, this.workout});
+  ExercisesPage({
+    this.isSelectActive = false,
+    this.isReplaceActive = false,
+    this.workout,
+  });
 
   @override
   _ExercisesPageState createState() => _ExercisesPageState();
@@ -28,9 +33,11 @@ class ExercisesPage extends StatefulWidget {
 class _ExercisesPageState extends State<ExercisesPage> {
   // WorkoutCreatePage (widget.selectActive)
   List<Exercise> workoutExercises = [];
+  Exercise exerciseToReplace;
 
   // Variables used to limit the amount of times the filterExercise function gets called
   bool forceFilter = false;
+  bool initialLoad = true;
   int isUserCreated;
   String searchValue;
   List<String> selectedCategories;
@@ -46,7 +53,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
     await globals.sqlDatabase.getUserExercises();
 
     setState(() {
-      forceFilter = false;
+      forceFilter = true;
     });
   }
 
@@ -55,6 +62,10 @@ class _ExercisesPageState extends State<ExercisesPage> {
     super.initState();
     if (widget.workout != null && widget.isSelectActive) {
       workoutExercises = List.of(widget.workout.exercises);
+
+      if (widget.isReplaceActive) {
+        exerciseToReplace = widget.workout.exerciseToReplace;
+      }
     }
   }
 
@@ -103,6 +114,16 @@ class _ExercisesPageState extends State<ExercisesPage> {
               filter.isUserCreated == 0) {
             selectedExercises.add(_exercises[i]);
           }
+        }
+      }
+    }
+
+    if (widget.isReplaceActive && selectedExercises.isNotEmpty) {
+      for (int i = 0; i < selectedExercises.length; i++) {
+        if ((workoutExercises.contains(selectedExercises[i]) &&
+            !selectedExercises[i].compare(exerciseToReplace) &&
+            !selectedExercises[i].compare(widget.workout.exerciseToReplace))) {
+          selectedExercises.remove(selectedExercises[i]);
         }
       }
     }
@@ -342,8 +363,15 @@ class _ExercisesPageState extends State<ExercisesPage> {
     bool filterRequired = false;
 
     if (filter != null) {
-      if (!forceFilter) {
-        forceFilter = true;
+      if (initialLoad) {
+        Future.delayed(Duration(seconds: 0), () => filter.clearAllFilters());
+
+        initialLoad = false;
+        filterRequired = true;
+      }
+
+      if (forceFilter) {
+        forceFilter = false;
         filterRequired = true;
       }
 
@@ -400,7 +428,12 @@ class _ExercisesPageState extends State<ExercisesPage> {
 
                         TextStyle style;
 
-                        if (workoutExercises.contains(_exercise)) {
+                        if (widget.isReplaceActive) {
+                          if (_exercise.compare(exerciseToReplace)) {
+                            style =
+                                TextStyle(color: Theme.of(context).accentColor);
+                          }
+                        } else if (workoutExercises.contains(_exercise)) {
                           style =
                               TextStyle(color: Theme.of(context).accentColor);
                         }
@@ -431,16 +464,23 @@ class _ExercisesPageState extends State<ExercisesPage> {
                               : null,
                           onTap: widget.isSelectActive
                               ? () {
-                                  if (workoutExercises.contains(_exercise)) {
-                                    workoutExercises.remove(_exercise);
+                                  if (widget.isReplaceActive) {
+                                    setState(() {
+                                      exerciseToReplace = _exercise;
+                                      forceFilter = true;
+                                    });
                                   } else {
-                                    workoutExercises.add(_exercise);
-                                  }
+                                    if (workoutExercises.contains(_exercise)) {
+                                      workoutExercises.remove(_exercise);
+                                    } else {
+                                      workoutExercises.add(_exercise);
+                                    }
 
-                                  setState(() {
-                                    workoutExercises =
-                                        List.of(workoutExercises);
-                                  });
+                                    setState(() {
+                                      workoutExercises =
+                                          List.of(workoutExercises);
+                                    });
+                                  }
                                 }
                               : null,
                         );
@@ -464,8 +504,18 @@ class _ExercisesPageState extends State<ExercisesPage> {
                 ),
               ],
             ),
-            floatingActionButton:
-                widget.isSelectActive && workoutExercises.isNotEmpty
+            floatingActionButton: widget.isReplaceActive &&
+                    !exerciseToReplace.compare(widget.workout.exerciseToReplace)
+                ? FloatingActionButton(
+                    child: Icon(Icons.check),
+                    onPressed: () {
+                      widget.workout.replaceExercise(exerciseToReplace);
+                      tryPopContext(context);
+                    },
+                  )
+                : widget.isSelectActive &&
+                        workoutExercises.isNotEmpty &&
+                        !widget.isReplaceActive
                     ? FloatingActionButton(
                         child: Icon(Icons.check),
                         onPressed: () {
