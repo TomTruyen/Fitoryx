@@ -10,6 +10,10 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   String weightUnit;
   List<Exercise> exercises = [];
 
+  // Used when calling a 'replace exercise'
+  Exercise exerciseToReplace;
+  int exerciseToReplaceIndex;
+
   WorkoutChangeNotifier({
     this.id = "",
     this.name = "",
@@ -36,6 +40,29 @@ class WorkoutChangeNotifier extends ChangeNotifier {
 
   void updateExercises(List<Exercise> _exercises) {
     exercises = _exercises;
+
+    notifyListeners();
+  }
+
+  void replaceExercise(Exercise _exercise) {
+    exercises[exerciseToReplaceIndex] = _exercise;
+
+    notifyListeners();
+  }
+
+  void removeExercise(int exerciseIndex) {
+    exercises.removeAt(exerciseIndex);
+
+    notifyListeners();
+  }
+
+  void toggleNotes(int exerciseIndex) {
+    if (exercises[exerciseIndex].hasNotes == 0) {
+      exercises[exerciseIndex].notes = "";
+    }
+
+    exercises[exerciseIndex].hasNotes =
+        exercises[exerciseIndex].hasNotes == 0 ? 1 : 0;
 
     notifyListeners();
   }
