@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:fittrack/screens/workout/WorkoutCreatePage.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 
 class WorkoutPage extends StatelessWidget {
   @override
@@ -49,7 +50,24 @@ class WorkoutPage extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Text(
-              'Finish workoutcreatepage, and show all workouts here in a sliverlist with as childs: \'Card\' widgets. Show 3 exercisees, if more than 3 then have the 4th line contain \'More...\'',
+              "Workouts Found: ${globals.sqlDatabase.workouts.length.toString()}",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 50.0,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Text(
+              "TODO",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Text(
+              'show all workouts here in a sliverlist with as childs: \'Card\' widgets (like exercises in workout). Show 3 exercisees, if more than 3 then have the 4th line contain \'More...\'',
             ),
           )
         ],
