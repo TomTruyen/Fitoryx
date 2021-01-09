@@ -10,12 +10,12 @@ import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Loader.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:reorderables/reorderables.dart';
 
 /*
-  On delete of a set, if I just typed in a value, it deletes the correct set, but the typed in value is just given to the set that is in that position
-  // Example: set 0 --> weight: 123, set 1 --> null, if I then delete set 0, set 1 gets 123 in the textfield, but not on the actual object
 
   Make it so that this code can also be used for the 'edit' future of workouts
+
 */
 
 class WorkoutCreatePage extends StatefulWidget {
@@ -189,7 +189,7 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
-                        Icons.save,
+                        Icons.check,
                         color: Colors.black,
                       ),
                       onPressed: () async {
@@ -232,8 +232,8 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                     ),
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
+                ReorderableSliverList(
+                  delegate: ReorderableSliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       Exercise _exercise = workout.exercises[index];
                       String _name = _exercise.name;
@@ -245,6 +245,7 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                       List<ExerciseSet> _sets = _exercise.sets;
 
                       return Card(
+                        key: UniqueKey(),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
@@ -479,12 +480,12 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                                           horizontal: 4.0,
                                         ),
                                         child: TextFormField(
+                                          // key: Key(_sets[i].weight?.toString()),
+                                          initialValue:
+                                              _sets[i].weight?.toString(),
                                           autofocus: false,
                                           keyboardType: TextInputType.number,
                                           textAlign: TextAlign.center,
-                                          initialValue: _sets[i].weight != null
-                                              ? _sets[i].weight.toString()
-                                              : null,
                                           decoration: InputDecoration(
                                             hintText: '50',
                                             fillColor: Colors.grey[300],
@@ -521,12 +522,12 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                                           horizontal: 4.0,
                                         ),
                                         child: TextFormField(
+                                          // key: Key(_sets[i].reps?.toString()),
+                                          initialValue:
+                                              _sets[i].reps?.toString(),
                                           autofocus: false,
                                           keyboardType: TextInputType.number,
                                           textAlign: TextAlign.center,
-                                          initialValue: _sets[i].reps != null
-                                              ? _sets[i].reps.toString()
-                                              : null,
                                           decoration: InputDecoration(
                                             hintText: '10',
                                             fillColor: Colors.grey[300],
@@ -589,6 +590,9 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                     },
                     childCount: workout.exercises.length,
                   ),
+                  onReorder: (int oldIndex, int newIndex) {
+                    workout.moveExercise(oldIndex, newIndex);
+                  },
                 ),
               ],
             ),
