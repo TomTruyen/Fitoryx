@@ -11,6 +11,9 @@ class Exercise {
   int hasNotes = 0;
   String notes = "";
 
+  int restEnabled = 1;
+  int restSeconds = 60;
+
   Exercise({
     this.id,
     this.name = "",
