@@ -57,6 +57,14 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void moveExercise(int oldIndex, int newIndex) {
+    Exercise _exercise = exercises.removeAt(oldIndex);
+
+    exercises.insert(newIndex, _exercise);
+
+    notifyListeners();
+  }
+
   void toggleNotes(int exerciseIndex) {
     if (exercises[exerciseIndex].hasNotes == 0) {
       exercises[exerciseIndex].notes = "";
@@ -68,12 +76,12 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateExerciseSetWeight(exerciseIndex, setIndex, String value) {
+  void updateExerciseSetWeight(int exerciseIndex, int setIndex, String value) {
     exercises[exerciseIndex].sets[setIndex].weight = double.parse(value);
   }
 
   void updateExerciseSetReps(int exerciseIndex, int setIndex, String value) {
-    exercises[exerciseIndex].sets[setIndex].reps = double.parse(value);
+    exercises[exerciseIndex].sets[setIndex].reps = int.parse(value);
   }
 
   void deleteExerciseSet(int exerciseIndex, int setIndex) {
