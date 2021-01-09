@@ -433,9 +433,14 @@ class _ExercisesPageState extends State<ExercisesPage> {
                             style =
                                 TextStyle(color: Theme.of(context).accentColor);
                           }
-                        } else if (workoutExercises.contains(_exercise)) {
-                          style =
-                              TextStyle(color: Theme.of(context).accentColor);
+                        } else if (workoutExercises.isNotEmpty) {
+                          for (int j = 0; j < workoutExercises.length; j++) {
+                            if (workoutExercises[j].compare(_exercise)) {
+                              style = TextStyle(
+                                  color: Theme.of(context).accentColor);
+                              break;
+                            }
+                          }
                         }
 
                         return ListTile(
@@ -470,10 +475,22 @@ class _ExercisesPageState extends State<ExercisesPage> {
                                       forceFilter = true;
                                     });
                                   } else {
-                                    if (workoutExercises.contains(_exercise)) {
-                                      workoutExercises.remove(_exercise);
+                                    int foundIndex = -1;
+
+                                    for (int j = 0;
+                                        j < workoutExercises.length;
+                                        j++) {
+                                      if (workoutExercises[j]
+                                          .compare(_exercise)) {
+                                        foundIndex = j;
+                                        break;
+                                      }
+                                    }
+
+                                    if (foundIndex != -1) {
+                                      workoutExercises.removeAt(foundIndex);
                                     } else {
-                                      workoutExercises.add(_exercise);
+                                      workoutExercises.add(_exercise.clone());
                                     }
 
                                     setState(() {

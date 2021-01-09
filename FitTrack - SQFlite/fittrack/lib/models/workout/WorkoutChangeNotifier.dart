@@ -45,7 +45,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   }
 
   void replaceExercise(Exercise _exercise) {
-    exercises[exerciseToReplaceIndex] = _exercise;
+    exercises[exerciseToReplaceIndex] = _exercise.clone();
 
     notifyListeners();
   }

@@ -30,6 +30,18 @@ class Exercise {
         isUserCreated == exercise.isUserCreated;
   }
 
+  Exercise clone() {
+    Exercise _clone = new Exercise();
+
+    _clone.id = id;
+    _clone.name = name ?? "";
+    _clone.category = category ?? "";
+    _clone.equipment = equipment ?? "";
+    _clone.isUserCreated = isUserCreated ?? 0;
+
+    return _clone;
+  }
+
   Exercise fromJSON(Map<String, dynamic> exercise) {
     return new Exercise(
       id: exercise['id'] ?? "",
