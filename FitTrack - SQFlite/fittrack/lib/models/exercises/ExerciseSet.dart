@@ -1,5 +1,5 @@
 class ExerciseSet {
-  double reps;
+  int reps;
   double weight;
 
   ExerciseSet({this.reps, this.weight});
