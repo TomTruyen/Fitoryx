@@ -19,13 +19,65 @@ class SQLDatabase {
           'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
         );
         await db.execute(
-          'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, workoutNote TEXT, exercises TEXT',
+          'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, workoutNote TEXT, exercises TEXT)',
         );
       });
 
       await getUserExercises();
+      await getWorkouts();
     } catch (e) {
       print("Setup Database Error: $e");
+    }
+  }
+
+  Future<dynamic> addWorkout(Workout workout) async {
+    try {
+      String name = workout.name ?? "Workout";
+      if (name == "") {
+        name = "Workout";
+      }
+
+      String weightUnit = workout.weightUnit;
+      String workoutNote = workout.workoutNote;
+      String exercises = workout.exercisesToJsonString();
+
+      await db.rawInsert(
+        'INSERT INTO workouts (name, weightUnit, workoutNote, exercises) VALUES (?, ?, ?, ?)',
+        [
+          name,
+          weightUnit,
+          workoutNote,
+          exercises,
+        ],
+      );
+
+      return "";
+    } catch (e) {
+      print("Add Workout Error: $e");
+      return null;
+    }
+  }
+
+  Future<void> getWorkouts() async {
+    try {
+      List<Map<String, dynamic>> dbWorkouts =
+          await db.rawQuery("SELECT * FROM workouts");
+
+      if (dbWorkouts.isEmpty) {
+        workouts = [];
+      }
+
+      List<Workout> _workouts = [];
+
+      dbWorkouts.forEach((Map<String, dynamic> dbWorkout) {
+        Workout _workout = new Workout().fromJSON(dbWorkout);
+
+        _workouts.add(_workout);
+      });
+
+      workouts = _workouts;
+    } catch (e) {
+      print("Get Workouts Error: $e");
     }
   }
 

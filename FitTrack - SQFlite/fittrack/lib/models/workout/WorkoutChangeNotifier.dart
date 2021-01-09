@@ -1,10 +1,11 @@
 import 'package:fittrack/models/exercises/ExerciseSet.dart';
+import 'package:fittrack/models/workout/Workout.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
 
 class WorkoutChangeNotifier extends ChangeNotifier {
-  String id;
+  int id;
   String name;
   String workoutNote;
   String weightUnit;
@@ -15,7 +16,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   int exerciseToReplaceIndex;
 
   WorkoutChangeNotifier({
-    this.id = "",
+    this.id,
     this.name = "",
     this.workoutNote = "",
     this.weightUnit = "kg",
@@ -23,7 +24,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   });
 
   void reset() {
-    id = "";
+    id = null;
     name = "";
     workoutNote = "";
     weightUnit = "kg";
@@ -89,6 +90,18 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  Workout convertToWorkout() {
+    Workout _workout = new Workout(
+      id: id,
+      name: name ?? "",
+      workoutNote: workoutNote ?? "",
+      weightUnit: weightUnit ?? "kg",
+      exercises: exercises ?? [],
+    );
+
+    return _workout;
+  }
+
   WorkoutChangeNotifier fromJSON(Map<String, dynamic> workout) {
     List<Exercise> exerciseList = [];
 
@@ -100,7 +113,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     }
 
     return new WorkoutChangeNotifier(
-      id: workout['id'] ?? "",
+      id: workout['id'],
       name: workout['name'] ?? "",
       weightUnit: workout['weightUnit'] ?? "",
       workoutNote: workout['workoutNote'] ?? "",

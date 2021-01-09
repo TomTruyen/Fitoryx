@@ -1,32 +1,51 @@
+import 'dart:convert';
+
 import 'package:fittrack/models/exercises/Exercise.dart';
 
 class Workout {
-  String id;
+  int id;
   String name;
   String workoutNote;
   String weightUnit;
   List<Exercise> exercises = [];
 
   Workout({
-    this.id = "",
+    this.id,
     this.name = "",
     this.weightUnit = "kg",
     this.workoutNote = "",
     this.exercises,
   });
 
-  Workout fromJSON(Map<String, dynamic> workout) {
-    List<Exercise> exerciseList = [];
+  String exercisesToJsonString() {
+    List _exercises = [];
 
-    List<Map<String, dynamic>> exercisesJSON = workout['exercises'] ?? [];
-    if (exercisesJSON.isNotEmpty) {
-      exercisesJSON.forEach((Map<String, dynamic> exercise) {
-        exerciseList.add(new Exercise().fromJSON(exercise));
+    if (exercises.isNotEmpty) {
+      exercises.forEach((Exercise _exercise) {
+        _exercises.add(_exercise.toJSON());
       });
     }
 
+    return json.encode(_exercises);
+  }
+
+  List<Exercise> exercisesFromJsonString(String _exerciseString) {
+    List<Exercise> _exercises = (jsonDecode(_exerciseString) as List)
+        .map((_exercise) => Exercise().fromJSON(_exercise))
+        .toList();
+
+    return _exercises;
+  }
+
+  Workout fromJSON(Map<String, dynamic> workout) {
+    List<Exercise> exerciseList = [];
+
+    String exercisesJSON = workout['exercises'] ?? [];
+    if (exercisesJSON.isNotEmpty) {
+      exerciseList = exercisesFromJsonString(exercisesJSON);
+    }
     return new Workout(
-      id: workout['id'] ?? "",
+      id: workout['id'],
       name: workout['name'] ?? "",
       weightUnit: workout['weightUnit'] ?? "",
       workoutNote: workout['workoutNote'] ?? "",

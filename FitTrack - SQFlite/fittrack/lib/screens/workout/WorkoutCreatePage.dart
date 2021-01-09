@@ -6,11 +6,12 @@ import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/exercises/ExerciseSet.dart';
 import 'package:fittrack/screens/exercises/ExercisesPage.dart';
+import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Loader.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 
 /*
-  Add save button + save functionality NOTE: if workout name is empty then make the name 'Workout' in the database
   On delete of a set, if I just typed in a value, it deletes the correct set, but the typed in value is just given to the set that is in that position
   // Example: set 0 --> weight: 123, set 1 --> null, if I then delete set 0, set 1 gets 123 in the textfield, but not on the actual object
 
@@ -23,6 +24,12 @@ class WorkoutCreatePage extends StatefulWidget {
 }
 
 class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
+  Future<void> updateWorkouts() async {
+    await globals.sqlDatabase.getWorkouts();
+
+    setState(() {});
+  }
+
   Future<void> showRestDialog(
     BuildContext context,
     WorkoutChangeNotifier workout,
@@ -179,6 +186,30 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                       tryPopContext(context);
                     },
                   ),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.save,
+                        color: Colors.black,
+                      ),
+                      onPressed: () async {
+                        dynamic result = await globals.sqlDatabase.addWorkout(
+                          workout.convertToWorkout(),
+                        );
+
+                        if (result != null) {
+                          await updateWorkouts();
+                          tryPopContext(context);
+                        } else {
+                          showPopupError(
+                            context,
+                            'Adding workout failed',
+                            'Something went wrong adding the workout. Please try again.',
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
                 SliverToBoxAdapter(
                   child: Container(

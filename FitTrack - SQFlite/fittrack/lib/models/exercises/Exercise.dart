@@ -48,17 +48,13 @@ class Exercise {
   }
 
   Exercise fromJSON(Map<String, dynamic> exercise) {
-    List<ExerciseSet> setList = [];
-
-    List<Map<String, dynamic>> setJSON = exercise['sets'] ?? [];
-    if (setJSON.isNotEmpty) {
-      setJSON.forEach((Map<String, dynamic> _set) {
-        setList.add(new ExerciseSet().fromJSON(_set));
-      });
-    }
+    List<ExerciseSet> setList = (exercise['sets'] as List)
+            .map((_set) => ExerciseSet().fromJSON(_set))
+            .toList() ??
+        [];
 
     return new Exercise(
-      id: exercise['id'] ?? "",
+      id: exercise['id'],
       name: exercise['name'] ?? "",
       category: exercise['category'] ?? "",
       equipment: exercise['equipment'] ?? "",
