@@ -77,9 +77,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
 
   void deleteExerciseSet(int exerciseIndex, int setIndex) {
     if (exercises[exerciseIndex].sets.length > 1) {
-      print("removing set $setIndex");
-      print("weight of set: ${exercises[exerciseIndex].sets[setIndex].weight}");
-
       exercises[exerciseIndex].sets.removeAt(setIndex);
 
       notifyListeners();

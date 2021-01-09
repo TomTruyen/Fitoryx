@@ -42,6 +42,7 @@ class Exercise {
     _clone.category = category ?? "";
     _clone.equipment = equipment ?? "";
     _clone.isUserCreated = isUserCreated ?? 0;
+    _clone.sets = [ExerciseSet()];
 
     return _clone;
   }
