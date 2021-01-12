@@ -58,6 +58,35 @@ class SQLDatabase {
     }
   }
 
+  Future<dynamic> deleteWorkout(int id) async {
+    try {
+      await db.rawDelete(
+        'DELETE FROM workouts WHERE id = ?',
+        [id],
+      );
+
+      return "";
+    } catch (e) {
+      print("Delete Workout Error $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> duplicateWorkout(Workout workout) async {
+    try {
+      dynamic result = await addWorkout(workout);
+
+      if (result == null) {
+        return null;
+      }
+
+      return "";
+    } catch (e) {
+      print("Duplicate Workout Error $e");
+      return null;
+    }
+  }
+
   Future<void> getWorkouts() async {
     try {
       List<Map<String, dynamic>> dbWorkouts =
