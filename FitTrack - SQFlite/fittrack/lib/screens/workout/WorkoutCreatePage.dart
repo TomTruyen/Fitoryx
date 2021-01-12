@@ -19,17 +19,15 @@ import 'package:reorderables/reorderables.dart';
 */
 
 class WorkoutCreatePage extends StatefulWidget {
+  final Function updateWorkouts;
+
+  WorkoutCreatePage({this.updateWorkouts});
+
   @override
   _WorkoutCreatePageState createState() => _WorkoutCreatePageState();
 }
 
 class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
-  Future<void> updateWorkouts() async {
-    await globals.sqlDatabase.getWorkouts();
-
-    setState(() {});
-  }
-
   Future<void> showRestDialog(
     BuildContext context,
     WorkoutChangeNotifier workout,
@@ -198,7 +196,7 @@ class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
                         );
 
                         if (result != null) {
-                          await updateWorkouts();
+                          await widget.updateWorkouts();
                           tryPopContext(context);
                         } else {
                           showPopupError(
