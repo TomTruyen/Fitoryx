@@ -169,9 +169,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                           onSelected: (selection) async {
                                             switch (selection) {
                                               case 'edit':
-                                                workout = _workout
-                                                    .clone()
-                                                    .convertToWorkoutChangeNotifier();
+                                                workout.copyWorkout(_workout);
 
                                                 Navigator.push(
                                                   context,
