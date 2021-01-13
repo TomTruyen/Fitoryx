@@ -1,13 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+
+import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
+import 'package:fittrack/screens/workout/WorkoutBuildPage.dart';
 import 'package:fittrack/shared/Loader.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-
-import 'package:fittrack/screens/workout/WorkoutCreatePage.dart';
-import 'package:fittrack/shared/Globals.dart' as globals;
-import 'package:provider/provider.dart';
 
 class WorkoutPage extends StatefulWidget {
   @override
@@ -97,8 +97,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         Navigator.of(context).push(
                           CupertinoPageRoute(
                             fullscreenDialog: true,
-                            builder: (BuildContext context) =>
-                                WorkoutCreatePage(
+                            builder: (BuildContext context) => WorkoutBuildPage(
                               updateWorkouts: updateWorkouts,
                             ),
                           ),
@@ -179,7 +178,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                   CupertinoPageRoute(
                                                     fullscreenDialog: true,
                                                     builder: (context) =>
-                                                        WorkoutCreatePage(
+                                                        WorkoutBuildPage(
                                                       updateWorkouts:
                                                           updateWorkouts,
                                                       isEdit: true,

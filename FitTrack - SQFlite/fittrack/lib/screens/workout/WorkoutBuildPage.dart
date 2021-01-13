@@ -18,17 +18,17 @@ import 'package:reorderables/reorderables.dart';
 
 */
 
-class WorkoutCreatePage extends StatefulWidget {
+class WorkoutBuildPage extends StatefulWidget {
   final Function updateWorkouts;
   final bool isEdit;
 
-  WorkoutCreatePage({this.updateWorkouts, this.isEdit = false});
+  WorkoutBuildPage({this.updateWorkouts, this.isEdit = false});
 
   @override
-  _WorkoutCreatePageState createState() => _WorkoutCreatePageState();
+  _WorkoutBuildPageState createState() => _WorkoutBuildPageState();
 }
 
-class _WorkoutCreatePageState extends State<WorkoutCreatePage> {
+class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
   Future<void> showRestDialog(
     BuildContext context,
     WorkoutChangeNotifier workout,
