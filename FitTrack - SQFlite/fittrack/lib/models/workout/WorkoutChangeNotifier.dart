@@ -23,6 +23,14 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.exercises = const [],
   });
 
+  void copyWorkout(Workout workout) {
+    id = workout.id;
+    name = workout.name ?? "";
+    workoutNote = workout.workoutNote ?? "";
+    weightUnit = workout.weightUnit ?? "kg";
+    exercises = List.of(workout.exercises) ?? [];
+  }
+
   void reset() {
     id = null;
     name = "";
