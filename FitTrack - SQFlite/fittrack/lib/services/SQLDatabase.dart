@@ -37,9 +37,9 @@ class SQLDatabase {
         name = "Workout";
       }
 
-      String weightUnit = workout.weightUnit;
-      String workoutNote = workout.workoutNote;
-      String exercises = workout.exercisesToJsonString();
+      String weightUnit = workout.weightUnit ?? "kg";
+      String workoutNote = workout.workoutNote ?? "";
+      String exercises = workout.exercisesToJsonString() ?? "";
 
       await db.rawInsert(
         'INSERT INTO workouts (name, weightUnit, workoutNote, exercises) VALUES (?, ?, ?, ?)',
@@ -54,6 +54,41 @@ class SQLDatabase {
       return "";
     } catch (e) {
       print("Add Workout Error: $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> updateWorkout(Workout workout) async {
+    try {
+      int id = workout.id ?? null;
+      if (id == null) {
+        return null;
+      }
+
+      String name = workout.name ?? "Workout";
+
+      if (name == "") {
+        name = "Workout";
+      }
+
+      String weightUnit = workout.weightUnit ?? "kg";
+      String workoutNote = workout.workoutNote ?? "";
+      String exercises = workout.exercisesToJsonString() ?? "";
+
+      await db.rawUpdate(
+        "UPDATE workouts SET name = ?, weightUnit = ?, workoutNote = ?, exercises = ? WHERE id = ?",
+        [
+          name,
+          weightUnit,
+          workoutNote,
+          exercises,
+          id,
+        ],
+      );
+
+      return "";
+    } catch (e) {
+      print("Update Workout Error $e");
       return null;
     }
   }
