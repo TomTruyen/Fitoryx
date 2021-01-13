@@ -169,7 +169,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                   floating: true,
                   pinned: true,
                   title: Text(
-                    'Create Workout',
+                    widget.isEdit ? 'Edit Workout' : 'Create Workout',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -192,19 +192,34 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                         color: Colors.black,
                       ),
                       onPressed: () async {
-                        dynamic result = await globals.sqlDatabase.addWorkout(
-                          workout.convertToWorkout(),
-                        );
+                        dynamic result;
+                        if (widget.isEdit) {
+                          result = await globals.sqlDatabase.updateWorkout(
+                            workout.convertToWorkout(),
+                          );
+                        } else {
+                          result = await globals.sqlDatabase.addWorkout(
+                            workout.convertToWorkout(),
+                          );
+                        }
 
                         if (result != null) {
                           await widget.updateWorkouts();
                           tryPopContext(context);
                         } else {
-                          showPopupError(
-                            context,
-                            'Adding workout failed',
-                            'Something went wrong adding the workout. Please try again.',
-                          );
+                          if (widget.isEdit) {
+                            showPopupError(
+                              context,
+                              'Editing workout failed',
+                              'Something went wrong editing the workout. Please try again.',
+                            );
+                          } else {
+                            showPopupError(
+                              context,
+                              'Adding workout failed',
+                              'Something went wrong adding the workout. Please try again.',
+                            );
+                          }
                         }
                       },
                     ),
