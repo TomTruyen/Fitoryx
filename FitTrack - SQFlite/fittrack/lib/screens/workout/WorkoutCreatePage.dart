@@ -20,8 +20,9 @@ import 'package:reorderables/reorderables.dart';
 
 class WorkoutCreatePage extends StatefulWidget {
   final Function updateWorkouts;
+  final bool isEdit;
 
-  WorkoutCreatePage({this.updateWorkouts});
+  WorkoutCreatePage({this.updateWorkouts, this.isEdit = false});
 
   @override
   _WorkoutCreatePageState createState() => _WorkoutCreatePageState();
