@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 
 class Workout {
   int id;
@@ -16,6 +17,30 @@ class Workout {
     this.workoutNote = "",
     this.exercises,
   });
+
+  Workout clone() {
+    Workout _clone = new Workout();
+
+    _clone.id = id;
+    _clone.name = name ?? "";
+    _clone.workoutNote = workoutNote ?? "";
+    _clone.weightUnit = weightUnit ?? "kg";
+    _clone.exercises = List.of(exercises) ?? [];
+
+    return _clone;
+  }
+
+  WorkoutChangeNotifier convertToWorkoutChangeNotifier() {
+    WorkoutChangeNotifier _workout = new WorkoutChangeNotifier(
+      id: id,
+      name: name ?? "",
+      workoutNote: workoutNote ?? "",
+      weightUnit: weightUnit ?? "kg",
+      exercises: exercises ?? [],
+    );
+
+    return _workout;
+  }
 
   String exercisesToJsonString() {
     List _exercises = [];
