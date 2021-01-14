@@ -7,7 +7,7 @@ class SQLDatabase {
   List<Workout> workouts;
   List<Exercise> userExercises;
 
-  Future<void> setupDatabase() async {
+  Future<dynamic> setupDatabase() async {
     try {
       String dbPath = await getDatabasesPath();
 
@@ -25,8 +25,11 @@ class SQLDatabase {
 
       await getUserExercises();
       await getWorkouts();
+
+      return "";
     } catch (e) {
       print("Setup Database Error: $e");
+      return null;
     }
   }
 

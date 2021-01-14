@@ -1,3 +1,4 @@
+import 'package:fittrack/shared/Loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -8,14 +9,26 @@ import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  globals.sqlDatabase = new SQLDatabase();
-  await globals.sqlDatabase.setupDatabase();
+void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future<dynamic> _database;
+
+  @override
+  void initState() {
+    super.initState();
+
+    globals.sqlDatabase = new SQLDatabase();
+    _database = globals.sqlDatabase.setupDatabase().then((value) => value);
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -52,7 +65,16 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: Wrapper(),
+        home: FutureBuilder<dynamic>(
+          future: _database,
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (!snapshot.hasData) {
+              return Loader();
+            } else {
+              return Wrapper();
+            }
+          },
+        ),
       ),
     );
   }
