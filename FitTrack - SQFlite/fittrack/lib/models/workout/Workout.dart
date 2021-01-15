@@ -60,6 +60,7 @@ class Workout {
     if (exercisesJSON.isNotEmpty) {
       exerciseList = exercisesFromJsonString(exercisesJSON);
     }
+
     return new Workout(
       id: workout['id'],
       name: workout['name'] ?? "",

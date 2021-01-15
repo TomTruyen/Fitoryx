@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,13 +18,36 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
-  List<Workout> workouts = globals.sqlDatabase.workouts;
+  List<Workout> workouts = List.of(globals.sqlDatabase.workouts);
+  bool sortAscending = false;
 
   Future<void> updateWorkouts() async {
     await globals.sqlDatabase.getWorkouts();
 
+    workouts = globals.sqlDatabase.workouts;
+
+    sortWorkouts(sortAscending);
+  }
+
+  void sortWorkouts(bool orderAscending) {
+    workouts.sort((Workout a, Workout b) {
+      if (orderAscending) {
+        return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
+            ? -1
+            : a.timeInMillisSinceEpoch > b.timeInMillisSinceEpoch
+                ? 1
+                : 0;
+      } else {
+        return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
+            ? 1
+            : a.timeInMillisSinceEpoch > b.timeInMillisSinceEpoch
+                ? -1
+                : 0;
+      }
+    });
+
     setState(() {
-      workouts = globals.sqlDatabase.workouts;
+      sortAscending = orderAscending;
     });
   }
 
@@ -95,6 +120,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         ),
                       ),
                       onPressed: () {
+                        workout.reset();
+
                         Navigator.of(context).push(
                           CupertinoPageRoute(
                             fullscreenDialog: true,
@@ -107,6 +134,39 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     ),
                   ),
                 ),
+                if (workouts.length > 0)
+                  SliverToBoxAdapter(
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        color: Colors.transparent,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Transform(
+                              alignment: Alignment.center,
+                              transform: sortAscending
+                                  ? Matrix4.rotationX(pi)
+                                  : Matrix4.rotationX(0),
+                              child: Icon(
+                                Icons.sort,
+                              ),
+                            ),
+                            SizedBox(width: 10.0),
+                            Text('Last updated'),
+                          ],
+                        ),
+                        onPressed: () {
+                          sortWorkouts(!sortAscending);
+                        },
+                      ),
+                    ),
+                  ),
                 if (workouts.length > 0)
                   SliverList(
                     delegate: SliverChildBuilderDelegate(

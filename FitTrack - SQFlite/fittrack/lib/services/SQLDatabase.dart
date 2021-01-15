@@ -42,8 +42,7 @@ class SQLDatabase {
 
       String weightUnit = workout.weightUnit ?? "kg";
       String workoutNote = workout.workoutNote ?? "";
-      int timeInMillisSinceEpoch = workout.timeInMillisSinceEpoch ??
-          DateTime.now().millisecondsSinceEpoch;
+      int timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
       await db.rawInsert(
@@ -79,8 +78,7 @@ class SQLDatabase {
 
       String weightUnit = workout.weightUnit ?? "kg";
       String workoutNote = workout.workoutNote ?? "";
-      int timeInMillisSinceEpoch = workout.timeInMillisSinceEpoch ??
-          DateTime.now().millisecondsSinceEpoch;
+      int timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
       await db.rawUpdate(
@@ -133,8 +131,8 @@ class SQLDatabase {
 
   Future<void> getWorkouts() async {
     try {
-      List<Map<String, dynamic>> dbWorkouts =
-          await db.rawQuery("SELECT * FROM workouts");
+      List<Map<String, dynamic>> dbWorkouts = await db.rawQuery(
+          "SELECT * FROM workouts ORDER BY timeInMillisSinceEpoch DESC");
 
       if (dbWorkouts.isEmpty) {
         workouts = [];
