@@ -9,6 +9,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   String name;
   String workoutNote;
   String weightUnit;
+  int timeInMillisSinceEpoch;
   List<Exercise> exercises = [];
 
   // Used when calling a 'replace exercise'
@@ -20,6 +21,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.name = "",
     this.workoutNote = "",
     this.weightUnit = "kg",
+    this.timeInMillisSinceEpoch,
     this.exercises = const [],
   });
 
@@ -28,6 +30,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     name = workout.name ?? "";
     workoutNote = workout.workoutNote ?? "";
     weightUnit = workout.weightUnit ?? "kg";
+    timeInMillisSinceEpoch =
+        workout.timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch;
     exercises = List.of(workout.exercises) ?? [];
   }
 
@@ -36,6 +40,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     name = "";
     workoutNote = "";
     weightUnit = "kg";
+    timeInMillisSinceEpoch = null;
     exercises = [];
   }
 
@@ -112,6 +117,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
       name: name ?? "",
       workoutNote: workoutNote ?? "",
       weightUnit: weightUnit ?? "kg",
+      timeInMillisSinceEpoch:
+          timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
       exercises: exercises ?? [],
     );
 
@@ -133,6 +140,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
       name: workout['name'] ?? "",
       weightUnit: workout['weightUnit'] ?? "",
       workoutNote: workout['workoutNote'] ?? "",
+      timeInMillisSinceEpoch: workout['timeInMillisSinceEpoch'] ??
+          DateTime.now().millisecondsSinceEpoch,
       exercises: exerciseList ?? [],
     );
   }
@@ -151,10 +160,9 @@ class WorkoutChangeNotifier extends ChangeNotifier {
       'name': name ?? "",
       'workoutNote': workoutNote ?? "",
       'weightUnit': weightUnit ?? "",
+      'timeInMillisSinceEpoch':
+          timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
       'exercises': exercisesJSON ?? [],
     };
   }
 }
-
-// Add a way to convert exercises to a String, and convert it back to ExerciseObjects
-// Maybe toJSON the exercise and then --> make the returned Map a String

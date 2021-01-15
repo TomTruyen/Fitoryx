@@ -7,6 +7,7 @@ class Workout {
   String name;
   String workoutNote;
   String weightUnit;
+  int timeInMillisSinceEpoch;
   List<Exercise> exercises = [];
 
   Workout({
@@ -14,6 +15,7 @@ class Workout {
     this.name = "",
     this.weightUnit = "kg",
     this.workoutNote = "",
+    this.timeInMillisSinceEpoch,
     this.exercises,
   });
 
@@ -24,6 +26,8 @@ class Workout {
     _clone.name = name ?? "";
     _clone.workoutNote = workoutNote ?? "";
     _clone.weightUnit = weightUnit ?? "kg";
+    _clone.timeInMillisSinceEpoch =
+        timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch;
     _clone.exercises = List.of(exercises) ?? [];
 
     return _clone;
@@ -61,6 +65,8 @@ class Workout {
       name: workout['name'] ?? "",
       weightUnit: workout['weightUnit'] ?? "",
       workoutNote: workout['workoutNote'] ?? "",
+      timeInMillisSinceEpoch: workout['timeInMillisSinceEpoch'] ??
+          DateTime.now().millisecondsSinceEpoch,
       exercises: exerciseList ?? [],
     );
   }
@@ -79,6 +85,8 @@ class Workout {
       'name': name ?? "",
       'workoutNote': workoutNote ?? "",
       'weightUnit': weightUnit ?? "",
+      'timeInMillisSinceEpoch':
+          timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
       'exercises': exercisesJSON ?? [],
     };
   }

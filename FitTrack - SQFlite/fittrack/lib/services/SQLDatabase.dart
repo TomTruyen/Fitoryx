@@ -19,7 +19,7 @@ class SQLDatabase {
           'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
         );
         await db.execute(
-          'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, workoutNote TEXT, exercises TEXT)',
+          'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, workoutNote TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
         );
       });
 
@@ -42,14 +42,17 @@ class SQLDatabase {
 
       String weightUnit = workout.weightUnit ?? "kg";
       String workoutNote = workout.workoutNote ?? "";
+      int timeInMillisSinceEpoch = workout.timeInMillisSinceEpoch ??
+          DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
       await db.rawInsert(
-        'INSERT INTO workouts (name, weightUnit, workoutNote, exercises) VALUES (?, ?, ?, ?)',
+        'INSERT INTO workouts (name, weightUnit, workoutNote, timeInMillisSinceEpoch, exercises) VALUES (?, ?, ?, ?, ?)',
         [
           name,
           weightUnit,
           workoutNote,
+          timeInMillisSinceEpoch,
           exercises,
         ],
       );
@@ -76,14 +79,17 @@ class SQLDatabase {
 
       String weightUnit = workout.weightUnit ?? "kg";
       String workoutNote = workout.workoutNote ?? "";
+      int timeInMillisSinceEpoch = workout.timeInMillisSinceEpoch ??
+          DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
       await db.rawUpdate(
-        "UPDATE workouts SET name = ?, weightUnit = ?, workoutNote = ?, exercises = ? WHERE id = ?",
+        "UPDATE workouts SET name = ?, weightUnit = ?, workoutNote = ?, timeInMillisSinceEpoch = ?, exercises = ? WHERE id = ?",
         [
           name,
           weightUnit,
           workoutNote,
+          timeInMillisSinceEpoch,
           exercises,
           id,
         ],
@@ -213,5 +219,6 @@ class SQLDatabase {
     name TEXT
     workoutNote TEXT
     weightUnit TEXT
+    timeInMillisSinceEpoch INTEGER
     exercises TEXT
 */
