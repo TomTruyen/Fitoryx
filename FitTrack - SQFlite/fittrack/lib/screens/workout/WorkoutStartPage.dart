@@ -40,37 +40,33 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                 tryPopContext(context);
               },
             ),
-            actions: <Widget>[
-              isStarted
-                  ? IconButton(
-                      icon: Icon(
-                        Icons.stop_rounded,
-                        size: 30.0,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isStarted = false;
-                        });
-                      },
-                    )
-                  : IconButton(
-                      icon: Icon(
-                        Icons.play_arrow_rounded,
-                        size: 30.0,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isStarted = true;
-                        });
-                      },
-                    )
-            ],
           ),
+
+          // add a custom "rest timer", don\'t use the circle thing as we used in the other version. Use some type of digital clock with an option to "skip rest" and nothing else'
+          // On start workout: add a 'start timer' which counts down from 3 to 0 and then it starts the workout
+          // add exercises (dispaly exercises)
           SliverToBoxAdapter(
-            child: Text(
-                'show workout as if it is a started. But add a button at the top that says "start workout" and then after clicking it, we start the workout and then change the button name to "end workout", besides that make sure we use a timer and a persistent push notification (if possible). Also add a custom "rest timer", don\'t use the circle thing as we used in the other version. Use some type of digital clock with an option to "skip rest" and nothing else'),
+            child: Container(
+              height: 60.0,
+              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Text(
+                  isStarted ? 'End Workout' : 'Start Workout',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                color: isStarted ? Colors.red : Theme.of(context).accentColor,
+                onPressed: () {
+                  setState(() {
+                    isStarted = !isStarted;
+                  });
+                },
+              ),
+            ),
           ),
           SliverToBoxAdapter(
             child: Text(
