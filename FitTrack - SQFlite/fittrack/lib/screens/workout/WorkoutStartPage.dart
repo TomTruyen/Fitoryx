@@ -138,8 +138,25 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                 Icons.close,
                 color: Colors.black,
               ),
-              onPressed: () {
-                tryPopContext(context);
+              onPressed: () async {
+                if (isStarted) {
+                  bool isCompleted = widget.workout.isWorkoutCompleted();
+
+                  if (!isCompleted) {
+                    bool confirmsCompletion =
+                        await showEndWorkoutWarningDialog(context, true);
+
+                    if (confirmsCompletion) {
+                      endWorkout();
+                      tryPopContext(context);
+                    }
+                  } else {
+                    endWorkout();
+                    tryPopContext(context);
+                  }
+                } else {
+                  tryPopContext(context);
+                }
               },
             ),
           ),
@@ -166,7 +183,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
 
                     if (!isCompleted) {
                       bool confirmsCompletion =
-                          await showEndWorkoutWarningDialog(context);
+                          await showEndWorkoutWarningDialog(context, false);
 
                       if (confirmsCompletion) {
                         endWorkout();

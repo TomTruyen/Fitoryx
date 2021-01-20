@@ -177,12 +177,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
                         return InkWell(
                           onTap: () {
+                            _workout.setUncompleted();
+
                             Navigator.push(
                               context,
                               CupertinoPageRoute(
                                 fullscreenDialog: true,
                                 builder: (BuildContext context) =>
-                                    WorkoutStartPage(workout: _workout),
+                                    WorkoutStartPage(workout: _workout.clone()),
                               ),
                             );
                           },

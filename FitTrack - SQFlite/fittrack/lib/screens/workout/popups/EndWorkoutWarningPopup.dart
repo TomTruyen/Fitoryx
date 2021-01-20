@@ -1,7 +1,8 @@
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/material.dart';
 
-Future<bool> showEndWorkoutWarningDialog(BuildContext context) async {
+Future<bool> showEndWorkoutWarningDialog(
+    BuildContext context, bool isCancel) async {
   bool confirmsCompletion = false;
 
   await showDialog(
@@ -52,7 +53,9 @@ Future<bool> showEndWorkoutWarningDialog(BuildContext context) async {
                         Container(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
-                            'Not all exercises/sets were completed. Are you sure you completed your workout?',
+                            isCancel
+                                ? 'Not all exercises/sets were completed. Are you sure you want to cancel you workout? (your workout won\'t be saved)'
+                                : 'Not all exercises/sets were completed. Are you sure you completed your workout?',
                           ),
                         ),
                         Container(
@@ -74,7 +77,7 @@ Future<bool> showEndWorkoutWarningDialog(BuildContext context) async {
                               ),
                               FlatButton(
                                 child: Text(
-                                  'I\'m sure',
+                                  'Yes I\'m sure',
                                   style: TextStyle(
                                     fontSize: 13.0,
                                     fontWeight: FontWeight.w600,

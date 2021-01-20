@@ -33,6 +33,14 @@ class Workout {
     return _clone;
   }
 
+  void setUncompleted() {
+    for (int i = 0; i < exercises.length; i++) {
+      for (int j = 0; j < exercises[i].sets.length; j++) {
+        exercises[i].sets[j].isCompleted = false;
+      }
+    }
+  }
+
   bool isWorkoutCompleted() {
     bool isCompleted = true;
 
