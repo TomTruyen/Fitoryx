@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/Workout.dart';
+import 'package:fittrack/screens/workout/WorkoutSummaryPage.dart';
 import 'package:fittrack/screens/workout/popups/EndWorkoutWarningPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutStartPage extends StatefulWidget {
@@ -179,6 +181,8 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                   if (!isStarted) {
                     startWorkout();
                   } else {
+                    bool navigateToSummaryPage = false;
+
                     bool isCompleted = widget.workout.isWorkoutCompleted();
 
                     if (!isCompleted) {
@@ -187,9 +191,22 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
 
                       if (confirmsCompletion) {
                         endWorkout();
+                        navigateToSummaryPage = true;
                       }
                     } else {
                       endWorkout();
+                      navigateToSummaryPage = true;
+                    }
+
+                    if (navigateToSummaryPage) {
+                      Navigator.of(context).pushReplacement(
+                        CupertinoPageRoute(
+                          fullscreenDialog: true,
+                          builder: (BuildContext context) => WorkoutSummaryPage(
+                            workout: widget.workout.clone(),
+                          ),
+                        ),
+                      );
                     }
                   }
                 },
