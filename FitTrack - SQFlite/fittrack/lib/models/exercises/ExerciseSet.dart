@@ -1,8 +1,9 @@
 class ExerciseSet {
   int reps;
   double weight;
+  bool isCompleted = false;
 
-  ExerciseSet({this.reps, this.weight});
+  ExerciseSet({this.reps, this.weight, this.isCompleted = false});
 
   ExerciseSet fromJSON(Map<String, dynamic> _set) {
     return new ExerciseSet(

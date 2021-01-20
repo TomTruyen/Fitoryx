@@ -47,6 +47,21 @@ class Exercise {
     return _clone;
   }
 
+  bool isExerciseCompleted() {
+    bool isCompleted = true;
+
+    for (int i = 0; i < sets.length; i++) {
+      bool setCompleted = sets[i].isCompleted ?? false;
+
+      if (!setCompleted) {
+        isCompleted = false;
+        break;
+      }
+    }
+
+    return isCompleted;
+  }
+
   Exercise fromJSON(Map<String, dynamic> exercise) {
     List<ExerciseSet> setList = (exercise['sets'] as List)
             .map((_set) => ExerciseSet().fromJSON(_set))

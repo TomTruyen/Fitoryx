@@ -33,6 +33,21 @@ class Workout {
     return _clone;
   }
 
+  bool isWorkoutCompleted() {
+    bool isCompleted = true;
+
+    for (int i = 0; i < exercises.length; i++) {
+      bool exerciseCompleted = exercises[i].isExerciseCompleted() ?? false;
+
+      if (!exerciseCompleted) {
+        isCompleted = false;
+        break;
+      }
+    }
+
+    return isCompleted;
+  }
+
   String exercisesToJsonString() {
     List _exercises = [];
 
