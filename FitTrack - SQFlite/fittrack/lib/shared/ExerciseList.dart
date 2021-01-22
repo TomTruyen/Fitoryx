@@ -239,6 +239,8 @@ List<Exercise> exercises = [
   Exercise(name: 'Split Jerk', category: 'Olympic', equipment: 'Barbell'),
   Exercise(name: 'Squat', category: 'Legs'),
   Exercise(name: 'Squat', category: 'Legs', equipment: 'Barbell'),
+  Exercise(
+      name: 'Squat - Elevated Heels', category: 'Lesg', equipment: 'Barbell'),
   Exercise(name: 'Squat', category: 'Legs', equipment: 'Dumbbell'),
   Exercise(name: 'Squat Steps', category: 'Legs'),
   Exercise(name: 'Standing Calf Raise', category: 'Calves'),
