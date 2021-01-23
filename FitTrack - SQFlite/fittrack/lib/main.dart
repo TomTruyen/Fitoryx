@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
           future: _database,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (!snapshot.hasData) {
-              return Loader();
+              return Container();
             } else {
               return Wrapper();
             }
