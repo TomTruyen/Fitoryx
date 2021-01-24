@@ -19,8 +19,10 @@ class SQLDatabase {
           'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
         );
         await db.execute(
-          'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, workoutNote TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
+          'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
         );
+        await db.execute(
+            'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration INTEGER)');
       });
 
       await getUserExercises();
@@ -41,16 +43,14 @@ class SQLDatabase {
       }
 
       String weightUnit = workout.weightUnit ?? "kg";
-      String workoutNote = workout.workoutNote ?? "";
       int timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
       await db.rawInsert(
-        'INSERT INTO workouts (name, weightUnit, workoutNote, timeInMillisSinceEpoch, exercises) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO workouts (name, weightUnit, timeInMillisSinceEpoch, exercises) VALUES (?, ?, ?, ?)',
         [
           name,
           weightUnit,
-          workoutNote,
           timeInMillisSinceEpoch,
           exercises,
         ],
@@ -77,16 +77,14 @@ class SQLDatabase {
       }
 
       String weightUnit = workout.weightUnit ?? "kg";
-      String workoutNote = workout.workoutNote ?? "";
       int timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
       await db.rawUpdate(
-        "UPDATE workouts SET name = ?, weightUnit = ?, workoutNote = ?, timeInMillisSinceEpoch = ?, exercises = ? WHERE id = ?",
+        "UPDATE workouts SET name = ?, weightUnit = ?, timeInMillisSinceEpoch = ?, exercises = ? WHERE id = ?",
         [
           name,
           weightUnit,
-          workoutNote,
           timeInMillisSinceEpoch,
           exercises,
           id,
@@ -149,6 +147,40 @@ class SQLDatabase {
       workouts = _workouts;
     } catch (e) {
       print("Get Workouts Error: $e");
+    }
+  }
+
+  Future<dynamic> saveWorkout(
+    Workout workout,
+    int workoutDurationInMilliSeconds,
+    String workoutNote,
+  ) async {
+    try {
+      String name = workout.name ?? "Workout";
+      if (name == "") {
+        name = "Workout";
+      }
+
+      String weightUnit = workout.weightUnit ?? "kg";
+      int timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
+      String exercises = workout.exercisesToJsonString() ?? "";
+
+      await db.rawInsert(
+        'INSERT INTO workouts_history (name, weightUnit, timeInMillisSinceEpoch, exercises, workoutNote, workoutDuration) VALUES (?, ?, ?, ?, ?, ?)',
+        [
+          name,
+          weightUnit,
+          timeInMillisSinceEpoch,
+          exercises,
+          workoutNote,
+          workoutDurationInMilliSeconds,
+        ],
+      );
+
+      return "";
+    } catch (e) {
+      print("Save Workout Error: $e");
+      return null;
     }
   }
 
@@ -215,8 +247,16 @@ class SQLDatabase {
   - Workouts Table
     id INTEGER
     name TEXT
-    workoutNote TEXT
     weightUnit TEXT
-    timeInMillisSinceEpoch INTEGER
+    timeInMillisSinceEpoch INTEGER == DATE IT WAS ADDED (for sorting)
     exercises TEXT
+
+    - Workouts_History Table
+    id INTEGER
+    name TEXT
+    weightUnit TEXT
+    timeInMillisSinceEpoch INTEGER == DATE IT WAS ADDED (for sorting)
+    exercises TEXT
+    workoutNote TEXT
+    workoutDuration INTEGER == TIME THE WORKOUT TOOK (in milliseconds)
 */
