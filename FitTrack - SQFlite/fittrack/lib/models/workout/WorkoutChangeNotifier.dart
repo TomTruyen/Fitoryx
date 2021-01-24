@@ -7,7 +7,6 @@ import 'package:fittrack/models/exercises/Exercise.dart';
 class WorkoutChangeNotifier extends ChangeNotifier {
   int id;
   String name;
-  String workoutNote;
   String weightUnit;
   int timeInMillisSinceEpoch;
   List<Exercise> exercises = [];
@@ -19,7 +18,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   WorkoutChangeNotifier({
     this.id,
     this.name = "",
-    this.workoutNote = "",
     this.weightUnit = "kg",
     this.timeInMillisSinceEpoch,
     this.exercises = const [],
@@ -28,7 +26,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   void copyWorkout(Workout workout) {
     id = workout.id;
     name = workout.name ?? "";
-    workoutNote = workout.workoutNote ?? "";
     weightUnit = workout.weightUnit ?? "kg";
     timeInMillisSinceEpoch =
         workout.timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch;
@@ -38,7 +35,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   void reset() {
     id = null;
     name = "";
-    workoutNote = "";
     weightUnit = "kg";
     timeInMillisSinceEpoch = null;
     exercises = [];
@@ -46,10 +42,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
 
   void updateName(String _name) {
     name = _name;
-  }
-
-  void updateWorkoutNote(String _workoutNote) {
-    workoutNote = _workoutNote;
   }
 
   void updateExercises(List<Exercise> _exercises) {
@@ -115,7 +107,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     Workout _workout = new Workout(
       id: id,
       name: name ?? "",
-      workoutNote: workoutNote ?? "",
       weightUnit: weightUnit ?? "kg",
       timeInMillisSinceEpoch:
           timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
@@ -139,7 +130,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
       id: workout['id'],
       name: workout['name'] ?? "",
       weightUnit: workout['weightUnit'] ?? "",
-      workoutNote: workout['workoutNote'] ?? "",
       timeInMillisSinceEpoch: workout['timeInMillisSinceEpoch'] ??
           DateTime.now().millisecondsSinceEpoch,
       exercises: exerciseList ?? [],
@@ -158,7 +148,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     return {
       'id': id,
       'name': name ?? "",
-      'workoutNote': workoutNote ?? "",
       'weightUnit': weightUnit ?? "",
       'timeInMillisSinceEpoch':
           timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,

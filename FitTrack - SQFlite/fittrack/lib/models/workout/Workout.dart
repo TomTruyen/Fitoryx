@@ -5,7 +5,6 @@ import 'package:fittrack/models/exercises/Exercise.dart';
 class Workout {
   int id;
   String name;
-  String workoutNote;
   String weightUnit;
   int timeInMillisSinceEpoch;
   List<Exercise> exercises = [];
@@ -14,7 +13,6 @@ class Workout {
     this.id,
     this.name = "",
     this.weightUnit = "kg",
-    this.workoutNote = "",
     this.timeInMillisSinceEpoch,
     this.exercises,
   });
@@ -24,7 +22,6 @@ class Workout {
 
     _clone.id = id;
     _clone.name = name ?? "";
-    _clone.workoutNote = workoutNote ?? "";
     _clone.weightUnit = weightUnit ?? "kg";
     _clone.timeInMillisSinceEpoch =
         timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch;
@@ -88,7 +85,6 @@ class Workout {
       id: workout['id'],
       name: workout['name'] ?? "",
       weightUnit: workout['weightUnit'] ?? "",
-      workoutNote: workout['workoutNote'] ?? "",
       timeInMillisSinceEpoch: workout['timeInMillisSinceEpoch'] ??
           DateTime.now().millisecondsSinceEpoch,
       exercises: exerciseList ?? [],
@@ -107,7 +103,6 @@ class Workout {
     return {
       'id': id,
       'name': name ?? "",
-      'workoutNote': workoutNote ?? "",
       'weightUnit': weightUnit ?? "",
       'timeInMillisSinceEpoch':
           timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
