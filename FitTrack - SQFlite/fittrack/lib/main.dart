@@ -1,4 +1,3 @@
-import 'package:fittrack/shared/Loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +68,7 @@ class _MyAppState extends State<MyApp> {
           future: _database,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (!snapshot.hasData) {
-              return Container();
+              return Container(color: Colors.white);
             } else {
               return Wrapper();
             }
