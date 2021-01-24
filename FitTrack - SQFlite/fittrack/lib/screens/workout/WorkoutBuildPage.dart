@@ -494,7 +494,6 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                           horizontal: 4.0,
                                         ),
                                         child: TextFormField(
-                                          // key: Key(_sets[i].weight?.toString()),
                                           initialValue:
                                               _sets[i].weight?.toString(),
                                           autofocus: false,
