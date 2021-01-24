@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'package:fittrack/shared/ErrorPopup.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/workout/WorkoutSummaryPage.dart';
 import 'package:fittrack/screens/workout/popups/EndWorkoutWarningPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 
 class WorkoutStartPage extends StatefulWidget {
   final Workout workout;
@@ -19,6 +21,8 @@ class WorkoutStartPage extends StatefulWidget {
 
 class _WorkoutStartPageState extends State<WorkoutStartPage> {
   bool isStarted = false;
+
+  String workoutNote = "";
 
   String timeToDisplay = "00:00";
   Stopwatch stopwatch = Stopwatch();
@@ -98,43 +102,84 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
+            title: Text(
+              widget.workout.name,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            actions: <Widget>[
+              InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    widget.workout.name,
-                    overflow: TextOverflow.ellipsis,
+                    'FINISH',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                SizedBox(width: 20.0),
-                Container(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.schedule,
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      Text(
-                        timeToDisplay,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                onTap: () async {
+                  if (stopwatch.elapsed.inMilliseconds > 0) {
+                    bool navigateToSummaryPage = false;
+
+                    bool isCompleted = widget.workout.isWorkoutCompleted();
+
+                    if (!isCompleted) {
+                      bool confirmsCompletion =
+                          await showEndWorkoutWarningDialog(context, false);
+
+                      if (confirmsCompletion) {
+                        endWorkout();
+                        navigateToSummaryPage = true;
+                      }
+                    } else {
+                      endWorkout();
+                      navigateToSummaryPage = true;
+                    }
+
+                    if (navigateToSummaryPage) {
+                      dynamic result = await globals.sqlDatabase.saveWorkout(
+                        widget.workout.clone(),
+                        stopwatch.elapsed.inMilliseconds,
+                        workoutNote,
+                      );
+
+                      if (result != null) {
+                        Navigator.of(context).pushReplacement(
+                          CupertinoPageRoute(
+                            fullscreenDialog: true,
+                            builder: (BuildContext context) =>
+                                WorkoutSummaryPage(
+                              workout: widget.workout.clone(),
+                            ),
+                          ),
+                        );
+                      } else {
+                        showPopupError(
+                          context,
+                          'Saving workout failed',
+                          'Something went wrong saving your workout. Please try again.',
+                        );
+                      }
+                    }
+                  } else {
+                    showPopupError(
+                      context,
+                      'Workout not started',
+                      'Please start the workout before attempting to finish it.',
+                    );
+                  }
+                },
+              ),
+            ],
             leading: IconButton(
               icon: Icon(
                 Icons.close,
@@ -163,55 +208,94 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
             ),
           ),
           SliverToBoxAdapter(
-            child: Container(
-              height: 60.0,
-              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Text(
-                  isStarted ? 'End Workout' : 'Start Workout',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                color: isStarted ? Colors.red : Theme.of(context).accentColor,
-                onPressed: () async {
-                  if (!isStarted) {
-                    startWorkout();
-                  } else {
-                    bool navigateToSummaryPage = false;
-
-                    bool isCompleted = widget.workout.isWorkoutCompleted();
-
-                    if (!isCompleted) {
-                      bool confirmsCompletion =
-                          await showEndWorkoutWarningDialog(context, false);
-
-                      if (confirmsCompletion) {
-                        endWorkout();
-                        navigateToSummaryPage = true;
-                      }
-                    } else {
-                      endWorkout();
-                      navigateToSummaryPage = true;
-                    }
-
-                    if (navigateToSummaryPage) {
-                      Navigator.of(context).pushReplacement(
-                        CupertinoPageRoute(
-                          fullscreenDialog: true,
-                          builder: (BuildContext context) => WorkoutSummaryPage(
-                            workout: widget.workout.clone(),
+            child: isStarted
+                ? Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 4.0,
+                            vertical: 2.0,
+                          ),
+                          child: Text(
+                            widget.workout.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      );
-                    }
-                  }
-                },
-              ),
-            ),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 4.0,
+                            vertical: 2.0,
+                          ),
+                          child: Text(
+                            timeToDisplay,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          autofocus: false,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                            hintText: 'Workout Note',
+                            fillColor: Colors.grey[300],
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: EdgeInsets.all(8.0),
+                            isDense: true,
+                          ),
+                          onChanged: (value) {
+                            workoutNote = value;
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    height: 60.0,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 8.0,
+                    ),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Text(
+                        'Start Workout',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: Theme.of(context).accentColor,
+                      onPressed: () async {
+                        if (!isStarted) {
+                          startWorkout();
+                        }
+                      },
+                    ),
+                  ),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -335,128 +419,133 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                           ),
                         ),
                         for (int i = 0; i < _exercise.sets.length; i++)
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  (i + 1).toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 4.0,
-                                  ),
-                                  child: TextFormField(
-                                    enabled: false,
-                                    initialValue:
-                                        _exercise.sets[i].weight?.toString(),
-                                    autofocus: false,
-                                    keyboardType: TextInputType.number,
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 6.0),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    (i + 1).toString(),
                                     textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      hintText: '50',
-                                      fillColor: Colors.grey[300],
-                                      filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
-                                        ),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
-                                        ),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      contentPadding: EdgeInsets.all(6.0),
-                                      isDense: true,
+                                    style: TextStyle(
+                                      color: Theme.of(context).accentColor,
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 4.0,
-                                  ),
-                                  child: TextFormField(
-                                    enabled: false,
-                                    initialValue:
-                                        _exercise.sets[i].reps?.toString(),
-                                    autofocus: false,
-                                    keyboardType: TextInputType.number,
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      hintText: '10',
-                                      fillColor: Colors.grey[300],
-                                      filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 4.0,
+                                    ),
+                                    child: TextFormField(
+                                      enabled: false,
+                                      initialValue:
+                                          _exercise.sets[i].weight?.toString(),
+                                      autofocus: false,
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        hintStyle:
+                                            TextStyle(color: Colors.black),
+                                        hintText: '50',
+                                        fillColor: Colors.grey[300],
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          borderSide: BorderSide.none,
                                         ),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          borderSide: BorderSide.none,
                                         ),
-                                        borderSide: BorderSide.none,
+                                        contentPadding: EdgeInsets.all(6.0),
+                                        isDense: true,
                                       ),
-                                      contentPadding: EdgeInsets.all(6.0),
-                                      isDense: true,
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: AbsorbPointer(
-                                  absorbing: !isStarted,
-                                  child: InkWell(
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 2.0),
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 5.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 4.0,
+                                    ),
+                                    child: TextFormField(
+                                      enabled: false,
+                                      initialValue:
+                                          _exercise.sets[i].reps?.toString(),
+                                      autofocus: false,
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        hintStyle:
+                                            TextStyle(color: Colors.black),
+                                        hintText: '10',
+                                        fillColor: Colors.grey[300],
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          borderSide: BorderSide.none,
                                         ),
-                                        color: _exercise.sets[i].isCompleted
-                                            ? Colors.green[400]
-                                            : null,
-                                      ),
-                                      child: Icon(
-                                        Icons.check,
-                                        color: _exercise.sets[i].isCompleted
-                                            ? Colors.white
-                                            : Colors.black,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        contentPadding: EdgeInsets.all(6.0),
+                                        isDense: true,
                                       ),
                                     ),
-                                    onTap: () {
-                                      if (isStarted) {
-                                        setState(() {
-                                          _exercise.sets[i].isCompleted =
-                                              !_exercise.sets[i].isCompleted;
-                                        });
-                                      }
-                                    },
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: 10.0),
-                            ],
+                                Expanded(
+                                  flex: 1,
+                                  child: AbsorbPointer(
+                                    absorbing: !isStarted,
+                                    child: InkWell(
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 2.0),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 5.0,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          color: _exercise.sets[i].isCompleted
+                                              ? Colors.green[400]
+                                              : null,
+                                        ),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: _exercise.sets[i].isCompleted
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        if (isStarted) {
+                                          setState(() {
+                                            _exercise.sets[i].isCompleted =
+                                                !_exercise.sets[i].isCompleted;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10.0),
+                              ],
+                            ),
                           ),
                       ],
                     ),
