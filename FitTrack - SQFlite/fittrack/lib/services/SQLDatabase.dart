@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class SQLDatabase {
   Database db;
   List<Workout> workouts;
+  List<Workout> workoutsHistory;
   List<Exercise> userExercises;
 
   Future<dynamic> setupDatabase() async {
@@ -27,11 +28,35 @@ class SQLDatabase {
 
       await getUserExercises();
       await getWorkouts();
+      await getWorkoutsHistory();
 
       return "";
     } catch (e) {
       print("Setup Database Error: $e");
       return null;
+    }
+  }
+
+  Future<void> getWorkoutsHistory() async {
+    try {
+      List<Map<String, dynamic>> dbWorkoutsHistory = await db.rawQuery(
+          "SELECT * FROM workouts_history ORDER BY timeInMillisSinceEpoch DESC");
+
+      if (dbWorkoutsHistory.isEmpty) {
+        workoutsHistory = [];
+      }
+
+      List<Workout> _workoutsHistory = [];
+
+      dbWorkoutsHistory.forEach((Map<String, dynamic> dbWorkoutHistory) {
+        Workout _workoutHistory = new Workout().fromJSON(dbWorkoutHistory);
+
+        _workoutsHistory.add(_workoutHistory);
+      });
+
+      workoutsHistory = _workoutsHistory;
+    } catch (e) {
+      print("Get Workouts History Error: $e");
     }
   }
 
