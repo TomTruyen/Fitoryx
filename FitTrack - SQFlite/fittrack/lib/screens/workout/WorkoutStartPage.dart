@@ -159,6 +159,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                             builder: (BuildContext context) =>
                                 WorkoutSummaryPage(
                               workout: widget.workout.clone(),
+                              workoutDuration: timeToDisplay,
                             ),
                           ),
                         );

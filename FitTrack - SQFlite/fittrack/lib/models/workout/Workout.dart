@@ -53,6 +53,35 @@ class Workout {
     return isCompleted;
   }
 
+  int getSetCount() {
+    int sets = 0;
+
+    for (int i = 0; i < exercises.length; i++) sets += exercises[i].sets.length;
+
+    return sets;
+  }
+
+  int getRepCount() {
+    int reps = 0;
+
+    for (int i = 0; i < exercises.length; i++)
+      for (int j = 0; j < exercises[i].sets.length; j++)
+        reps += exercises[i].sets[j].reps ?? 0;
+
+    return reps;
+  }
+
+  double getTotalWeightLifted() {
+    double totalWeight = 0;
+
+    for (int i = 0; i < exercises.length; i++)
+      for (int j = 0; j < exercises[i].sets.length; j++)
+        totalWeight += ((exercises[i].sets[j].reps ?? 0) *
+            (exercises[i].sets[j].weight ?? 0));
+
+    return totalWeight;
+  }
+
   String exercisesToJsonString() {
     List _exercises = [];
 

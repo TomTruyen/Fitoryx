@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class WorkoutSummaryPage extends StatelessWidget {
   final Workout workout;
+  final String workoutDuration;
 
-  WorkoutSummaryPage({this.workout});
+  WorkoutSummaryPage({this.workout, this.workoutDuration = '00:00'});
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +36,28 @@ class WorkoutSummaryPage extends StatelessWidget {
             ),
           ),
           SliverToBoxAdapter(
-            child: Text(
-                "Basic idea for what this page should look like: https://drive.google.com/file/d/1Du18irqq5pDLIvWlx17c6v4XkU8ccmr5/view?usp=sharing"),
-          ),
-          SliverToBoxAdapter(
-            child: Text(
-              "Show summary of workout here (time of workout, amount of exercises, total amount of weight lifted, amount of reps done,...)",
+            child: Container(
+              margin: EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text('Duration: $workoutDuration'),
+                  Text('Exercises: ${workout.exercises.length}'),
+                  Text('Sets: ${workout.getSetCount()}'),
+                  Text('Reps: ${workout.getRepCount()}'),
+                  Text(
+                    'Total Weight Lifted: ${workout.getTotalWeightLifted()} ${workout.weightUnit}',
+                  ),
+                ],
+              ),
             ),
           ),
           SliverToBoxAdapter(
-            child: Text('Use Cards (and graphs maybe) to build this page'),
-          ),
-          SliverToBoxAdapter(
-            child: Text(
-              "ALSO add option here for user to either, save their workout, or just remove it (no saving)",
+            child: Container(
+              margin: EdgeInsets.all(16.0),
+              child: Text(
+                "updated style, like: titles bold  + (add triangles with percentage changes between now and last workout)",
+              ),
             ),
           ),
         ],
