@@ -18,7 +18,7 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
-  List<Workout> workouts = List.of(globals.sqlDatabase.workouts);
+  List<Workout> workouts = List.of(globals.sqlDatabase.workouts) ?? [];
   bool sortAscending = false;
 
   Future<void> updateWorkouts() async {
@@ -157,8 +157,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                 Icons.sort,
                               ),
                             ),
-                            SizedBox(width: 10.0),
-                            Text('Last updated'),
+                            SizedBox(width: 5.0),
+                            Text('Sort by date'),
                           ],
                         ),
                         onPressed: () {
