@@ -37,6 +37,20 @@ class SQLDatabase {
     }
   }
 
+  Future<dynamic> deleteWorkoutHistory(int id) async {
+    try {
+      await db.rawDelete(
+        'DELETE FROM workouts_history WHERE id = ?',
+        [id],
+      );
+
+      return "";
+    } catch (e) {
+      print("Delete Workout History Error $e");
+      return null;
+    }
+  }
+
   Future<void> getWorkoutsHistory() async {
     try {
       List<Map<String, dynamic>> dbWorkoutsHistory = await db.rawQuery(
