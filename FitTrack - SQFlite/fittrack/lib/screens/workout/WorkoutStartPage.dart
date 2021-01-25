@@ -153,6 +153,8 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                       );
 
                       if (result != null) {
+                        await globals.sqlDatabase.getWorkoutsHistory();
+
                         Navigator.of(context).pushReplacement(
                           CupertinoPageRoute(
                             fullscreenDialog: true,
