@@ -17,13 +17,30 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   int _selectedIndex = 2;
 
-  List<Widget> _pages = [
-    ProfilePage(),
-    HistoryPage(),
-    WorkoutPage(),
-    ExercisesPage(),
-    FoodPage()
-  ];
+  List<Widget> _pages = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      _pages = [
+        ProfilePage(),
+        HistoryPage(changePage: changePage),
+        WorkoutPage(),
+        ExercisesPage(),
+        FoodPage()
+      ];
+    });
+  }
+
+  void changePage(int _newPageIndex) {
+    if (_newPageIndex < _pages.length) {
+      setState(() {
+        _selectedIndex = _newPageIndex;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
