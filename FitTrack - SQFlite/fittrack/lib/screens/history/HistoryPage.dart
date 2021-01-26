@@ -9,6 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
 class HistoryPage extends StatefulWidget {
+  final Function changePage;
+
+  HistoryPage({this.changePage});
+
   @override
   _HistoryPageState createState() => _HistoryPageState();
 }
@@ -96,6 +100,34 @@ class _HistoryPageState extends State<HistoryPage> {
               ),
             ),
           ),
+          if (workoutsHistory.length <= 0)
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("No workouts performed."),
+                    SizedBox(height: 10.0),
+                    FlatButton(
+                      color: Theme.of(context).accentColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Text(
+                        'Start now',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {
+                        widget.changePage(globals.PageEnum.workout.index);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
           if (workoutsHistory.length > 0)
             SliverToBoxAdapter(
               child: Container(
