@@ -109,7 +109,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     height: 60.0,
                     padding:
                         EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    child: RaisedButton(
+                    child: FlatButton(
+                      color: Theme.of(context).accentColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -134,6 +135,18 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     ),
                   ),
                 ),
+                if (workouts.length <= 0)
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          bottom: 76.0,
+                        ), // move it up a little (height + padding of button) so it aligns with history page
+                        child: Text('No workouts created.'),
+                      ),
+                    ),
+                  ),
                 if (workouts.length > 0)
                   SliverToBoxAdapter(
                     child: Container(
