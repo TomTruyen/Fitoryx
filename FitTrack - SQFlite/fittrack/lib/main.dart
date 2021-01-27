@@ -45,6 +45,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'FitTrack',
         theme: ThemeData(
           fontFamily: 'OpenSans',
