@@ -110,79 +110,84 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            actions: <Widget>[
-              InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    'FINISH',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                onTap: () async {
-                  if (stopwatch.elapsed.inMilliseconds > 0) {
-                    bool navigateToSummaryPage = false;
-
-                    bool isCompleted = widget.workout.isWorkoutCompleted();
-
-                    if (!isCompleted) {
-                      bool confirmsCompletion =
-                          await showEndWorkoutWarningDialog(context, false);
-
-                      if (confirmsCompletion) {
-                        endWorkout();
-                        navigateToSummaryPage = true;
-                      }
-                    } else {
-                      endWorkout();
-                      navigateToSummaryPage = true;
-                    }
-
-                    if (navigateToSummaryPage) {
-                      dynamic result = await globals.sqlDatabase.saveWorkout(
-                        widget.workout.clone(),
-                        stopwatch.elapsed.inMilliseconds,
-                        workoutNote,
-                      );
-
-                      if (result != null) {
-                        await globals.sqlDatabase.getWorkoutsHistory();
-
-                        Navigator.of(context).pushReplacement(
-                          CupertinoPageRoute(
-                            fullscreenDialog: true,
-                            builder: (BuildContext context) =>
-                                WorkoutSummaryPage(
-                              workout: widget.workout.clone(),
-                              workoutDuration: timeToDisplay,
-                            ),
+            actions: stopwatch.elapsed.inMilliseconds > 0
+                ? <Widget>[
+                    InkWell(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          'FINISH',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
                           ),
-                        );
-                      } else {
-                        showPopupError(
-                          context,
-                          'Saving workout failed',
-                          'Something went wrong saving your workout. Please try again.',
-                        );
-                      }
-                    }
-                  } else {
-                    showPopupError(
-                      context,
-                      'Workout not started',
-                      'Please start the workout before attempting to finish it.',
-                    );
-                  }
-                },
-              ),
-            ],
+                        ),
+                      ),
+                      onTap: () async {
+                        if (stopwatch.elapsed.inMilliseconds > 0) {
+                          bool navigateToSummaryPage = false;
+
+                          bool isCompleted =
+                              widget.workout.isWorkoutCompleted();
+
+                          if (!isCompleted) {
+                            bool confirmsCompletion =
+                                await showEndWorkoutWarningDialog(
+                                    context, false);
+
+                            if (confirmsCompletion) {
+                              endWorkout();
+                              navigateToSummaryPage = true;
+                            }
+                          } else {
+                            endWorkout();
+                            navigateToSummaryPage = true;
+                          }
+
+                          if (navigateToSummaryPage) {
+                            dynamic result =
+                                await globals.sqlDatabase.saveWorkout(
+                              widget.workout.clone(),
+                              stopwatch.elapsed.inMilliseconds,
+                              workoutNote,
+                            );
+
+                            if (result != null) {
+                              await globals.sqlDatabase.getWorkoutsHistory();
+
+                              Navigator.of(context).pushReplacement(
+                                CupertinoPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (BuildContext context) =>
+                                      WorkoutSummaryPage(
+                                    workout: widget.workout.clone(),
+                                    workoutDuration: timeToDisplay,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              showPopupError(
+                                context,
+                                'Saving workout failed',
+                                'Something went wrong saving your workout. Please try again.',
+                              );
+                            }
+                          }
+                        } else {
+                          showPopupError(
+                            context,
+                            'Workout not started',
+                            'Please start the workout before attempting to finish it.',
+                          );
+                        }
+                      },
+                    ),
+                  ]
+                : [],
             leading: IconButton(
               icon: Icon(
                 Icons.close,
