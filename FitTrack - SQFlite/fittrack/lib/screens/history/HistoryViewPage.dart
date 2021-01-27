@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:intl/intl.dart';
 
 class HistoryViewPage extends StatelessWidget {
   final Workout workout;
@@ -50,7 +51,7 @@ class HistoryViewPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   ),
-                  icon: Icon(Icons.more_vert),
+                  icon: Icon(Icons.more_vert, color: Colors.black),
                   onSelected: (selection) async {
                     if (selection == 'template') {
                       dynamic result =
@@ -120,9 +121,77 @@ class HistoryViewPage extends StatelessWidget {
               ),
             ],
           ),
-          SliverToBoxAdapter(child: Text('show view history summary here')),
+          SliverToBoxAdapter(
+            child: Container(
+              margin: EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    getDateTimeFromMilliseconds(workout.timeInMillisSinceEpoch),
+                    style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize:
+                          Theme.of(context).textTheme.bodyText2.fontSize * 1.2,
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Duration: ',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: workout.duration,
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Total Weight Lifted: ',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: workout.getTotalWeightLifted().toString() +
+                              " " +
+                              workout.weightUnit,
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  Text(
+                    "exercises here with totalweight per ex and sets with their reps & weight",
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+String getDateTimeFromMilliseconds(int milliseconds) {
+  DateTime date = new DateTime.fromMillisecondsSinceEpoch(milliseconds);
+  DateFormat dateFormat = new DateFormat('EEEE, d MMMM y, H:mm');
+
+  return dateFormat.format(date);
 }
