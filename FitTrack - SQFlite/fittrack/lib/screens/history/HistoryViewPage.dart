@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:flutter/cupertino.dart';
@@ -175,12 +178,195 @@ class HistoryViewPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  Text(
-                    "exercises here with totalweight per ex and sets with their reps & weight",
+                  SizedBox(height: 10.0),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Note: ',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: workout.note != "" ? workout.note : "/",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                Exercise _exercise = workout.exercises[index];
+
+                return Card(
+                  key: UniqueKey(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 12.0,
+                    vertical: 4.0,
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Flexible(
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(
+                                  16.0,
+                                  0.0,
+                                  16.0,
+                                  12.0,
+                                ),
+                                child: Text(
+                                  _exercise.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(
+                                  16.0,
+                                  0.0,
+                                  16.0,
+                                  12.0,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Transform.rotate(
+                                      angle: -pi / 4,
+                                      child: Icon(
+                                        Icons.fitness_center_outlined,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5.0),
+                                    Text(
+                                      "${_exercise.getTotalWeightLifted().toString()} ${workout.weightUnit}",
+                                      style: TextStyle(
+                                        color: Theme.of(context).accentColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        for (int i = 0; i < _exercise.sets.length; i++)
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  (i + 1).toString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Theme.of(context).accentColor,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 4.0,
+                                  ),
+                                  child: TextFormField(
+                                    enabled: false,
+                                    initialValue:
+                                        _exercise.sets[i].weight?.toString() ??
+                                            '0.0',
+                                    autofocus: false,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                      hintText: '50',
+                                      fillColor: Colors.grey[300],
+                                      filled: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      contentPadding: EdgeInsets.all(6.0),
+                                      isDense: true,
+                                    ),
+                                    onChanged: (String value) {},
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 4.0,
+                                  ),
+                                  child: TextFormField(
+                                    enabled: false,
+                                    initialValue:
+                                        _exercise.sets[i].reps?.toString() ??
+                                            '0',
+                                    autofocus: false,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    decoration: InputDecoration(
+                                      hintText: '10',
+                                      fillColor: Colors.grey[300],
+                                      filled: true,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      contentPadding: EdgeInsets.all(6.0),
+                                      isDense: true,
+                                    ),
+                                    onChanged: (String value) {},
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10.0),
+                            ],
+                          ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              childCount: workout.exercises.length,
             ),
           ),
         ],
