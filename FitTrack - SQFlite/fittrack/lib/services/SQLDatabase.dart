@@ -23,7 +23,7 @@ class SQLDatabase {
           'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
         );
         await db.execute(
-            'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration INTEGER)');
+            'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration TEXT, workoutDurationInMilliseconds INTEGER)');
       });
 
       await getUserExercises();
@@ -192,6 +192,7 @@ class SQLDatabase {
   Future<dynamic> saveWorkout(
     Workout workout,
     int workoutDurationInMilliSeconds,
+    String workoutDuration,
     String workoutNote,
   ) async {
     try {
@@ -205,13 +206,14 @@ class SQLDatabase {
       String exercises = workout.exercisesToJsonString() ?? "";
 
       await db.rawInsert(
-        'INSERT INTO workouts_history (name, weightUnit, timeInMillisSinceEpoch, exercises, workoutNote, workoutDuration) VALUES (?, ?, ?, ?, ?, ?)',
+        'INSERT INTO workouts_history (name, weightUnit, timeInMillisSinceEpoch, exercises, workoutNote, workoutDuration, workoutDurationInMilliseconds) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [
           name,
           weightUnit,
           timeInMillisSinceEpoch,
           exercises,
           workoutNote,
+          workoutDuration,
           workoutDurationInMilliSeconds,
         ],
       );
@@ -297,5 +299,6 @@ class SQLDatabase {
     timeInMillisSinceEpoch INTEGER == DATE IT WAS ADDED (for sorting)
     exercises TEXT
     workoutNote TEXT
-    workoutDuration INTEGER == TIME THE WORKOUT TOOK (in milliseconds)
+    workoutDuration TEXT
+    workoutDurationInMilliseconds INTEGER  == TIME THE WORKOUT TOOK (in milliseconds)
 */

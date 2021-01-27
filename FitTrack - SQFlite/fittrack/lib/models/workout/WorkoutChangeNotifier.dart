@@ -10,7 +10,9 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   String weightUnit;
   int timeInMillisSinceEpoch;
   List<Exercise> exercises = [];
+
   String duration;
+  int workoutDurationInMilliseconds;
   String note;
 
   // Used when calling a 'replace exercise'
@@ -24,6 +26,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.timeInMillisSinceEpoch,
     this.exercises = const [],
     this.duration = "00:00",
+    this.workoutDurationInMilliseconds = 0,
     this.note = "",
   });
 
@@ -35,6 +38,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
         workout.timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch;
     exercises = List.of(workout.exercises) ?? [];
     duration = workout.duration ?? "00:00";
+    workoutDurationInMilliseconds = workout.workoutDurationInMilliseconds ?? 0;
     note = workout.note ?? "";
   }
 
@@ -45,6 +49,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     timeInMillisSinceEpoch = null;
     exercises = [];
     duration = "00:00";
+    workoutDurationInMilliseconds = 0;
     note = "";
   }
 
@@ -120,6 +125,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
           timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
       exercises: exercises ?? [],
       duration: duration ?? "00:00",
+      workoutDurationInMilliseconds: workoutDurationInMilliseconds ?? 0,
       note: note ?? "",
     );
 
@@ -144,6 +150,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
           DateTime.now().millisecondsSinceEpoch,
       exercises: exerciseList ?? [],
       duration: workout['workoutDuration'] ?? "00:00",
+      workoutDurationInMilliseconds:
+          workout['workoutDurationInMilliseconds'] ?? 0,
       note: workout['workoutNote'] ?? "",
     );
   }
@@ -165,6 +173,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
           timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
       'exercises': exercisesJSON ?? [],
       'workoutDuration': duration ?? "00:00",
+      'workoutDurationInMilliseconds': workoutDurationInMilliseconds ?? 0,
       'workoutNote': note ?? "",
     };
   }

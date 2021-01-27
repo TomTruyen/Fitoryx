@@ -153,6 +153,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                 await globals.sqlDatabase.saveWorkout(
                               widget.workout.clone(),
                               stopwatch.elapsed.inMilliseconds,
+                              timeToDisplay,
                               workoutNote,
                             );
 
