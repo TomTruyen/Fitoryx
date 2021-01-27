@@ -62,6 +62,16 @@ class Exercise {
     return isCompleted;
   }
 
+  double getTotalWeightLifted() {
+    double weight = 0;
+
+    for (int i = 0; i < sets.length; i++) {
+      weight += ((sets[i].reps ?? 0) * (sets[i].weight ?? 0));
+    }
+
+    return weight;
+  }
+
   Exercise fromJSON(Map<String, dynamic> exercise) {
     List<ExerciseSet> setList = (exercise['sets'] as List)
             .map((_set) => ExerciseSet().fromJSON(_set))
