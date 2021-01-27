@@ -10,6 +10,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   String weightUnit;
   int timeInMillisSinceEpoch;
   List<Exercise> exercises = [];
+  String duration;
+  String note;
 
   // Used when calling a 'replace exercise'
   Exercise exerciseToReplace;
@@ -21,6 +23,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.weightUnit = "kg",
     this.timeInMillisSinceEpoch,
     this.exercises = const [],
+    this.duration = "00:00",
+    this.note = "",
   });
 
   void copyWorkout(Workout workout) {
@@ -30,6 +34,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     timeInMillisSinceEpoch =
         workout.timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch;
     exercises = List.of(workout.exercises) ?? [];
+    duration = workout.duration ?? "00:00";
+    note = workout.note ?? "";
   }
 
   void reset() {
@@ -38,6 +44,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     weightUnit = "kg";
     timeInMillisSinceEpoch = null;
     exercises = [];
+    duration = "00:00";
+    note = "";
   }
 
   void updateName(String _name) {
@@ -111,6 +119,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
       timeInMillisSinceEpoch:
           timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
       exercises: exercises ?? [],
+      duration: duration ?? "00:00",
+      note: note ?? "",
     );
 
     return _workout;
@@ -133,6 +143,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
       timeInMillisSinceEpoch: workout['timeInMillisSinceEpoch'] ??
           DateTime.now().millisecondsSinceEpoch,
       exercises: exerciseList ?? [],
+      duration: workout['workoutDuration'] ?? "00:00",
+      note: workout['workoutNote'] ?? "",
     );
   }
 
@@ -152,6 +164,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
       'timeInMillisSinceEpoch':
           timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
       'exercises': exercisesJSON ?? [],
+      'workoutDuration': duration ?? "00:00",
+      'workoutNote': note ?? "",
     };
   }
 }
