@@ -54,7 +54,7 @@ Future<bool> showEndWorkoutWarningDialog(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             isCancel
-                                ? 'Not all exercises/sets were completed. Are you sure you want to cancel you workout? (your workout won\'t be saved)'
+                                ? 'Are you sure you want to cancel you workout? (your workout won\'t be saved)'
                                 : 'Not all exercises/sets were completed. Are you sure you completed your workout?',
                           ),
                         ),
@@ -77,7 +77,7 @@ Future<bool> showEndWorkoutWarningDialog(
                               ),
                               FlatButton(
                                 child: Text(
-                                  'Yes I\'m sure',
+                                  'Yes, I\'m sure',
                                   style: TextStyle(
                                     fontSize: 13.0,
                                     fontWeight: FontWeight.w600,
