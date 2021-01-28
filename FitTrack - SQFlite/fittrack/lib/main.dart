@@ -1,8 +1,9 @@
-import 'package:fittrack/shared/Loader.dart';
+import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'package:fittrack/shared/Loader.dart';
 import 'package:fittrack/screens/Wrapper.dart';
 import 'package:fittrack/services/SQLDatabase.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
@@ -10,6 +11,8 @@ import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 
@@ -25,10 +28,31 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // Doe deze stappen in een isolate zodat het van de main thread wordt gehaald
-    // Geef loader widget een optie voor text mee te geven (en geef in de futurebuilder dan de tekst 'Loading...' mee)
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (_database == null) {
+        ReceivePort receivePort = new ReceivePort();
+        Isolate isolate = await Isolate.spawn(
+          _setupDatabase,
+          receivePort.sendPort,
+        );
+
+        receivePort.listen((dynamic database) {
+          if (database != null) {
+            _database = database;
+          }
+
+          receivePort.close();
+          isolate.kill();
+        });
+      }
+    });
+  }
+
+  static void _setupDatabase(SendPort _sendPort) async {
     globals.sqlDatabase = new SQLDatabase();
-    _database = globals.sqlDatabase.setupDatabase().then((value) => value);
+    dynamic database = await globals.sqlDatabase.setupDatabase();
+
+    _sendPort.send(database);
   }
 
   @override
@@ -72,7 +96,7 @@ class _MyAppState extends State<MyApp> {
           future: _database,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (!snapshot.hasData) {
-              return Loader();
+              return Loader(text: 'Loading...');
             } else {
               return Wrapper();
             }
