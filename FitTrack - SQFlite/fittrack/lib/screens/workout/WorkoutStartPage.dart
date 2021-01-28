@@ -524,6 +524,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                   child: AbsorbPointer(
                                     absorbing: !isStarted,
                                     child: InkWell(
+                                      borderRadius: BorderRadius.circular(8.0),
                                       child: Container(
                                         margin: EdgeInsets.only(left: 2.0),
                                         padding: EdgeInsets.symmetric(
