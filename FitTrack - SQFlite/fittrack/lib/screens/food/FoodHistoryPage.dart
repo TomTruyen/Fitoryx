@@ -12,28 +12,14 @@ class FoodPage extends StatelessWidget {
             floating: true,
             pinned: true,
             title: Text(
-              'Food',
+              'Food History',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.watch_later_outlined),
-                onPressed: () {
-                  // navigate food history page
-                },
-              ),
-            ],
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          // navigate to add page
-        },
       ),
     );
   }
