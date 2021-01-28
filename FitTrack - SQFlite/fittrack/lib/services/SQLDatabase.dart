@@ -1,4 +1,5 @@
 import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -7,6 +8,7 @@ class SQLDatabase {
   List<Workout> workouts;
   List<Workout> workoutsHistory;
   List<Exercise> userExercises;
+  List<Food> food;
 
   Future<dynamic> setupDatabase() async {
     try {
@@ -14,21 +16,29 @@ class SQLDatabase {
 
       String path = dbPath + "fittrack.db";
 
-      db = await openDatabase(path, version: 1,
-          onCreate: (Database db, int version) async {
-        await db.execute(
-          'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
-        );
-        await db.execute(
-          'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
-        );
-        await db.execute(
-            'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration TEXT, workoutDurationInMilliseconds INTEGER)');
-      });
+      db = await openDatabase(
+        path,
+        version: 1,
+        onCreate: (Database db, int version) async {
+          await db.execute(
+            'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
+          );
+          await db.execute(
+            'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
+          );
+          await db.execute(
+            'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration TEXT, workoutDurationInMilliseconds INTEGER)',
+          );
+          await db.execute(
+            'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal INTEGER, carbs INTEGER, protein INTEGER, fat INTEGER, timeInMillisSinceEpoch INTEGER)',
+          );
+        },
+      );
 
       await getUserExercises();
       await getWorkouts();
       await getWorkoutsHistory();
+      await getFood();
 
       return "";
     } catch (e) {
@@ -54,21 +64,22 @@ class SQLDatabase {
   Future<void> getWorkoutsHistory() async {
     try {
       List<Map<String, dynamic>> dbWorkoutsHistory = await db.rawQuery(
-          "SELECT * FROM workouts_history ORDER BY timeInMillisSinceEpoch DESC");
+              "SELECT * FROM workouts_history ORDER BY timeInMillisSinceEpoch DESC") ??
+          [];
 
       if (dbWorkoutsHistory.isEmpty) {
         workoutsHistory = [];
+      } else {
+        List<Workout> _workoutsHistory = [];
+
+        dbWorkoutsHistory.forEach((Map<String, dynamic> dbWorkoutHistory) {
+          Workout _workoutHistory = Workout.fromJSON(dbWorkoutHistory);
+
+          _workoutsHistory.add(_workoutHistory);
+        });
+
+        workoutsHistory = _workoutsHistory;
       }
-
-      List<Workout> _workoutsHistory = [];
-
-      dbWorkoutsHistory.forEach((Map<String, dynamic> dbWorkoutHistory) {
-        Workout _workoutHistory = new Workout().fromJSON(dbWorkoutHistory);
-
-        _workoutsHistory.add(_workoutHistory);
-      });
-
-      workoutsHistory = _workoutsHistory;
     } catch (e) {
       print("Get Workouts History Error: $e");
     }
@@ -169,21 +180,22 @@ class SQLDatabase {
   Future<void> getWorkouts() async {
     try {
       List<Map<String, dynamic>> dbWorkouts = await db.rawQuery(
-          "SELECT * FROM workouts ORDER BY timeInMillisSinceEpoch DESC");
+              "SELECT * FROM workouts ORDER BY timeInMillisSinceEpoch DESC") ??
+          [];
 
       if (dbWorkouts.isEmpty) {
         workouts = [];
+      } else {
+        List<Workout> _workouts = [];
+
+        dbWorkouts.forEach((Map<String, dynamic> dbWorkout) {
+          Workout _workout = Workout.fromJSON(dbWorkout);
+
+          _workouts.add(_workout);
+        });
+
+        workouts = _workouts;
       }
-
-      List<Workout> _workouts = [];
-
-      dbWorkouts.forEach((Map<String, dynamic> dbWorkout) {
-        Workout _workout = new Workout().fromJSON(dbWorkout);
-
-        _workouts.add(_workout);
-      });
-
-      workouts = _workouts;
     } catch (e) {
       print("Get Workouts Error: $e");
     }
@@ -258,22 +270,44 @@ class SQLDatabase {
   Future<void> getUserExercises() async {
     try {
       List<Map<String, dynamic>> dbExercises =
-          await db.rawQuery("SELECT * FROM exercises");
+          await db.rawQuery("SELECT * FROM exercises") ?? [];
 
       if (dbExercises.isEmpty) {
         userExercises = [];
+      } else {
+        List<Exercise> exercises = [];
+        dbExercises.forEach((Map<String, dynamic> dbExercise) {
+          Exercise exercise = Exercise.fromJSON(dbExercise);
+
+          exercises.add(exercise);
+        });
+
+        userExercises = exercises;
       }
-
-      List<Exercise> exercises = [];
-      dbExercises.forEach((Map<String, dynamic> dbExercise) {
-        Exercise exercise = new Exercise().fromJSON(dbExercise);
-
-        exercises.add(exercise);
-      });
-
-      userExercises = exercises;
     } catch (e) {
       print("Get UserExercise Error: $e");
+    }
+  }
+
+  Future<void> getFood() async {
+    try {
+      List<Map<String, dynamic>> dbFood =
+          await db.rawQuery("SELECT * FROM food") ?? [];
+
+      if (dbFood.isEmpty) {
+        food = [];
+      } else {
+        List<Food> _food = [];
+        dbFood.forEach((Map<String, dynamic> _dbFood) {
+          Food f = Food.fromJSON(_dbFood);
+
+          _food.add(f);
+        });
+
+        food = _food;
+      }
+    } catch (e) {
+      print("Get Food Error $e");
     }
   }
 }
@@ -301,4 +335,12 @@ class SQLDatabase {
     workoutNote TEXT
     workoutDuration TEXT
     workoutDurationInMilliseconds INTEGER  == TIME THE WORKOUT TOOK (in milliseconds)
+
+    - Food Table
+    id INTEGER
+    kcal INTEGER
+    carbs INTEGER
+    protein INTEGER
+    fat INTEGER
+    timeInMillisSinceEpoch INTEGER == DATE IT WAS ADDED
 */
