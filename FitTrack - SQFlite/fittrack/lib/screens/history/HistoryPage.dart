@@ -168,30 +168,31 @@ class _HistoryPageState extends State<HistoryPage> {
 
                   String name = _workout.name;
 
-                  return InkWell(
-                    onTap: () {
-                      _workout.setUncompleted();
+                  return Card(
+                    key: UniqueKey(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 4.0,
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8.0),
+                      onTap: () {
+                        _workout.setUncompleted();
 
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          fullscreenDialog: true,
-                          builder: (BuildContext context) => HistoryViewPage(
-                            workout: _workout.clone(),
-                            updateWorkoutsHistory: updateWorkoutsHistory,
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            fullscreenDialog: true,
+                            builder: (BuildContext context) => HistoryViewPage(
+                              workout: _workout.clone(),
+                              updateWorkoutsHistory: updateWorkoutsHistory,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      key: UniqueKey(),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
+                        );
+                      },
                       child: Container(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,

@@ -188,28 +188,30 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
                         String name = _workout.name;
 
-                        return InkWell(
-                          onTap: () {
-                            _workout.setUncompleted();
+                        return Card(
+                          key: UniqueKey(),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 4.0,
+                          ),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(8.0),
+                            onTap: () {
+                              _workout.setUncompleted();
 
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                fullscreenDialog: true,
-                                builder: (BuildContext context) =>
-                                    WorkoutStartPage(workout: _workout.clone()),
-                              ),
-                            );
-                          },
-                          child: Card(
-                            key: UniqueKey(),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 4.0,
-                            ),
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (BuildContext context) =>
+                                      WorkoutStartPage(
+                                          workout: _workout.clone()),
+                                ),
+                              );
+                            },
                             child: Container(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
