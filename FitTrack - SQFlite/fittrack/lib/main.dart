@@ -1,4 +1,4 @@
-import 'dart:isolate';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +10,10 @@ import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  globals.sqlDatabase = new SQLDatabase();
+  await globals.sqlDatabase.setupDatabase();
   runApp(MyApp());
 }
 
@@ -28,31 +29,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (_database == null) {
-        ReceivePort receivePort = new ReceivePort();
-        Isolate isolate = await Isolate.spawn(
-          _setupDatabase,
-          receivePort.sendPort,
-        );
-
-        receivePort.listen((dynamic database) {
-          if (database != null) {
-            _database = database;
-          }
-
-          receivePort.close();
-          isolate.kill();
-        });
-      }
-    });
-  }
-
-  static void _setupDatabase(SendPort _sendPort) async {
-    globals.sqlDatabase = new SQLDatabase();
-    dynamic database = await globals.sqlDatabase.setupDatabase();
-
-    _sendPort.send(database);
+    Random rand = new Random();
+    int random = rand.nextInt(3000) + 1500;
+    _database = Future.delayed(Duration(milliseconds: random), () => true);
   }
 
   @override
