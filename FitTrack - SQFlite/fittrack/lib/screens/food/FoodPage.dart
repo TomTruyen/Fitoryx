@@ -1,3 +1,6 @@
+import 'package:fittrack/screens/food/FoodAddPage.dart';
+import 'package:fittrack/screens/food/FoodHistoryPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FoodPage extends StatelessWidget {
@@ -20,19 +23,39 @@ class FoodPage extends StatelessWidget {
             ),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.watch_later_outlined),
+                icon: Icon(
+                  Icons.watch_later_outlined,
+                  color: Colors.black,
+                ),
                 onPressed: () {
-                  // navigate food history page
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => FoodHistoryPage(),
+                    ),
+                  );
                 },
               ),
             ],
+          ),
+          SliverToBoxAdapter(
+            child: Text(
+              'Column met 2 rows. Row 1: 1 card met de KCAL (+ kcal goal zodra we dat adden). Row 2: 3 cards (voor alles macro\'s inclusief goals',
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          // navigate to add page
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              fullscreenDialog: true,
+              builder: (context) => FoodAddPage(),
+            ),
+          );
         },
       ),
     );
