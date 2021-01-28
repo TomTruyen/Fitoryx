@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'package:fittrack/screens/history/HistoryViewPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/Workout.dart';
-import 'package:fittrack/screens/workout/WorkoutSummaryPage.dart';
 import 'package:fittrack/screens/workout/popups/EndWorkoutWarningPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
@@ -160,13 +160,16 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                             if (result != null) {
                               await globals.sqlDatabase.getWorkoutsHistory();
 
+                              Workout _workout =
+                                  globals.sqlDatabase.workoutsHistory[0];
+
                               Navigator.of(context).pushReplacement(
                                 CupertinoPageRoute(
                                   fullscreenDialog: true,
                                   builder: (BuildContext context) =>
-                                      WorkoutSummaryPage(
-                                    workout: widget.workout.clone(),
-                                    workoutDuration: timeToDisplay,
+                                      HistoryViewPage(
+                                    workout: _workout,
+                                    isHistory: false,
                                   ),
                                 ),
                               );

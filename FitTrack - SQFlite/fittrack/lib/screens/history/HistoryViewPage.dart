@@ -14,8 +14,13 @@ import 'package:intl/intl.dart';
 class HistoryViewPage extends StatelessWidget {
   final Workout workout;
   final Function updateWorkoutsHistory;
+  final bool isHistory;
 
-  HistoryViewPage({this.workout, this.updateWorkoutsHistory});
+  HistoryViewPage({
+    this.workout,
+    this.updateWorkoutsHistory,
+    this.isHistory = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,86 +48,92 @@ class HistoryViewPage extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            actions: <Widget>[
-              Theme(
-                data: Theme.of(context).copyWith(
-                  cardColor: Color.fromRGBO(35, 35, 35, 1),
-                  dividerColor: Color.fromRGBO(70, 70, 70, 1),
-                ),
-                child: PopupMenuButton(
-                  offset: Offset(0.0, 80.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  icon: Icon(Icons.more_vert, color: Colors.black),
-                  onSelected: (selection) async {
-                    if (selection == 'template') {
-                      dynamic result =
-                          globals.sqlDatabase.addWorkout(workout.clone());
+            actions: isHistory
+                ? <Widget>[
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        cardColor: Color.fromRGBO(35, 35, 35, 1),
+                        dividerColor: Color.fromRGBO(70, 70, 70, 1),
+                      ),
+                      child: PopupMenuButton(
+                        offset: Offset(0.0, 80.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        ),
+                        icon: Icon(Icons.more_vert, color: Colors.black),
+                        onSelected: (selection) async {
+                          if (selection == 'template') {
+                            dynamic result =
+                                globals.sqlDatabase.addWorkout(workout.clone());
 
-                      if (result != null) {
-                        await globals.sqlDatabase.getWorkouts();
+                            if (result != null) {
+                              await globals.sqlDatabase.getWorkouts();
 
-                        Navigator.pushReplacement(
-                          context,
-                          CupertinoPageRoute(
-                            fullscreenDialog: true,
-                            builder: (BuildContext context) => WorkoutStartPage(
-                              workout: globals.sqlDatabase.workouts[0].clone(),
+                              Navigator.pushReplacement(
+                                context,
+                                CupertinoPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (BuildContext context) =>
+                                      WorkoutStartPage(
+                                    workout:
+                                        globals.sqlDatabase.workouts[0].clone(),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              showPopupError(
+                                context,
+                                'Failed to save',
+                                'Something went wrong saving history as a workout. Please try again.',
+                              );
+                            }
+                          } else if (selection == 'delete') {
+                            dynamic result = await globals.sqlDatabase
+                                .deleteWorkoutHistory(workout.id);
+
+                            if (result != null) {
+                              await updateWorkoutsHistory();
+
+                              tryPopContext(context);
+                            } else {
+                              showPopupError(
+                                context,
+                                'Failed to delete',
+                                'Something went wrong deleting this history. Please try again.',
+                              );
+                            }
+                          }
+                        },
+                        itemBuilder: (BuildContext context) => <PopupMenuItem>[
+                          PopupMenuItem(
+                            height: 40.0,
+                            value: 'template',
+                            child: Text(
+                              'Save as workout',
+                              style:
+                                  Theme.of(context).textTheme.button.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                             ),
                           ),
-                        );
-                      } else {
-                        showPopupError(
-                          context,
-                          'Failed to save',
-                          'Something went wrong saving history as a workout. Please try again.',
-                        );
-                      }
-                    } else if (selection == 'delete') {
-                      dynamic result = await globals.sqlDatabase
-                          .deleteWorkoutHistory(workout.id);
-
-                      if (result != null) {
-                        await updateWorkoutsHistory();
-
-                        tryPopContext(context);
-                      } else {
-                        showPopupError(
-                          context,
-                          'Failed to delete',
-                          'Something went wrong deleting this history. Please try again.',
-                        );
-                      }
-                    }
-                  },
-                  itemBuilder: (BuildContext context) => <PopupMenuItem>[
-                    PopupMenuItem(
-                      height: 40.0,
-                      value: 'template',
-                      child: Text(
-                        'Save as workout',
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
+                          PopupMenuItem(
+                            height: 40.0,
+                            value: 'delete',
+                            child: Text(
+                              'Delete',
+                              style:
+                                  Theme.of(context).textTheme.button.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                             ),
+                          ),
+                        ],
                       ),
                     ),
-                    PopupMenuItem(
-                      height: 40.0,
-                      value: 'delete',
-                      child: Text(
-                        'Delete',
-                        style: Theme.of(context).textTheme.button.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                            ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                  ]
+                : [],
           ),
           SliverToBoxAdapter(
             child: Container(
