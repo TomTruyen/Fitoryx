@@ -72,7 +72,7 @@ class Exercise {
     return weight;
   }
 
-  Exercise fromJSON(Map<String, dynamic> exercise) {
+  static Exercise fromJSON(Map<String, dynamic> exercise) {
     List<ExerciseSet> setList = (exercise['sets'] as List)
             .map((_set) => ExerciseSet().fromJSON(_set))
             .toList() ??

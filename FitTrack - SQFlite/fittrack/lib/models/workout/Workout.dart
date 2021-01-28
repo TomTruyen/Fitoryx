@@ -104,15 +104,15 @@ class Workout {
     return json.encode(_exercises);
   }
 
-  List<Exercise> exercisesFromJsonString(String _exerciseString) {
+  static List<Exercise> exercisesFromJsonString(String _exerciseString) {
     List<Exercise> _exercises = (jsonDecode(_exerciseString) as List)
-        .map((_exercise) => Exercise().fromJSON(_exercise))
+        .map((_exercise) => Exercise.fromJSON(_exercise))
         .toList();
 
     return _exercises;
   }
 
-  Workout fromJSON(Map<String, dynamic> workout) {
+  static Workout fromJSON(Map<String, dynamic> workout) {
     List<Exercise> exerciseList = [];
 
     String exercisesJSON = workout['exercises'] ?? [];

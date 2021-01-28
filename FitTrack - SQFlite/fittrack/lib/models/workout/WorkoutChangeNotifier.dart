@@ -138,7 +138,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     List<Map<String, dynamic>> exercisesJSON = workout['exercises'] ?? [];
     if (exercisesJSON.isNotEmpty) {
       exercisesJSON.forEach((Map<String, dynamic> exercise) {
-        exerciseList.add(new Exercise().fromJSON(exercise));
+        exerciseList.add(Exercise.fromJSON(exercise));
       });
     }
 
