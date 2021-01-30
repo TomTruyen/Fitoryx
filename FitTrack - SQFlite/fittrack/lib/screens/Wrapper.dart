@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/screens/exercises/ExercisesPage.dart';
@@ -6,6 +7,9 @@ import 'package:fittrack/screens/food/FoodPage.dart';
 import 'package:fittrack/screens/history/HistoryPage.dart';
 import 'package:fittrack/screens/profile/ProfilePage.dart';
 import 'package:fittrack/screens/workout/WorkoutPage.dart';
+import 'package:provider/provider.dart';
+
+import 'package:fittrack/shared/Globals.dart' as globals;
 
 class Wrapper extends StatefulWidget {
   Wrapper({Key key}) : super(key: key);
@@ -44,6 +48,8 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
+    final ExerciseFilter filter = Provider.of<ExerciseFilter>(context) ?? null;
+
     return Scaffold(
       body: AnimatedSwitcher(
         duration: Duration(milliseconds: 250),
@@ -55,6 +61,10 @@ class _WrapperState extends State<Wrapper> {
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
         onTap: (int index) {
+          if (index == globals.PageEnum.exercises.index) {
+            filter?.clearAllFilters();
+          }
+
           setState(() {
             _selectedIndex = index;
           });

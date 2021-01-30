@@ -59,6 +59,7 @@ class ExerciseFilter extends ChangeNotifier {
   }
 
   void clearAllFilters() {
+    searchValue = null;
     selectedCategories = [];
     selectedEquipment = [];
     isUserCreated = 0;
