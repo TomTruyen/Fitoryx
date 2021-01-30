@@ -90,6 +90,25 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
+                // kcal, carbs, protein, fat goals
+                Container(
+                  margin: EdgeInsets.only(top: 10.0),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'Rest Timer',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                // rest timer settings like: default enabled, vibrate on finish, default time
+                Container(
+                  margin: EdgeInsets.only(top: 10.0),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'Data',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                // clear, import/export data settings
               ],
             ),
           ),
