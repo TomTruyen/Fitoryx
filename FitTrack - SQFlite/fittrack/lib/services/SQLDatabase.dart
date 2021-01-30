@@ -1,5 +1,6 @@
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
+import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,6 +9,7 @@ class SQLDatabase {
   List<Workout> workouts;
   List<Workout> workoutsHistory;
   List<Exercise> userExercises;
+  Settings settings;
   List<Food> food;
 
   Future<dynamic> setupDatabase() async {
@@ -32,6 +34,9 @@ class SQLDatabase {
           await db.execute(
             'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal INTEGER, carbs INTEGER, protein INTEGER, fat INTEGER, timeInMillisSinceEpoch INTEGER)',
           );
+          await db.execute(
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal INTEGER, carbsGoal INTEGER, proteinGoal INTEGER, fatGoal INTEGER)',
+          );
         },
       );
 
@@ -39,11 +44,64 @@ class SQLDatabase {
       await getWorkouts();
       await getWorkoutsHistory();
       await getFood();
+      await getSettings();
 
       return "";
     } catch (e) {
       print("Setup Database Error: $e");
       return null;
+    }
+  }
+
+  Future<dynamic> updateSettings(Settings _settings) async {
+    try {
+      if (_settings.id == null) {
+        // INSERT
+        await db.rawInsert(
+          'INSERT INTO settings (weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal) VALUES (?, ?, ?, ?, ?)',
+          [
+            _settings.weightUnit,
+            _settings.kcalGoal,
+            _settings.carbsGoal,
+            _settings.proteinGoal,
+            _settings.fatGoal,
+          ],
+        );
+      } else {
+        // UPDATE
+        await db.rawUpdate(
+          'UPDATE settings SET weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ? WHERE id = ?',
+          [
+            _settings.weightUnit,
+            _settings.kcalGoal,
+            _settings.carbsGoal,
+            _settings.proteinGoal,
+            _settings.fatGoal,
+            _settings.id,
+          ],
+        );
+      }
+
+      return "";
+    } catch (e) {
+      print("Update Settings Error: $e");
+      return null;
+    }
+  }
+
+  Future<void> getSettings() async {
+    try {
+      List<Map<String, dynamic>> dbSettings = await db.rawQuery(
+        "SELECT * FROM settings LIMIT 1",
+      );
+
+      if (dbSettings.isEmpty) {
+        settings = new Settings();
+      } else {
+        settings = Settings.fromJSON(dbSettings[0]);
+      }
+    } catch (e) {
+      print("Get Settings Error: $e");
     }
   }
 
