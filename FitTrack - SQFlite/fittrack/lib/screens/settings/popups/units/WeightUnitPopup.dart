@@ -144,11 +144,14 @@ Future<void> showPopupWeightUnit(
                               Settings newSettings = settings.clone();
                               newSettings.weightUnit = weightUnit;
 
-                              dynamic result = globals.sqlDatabase
-                                  .updateSettings(newSettings);
+                              dynamic result =
+                                  globals.sqlDatabase.updateSettings(
+                                newSettings,
+                              );
 
                               if (result != null) {
-                                updateSettings(newSettings);
+                                await updateSettings(newSettings);
+                                await globals.sqlDatabase.getUpdatedWeights();
                                 tryPopContext(context);
                               } else {
                                 showPopupError(

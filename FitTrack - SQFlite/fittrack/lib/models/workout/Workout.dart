@@ -104,9 +104,15 @@ class Workout {
     return json.encode(_exercises);
   }
 
-  static List<Exercise> exercisesFromJsonString(String _exerciseString) {
+  static List<Exercise> exercisesFromJsonString(
+    String _exerciseString,
+    String _workoutWeightUnit,
+  ) {
     List<Exercise> _exercises = (jsonDecode(_exerciseString) as List)
-        .map((_exercise) => Exercise.fromJSON(_exercise))
+        .map((_exercise) => Exercise.fromJSON(
+              _exercise,
+              workoutWeightUnit: _workoutWeightUnit,
+            ))
         .toList();
 
     return _exercises;
@@ -117,13 +123,14 @@ class Workout {
 
     String exercisesJSON = workout['exercises'] ?? [];
     if (exercisesJSON.isNotEmpty) {
-      exerciseList = exercisesFromJsonString(exercisesJSON);
+      exerciseList =
+          exercisesFromJsonString(exercisesJSON, workout['weightUnit'] ?? "kg");
     }
 
     return new Workout(
       id: workout['id'],
       name: workout['name'] ?? "",
-      weightUnit: workout['weightUnit'] ?? "",
+      weightUnit: workout['weightUnit'] ?? "kg",
       timeInMillisSinceEpoch: workout['timeInMillisSinceEpoch'] ??
           DateTime.now().millisecondsSinceEpoch,
       exercises: exerciseList ?? [],

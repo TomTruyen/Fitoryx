@@ -21,6 +21,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void updateSettings(Settings _settings) {
+    globals.sqlDatabase.settings = _settings;
+
     setState(() {
       settings = _settings;
     });

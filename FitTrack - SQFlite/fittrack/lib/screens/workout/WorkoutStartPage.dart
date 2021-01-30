@@ -413,7 +413,8 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                               Expanded(
                                 flex: 3,
                                 child: Text(
-                                  widget.workout.weightUnit.toUpperCase(),
+                                  globals.sqlDatabase.settings.weightUnit
+                                      .toUpperCase(),
                                   style: TextStyle(fontSize: 11.0),
                                   textAlign: TextAlign.center,
                                 ),

@@ -457,7 +457,8 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                     Expanded(
                                       flex: 3,
                                       child: Text(
-                                        workout.weightUnit.toUpperCase(),
+                                        globals.sqlDatabase.settings.weightUnit
+                                            .toUpperCase(),
                                         style: TextStyle(fontSize: 11.0),
                                         textAlign: TextAlign.center,
                                       ),

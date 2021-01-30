@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,8 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
+  Settings settings;
+
   List<Workout> workouts = List.of(globals.sqlDatabase.workouts) ?? [];
   bool sortAscending = false;
 
@@ -79,6 +82,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
         style: Theme.of(context).textTheme.caption,
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    settings = globals.sqlDatabase.settings;
   }
 
   @override

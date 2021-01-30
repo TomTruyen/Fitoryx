@@ -40,17 +40,22 @@ class SQLDatabase {
         },
       );
 
+      await getSettings();
       await getUserExercises();
+      await getFood();
       await getWorkouts();
       await getWorkoutsHistory();
-      await getFood();
-      await getSettings();
 
       return "";
     } catch (e) {
       print("Setup Database Error: $e");
       return null;
     }
+  }
+
+  Future<void> getUpdatedWeights() async {
+    await getWorkouts();
+    await getWorkoutsHistory();
   }
 
   Future<dynamic> updateSettings(Settings _settings) async {
@@ -151,6 +156,10 @@ class SQLDatabase {
       }
 
       String weightUnit = workout.weightUnit ?? "kg";
+      if (workout.weightUnit != settings.weightUnit) {
+        weightUnit = settings.weightUnit;
+      }
+
       int timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
@@ -185,6 +194,10 @@ class SQLDatabase {
       }
 
       String weightUnit = workout.weightUnit ?? "kg";
+      if (workout.weightUnit != settings.weightUnit) {
+        weightUnit = settings.weightUnit;
+      }
+
       int timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
@@ -272,6 +285,10 @@ class SQLDatabase {
       }
 
       String weightUnit = workout.weightUnit ?? "kg";
+      if (workout.weightUnit != settings.weightUnit) {
+        weightUnit = settings.weightUnit;
+      }
+
       int timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
       String exercises = workout.exercisesToJsonString() ?? "";
 
