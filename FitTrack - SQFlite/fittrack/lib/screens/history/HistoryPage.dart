@@ -25,7 +25,7 @@ class _HistoryPageState extends State<HistoryPage> {
   Future<void> updateWorkoutsHistory() async {
     await globals.sqlDatabase.getWorkoutsHistory();
 
-    workoutsHistory = globals.sqlDatabase.workouts;
+    workoutsHistory = globals.sqlDatabase.workoutsHistory;
 
     sortWorkoutsHistory(sortAscending);
   }
