@@ -454,8 +454,9 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                     ),
                                     child: TextFormField(
                                       enabled: false,
-                                      initialValue:
-                                          _exercise.sets[i].weight?.toString(),
+                                      initialValue: _exercise.sets[i].weight
+                                              ?.toString() ??
+                                          '0.0',
                                       autofocus: false,
                                       keyboardType: TextInputType.number,
                                       textAlign: TextAlign.center,
@@ -492,7 +493,8 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                     child: TextFormField(
                                       enabled: false,
                                       initialValue:
-                                          _exercise.sets[i].reps?.toString(),
+                                          _exercise.sets[i].reps?.toString() ??
+                                              '0',
                                       autofocus: false,
                                       keyboardType: TextInputType.number,
                                       textAlign: TextAlign.center,
