@@ -519,6 +519,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                             contentPadding: EdgeInsets.all(6.0),
                                             isDense: true,
                                           ),
+                                          textInputAction: TextInputAction.next,
                                           onChanged: (String value) {
                                             workout.updateExerciseSetWeight(
                                               index,
@@ -536,7 +537,6 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                           horizontal: 4.0,
                                         ),
                                         child: TextFormField(
-                                          // key: Key(_sets[i].reps?.toString()),
                                           initialValue:
                                               _sets[i].reps?.toString(),
                                           autofocus: false,
@@ -561,6 +561,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                             contentPadding: EdgeInsets.all(6.0),
                                             isDense: true,
                                           ),
+                                          textInputAction: TextInputAction.next,
                                           onChanged: (String value) {
                                             workout.updateExerciseSetReps(
                                               index,
