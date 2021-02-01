@@ -8,6 +8,11 @@ class Settings {
   int proteinGoal;
   int fatGoal;
 
+  // Rest Timer
+  int timerIncrementValue;
+  int isRestTimerEnabled;
+  int isVibrateUponFinishEnabled;
+
   Settings({
     this.id,
     this.weightUnit = 'kg',
@@ -15,16 +20,22 @@ class Settings {
     this.carbsGoal,
     this.proteinGoal,
     this.fatGoal,
+    this.timerIncrementValue = 30,
+    this.isRestTimerEnabled = 1,
+    this.isVibrateUponFinishEnabled = 1,
   });
 
   Settings clone() {
     return new Settings(
       id: id,
-      weightUnit: weightUnit,
+      weightUnit: weightUnit ?? 'kg',
       kcalGoal: kcalGoal,
       carbsGoal: carbsGoal,
       proteinGoal: proteinGoal,
       fatGoal: fatGoal,
+      timerIncrementValue: timerIncrementValue ?? 30,
+      isRestTimerEnabled: isRestTimerEnabled ?? 1,
+      isVibrateUponFinishEnabled: isVibrateUponFinishEnabled ?? 1,
     );
   }
 
@@ -36,6 +47,9 @@ class Settings {
       carbsGoal: settings['carbsGoal'],
       proteinGoal: settings['proteinGoal'],
       fatGoal: settings['fatGoal'],
+      timerIncrementValue: settings['timerIncrementValue'] ?? 30,
+      isRestTimerEnabled: settings['isRestTimerEnabled'] ?? 1,
+      isVibrateUponFinishEnabled: settings['isVibrateUponFinishEnabled'] ?? 1,
     );
   }
 }

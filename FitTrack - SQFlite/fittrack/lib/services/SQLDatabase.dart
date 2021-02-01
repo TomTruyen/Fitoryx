@@ -35,7 +35,7 @@ class SQLDatabase {
             'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal INTEGER, carbs INTEGER, protein INTEGER, fat INTEGER, timeInMillisSinceEpoch INTEGER)',
           );
           await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal INTEGER, carbsGoal INTEGER, proteinGoal INTEGER, fatGoal INTEGER)',
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal INTEGER, carbsGoal INTEGER, proteinGoal INTEGER, fatGoal INTEGER, timerIncrementValue INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER)',
           );
         },
       );
@@ -83,25 +83,31 @@ class SQLDatabase {
       if (_settings.id == null) {
         // INSERT
         await db.rawInsert(
-          'INSERT INTO settings (weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal) VALUES (?, ?, ?, ?, ?)',
+          'INSERT INTO settings (weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, timerIncrementValue, isRestTimerEnabled, isVibrateUponFinishEnabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
           [
             _settings.weightUnit,
             _settings.kcalGoal,
             _settings.carbsGoal,
             _settings.proteinGoal,
             _settings.fatGoal,
+            _settings.timerIncrementValue,
+            _settings.isRestTimerEnabled,
+            _settings.isVibrateUponFinishEnabled,
           ],
         );
       } else {
         // UPDATE
         await db.rawUpdate(
-          'UPDATE settings SET weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ? WHERE id = ?',
+          'UPDATE settings SET weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, timerIncrementValue = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ? WHERE id = ?',
           [
             _settings.weightUnit,
             _settings.kcalGoal,
             _settings.carbsGoal,
             _settings.proteinGoal,
             _settings.fatGoal,
+            _settings.timerIncrementValue,
+            _settings.isRestTimerEnabled,
+            _settings.isVibrateUponFinishEnabled,
             _settings.id,
           ],
         );
@@ -438,4 +444,15 @@ class SQLDatabase {
     protein INTEGER
     fat INTEGER
     timeInMillisSinceEpoch INTEGER == DATE IT WAS ADDED
+
+    - Settings Table
+    id INTEGER
+    weightUnit TEXT
+    kcalGoal INTEGER
+    carbsGoal INTEGER
+    proteinGoal INTEGER
+    fatGoal INTEGER
+    timerIncrementValue INTEGER
+    isRestTimerEnabled INTEGER
+    isVibrateUponFinishEnabled INTEGER
 */

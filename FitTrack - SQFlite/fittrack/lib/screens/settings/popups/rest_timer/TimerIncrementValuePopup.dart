@@ -1,17 +1,18 @@
 // Flutter Packages
+import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/material.dart';
 
-import 'package:fittrack/models/settings/Settings.dart';
+// My Packages
 import 'package:fittrack/shared/Globals.dart' as globals;
 
-Future<void> showPopupWeightUnit(
+Future<void> showPopupTimerIncrementValue(
   BuildContext context,
-  Settings settings,
   Function updateSettings,
+  Settings settings,
 ) async {
-  String weightUnit = settings.weightUnit;
+  int timerIncrementValue = settings.timerIncrementValue;
 
   await showDialog(
     context: context,
@@ -52,7 +53,7 @@ Future<void> showPopupWeightUnit(
                         Container(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
-                            'Weight Unit',
+                            'Timer increment value',
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 18.0,
@@ -67,11 +68,11 @@ Future<void> showPopupWeightUnit(
                                 Expanded(
                                   flex: 1,
                                   child: Radio(
-                                    value: 'kg',
-                                    groupValue: weightUnit,
+                                    value: '5',
+                                    groupValue: timerIncrementValue.toString(),
                                     onChanged: (String value) {
                                       setState(() {
-                                        weightUnit = value;
+                                        timerIncrementValue = int.parse(value);
                                       });
                                     },
                                   ),
@@ -79,7 +80,7 @@ Future<void> showPopupWeightUnit(
                                 Expanded(
                                   flex: 4,
                                   child: Text(
-                                    'Metric (kg)',
+                                    '5s',
                                     style: TextStyle(
                                       fontSize: 16.0,
                                     ),
@@ -90,7 +91,7 @@ Future<void> showPopupWeightUnit(
                           ),
                           onTap: () {
                             setState(() {
-                              weightUnit = 'kg';
+                              timerIncrementValue = 5;
                             });
                           },
                         ),
@@ -102,11 +103,11 @@ Future<void> showPopupWeightUnit(
                                 Expanded(
                                   flex: 1,
                                   child: Radio(
-                                    groupValue: weightUnit,
-                                    value: 'lbs',
+                                    groupValue: timerIncrementValue.toString(),
+                                    value: '15',
                                     onChanged: (String value) {
                                       setState(() {
-                                        weightUnit = value;
+                                        timerIncrementValue = int.parse(value);
                                       });
                                     },
                                   ),
@@ -114,7 +115,7 @@ Future<void> showPopupWeightUnit(
                                 Expanded(
                                   flex: 4,
                                   child: Text(
-                                    'Imperial (lbs)',
+                                    '15s',
                                     style: TextStyle(
                                       fontSize: 16.0,
                                     ),
@@ -125,7 +126,42 @@ Future<void> showPopupWeightUnit(
                           ),
                           onTap: () {
                             setState(() {
-                              weightUnit = 'lbs';
+                              timerIncrementValue = 15;
+                            });
+                          },
+                        ),
+                        InkWell(
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 1,
+                                  child: Radio(
+                                    groupValue: timerIncrementValue.toString(),
+                                    value: '30',
+                                    onChanged: (String value) {
+                                      setState(() {
+                                        timerIncrementValue = int.parse(value);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    '30s',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              timerIncrementValue = 30;
                             });
                           },
                         ),
@@ -142,20 +178,20 @@ Future<void> showPopupWeightUnit(
                             ),
                             onPressed: () async {
                               Settings newSettings = settings.clone();
-                              newSettings.weightUnit = weightUnit;
+                              newSettings.timerIncrementValue =
+                                  timerIncrementValue;
 
                               dynamic result = await globals.sqlDatabase
                                   .updateSettings(newSettings);
 
                               if (result != null) {
                                 updateSettings(newSettings);
-                                await globals.sqlDatabase.getUpdatedWeights();
                                 tryPopContext(context);
                               } else {
                                 showPopupError(
                                   context,
-                                  'Failed to update',
-                                  'Something went wrong updating your weight unit. Please try again.',
+                                  'Failed to update timer',
+                                  'Something went wrong updating the timer increment value. Please try again.',
                                 );
                               }
                             },

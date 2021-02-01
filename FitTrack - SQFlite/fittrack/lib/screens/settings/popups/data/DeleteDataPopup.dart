@@ -93,7 +93,7 @@ Future<void> showPopupDeleteData(
 
                                   if (result != null) {
                                     Settings newSettings = new Settings();
-                                    await updateSettings(newSettings);
+                                    updateSettings(newSettings);
 
                                     tryPopContext(context);
                                   } else {

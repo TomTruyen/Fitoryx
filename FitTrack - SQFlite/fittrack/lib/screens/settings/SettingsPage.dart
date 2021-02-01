@@ -1,5 +1,6 @@
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
+import 'package:fittrack/screens/settings/popups/rest_timer/TimerIncrementValuePopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
 import 'package:flutter/material.dart';
 
@@ -104,7 +105,53 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                // rest timer settings like: default enabled, vibrate on finish, default time
+                ListTile(
+                  title: Text('Timer increment value'),
+                  subtitle: Text(
+                    "${settings.timerIncrementValue}s",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () {
+                    showPopupTimerIncrementValue(
+                      context,
+                      updateSettings,
+                      settings,
+                    );
+                  },
+                ),
+                SwitchListTile(
+                  title: Text('Rest timer enabled'),
+                  value: settings.isRestTimerEnabled == 1 ? true : false,
+                  onChanged: (bool value) async {
+                    Settings newSettings = settings.clone();
+                    newSettings.isRestTimerEnabled =
+                        newSettings.isRestTimerEnabled == 1 ? 0 : 1;
+
+                    dynamic result =
+                        await globals.sqlDatabase.updateSettings(newSettings);
+
+                    if (result != null) {
+                      updateSettings(newSettings);
+                    }
+                  },
+                ),
+                SwitchListTile(
+                  title: Text('Vibrate upon finish'),
+                  value:
+                      settings.isVibrateUponFinishEnabled == 1 ? true : false,
+                  onChanged: (bool value) async {
+                    Settings newSettings = settings.clone();
+                    newSettings.isVibrateUponFinishEnabled =
+                        newSettings.isVibrateUponFinishEnabled == 1 ? 0 : 1;
+
+                    dynamic result =
+                        await globals.sqlDatabase.updateSettings(newSettings);
+
+                    if (result != null) {
+                      updateSettings(newSettings);
+                    }
+                  },
+                ),
                 Divider(color: Color.fromRGBO(70, 70, 70, 1)),
                 Container(
                   margin: EdgeInsets.only(top: 10.0),
