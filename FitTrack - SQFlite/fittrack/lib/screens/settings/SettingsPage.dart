@@ -1,4 +1,5 @@
 import 'package:fittrack/models/settings/Settings.dart';
+import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
 import 'package:flutter/material.dart';
 
@@ -84,6 +85,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
+                Divider(color: Color.fromRGBO(70, 70, 70, 1)),
                 Container(
                   margin: EdgeInsets.only(top: 10.0),
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -93,6 +95,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 // kcal, carbs, protein, fat goals
+                Divider(color: Color.fromRGBO(70, 70, 70, 1)),
                 Container(
                   margin: EdgeInsets.only(top: 10.0),
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -102,6 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 // rest timer settings like: default enabled, vibrate on finish, default time
+                Divider(color: Color.fromRGBO(70, 70, 70, 1)),
                 Container(
                   margin: EdgeInsets.only(top: 10.0),
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -110,7 +114,17 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                // clear, import/export data settings
+                ListTile(
+                  title: Text('Delete data'),
+                  subtitle: Text(
+                    'Deletes all your data',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () {
+                    showPopupDeleteData(context, updateSettings);
+                  },
+                ),
+                // import/export data settings
               ],
             ),
           ),

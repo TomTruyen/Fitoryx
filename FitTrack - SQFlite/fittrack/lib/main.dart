@@ -70,6 +70,23 @@ class _MyAppState extends State<MyApp> {
               size: 26.0,
             ),
           ),
+          textTheme: TextTheme(
+            // Main Text
+            bodyText2: TextStyle(
+              color: Colors.grey[900],
+              fontSize: 16.0,
+            ),
+            // ListView Text
+            subtitle2: TextStyle(
+              color: Colors.grey[700],
+              fontSize: 14.0,
+            ),
+            // ListView Subtitle Text
+            caption: TextStyle(
+              color: Colors.grey[700],
+              fontSize: 13.0,
+            ),
+          ),
         ),
         home: FutureBuilder<dynamic>(
           future: _database,

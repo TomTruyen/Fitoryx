@@ -427,17 +427,29 @@ class _ExercisesPageState extends State<ExercisesPage> {
                             _exercise.isUserCreated == 0 ? false : true;
 
                         TextStyle style;
+                        TextStyle subtitle =
+                            Theme.of(context).textTheme.subtitle2;
 
                         if (widget.isReplaceActive) {
                           if (_exercise.compare(exerciseToReplace)) {
                             style =
                                 TextStyle(color: Theme.of(context).accentColor);
+                            subtitle = Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                .copyWith(color: Theme.of(context).accentColor);
                           }
                         } else if (workoutExercises.isNotEmpty) {
                           for (int j = 0; j < workoutExercises.length; j++) {
                             if (workoutExercises[j].compare(_exercise)) {
                               style = TextStyle(
                                   color: Theme.of(context).accentColor);
+                              subtitle = Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  .copyWith(
+                                      color: Theme.of(context).accentColor);
+
                               break;
                             }
                           }
@@ -452,7 +464,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                           subtitle: Text(
                             category == "" ? "None" : category,
                             overflow: TextOverflow.ellipsis,
-                            style: style,
+                            style: subtitle,
                           ),
                           trailing: !widget.isSelectActive && isUserCreated
                               ? IconButton(

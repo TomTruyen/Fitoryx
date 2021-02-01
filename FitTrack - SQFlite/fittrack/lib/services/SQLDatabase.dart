@@ -53,6 +53,26 @@ class SQLDatabase {
     }
   }
 
+  Future<dynamic> resetDatabase() async {
+    try {
+      String dbPath = await getDatabasesPath();
+      String path = dbPath + "fittrack.db";
+
+      await deleteDatabase(path);
+
+      dynamic result = await setupDatabase();
+
+      if (result == null) {
+        return null;
+      }
+
+      return "";
+    } catch (e) {
+      print("Reset Database Error $e");
+      return null;
+    }
+  }
+
   Future<void> getUpdatedWeights() async {
     await getWorkouts();
     await getWorkoutsHistory();
