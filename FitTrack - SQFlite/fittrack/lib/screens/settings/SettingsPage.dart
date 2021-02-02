@@ -166,14 +166,44 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
+
                 ListTile(
-                  title: Text('Delete data'),
+                  title: Text('Import data'),
                   subtitle: Text(
-                    'Deletes all your data',
+                    'Imports data from a file',
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  onTap: () {
-                    showPopupDeleteData(context, updateSettings);
+                  onTap: () async {
+                    if (await Permission.storage.request().isGranted) {
+                      // give warning that users will lose their current data
+                      FilePickerResult result =
+                          await FilePicker.platform.pickFiles();
+
+                      if (result != null) {
+                        print("file picked");
+                        File file = File(result.files.single.path);
+
+                        dynamic readResult = await readFromFile(file);
+
+                        if (readResult != null) {
+                          print("file read success");
+                          dynamic dbResult = await globals.sqlDatabase
+                              .importDatabase(readResult.toString());
+
+                          if (dbResult != null) {
+                            print("import db success");
+                            updateSettings(globals.sqlDatabase.settings);
+                            // show success message
+                          } else {
+                            print("import db failed");
+                            // show error message
+                          }
+                        } else {
+                          print("Failed to read file");
+                          // failed to read file
+                        }
+                      }
+                    }
                   },
                 ),
                 ListTile(
@@ -187,13 +217,14 @@ class _SettingsPageState extends State<SettingsPage> {
                       // show users the path of where their file will be saved
                       String devicePath = await getDevicePath();
 
-                      DateFormat dateFormat = new DateFormat("d-M-y");
+                      DateFormat dateFormat = new DateFormat("d-M-y-hms");
                       String date = dateFormat.format(DateTime.now());
 
                       File file =
                           await getFile(devicePath, 'FitTrack-$date.txt');
 
-                      dynamic result = globals.sqlDatabase.exportDatabase();
+                      dynamic result =
+                          await globals.sqlDatabase.exportDatabase();
 
                       if (result != null) {
                         print("db export success");
@@ -215,44 +246,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
                 ListTile(
-                  title: Text('Import data'),
+                  title: Text('Delete data'),
                   subtitle: Text(
-                    'Imports data from a file',
+                    'Deletes all your data',
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  onTap: () async {
-                    if (await Permission.storage.request().isGranted) {
-                      // give warning that users will lose their current data
-                      FilePickerResult result =
-                          await FilePicker.platform.pickFiles();
-
-                      if (result != null) {
-                        print("file picked");
-                        File file = File(result.files.single.path);
-
-                        dynamic readResult = await readFromFile(file);
-
-                        if (readResult != null) {
-                          print("file read success");
-                          dynamic dbResult = globals.sqlDatabase
-                              .importDatabase(readResult.toString());
-
-                          if (dbResult != null) {
-                            print("import db success");
-                            // show success message
-                          } else {
-                            print("import db failed");
-                            // show error message
-                          }
-                        } else {
-                          print("Failed to read file");
-                          // failed to read file
-                        }
-                      }
-                    }
+                  onTap: () {
+                    showPopupDeleteData(context, updateSettings);
                   },
                 ),
-                // import/export data settings
               ],
             ),
           ),

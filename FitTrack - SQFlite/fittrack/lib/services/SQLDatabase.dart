@@ -53,17 +53,21 @@ class SQLDatabase {
         },
       );
 
-      await getSettings();
-      await getUserExercises();
-      await getFood();
-      await getWorkouts();
-      await getWorkoutsHistory();
+      await updateData();
 
       return "";
     } catch (e) {
       print("Setup Database Error: $e");
       return null;
     }
+  }
+
+  Future<void> updateData() async {
+    await getSettings();
+    await getUserExercises();
+    await getFood();
+    await getWorkouts();
+    await getWorkoutsHistory();
   }
 
   Future<dynamic> resetDatabase() async {
@@ -115,10 +119,10 @@ class SQLDatabase {
 
   Future<dynamic> importDatabase(String data) async {
     try {
-      String dbPath = await getDatabasesPath();
-      String path = dbPath + "fittrack.db";
-
-      await deleteDatabase(path);
+      dynamic result = await resetDatabase();
+      if (result == null) {
+        return null;
+      }
 
       Batch batch = db.batch();
 
@@ -135,6 +139,8 @@ class SQLDatabase {
       }
 
       await batch.commit(continueOnError: false, noResult: true);
+
+      await updateData();
 
       return "";
     } catch (e) {

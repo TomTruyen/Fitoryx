@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 void tryPopContext(BuildContext context) {
   if (Navigator.of(context).canPop()) {
@@ -32,9 +32,10 @@ double recalculateWeight(double weight, String newUnit) {
 }
 
 Future<String> getDevicePath() async {
-  final directory = await getExternalStorageDirectory();
+  final directory = await ExtStorage.getExternalStoragePublicDirectory(
+      ExtStorage.DIRECTORY_DOWNLOADS);
 
-  return directory.path;
+  return directory;
 }
 
 Future<File> getFile(String path, String fileName) async {
@@ -43,6 +44,7 @@ Future<File> getFile(String path, String fileName) async {
 
 Future<File> writeToFile(File file, String data) async {
   try {
+    await file.create(recursive: true);
     File writtenFile = await file.writeAsString(data);
 
     return writtenFile;
