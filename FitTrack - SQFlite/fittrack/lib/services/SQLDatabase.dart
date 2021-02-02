@@ -1,10 +1,23 @@
+import 'dart:convert';
+
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class SQLDatabase {
+  final String SECRET_KEY =
+      "d55cb8eba585b7ed03db0d4e2c8947c6"; // fittrack_secret_key_for_encryption (MD5 Hashed)
+  final List<String> tables = [
+    'exercises',
+    'workouts',
+    'workouts_history',
+    'food',
+    'settings'
+  ];
+
   Database db;
   List<Workout> workouts;
   List<Workout> workoutsHistory;
@@ -69,6 +82,63 @@ class SQLDatabase {
       return "";
     } catch (e) {
       print("Reset Database Error $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> exportDatabase() async {
+    try {
+      List data = [];
+
+      for (var i = 0; i < tables.length; i++) {
+        List<Map<String, dynamic>> listMaps = await db.query(tables[i]);
+
+        data.add(listMaps);
+      }
+
+      List backups = [tables, data];
+
+      String json = jsonEncode(backups);
+
+      // encrypt data
+      final key = encrypt.Key.fromUtf8(SECRET_KEY);
+      final iv = encrypt.IV.fromLength(16);
+      final encrypter = encrypt.Encrypter(encrypt.AES(key));
+      final encrypted = encrypter.encrypt(json, iv: iv);
+
+      return encrypted.base64; //string of encrypted data
+    } catch (e) {
+      print("Export Database Error :$e");
+      return null;
+    }
+  }
+
+  Future<dynamic> importDatabase(String data) async {
+    try {
+      String dbPath = await getDatabasesPath();
+      String path = dbPath + "fittrack.db";
+
+      await deleteDatabase(path);
+
+      Batch batch = db.batch();
+
+      final key = encrypt.Key.fromUtf8(SECRET_KEY);
+      final iv = encrypt.IV.fromLength(16);
+      final encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+      List json = jsonDecode(encrypter.decrypt64(data, iv: iv));
+
+      for (var i = 0; i < json[0].length; i++) {
+        for (var j = 0; j < json[1][i].length; j++) {
+          batch.insert(json[0][i], json[1][i][j]);
+        }
+      }
+
+      await batch.commit(continueOnError: false, noResult: true);
+
+      return "";
+    } catch (e) {
+      print("Import Database Error: $e");
       return null;
     }
   }

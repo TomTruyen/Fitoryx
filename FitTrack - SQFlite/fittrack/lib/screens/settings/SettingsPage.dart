@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/rest_timer/TimerIncrementValuePopup.dart';
@@ -6,6 +9,8 @@ import 'package:flutter/material.dart';
 
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -169,6 +174,82 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   onTap: () {
                     showPopupDeleteData(context, updateSettings);
+                  },
+                ),
+                ListTile(
+                  title: Text('Export data'),
+                  subtitle: Text(
+                    'Exports data to a file',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () async {
+                    if (await Permission.storage.request().isGranted) {
+                      // show users the path of where their file will be saved
+                      String devicePath = await getDevicePath();
+
+                      DateFormat dateFormat = new DateFormat("d-M-y");
+                      String date = dateFormat.format(DateTime.now());
+
+                      File file =
+                          await getFile(devicePath, 'FitTrack-$date.txt');
+
+                      dynamic result = globals.sqlDatabase.exportDatabase();
+
+                      if (result != null) {
+                        print("db export success");
+                        dynamic writeResult =
+                            await writeToFile(file, result.toString());
+
+                        if (writeResult != null) {
+                          print("write success");
+                          // success
+                        } else {
+                          print("write fail");
+                          // error result write
+                        }
+                      } else {
+                        print("db export fail");
+                        // error exporting
+                      }
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text('Import data'),
+                  subtitle: Text(
+                    'Imports data from a file',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () async {
+                    if (await Permission.storage.request().isGranted) {
+                      // give warning that users will lose their current data
+                      FilePickerResult result =
+                          await FilePicker.platform.pickFiles();
+
+                      if (result != null) {
+                        print("file picked");
+                        File file = File(result.files.single.path);
+
+                        dynamic readResult = await readFromFile(file);
+
+                        if (readResult != null) {
+                          print("file read success");
+                          dynamic dbResult = globals.sqlDatabase
+                              .importDatabase(readResult.toString());
+
+                          if (dbResult != null) {
+                            print("import db success");
+                            // show success message
+                          } else {
+                            print("import db failed");
+                            // show error message
+                          }
+                        } else {
+                          print("Failed to read file");
+                          // failed to read file
+                        }
+                      }
+                    }
                   },
                 ),
                 // import/export data settings
