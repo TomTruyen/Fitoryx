@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ExportDataPopup.dart';
@@ -12,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
