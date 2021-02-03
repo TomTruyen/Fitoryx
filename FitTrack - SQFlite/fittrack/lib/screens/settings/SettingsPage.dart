@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
+import 'package:fittrack/screens/settings/popups/data/ExportDataPopup.dart';
+import 'package:fittrack/screens/settings/popups/data/ImportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/rest_timer/TimerIncrementValuePopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
 import 'package:flutter/material.dart';
@@ -174,36 +176,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: Theme.of(context).textTheme.caption,
                   ),
                   onTap: () async {
-                    if (await Permission.storage.request().isGranted) {
-                      // give warning that users will lose their current data
-                      FilePickerResult result =
-                          await FilePicker.platform.pickFiles();
-
-                      if (result != null) {
-                        print("file picked");
-                        File file = File(result.files.single.path);
-
-                        dynamic readResult = await readFromFile(file);
-
-                        if (readResult != null) {
-                          print("file read success");
-                          dynamic dbResult = await globals.sqlDatabase
-                              .importDatabase(readResult.toString());
-
-                          if (dbResult != null) {
-                            print("import db success");
-                            updateSettings(globals.sqlDatabase.settings);
-                            // show success message
-                          } else {
-                            print("import db failed");
-                            // show error message
-                          }
-                        } else {
-                          print("Failed to read file");
-                          // failed to read file
-                        }
-                      }
-                    }
+                    await showPopupImportData(context, updateSettings);
                   },
                 ),
                 ListTile(
@@ -213,36 +186,16 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: Theme.of(context).textTheme.caption,
                   ),
                   onTap: () async {
-                    if (await Permission.storage.request().isGranted) {
-                      // show users the path of where their file will be saved
-                      String devicePath = await getDevicePath();
+                    DateFormat dateFormat = new DateFormat("d-M-y-hms");
+                    String date = dateFormat.format(DateTime.now());
 
-                      DateFormat dateFormat = new DateFormat("d-M-y-hms");
-                      String date = dateFormat.format(DateTime.now());
+                    String fileName = 'FitTrack-$date.db';
 
-                      File file =
-                          await getFile(devicePath, 'FitTrack-$date.db');
-
-                      dynamic result =
-                          await globals.sqlDatabase.exportDatabase();
-
-                      if (result != null) {
-                        print("db export success");
-                        dynamic writeResult =
-                            await writeToFile(file, result.toString());
-
-                        if (writeResult != null) {
-                          print("write success");
-                          // success
-                        } else {
-                          print("write fail");
-                          // error result write
-                        }
-                      } else {
-                        print("db export fail");
-                        // error exporting
-                      }
-                    }
+                    await showPopupExportData(
+                      context,
+                      fileName,
+                      updateSettings,
+                    );
                   },
                 ),
                 ListTile(
