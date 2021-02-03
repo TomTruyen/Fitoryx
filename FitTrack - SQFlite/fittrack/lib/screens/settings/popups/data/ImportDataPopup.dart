@@ -313,7 +313,7 @@ Future<void> showPopupImportData(
                                                             isCompleted = false;
 
                                                             errorMessage =
-                                                                "Failed to open storage. Please try again.";
+                                                                "No file selected. Please try again.";
                                                           });
                                                         },
                                                       );
