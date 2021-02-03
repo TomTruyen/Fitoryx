@@ -116,7 +116,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                           SizedBox(height: 20.0),
                           Wrap(
                             spacing: 10.0,
-                            runSpacing: 15.0,
+                            runSpacing: 10.0,
                             children: buildFilterWidgets(filter, 'category'),
                           ),
                           SizedBox(height: 20.0),
@@ -124,7 +124,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                           SizedBox(height: 20.0),
                           Wrap(
                             spacing: 10.0,
-                            runSpacing: 15.0,
+                            runSpacing: 10.0,
                             children: buildFilterWidgets(filter, 'equipment'),
                           ),
                           SizedBox(height: 20.0),
@@ -132,7 +132,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                           SizedBox(height: 20.0),
                           Wrap(
                             spacing: 10.0,
-                            runSpacing: 15.0,
+                            runSpacing: 10.0,
                             children: buildFilterWidgets(filter, 'userCreated'),
                           ),
                         ],
@@ -146,7 +146,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
               color: Colors.transparent,
               padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
               width: MediaQuery.of(context).size.width,
-              child: RaisedButton(
+              child: FlatButton(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                   side: BorderSide(
@@ -154,6 +154,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                     color: Theme.of(context).accentColor,
                   ),
                 ),
+                color: Theme.of(context).accentColor,
                 padding: EdgeInsets.all(14.0),
                 child: Text(
                   'Clear Filters',
@@ -180,7 +181,6 @@ class FilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-      height: 35.0,
       decoration: BoxDecoration(
         color: selected ? Theme.of(context).accentColor : Colors.white,
         borderRadius: BorderRadius.all(
@@ -195,7 +195,7 @@ class FilterWidget extends StatelessWidget {
         value,
         style: TextStyle(
           color: selected ? Colors.white : Theme.of(context).accentColor,
-          fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.95,
+          fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
         ),
         textAlign: TextAlign.center,
       ),
