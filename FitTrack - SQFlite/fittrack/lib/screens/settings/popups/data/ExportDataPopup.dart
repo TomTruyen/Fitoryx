@@ -86,13 +86,16 @@ Future<void> showPopupExportData(
                                       'Failed to export data',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 18.0,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Text(errorMessage),
+                                    child: Text(
+                                      errorMessage,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(8.0),
@@ -127,14 +130,16 @@ Future<void> showPopupExportData(
                                           'Successfully exported data',
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 18.0,
                                           ),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
-                                            'Data has been successfully exported. You can find the file in your Downloads.'),
+                                          'Data has been successfully exported. You can find the file in your Downloads.',
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                       Container(
                                         padding: EdgeInsets.all(8.0),
@@ -169,14 +174,15 @@ Future<void> showPopupExportData(
                                           'Export data',
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            fontSize: 18.0,
                                           ),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           'This will export your data to \'$fileName\' in your Downloads. Are you sure you want to export your data?',
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
