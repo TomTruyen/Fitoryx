@@ -87,14 +87,12 @@ Future<void> showPopupImportData(
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Container(
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
                                       errorMessage,
-                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Container(
@@ -132,14 +130,12 @@ Future<void> showPopupImportData(
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                           ),
-                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           'Data has been successfully imported.',
-                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
@@ -147,8 +143,6 @@ Future<void> showPopupImportData(
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.baseline,
                                           children: <Widget>[
                                             FlatButton(
                                               child: Text(
@@ -178,14 +172,12 @@ Future<void> showPopupImportData(
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                           ),
-                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           'Are you sure you want to import your data? \nNOTE: this will overwrite your current data.',
-                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
