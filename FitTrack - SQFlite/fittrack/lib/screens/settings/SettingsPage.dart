@@ -221,7 +221,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       String date = dateFormat.format(DateTime.now());
 
                       File file =
-                          await getFile(devicePath, 'FitTrack-$date.txt');
+                          await getFile(devicePath, 'FitTrack-$date.db');
 
                       dynamic result =
                           await globals.sqlDatabase.exportDatabase();
