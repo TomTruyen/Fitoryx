@@ -105,6 +105,8 @@ Future<bool> showPopupDeleteHistory(
 
                                     tryPopContext(context);
                                   } else {
+                                    tryPopContext(context);
+
                                     showPopupError(
                                       context,
                                       'Failed to delete',

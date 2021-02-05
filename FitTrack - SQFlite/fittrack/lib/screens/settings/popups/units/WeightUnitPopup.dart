@@ -162,6 +162,8 @@ Future<void> showPopupWeightUnit(
                                 await globals.sqlDatabase.getUpdatedWeights();
                                 tryPopContext(context);
                               } else {
+                                tryPopContext(context);
+
                                 showPopupError(
                                   context,
                                   'Failed to update',

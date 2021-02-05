@@ -105,6 +105,8 @@ Future<void> showPopupDeleteData(
 
                                     tryPopContext(context);
                                   } else {
+                                    tryPopContext(context);
+
                                     showPopupError(
                                       context,
                                       'Failed to delete data',

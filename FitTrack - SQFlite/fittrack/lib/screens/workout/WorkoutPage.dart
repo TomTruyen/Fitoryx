@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
+import 'package:fittrack/screens/workout/popups/DeleteWorkoutPopup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -295,14 +296,12 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                   }
                                                   break;
                                                 case 'delete':
-                                                  dynamic result = await globals
-                                                      .sqlDatabase
-                                                      .deleteWorkout(
-                                                          _workout.id);
+                                                  await showPopupDeleteWorkout(
+                                                    context,
+                                                    _workout.id,
+                                                    updateWorkouts,
+                                                  );
 
-                                                  if (result != null) {
-                                                    await updateWorkouts();
-                                                  }
                                                   break;
                                               }
                                             },
