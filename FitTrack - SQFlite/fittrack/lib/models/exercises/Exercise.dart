@@ -76,11 +76,14 @@ class Exercise {
     Map<String, dynamic> exercise, {
     String workoutWeightUnit,
   }) {
-    List<ExerciseSet> setList = (exercise['sets'] as List)
-            .map((_set) => ExerciseSet()
-                .fromJSON(_set, workoutWeightUnit: workoutWeightUnit))
-            .toList() ??
-        [];
+    List<ExerciseSet> setList = [];
+    if (exercise['sets'] != null) {
+      setList = (exercise['sets'] as List)
+              .map((_set) => ExerciseSet()
+                  .fromJSON(_set, workoutWeightUnit: workoutWeightUnit))
+              .toList() ??
+          [];
+    }
 
     return new Exercise(
       id: exercise['id'],
