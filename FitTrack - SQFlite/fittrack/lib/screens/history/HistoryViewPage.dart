@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/screens/history/popups/DeleteHistoryPopup.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:flutter/cupertino.dart';
@@ -88,19 +89,14 @@ class HistoryViewPage extends StatelessWidget {
                               );
                             }
                           } else if (selection == 'delete') {
-                            dynamic result = await globals.sqlDatabase
-                                .deleteWorkoutHistory(workout.id);
+                            bool isDeleted = await showPopupDeleteHistory(
+                              context,
+                              workout.id,
+                              updateWorkoutsHistory,
+                            );
 
-                            if (result != null) {
-                              await updateWorkoutsHistory();
-
+                            if (isDeleted) {
                               tryPopContext(context);
-                            } else {
-                              showPopupError(
-                                context,
-                                'Failed to delete',
-                                'Something went wrong deleting this history. Please try again.',
-                              );
                             }
                           }
                         },
