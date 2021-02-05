@@ -37,46 +37,48 @@ Future<void> showPopupExportData(
                 ),
               ),
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 4.0),
-              child: SingleChildScrollView(
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    dividerColor: Color.fromRGBO(70, 70, 70, 1),
-                    unselectedWidgetColor: Color.fromRGBO(
-                      200,
-                      200,
-                      200,
-                      1,
-                    ),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  dividerColor: Color.fromRGBO(70, 70, 70, 1),
+                  unselectedWidgetColor: Color.fromRGBO(
+                    200,
+                    200,
+                    200,
+                    1,
                   ),
-                  child: Material(
-                    color: Colors.grey[50],
-                    child: isExporting
-                        ? Container(
-                            alignment: Alignment.center,
-                            constraints: BoxConstraints(
-                              minHeight: 200.0,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                ),
+                child: Material(
+                  color: Colors.grey[50],
+                  child: isExporting
+                      ? Container(
+                          alignment: Alignment.center,
+                          constraints: BoxConstraints(
+                            minHeight: 200.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              CircularProgressIndicator(
+                                backgroundColor: Colors.grey[200],
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.grey[500]),
+                                strokeWidth: 2.0,
+                              ),
+                              SizedBox(height: 10.0),
+                              Text('Exporting...'),
+                            ],
+                          ),
+                        )
+                      : isFailed
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                CircularProgressIndicator(
-                                  backgroundColor: Colors.grey[200],
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.grey[500]),
-                                  strokeWidth: 2.0,
-                                ),
-                                SizedBox(height: 10.0),
-                                Text('Exporting...'),
-                              ],
-                            ),
-                          )
-                        : isFailed
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
                                     padding: EdgeInsets.all(8.0),
                                     child: Text(
                                       'Failed to export data',
@@ -85,13 +87,20 @@ Future<void> showPopupExportData(
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      errorMessage,
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: SingleChildScrollView(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        errorMessage,
+                                      ),
                                     ),
                                   ),
-                                  Container(
+                                ),
+                                Expanded(
+                                  child: Container(
                                     padding: EdgeInsets.all(8.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -111,14 +120,17 @@ Future<void> showPopupExportData(
                                       ],
                                     ),
                                   ),
-                                ],
-                              )
-                            : isCompleted
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
+                                ),
+                              ],
+                            )
+                          : isCompleted
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           'Successfully exported data',
@@ -127,13 +139,20 @@ Future<void> showPopupExportData(
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          'Data has been successfully exported. You can find the file in your Downloads.',
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: SingleChildScrollView(
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Data has been successfully exported. You can find the file in your Downloads.',
+                                          ),
                                         ),
                                       ),
-                                      Container(
+                                    ),
+                                    Expanded(
+                                      child: Container(
                                         padding: EdgeInsets.all(8.0),
                                         child: Row(
                                           mainAxisAlignment:
@@ -154,13 +173,16 @@ Future<void> showPopupExportData(
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  )
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           'Export data',
@@ -169,13 +191,20 @@ Future<void> showPopupExportData(
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          'This will export your data to \'$fileName\' in your Downloads. Are you sure you want to export your data?',
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: SingleChildScrollView(
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'This will export your data to \'$fileName\' in your Downloads. Are you sure you want to export your data?',
+                                          ),
                                         ),
                                       ),
-                                      Container(
+                                    ),
+                                    Expanded(
+                                      child: Container(
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
@@ -308,9 +337,9 @@ Future<void> showPopupExportData(
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                  ),
+                                    ),
+                                  ],
+                                ),
                 ),
               ),
             ),

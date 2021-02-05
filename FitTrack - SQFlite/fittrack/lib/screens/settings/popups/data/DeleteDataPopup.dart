@@ -29,24 +29,25 @@ Future<void> showPopupDeleteData(
                 ),
               ),
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 4.0),
-              child: SingleChildScrollView(
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    dividerColor: Color.fromRGBO(70, 70, 70, 1),
-                    unselectedWidgetColor: Color.fromRGBO(
-                      200,
-                      200,
-                      200,
-                      1,
-                    ),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  dividerColor: Color.fromRGBO(70, 70, 70, 1),
+                  unselectedWidgetColor: Color.fromRGBO(
+                    200,
+                    200,
+                    200,
+                    1,
                   ),
-                  child: Material(
-                    color: Colors.grey[50],
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
+                ),
+                child: Material(
+                  color: Colors.grey[50],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Container(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             'Delete all data',
@@ -56,13 +57,20 @@ Future<void> showPopupDeleteData(
                             ),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Are you sure you want to delete all data from your account?',
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: SingleChildScrollView(
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Are you sure you want to delete all data from your account?',
+                            ),
                           ),
                         ),
-                        Container(
+                      ),
+                      Expanded(
+                        child: Container(
                           alignment: Alignment.bottomCenter,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -108,8 +116,8 @@ Future<void> showPopupDeleteData(
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -31,23 +31,24 @@ Future<void> showPopupWeightUnit(
                 ),
               ),
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 4.0),
-              child: SingleChildScrollView(
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                    dividerColor: Color.fromRGBO(70, 70, 70, 1),
-                    unselectedWidgetColor: Color.fromRGBO(
-                      200,
-                      200,
-                      200,
-                      1,
-                    ),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  dividerColor: Color.fromRGBO(70, 70, 70, 1),
+                  unselectedWidgetColor: Color.fromRGBO(
+                    200,
+                    200,
+                    200,
+                    1,
                   ),
-                  child: Material(
-                    color: Colors.grey[50],
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
+                ),
+                child: Material(
+                  color: Colors.grey[50],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Container(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             'Weight Unit',
@@ -57,77 +58,88 @@ Future<void> showPopupWeightUnit(
                             ),
                           ),
                         ),
-                        InkWell(
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 1,
-                                  child: Radio(
-                                    value: 'kg',
-                                    groupValue: weightUnit,
-                                    onChanged: (String value) {
-                                      setState(() {
-                                        weightUnit = value;
-                                      });
-                                    },
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: <Widget>[
+                              InkWell(
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 1,
+                                        child: Radio(
+                                          value: 'kg',
+                                          groupValue: weightUnit,
+                                          onChanged: (String value) {
+                                            setState(() {
+                                              weightUnit = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 4,
+                                        child: Text(
+                                          'Metric (kg)',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Text(
-                                    'Metric (kg)',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                    ),
+                                onTap: () {
+                                  setState(() {
+                                    weightUnit = 'kg';
+                                  });
+                                },
+                              ),
+                              InkWell(
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 1,
+                                        child: Radio(
+                                          groupValue: weightUnit,
+                                          value: 'lbs',
+                                          onChanged: (String value) {
+                                            setState(() {
+                                              weightUnit = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 4,
+                                        child: Text(
+                                          'Imperial (lbs)',
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                                onTap: () {
+                                  setState(() {
+                                    weightUnit = 'lbs';
+                                  });
+                                },
+                              ),
+                            ],
                           ),
-                          onTap: () {
-                            setState(() {
-                              weightUnit = 'kg';
-                            });
-                          },
                         ),
-                        InkWell(
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 1,
-                                  child: Radio(
-                                    groupValue: weightUnit,
-                                    value: 'lbs',
-                                    onChanged: (String value) {
-                                      setState(() {
-                                        weightUnit = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Text(
-                                    'Imperial (lbs)',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              weightUnit = 'lbs';
-                            });
-                          },
-                        ),
-                        Container(
+                      ),
+                      Expanded(
+                        child: Container(
                           alignment: Alignment.centerRight,
                           child: FlatButton(
                             color: Colors.transparent,
@@ -159,8 +171,8 @@ Future<void> showPopupWeightUnit(
                             },
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

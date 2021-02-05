@@ -80,12 +80,13 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
       await showDialog(
         context: context,
         barrierDismissible: true,
-        barrierColor: Color.fromRGBO(255, 255, 255, 0.01),
         builder: (BuildContext context) {
           return Center(
             child: Container(
               width: 250.0,
-              height: 250.0,
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.5,
+              ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 color: Colors.grey[50],
