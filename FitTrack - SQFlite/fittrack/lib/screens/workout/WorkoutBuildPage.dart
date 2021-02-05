@@ -45,10 +45,8 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
           builder: (context, StateSetter setState) {
             return Center(
               child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width / 1.5,
-                  maxHeight: MediaQuery.of(context).size.height * 0.80,
-                ),
+                width: 250.0,
+                height: 250.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                   color: Colors.grey[50],
@@ -63,14 +61,14 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                     child: ListBody(
                       children: <Widget>[
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Expanded(
                               child: Text(
                                 'Enabled',
                               ),
                             ),
-                            Spacer(flex: 2),
-                            Expanded(
+                            Flexible(
                               child: Switch(
                                 value: currentExerciseRestEnabled == 1
                                     ? true

@@ -84,10 +84,8 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
         builder: (BuildContext context) {
           return Center(
             child: Container(
-              constraints: BoxConstraints(
-                maxWidth: 150.0,
-                maxHeight: MediaQuery.of(context).size.height * 0.80,
-              ),
+              width: 250.0,
+              height: 250.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 color: Colors.grey[50],

@@ -19,10 +19,8 @@ Future<void> showPopupDeleteData(
         builder: (BuildContext context, StateSetter setState) {
           return Center(
             child: Container(
-              constraints: BoxConstraints(
-                maxWidth: 250.0,
-                maxHeight: MediaQuery.of(context).size.height * 0.80,
-              ),
+              width: 250.0,
+              height: 250.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 color: Colors.grey[50],
@@ -46,6 +44,7 @@ Future<void> showPopupDeleteData(
                     color: Colors.grey[50],
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Container(
                           padding: EdgeInsets.all(8.0),
@@ -64,6 +63,7 @@ Future<void> showPopupDeleteData(
                           ),
                         ),
                         Container(
+                          alignment: Alignment.bottomCenter,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
