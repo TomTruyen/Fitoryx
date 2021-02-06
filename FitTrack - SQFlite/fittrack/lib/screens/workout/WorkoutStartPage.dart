@@ -200,17 +200,10 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
               ),
               onPressed: () async {
                 if (isStarted) {
-                  bool isCompleted = widget.workout.isWorkoutCompleted();
+                  bool confirmsCancel =
+                      await showEndWorkoutWarningDialog(context, true);
 
-                  if (!isCompleted) {
-                    bool confirmsCompletion =
-                        await showEndWorkoutWarningDialog(context, true);
-
-                    if (confirmsCompletion) {
-                      endWorkout();
-                      tryPopContext(context);
-                    }
-                  } else {
+                  if (confirmsCancel) {
                     endWorkout();
                     tryPopContext(context);
                   }
