@@ -44,6 +44,8 @@ class _WorkoutRestTimerPageState extends State<WorkoutRestTimerPage>
     timer = new Timer.periodic(Duration(seconds: 1), (Timer timer) {
       if (timeLeftSeconds == 0) {
         timer.cancel();
+
+        tryPopContext(context);
       } else {
         setState(() {
           timeLeftSeconds--;
