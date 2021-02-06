@@ -21,8 +21,8 @@ class Exercise {
     this.isUserCreated = 0,
     this.hasNotes = 0,
     this.notes = "",
-    this.restEnabled = 1,
-    this.restSeconds = 60,
+    this.restEnabled,
+    this.restSeconds,
     this.sets,
   });
 
@@ -93,8 +93,8 @@ class Exercise {
       isUserCreated: exercise['isUserCreated'] ?? 0,
       hasNotes: exercise['hasNotes'] ?? 0,
       notes: exercise['notes'] ?? "",
-      restEnabled: exercise['restEnabled'] ?? 1,
-      restSeconds: exercise['restSeconds'] ?? 60,
+      restEnabled: exercise['restEnabled'],
+      restSeconds: exercise['restSeconds'],
       sets: setList ?? [],
     );
   }
@@ -116,8 +116,8 @@ class Exercise {
       'isUserCreated': isUserCreated ?? 0,
       'hasNotes': hasNotes ?? 0,
       'notes': notes ?? "",
-      'restEnabled': restEnabled ?? 1,
-      'restSeconds': restSeconds ?? 60,
+      'restEnabled': restEnabled,
+      'restSeconds': restSeconds,
       'sets': setJSON ?? [],
     };
   }

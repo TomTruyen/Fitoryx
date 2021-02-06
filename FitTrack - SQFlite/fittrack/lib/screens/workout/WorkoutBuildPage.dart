@@ -28,8 +28,10 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
     WorkoutChangeNotifier workout,
     Exercise _exercise,
   ) async {
-    int currentExerciseRestEnabled = _exercise.restEnabled ?? 1;
-    int currentExerciseRestSeconds = _exercise.restSeconds ?? 60;
+    int currentExerciseRestEnabled = _exercise.restEnabled ??
+        globals.sqlDatabase.settings.isRestTimerEnabled;
+    int currentExerciseRestSeconds =
+        _exercise.restSeconds ?? globals.sqlDatabase.settings.defaultRestTime;
 
     await showDialog(
       context: context,
@@ -199,11 +201,21 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                         dynamic result;
                         if (widget.isEdit) {
                           result = await globals.sqlDatabase.updateWorkout(
-                            workout.convertToWorkout(),
+                            workout.convertToWorkout(
+                              globals.sqlDatabase.settings.defaultRestTime ??
+                                  60,
+                              globals.sqlDatabase.settings.isRestTimerEnabled ??
+                                  1,
+                            ),
                           );
                         } else {
                           result = await globals.sqlDatabase.addWorkout(
-                            workout.convertToWorkout(),
+                            workout.convertToWorkout(
+                              globals.sqlDatabase.settings.defaultRestTime ??
+                                  60,
+                              globals.sqlDatabase.settings.isRestTimerEnabled ??
+                                  1,
+                            ),
                           );
                         }
 

@@ -116,7 +116,17 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Workout convertToWorkout() {
+  Workout convertToWorkout(int settingsRestSeconds, int settingsRestEnabled) {
+    for (int i = 0; i < exercises.length; i++) {
+      if (exercises[i].restEnabled == null) {
+        exercises[i].restEnabled = settingsRestEnabled;
+      }
+
+      if (exercises[i].restSeconds == null) {
+        exercises[i].restSeconds = settingsRestSeconds;
+      }
+    }
+
     Workout _workout = new Workout(
       id: id,
       name: name ?? "",
