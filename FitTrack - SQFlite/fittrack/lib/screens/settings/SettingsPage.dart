@@ -109,9 +109,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 ListTile(
-                  title: Text('Default Rest Time'),
+                  title: Text('Default rest time'),
                   subtitle: Text(
-                    "${settings.defaultRestTime}s",
+                    settings.defaultRestTime > 60
+                        ? "${settings.defaultRestTime ~/ 60}m ${(settings.defaultRestTime % 60).toString().padLeft(2, '0')}s"
+                        : "${settings.defaultRestTime}s",
                     style: Theme.of(context).textTheme.caption,
                   ),
                   onTap: () {

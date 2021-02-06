@@ -2,6 +2,7 @@
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // My Packages
@@ -61,7 +62,42 @@ Future<void> showPopupDefaultRestTime(
                           ),
                         ),
                       ),
-                      // rest timer slider thing here
+                      Expanded(
+                        flex: 3,
+                        child: SingleChildScrollView(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 16.0),
+                            height: 100.0,
+                            child: CupertinoPicker(
+                              scrollController: FixedExtentScrollController(
+                                initialItem: (defaultRestTime ~/ 5) - 1,
+                              ),
+                              squeeze: 1.0,
+                              looping: true,
+                              diameterRatio: 100.0,
+                              itemExtent: 40.0,
+                              onSelectedItemChanged: (int index) {
+                                int seconds = 5 + (index * 5);
+
+                                defaultRestTime = seconds;
+                              },
+                              useMagnifier: true,
+                              magnification: 1.5,
+                              children: <Widget>[
+                                for (int i = 5; i <= 300; i += 5)
+                                  Center(
+                                    child: Text(
+                                      '${(i / 60).floor()}:${(i % 60).toString().padLeft(2, "0")}',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                       Expanded(
                         child: Container(
                           alignment: Alignment.centerRight,

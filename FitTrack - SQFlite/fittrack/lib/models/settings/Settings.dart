@@ -20,7 +20,7 @@ class Settings {
     this.carbsGoal,
     this.proteinGoal,
     this.fatGoal,
-    this.defaultRestTime = 30,
+    this.defaultRestTime = 60,
     this.isRestTimerEnabled = 1,
     this.isVibrateUponFinishEnabled = 1,
   });
@@ -33,7 +33,7 @@ class Settings {
       carbsGoal: carbsGoal,
       proteinGoal: proteinGoal,
       fatGoal: fatGoal,
-      defaultRestTime: defaultRestTime ?? 30,
+      defaultRestTime: defaultRestTime ?? 60,
       isRestTimerEnabled: isRestTimerEnabled ?? 1,
       isVibrateUponFinishEnabled: isVibrateUponFinishEnabled ?? 1,
     );
@@ -47,7 +47,7 @@ class Settings {
       carbsGoal: settings['carbsGoal'],
       proteinGoal: settings['proteinGoal'],
       fatGoal: settings['fatGoal'],
-      defaultRestTime: settings['defaultRestTime'] ?? 30,
+      defaultRestTime: settings['defaultRestTime'] ?? 60,
       isRestTimerEnabled: settings['isRestTimerEnabled'] ?? 1,
       isVibrateUponFinishEnabled: settings['isVibrateUponFinishEnabled'] ?? 1,
     );

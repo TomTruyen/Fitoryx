@@ -12,12 +12,6 @@ import 'package:fittrack/shared/Loader.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:reorderables/reorderables.dart';
 
-/*
-
-  Make it so that this code can also be used for the 'edit' future of workouts
-
-*/
-
 class WorkoutBuildPage extends StatefulWidget {
   final Function updateWorkouts;
   final bool isEdit;
