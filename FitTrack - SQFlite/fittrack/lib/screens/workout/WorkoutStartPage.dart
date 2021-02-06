@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
+import 'package:fittrack/screens/workout/WorkoutRestTimerPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -550,6 +551,22 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                       ),
                                       onTap: () {
                                         if (isStarted) {
+                                          if (_exercise.restEnabled == 1 &&
+                                              !_exercise.sets[i].isCompleted) {
+                                            Navigator.push(
+                                              context,
+                                              CupertinoPageRoute(
+                                                fullscreenDialog: true,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        WorkoutRestTimerPage(
+                                                  restSeconds:
+                                                      _exercise.restSeconds,
+                                                ),
+                                              ),
+                                            );
+                                          }
+
                                           setState(() {
                                             _exercise.sets[i].isCompleted =
                                                 !_exercise.sets[i].isCompleted;
