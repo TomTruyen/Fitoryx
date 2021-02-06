@@ -553,18 +553,22 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                         if (isStarted) {
                                           if (_exercise.restEnabled == 1 &&
                                               !_exercise.sets[i].isCompleted) {
-                                            Navigator.push(
-                                              context,
-                                              CupertinoPageRoute(
-                                                fullscreenDialog: true,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        WorkoutRestTimerPage(
-                                                  restSeconds:
-                                                      _exercise.restSeconds,
+                                            if (globals.sqlDatabase.settings
+                                                    .isRestTimerEnabled ==
+                                                1) {
+                                              Navigator.push(
+                                                context,
+                                                CupertinoPageRoute(
+                                                  fullscreenDialog: true,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          WorkoutRestTimerPage(
+                                                    restSeconds:
+                                                        _exercise.restSeconds,
+                                                  ),
                                                 ),
-                                              ),
-                                            );
+                                              );
+                                            }
                                           }
 
                                           setState(() {
