@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 import 'package:fittrack/shared/Functions.dart';
-import 'package:vibration/vibration.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 
 class WorkoutRestTimerPage extends StatefulWidget {
   final int restSeconds;
@@ -31,7 +32,9 @@ class _WorkoutRestTimerPageState extends State<WorkoutRestTimerPage>
 
     // vibrate here for last 5 seconds, every other second
     if (timeLeftSeconds <= 5 && timeLeftSeconds % 2 != 0) {
-      vibrate();
+      if (globals.sqlDatabase.settings.isVibrateUponFinishEnabled == 1) {
+        vibrate();
+      }
     }
 
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';

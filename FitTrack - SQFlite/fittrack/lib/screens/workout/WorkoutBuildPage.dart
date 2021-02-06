@@ -28,7 +28,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
     WorkoutChangeNotifier workout,
     Exercise _exercise,
   ) async {
-    int currentExerciseRestEnabled = _exercise.restEnabled ?? 0;
+    int currentExerciseRestEnabled = _exercise.restEnabled ?? 1;
     int currentExerciseRestSeconds = _exercise.restSeconds ?? 60;
 
     await showDialog(
@@ -94,7 +94,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                 child: CupertinoPicker(
                                   scrollController: FixedExtentScrollController(
                                     initialItem:
-                                        (_exercise.restSeconds ~/ 5) - 1,
+                                        (currentExerciseRestSeconds ~/ 5) - 1,
                                   ),
                                   squeeze: 1.0,
                                   looping: true,
