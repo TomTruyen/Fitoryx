@@ -2,7 +2,7 @@ import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ExportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ImportDataPopup.dart';
-import 'package:fittrack/screens/settings/popups/rest_timer/TimerIncrementValuePopup.dart';
+import 'package:fittrack/screens/settings/popups/rest_timer/DefaultRestTimePopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
 import 'package:flutter/material.dart';
 
@@ -109,13 +109,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 ListTile(
-                  title: Text('Timer increment value'),
+                  title: Text('Default Rest Time'),
                   subtitle: Text(
-                    "${settings.timerIncrementValue}s",
+                    "${settings.defaultRestTime}s",
                     style: Theme.of(context).textTheme.caption,
                   ),
                   onTap: () {
-                    showPopupTimerIncrementValue(
+                    showPopupDefaultRestTime(
                       context,
                       updateSettings,
                       settings,
