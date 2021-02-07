@@ -2,6 +2,7 @@ import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ExportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ImportDataPopup.dart';
+import 'package:fittrack/screens/settings/popups/food/NutritionGoalsPopup.dart';
 import 'package:fittrack/screens/settings/popups/rest_timer/DefaultRestTimePopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
 import 'package:flutter/material.dart';
@@ -81,8 +82,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         : 'Imperial (lbs)',
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  onTap: () {
-                    showPopupWeightUnit(
+                  onTap: () async {
+                    await showPopupWeightUnit(
                       context,
                       settings,
                       updateSettings,
@@ -97,6 +98,20 @@ class _SettingsPageState extends State<SettingsPage> {
                     'Nutrition',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                ),
+                ListTile(
+                  title: Text('Nutrition Goals'),
+                  subtitle: Text(
+                    'Set your nutrition goals',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () async {
+                    await showPopupNutritionGoals(
+                      context,
+                      updateSettings,
+                      settings,
+                    );
+                  },
                 ),
                 // kcal, carbs, protein, fat goals
                 Divider(color: Color.fromRGBO(70, 70, 70, 1)),
@@ -116,8 +131,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         : "${settings.defaultRestTime}s",
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  onTap: () {
-                    showPopupDefaultRestTime(
+                  onTap: () async {
+                    await showPopupDefaultRestTime(
                       context,
                       updateSettings,
                       settings,
@@ -202,8 +217,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     'Deletes all your data',
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  onTap: () {
-                    showPopupDeleteData(context, updateSettings);
+                  onTap: () async {
+                    await showPopupDeleteData(context, updateSettings);
                   },
                 ),
               ],

@@ -132,8 +132,8 @@ class _FoodPageState extends State<FoodPage> {
                           : food.protein,
                       goal: settings.proteinGoal != null &&
                               settings.proteinGoal % 1 == 0
-                          ? settings.carbsGoal.toInt()
-                          : settings.carbsGoal,
+                          ? settings.proteinGoal.toInt()
+                          : settings.proteinGoal,
                       name: 'protein',
                     ),
                   ),
