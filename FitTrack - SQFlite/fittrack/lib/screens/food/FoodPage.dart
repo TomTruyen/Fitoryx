@@ -57,7 +57,7 @@ class _FoodPageState extends State<FoodPage> {
             floating: true,
             pinned: true,
             title: Text(
-              'Food',
+              'Nutrition',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,

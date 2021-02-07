@@ -92,7 +92,7 @@ class _WrapperState extends State<Wrapper> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.restaurant_menu_outlined),
-            label: 'Food',
+            label: 'Nutrition',
           ),
         ],
       ),

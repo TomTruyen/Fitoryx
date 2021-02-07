@@ -51,7 +51,7 @@ class _FoodAddPageState extends State<FoodAddPage> {
             floating: true,
             pinned: true,
             title: Text(
-              'Add Food',
+              'Add Nutrition',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,

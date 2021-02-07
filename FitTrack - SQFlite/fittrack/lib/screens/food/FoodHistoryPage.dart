@@ -13,7 +13,7 @@ class FoodHistoryPage extends StatelessWidget {
             floating: true,
             pinned: true,
             title: Text(
-              'Food History',
+              'Nutrition History',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
