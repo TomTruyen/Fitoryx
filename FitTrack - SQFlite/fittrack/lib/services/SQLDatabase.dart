@@ -4,6 +4,7 @@ import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
+import 'package:fittrack/shared/Functions.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
@@ -45,7 +46,7 @@ class SQLDatabase {
             'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration TEXT, workoutDurationInMilliseconds INTEGER)',
           );
           await db.execute(
-            'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal INTEGER, carbs INTEGER, protein INTEGER, fat INTEGER, timeInMillisSinceEpoch INTEGER)',
+            'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal REAL, carbs REAL, protein REAL, fat REAL, date TEXT UNIQUE)',
           );
           await db.execute(
             'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal INTEGER, carbsGoal INTEGER, proteinGoal INTEGER, fatGoal INTEGER, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER)',
@@ -469,7 +470,7 @@ class SQLDatabase {
   Future<void> getFood() async {
     try {
       List<Map<String, dynamic>> dbFood =
-          await db.rawQuery("SELECT * FROM food") ?? [];
+          await db.rawQuery("SELECT * FROM food ORDER BY date DESC") ?? [];
 
       if (dbFood.isEmpty) {
         food = [];
@@ -484,7 +485,55 @@ class SQLDatabase {
         food = _food;
       }
     } catch (e) {
-      print("Get Food Error $e");
+      print("Get Food Error: $e");
+    }
+  }
+
+  Future<dynamic> addFood(
+    double kcal,
+    double carbs,
+    double protein,
+    double fat,
+  ) async {
+    try {
+      DateTime now = DateTime.now();
+
+      String date = dateTimeToString(now);
+
+      if (food.isNotEmpty && food[0].date == date) {
+        kcal += food[0].kcal;
+        carbs += food[0].carbs;
+        protein += food[0].protein;
+        fat += food[0].fat;
+        // Update
+        await db.rawUpdate(
+          'UPDATE food SET kcal = ?, carbs = ?, protein = ?, fat = ? WHERE date = ?',
+          [
+            kcal,
+            carbs,
+            protein,
+            fat,
+            date,
+          ],
+        );
+      } else {
+        // Insert
+        await db.rawInsert(
+          'INSERT INTO food (kcal, carbs, protein, fat, date) VALUES (?, ?, ?, ?, ?)',
+          [
+            kcal,
+            carbs,
+            protein,
+            fat,
+            date,
+          ],
+        );
+      }
+
+      return "";
+    } catch (e) {
+      print("Add Food Error: $e");
+      return null;
     }
   }
 }
@@ -515,11 +564,11 @@ class SQLDatabase {
 
     - Food Table
     id INTEGER
-    kcal INTEGER
-    carbs INTEGER
-    protein INTEGER
-    fat INTEGER
-    timeInMillisSinceEpoch INTEGER == DATE IT WAS ADDED
+    kcal REAL
+    carbs REAL
+    protein REAL
+    fat REAL
+    REAL TEXT == DATE IT WAS ADDED
 
     - Settings Table
     id INTEGER

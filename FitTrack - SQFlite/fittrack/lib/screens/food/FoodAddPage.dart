@@ -1,18 +1,25 @@
-import 'package:fittrack/shared/FoodInputWidget.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:fittrack/shared/FoodInputWidget.dart';
+import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
+
 class FoodAddPage extends StatefulWidget {
+  final Function updateFood;
+
+  FoodAddPage({this.updateFood});
+
   @override
   _FoodAddPageState createState() => _FoodAddPageState();
 }
 
 class _FoodAddPageState extends State<FoodAddPage> {
-  double kcal = 0;
-  double carbs = 0;
-  double protein = 0;
-  double fat = 0;
+  double kcal = 0.0;
+  double carbs = 0.0;
+  double protein = 0.0;
+  double fat = 0.0;
 
   void updateValue(double newValue, String name) {
     switch (name.toLowerCase()) {
@@ -65,8 +72,23 @@ class _FoodAddPageState extends State<FoodAddPage> {
                   Icons.check,
                   color: Colors.black,
                 ),
-                onPressed: () {
-                  // Save here
+                onPressed: () async {
+                  dynamic result = await globals.sqlDatabase
+                      .addFood(kcal, carbs, protein, fat);
+
+                  if (result != null) {
+                    await globals.sqlDatabase.getFood();
+
+                    widget.updateFood(globals.sqlDatabase.food[0]);
+
+                    tryPopContext(context);
+                  } else {
+                    showPopupError(
+                      context,
+                      'Failed to save food',
+                      'Something went wrong saving your food input. Please try again.',
+                    );
+                  }
                 },
               )
             ],

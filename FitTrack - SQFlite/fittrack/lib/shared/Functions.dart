@@ -31,6 +31,14 @@ double recalculateWeight(double weight, String newUnit) {
   }
 }
 
+String dateTimeToString(DateTime date) {
+  String day = date.day.toString().padLeft(2, '0');
+  String month = date.month.toString().padLeft(2, '0');
+  String year = date.year.toString();
+
+  return "$day-$month-$year";
+}
+
 Future<String> getDevicePath() async {
   final directory = await ExtStorage.getExternalStoragePublicDirectory(
       ExtStorage.DIRECTORY_DOWNLOADS);

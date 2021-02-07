@@ -14,7 +14,6 @@ class FoodInputWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: TextFormField(
-        initialValue: '0',
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(12.0),
