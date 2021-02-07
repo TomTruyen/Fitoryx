@@ -3,10 +3,10 @@ class Settings {
   String weightUnit;
 
   // Food Goals
-  int kcalGoal;
-  int carbsGoal;
-  int proteinGoal;
-  int fatGoal;
+  double kcalGoal;
+  double carbsGoal;
+  double proteinGoal;
+  double fatGoal;
 
   // Rest Timer
   int defaultRestTime;

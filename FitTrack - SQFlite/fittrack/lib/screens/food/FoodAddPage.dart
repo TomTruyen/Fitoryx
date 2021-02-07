@@ -33,7 +33,7 @@ class _FoodAddPageState extends State<FoodAddPage> {
         protein = newValue;
         break;
       case 'fat':
-        protein = newValue;
+        fat = newValue;
         break;
       default:
         break;
