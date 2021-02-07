@@ -44,7 +44,7 @@ class _FoodPageState extends State<FoodPage> {
     List<Food> _foodHistoryList = List.of(globals.sqlDatabase.food) ?? [];
 
     if (_foodHistoryList.isNotEmpty && _foodHistoryList[0].date == date) {
-      foodHistoryList.removeAt(0);
+      _foodHistoryList.removeAt(0);
     }
 
     setState(() {
