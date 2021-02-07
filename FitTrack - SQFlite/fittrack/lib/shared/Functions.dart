@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void tryPopContext(BuildContext context) {
   if (Navigator.of(context).canPop()) {
@@ -14,6 +15,19 @@ double convertToDecimalPlaces(double input, int amountOfDecimals) {
   int fac = pow(10, amountOfDecimals);
 
   return (input * fac).round() / fac;
+}
+
+String getDateTimeFromMilliseconds(int milliseconds) {
+  DateTime date = new DateTime.fromMillisecondsSinceEpoch(milliseconds);
+  DateFormat dateFormat = new DateFormat('EEEE, d MMMM y, H:mm');
+
+  return dateFormat.format(date);
+}
+
+String getFormattedDateFromDateTime(DateTime date) {
+  DateFormat dateFormat = new DateFormat('EEEE, d MMMM y');
+
+  return dateFormat.format(date);
 }
 
 double recalculateWeight(double weight, String newUnit) {

@@ -22,6 +22,7 @@ class FoodInputWidget extends StatelessWidget {
       child: TextFormField(
         initialValue: initialValue != null ? initialValue : '0',
         keyboardType: TextInputType.numberWithOptions(decimal: true),
+        textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(12.0),
           border: OutlineInputBorder(

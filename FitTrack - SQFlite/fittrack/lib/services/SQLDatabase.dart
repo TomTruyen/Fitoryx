@@ -46,10 +46,10 @@ class SQLDatabase {
             'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration TEXT, workoutDurationInMilliseconds INTEGER)',
           );
           await db.execute(
-            'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal REAL, carbs REAL, protein REAL, fat REAL, date TEXT UNIQUE)',
+            'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal REAL, carbs REAL, protein REAL, fat REAL, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
           );
           await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal INTEGER, carbsGoal INTEGER, proteinGoal INTEGER, fatGoal INTEGER, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER)',
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER)',
           );
         },
       );
@@ -507,24 +507,32 @@ class SQLDatabase {
         fat += food[0].fat;
         // Update
         await db.rawUpdate(
-          'UPDATE food SET kcal = ?, carbs = ?, protein = ?, fat = ? WHERE date = ?',
+          'UPDATE food SET kcal = ?, carbs = ?, protein = ?, fat = ?, kcalGoal = ?, carbsGoal = ? proteinGoal = ?, fatGoal = ? WHERE date = ?',
           [
             kcal,
             carbs,
             protein,
             fat,
+            settings.kcalGoal,
+            settings.carbsGoal,
+            settings.proteinGoal,
+            settings.fatGoal,
             date,
           ],
         );
       } else {
         // Insert
         await db.rawInsert(
-          'INSERT INTO food (kcal, carbs, protein, fat, date) VALUES (?, ?, ?, ?, ?)',
+          'INSERT INTO food (kcal, carbs, protein, fat, kcalGoal, carbsGoal, proteinGoal, fatGoal, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [
             kcal,
             carbs,
             protein,
             fat,
+            settings.kcalGoal,
+            settings.carbsGoal,
+            settings.proteinGoal,
+            settings.fatGoal,
             date,
           ],
         );
@@ -568,15 +576,19 @@ class SQLDatabase {
     carbs REAL
     protein REAL
     fat REAL
+    kcalGoal REAL
+    carbsGoal REAL
+    proteinGoal REAL
+    fatGoal REAL
     REAL TEXT == DATE IT WAS ADDED
 
     - Settings Table
     id INTEGER
     weightUnit TEXT
-    kcalGoal INTEGER
-    carbsGoal INTEGER
-    proteinGoal INTEGER
-    fatGoal INTEGER
+    kcalGoal REAL
+    carbsGoal REAL
+    proteinGoal REAL
+    fatGoal REAL
     defaultRestTime INTEGER
     isRestTimerEnabled INTEGER
     isVibrateUponFinishEnabled INTEGER

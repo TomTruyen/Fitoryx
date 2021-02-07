@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
-import 'package:intl/intl.dart';
 
 class HistoryViewPage extends StatelessWidget {
   final Workout workout;
@@ -380,11 +379,4 @@ class HistoryViewPage extends StatelessWidget {
       ),
     );
   }
-}
-
-String getDateTimeFromMilliseconds(int milliseconds) {
-  DateTime date = new DateTime.fromMillisecondsSinceEpoch(milliseconds);
-  DateFormat dateFormat = new DateFormat('EEEE, d MMMM y, H:mm');
-
-  return dateFormat.format(date);
 }

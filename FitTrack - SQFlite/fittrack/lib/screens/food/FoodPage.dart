@@ -15,6 +15,8 @@ class FoodPage extends StatefulWidget {
 }
 
 class _FoodPageState extends State<FoodPage> {
+  List<Food> foodHistoryList;
+
   Settings settings;
   Food food;
 
@@ -38,6 +40,16 @@ class _FoodPageState extends State<FoodPage> {
         food = new Food();
       });
     }
+
+    List<Food> _foodHistoryList = List.of(globals.sqlDatabase.food) ?? [];
+
+    if (_foodHistoryList.isNotEmpty && _foodHistoryList[0].date == date) {
+      foodHistoryList.removeAt(0);
+    }
+
+    setState(() {
+      foodHistoryList = _foodHistoryList;
+    });
   }
 
   void updateFood(Food newFood) {
@@ -74,7 +86,9 @@ class _FoodPageState extends State<FoodPage> {
                     context,
                     CupertinoPageRoute(
                       fullscreenDialog: true,
-                      builder: (context) => FoodHistoryPage(),
+                      builder: (context) => FoodHistoryPage(
+                        foodList: List.of(foodHistoryList) ?? [],
+                      ),
                     ),
                   );
                 },
