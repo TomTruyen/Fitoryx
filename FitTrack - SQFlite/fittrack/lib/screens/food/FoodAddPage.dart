@@ -1,7 +1,38 @@
+import 'package:fittrack/shared/FoodInputWidget.dart';
 import 'package:fittrack/shared/Functions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class FoodAddPage extends StatelessWidget {
+class FoodAddPage extends StatefulWidget {
+  @override
+  _FoodAddPageState createState() => _FoodAddPageState();
+}
+
+class _FoodAddPageState extends State<FoodAddPage> {
+  double kcal = 0;
+  double carbs = 0;
+  double protein = 0;
+  double fat = 0;
+
+  void updateValue(double newValue, String name) {
+    switch (name.toLowerCase()) {
+      case 'kcal':
+        kcal = newValue;
+        break;
+      case 'carbs':
+        carbs = newValue;
+        break;
+      case 'protein':
+        protein = newValue;
+        break;
+      case 'fat':
+        protein = newValue;
+        break;
+      default:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,17 +59,29 @@ class FoodAddPage extends StatelessWidget {
                 tryPopContext(context);
               },
             ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.check,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  // Save here
+                },
+              )
+            ],
           ),
           SliverToBoxAdapter(
-            child: Text(
-              'Design + implementation van de food items (kcal, carbs, protein, fat)',
+            child: Column(
+              children: <Widget>[
+                FoodInputWidget(updateValue: updateValue, name: 'kcal'),
+                FoodInputWidget(updateValue: updateValue, name: 'carbs'),
+                FoodInputWidget(updateValue: updateValue, name: 'protein'),
+                FoodInputWidget(updateValue: updateValue, name: 'fat'),
+              ],
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check),
-        onPressed: () {},
       ),
     );
   }
