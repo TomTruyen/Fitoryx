@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:package_info/package_info.dart';
+
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ExportDataPopup.dart';
@@ -5,11 +9,8 @@ import 'package:fittrack/screens/settings/popups/data/ImportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/food/NutritionGoalsPopup.dart';
 import 'package:fittrack/screens/settings/popups/rest_timer/DefaultRestTimePopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
-import 'package:flutter/material.dart';
-
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
-import 'package:intl/intl.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -18,12 +19,23 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   Settings settings;
+  PackageInfo packageInfo;
 
   @override
   void initState() {
     super.initState();
 
     settings = globals.sqlDatabase.settings;
+
+    getPackageInfo();
+  }
+
+  Future<void> getPackageInfo() async {
+    PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+
+    setState(() {
+      packageInfo = _packageInfo;
+    });
   }
 
   void updateSettings(Settings _settings) {
@@ -221,6 +233,17 @@ class _SettingsPageState extends State<SettingsPage> {
                     await showPopupDeleteData(context, updateSettings);
                   },
                 ),
+                if (packageInfo != null)
+                  Divider(color: Color.fromRGBO(70, 70, 70, 1)),
+                if (packageInfo != null)
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      "Version: ${packageInfo.version} - Build: ${packageInfo.buildNumber}",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
               ],
             ),
           ),
