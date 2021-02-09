@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:device_info/device_info.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -85,4 +86,35 @@ Future<dynamic> readFromFile(File file) async {
     print("Read From File Error: $e");
     return null;
   }
+}
+
+String convertAndroidDeviceInfoToString(AndroidDeviceInfo build) {
+  String info = "";
+
+  info += 'version.securityPatch: ${build.version.securityPatch}\n';
+  info += 'version.sdkInt: ${build.version.sdkInt}\n';
+  info += 'version.release: ${build.version.release}\n';
+  info += 'manufacturer: ${build.manufacturer}\n';
+  info += 'brand: ${build.brand}\n';
+  info += 'device: ${build.device}\n';
+  info += 'model: ${build.model}\n';
+  info += 'product: ${build.product}\n';
+
+  return info;
+}
+
+String convertIosDeviceInfoToString(IosDeviceInfo data) {
+  String info = "";
+
+  info += 'name: ${data.name}\n';
+  info += 'systemName: ${data.systemName}\n';
+  info += 'systemVersion: ${data.systemVersion}\n';
+  info += 'model: ${data.model}\n';
+  info += 'utsname.sysname: ${data.utsname.sysname}\n';
+  info += 'utsname.nodename: ${data.utsname.nodename}\n';
+  info += 'utsname.release: ${data.utsname.release}\n';
+  info += 'utsname.version: ${data.utsname.version}\n';
+  info += 'utsname.machine: ${data.utsname.machine}\n';
+
+  return info;
 }

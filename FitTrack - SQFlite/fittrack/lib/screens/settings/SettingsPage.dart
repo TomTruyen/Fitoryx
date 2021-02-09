@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -11,6 +14,7 @@ import 'package:fittrack/screens/settings/popups/rest_timer/DefaultRestTimePopup
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -193,7 +197,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-
                 ListTile(
                   title: Text('Import data'),
                   subtitle: Text(
@@ -231,6 +234,62 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   onTap: () async {
                     await showPopupDeleteData(context, updateSettings);
+                  },
+                ),
+                Divider(color: Color.fromRGBO(70, 70, 70, 1)),
+                Container(
+                  margin: EdgeInsets.only(top: 10.0),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'Contact and support',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                ListTile(
+                  title: Text('Report bug'),
+                  subtitle: Text(
+                    'Found a bug? Send us the details',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () async {
+                    if(packageInfo == null) {
+                      packageInfo = await PackageInfo.fromPlatform();
+                    }
+
+                    final String toMail = "tom.truyen@gmail.com";
+                    final String subject = "Bug Report v${packageInfo.version}.${packageInfo.buildNumber}";
+                    
+                    String body = "Please write your bug above this line and don't remove anything below this line\n\n";
+
+                    if(packageInfo.packageName.toLowerCase().contains('premium') || packageInfo.appName.toLowerCase().contains('premium')) {
+                      body += "Premium User\n\n";
+                    } else {
+                      body += "Free User\n\n";
+                    }
+
+                    body += "Deviceinfo:\n";
+
+
+                    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+                    if(Platform.isAndroid) {
+                      AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+                      body += convertAndroidDeviceInfoToString(androidDeviceInfo);
+                    } else if (Platform.isIOS) {
+                      IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+                      body += convertIosDeviceInfoToString(iosDeviceInfo);
+                    }
+
+                    final Uri emailLaunchUri = Uri(
+                      scheme: 'mailto',
+                      path: toMail,
+                      queryParameters: {
+                        'subject': subject,
+                        'body': body,
+                      }
+                    );
+
+                    launch(emailLaunchUri.toString());
                   },
                 ),
                 if (packageInfo != null)
