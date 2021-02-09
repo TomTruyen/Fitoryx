@@ -91,14 +91,12 @@ Future<dynamic> readFromFile(File file) async {
 String convertAndroidDeviceInfoToString(AndroidDeviceInfo build) {
   String info = "";
 
-  info += 'version.securityPatch: ${build.version.securityPatch}\n';
-  info += 'version.sdkInt: ${build.version.sdkInt}\n';
-  info += 'version.release: ${build.version.release}\n';
-  info += 'manufacturer: ${build.manufacturer}\n';
-  info += 'brand: ${build.brand}\n';
-  info += 'device: ${build.device}\n';
-  info += 'model: ${build.model}\n';
-  info += 'product: ${build.product}\n';
+  info += 'Android Version: ${build.version.release}\n';
+  info += 'SDK Version: ${build.version.sdkInt}\n';
+  info += 'Security Patch: ${build.version.securityPatch}\n';
+  info += 'Manufacturer: ${build.manufacturer}\n';
+  info += 'Brand: ${build.brand}\n';
+  info += 'Model: ${build.model}\n';
 
   return info;
 }
