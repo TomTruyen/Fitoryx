@@ -625,6 +625,11 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                     workout.moveExercise(oldIndex, newIndex);
                   },
                 ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 90.0,
+                  ),
+                ),
               ],
             ),
             floatingActionButton: FloatingActionButton(
