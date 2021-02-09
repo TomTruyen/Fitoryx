@@ -252,16 +252,21 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: Theme.of(context).textTheme.caption,
                   ),
                   onTap: () async {
-                    if(packageInfo == null) {
+                    if (packageInfo == null) {
                       packageInfo = await PackageInfo.fromPlatform();
                     }
 
                     final String toMail = "tom.truyen@gmail.com";
-                    final String subject = "Bug Report v${packageInfo.version}.${packageInfo.buildNumber}";
-                    
-                    String body = "Please write your bug above this line and don't remove anything below this line\n\n";
+                    final String subject =
+                        "Bug Report Version:${packageInfo.version} - Build:${packageInfo.buildNumber}";
 
-                    if(packageInfo.packageName.toLowerCase().contains('premium') || packageInfo.appName.toLowerCase().contains('premium')) {
+                    String body =
+                        "Please write your bug above this line and don't remove anything below this line\n\n";
+
+                    if (packageInfo.packageName
+                            .toLowerCase()
+                            .contains('premium') ||
+                        packageInfo.appName.toLowerCase().contains('premium')) {
                       body += "Premium User\n\n";
                     } else {
                       body += "Free User\n\n";
@@ -269,27 +274,23 @@ class _SettingsPageState extends State<SettingsPage> {
 
                     body += "Deviceinfo:\n";
 
-
                     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
-                    if(Platform.isAndroid) {
-                      AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
-                      body += convertAndroidDeviceInfoToString(androidDeviceInfo);
+                    if (Platform.isAndroid) {
+                      AndroidDeviceInfo androidDeviceInfo =
+                          await deviceInfo.androidInfo;
+                      body +=
+                          convertAndroidDeviceInfoToString(androidDeviceInfo);
                     } else if (Platform.isIOS) {
                       IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
                       body += convertIosDeviceInfoToString(iosDeviceInfo);
                     }
 
-                    final Uri emailLaunchUri = Uri(
-                      scheme: 'mailto',
-                      path: toMail,
-                      queryParameters: {
-                        'subject': subject,
-                        'body': body,
-                      }
-                    );
+                    final url = 'mailto:$toMail?subject=$subject&body=$body';
 
-                    launch(emailLaunchUri.toString());
+                    if (await canLaunch(url)) {
+                      launch(url);
+                    }
                   },
                 ),
                 if (packageInfo != null)
