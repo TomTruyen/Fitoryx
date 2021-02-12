@@ -39,6 +39,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ],
           ),
+          // Allow users to set their current weight, height, age, gender etc.... Either through settings of through profile page somewhere
           SliverList(
             delegate: SliverChildListDelegate(
               [
