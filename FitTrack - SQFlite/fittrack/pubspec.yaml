@@ -30,8 +30,9 @@ dependencies:
   device_info: ^1.0.0
   encrypt: ^4.1.0
   ext_storage: ^1.0.3
-  intl: ^0.16.1
   file_picker: ^2.1.6
+  fl_chart: ^0.12.2
+  intl: ^0.16.1
   package_info: ^0.4.3+4
   permission_handler: ^5.0.1+1
   provider: ^4.3.2+3

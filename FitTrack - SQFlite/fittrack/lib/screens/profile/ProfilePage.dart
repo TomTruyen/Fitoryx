@@ -1,4 +1,5 @@
 import 'package:fittrack/screens/settings/SettingsPage.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +38,28 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ],
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                // https://pub.dev/packages/fl_chart --> Docs lezen & totalweight maken
+
+                // Card(
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(8.0),
+                //   ),
+                //   margin: EdgeInsets.symmetric(
+                //     horizontal: 8.0,
+                //     vertical: 4.0,
+                //   ),
+                //   child: LineChart(
+                //     LineChartData(
+
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ],
       ),
