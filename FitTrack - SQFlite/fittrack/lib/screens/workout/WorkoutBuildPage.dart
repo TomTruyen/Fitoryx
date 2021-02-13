@@ -72,6 +72,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                             ),
                             Flexible(
                               child: Switch(
+                                activeColor: Colors.blueAccent[700],
                                 value: currentExerciseRestEnabled == 1
                                     ? true
                                     : false,

@@ -156,6 +156,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
                 SwitchListTile(
+                  activeColor: Colors.blueAccent[700],
                   title: Text('Rest timer enabled'),
                   value: settings.isRestTimerEnabled == 1 ? true : false,
                   onChanged: (bool value) async {
@@ -172,6 +173,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
                 SwitchListTile(
+                  activeColor: Colors.blueAccent[700],
                   title: Text('Vibrate upon finish'),
                   value:
                       settings.isVibrateUponFinishEnabled == 1 ? true : false,
