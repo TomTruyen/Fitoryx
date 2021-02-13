@@ -43,7 +43,9 @@ class ProfilePage extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                // https://pub.dev/packages/fl_chart --> Docs lezen & totalweight maken
+                // https://pub.dev/packages/fl_chart --> Docs lezen
+                // https://www.youtube.com/watch?v=LB7B3zudivI --> Tutorial video voor linechart
+
 
                 // Card(
                 //   shape: RoundedRectangleBorder(

@@ -10,6 +10,7 @@ import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/workout/popups/EndWorkoutWarningPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:fittrack/shared/GradientButton.dart';
 
 class WorkoutStartPage extends StatefulWidget {
   final Workout workout;
@@ -279,23 +280,13 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                     ),
                   )
                 : Container(
-                    height: 60.0,
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.0,
                       vertical: 8.0,
                     ),
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Text(
-                        'Start Workout',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      color: Theme.of(context).accentColor,
-                      onPressed: () async {
+                    child: GradientButton(
+                      text: 'Start Workout',
+                      onPressed: () {
                         if (!isStarted) {
                           startWorkout();
                         }

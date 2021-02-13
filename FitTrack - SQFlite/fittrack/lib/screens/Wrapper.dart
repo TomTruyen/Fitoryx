@@ -72,18 +72,69 @@ class _WrapperState extends State<Wrapper> {
         currentIndex: _selectedIndex,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            activeIcon: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  colors: <Color>[
+                    Colors.blueAccent[200],
+                    Colors.lightBlueAccent[200],
+                  ],
+                  tileMode: TileMode.repeated,
+                ).createShader(bounds);
+              },
+              child: Icon(Icons.person_outline),
+            ),
             icon: Icon(Icons.person_outline),
             label: 'Profile',
           ),
           BottomNavigationBarItem(
+            activeIcon: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  colors: <Color>[
+                    Colors.blueAccent[200],
+                    Colors.lightBlueAccent[200],
+                  ],
+                  tileMode: TileMode.repeated,
+                ).createShader(bounds);
+              },
+              child: Icon(Icons.watch_later_outlined),
+            ),
             icon: Icon(Icons.watch_later_outlined),
             label: 'History',
           ),
           BottomNavigationBarItem(
+            activeIcon: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  colors: <Color>[
+                    Colors.blueAccent[200],
+                    Colors.lightBlueAccent[200],
+                  ],
+                  tileMode: TileMode.repeated,
+                ).createShader(bounds);
+              },
+              child: Icon(Icons.add_outlined),
+            ),
             icon: Icon(Icons.add_outlined),
             label: 'Workout',
           ),
           BottomNavigationBarItem(
+            activeIcon: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  colors: <Color>[
+                    Colors.blueAccent[200],
+                    Colors.lightBlueAccent[200],
+                  ],
+                  tileMode: TileMode.repeated,
+                ).createShader(bounds);
+              },
+              child: Transform.rotate(
+                angle: -pi / 4,
+                child: Icon(Icons.fitness_center_outlined),
+              ),
+            ),
             icon: Transform.rotate(
               angle: -pi / 4,
               child: Icon(Icons.fitness_center_outlined),
@@ -91,6 +142,18 @@ class _WrapperState extends State<Wrapper> {
             label: 'Exercises',
           ),
           BottomNavigationBarItem(
+            activeIcon: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  colors: <Color>[
+                    Colors.blueAccent[200],
+                    Colors.lightBlueAccent[200],
+                  ],
+                  tileMode: TileMode.repeated,
+                ).createShader(bounds);
+              },
+              child: Icon(Icons.restaurant_menu_outlined),
+            ),
             icon: Icon(Icons.restaurant_menu_outlined),
             label: 'Nutrition',
           ),

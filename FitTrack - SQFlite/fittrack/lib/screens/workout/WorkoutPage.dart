@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:fittrack/shared/GradientButton.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
@@ -115,22 +116,45 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     ),
                   ),
                 ),
+                // SliverToBoxAdapter(
+                //   child: Container(
+                //     height: 60.0,
+                //     padding:
+                //         EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                //     child: FlatButton(
+                //       color: Theme.of(context).accentColor,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(12.0),
+                //       ),
+                //       child: Text(
+                //         'Create Workout',
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //         ),
+                //       ),
+                //       onPressed: () {
+                // workout.reset();
+
+                // Navigator.of(context).push(
+                //   CupertinoPageRoute(
+                //     fullscreenDialog: true,
+                //     builder: (BuildContext context) => WorkoutBuildPage(
+                //       updateWorkouts: updateWorkouts,
+                //     ),
+                //   ),
+                // );
+                //       },
+                //     ),
+                //   ),
+                // ),
                 SliverToBoxAdapter(
                   child: Container(
-                    height: 60.0,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                    child: FlatButton(
-                      color: Theme.of(context).accentColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Text(
-                        'Create Workout',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 8.0,
+                    ),
+                    child: GradientButton(
+                      text: 'Create Workout',
                       onPressed: () {
                         workout.reset();
 

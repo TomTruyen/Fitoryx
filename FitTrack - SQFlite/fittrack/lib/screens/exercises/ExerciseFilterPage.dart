@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/shared/GradientButton.dart';
 import 'package:fittrack/shared/Loader.dart';
 import 'package:fittrack/shared/CategoryList.dart';
 import 'package:fittrack/shared/EquipmentList.dart';
@@ -146,22 +147,28 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
               color: Colors.transparent,
               padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
               width: MediaQuery.of(context).size.width,
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  side: BorderSide(
-                    width: 1,
-                    color: Theme.of(context).accentColor,
-                  ),
-                ),
-                color: Theme.of(context).accentColor,
-                padding: EdgeInsets.all(14.0),
-                child: Text(
-                  'Clear Filters',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
+              // child: FlatButton(
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(12.0),
+              //     side: BorderSide(
+              //       width: 1,
+              //       color: Theme.of(context).accentColor,
+              //     ),
+              //   ),
+              //   color: Theme.of(context).accentColor,
+              //   padding: EdgeInsets.all(14.0),
+              //   child: Text(
+              //     'Clear Filters',
+              //     style: TextStyle(
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              //   onPressed: () {
+              //     filter.clearAllFilters();
+              //   },
+              // ),
+              child: GradientButton(
+                text: 'Clear Filters',
                 onPressed: () {
                   filter.clearAllFilters();
                 },
