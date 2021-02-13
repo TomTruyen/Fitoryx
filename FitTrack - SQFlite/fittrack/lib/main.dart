@@ -55,11 +55,6 @@ class _MyAppState extends State<MyApp> {
         title: 'FitTrack',
         theme: ThemeData(
           fontFamily: 'OpenSans',
-          accentColor: Colors.blue[900],
-          iconTheme: IconThemeData(
-            color: Colors.blue[900],
-          ),
-          buttonColor: Colors.blue[900],
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             unselectedItemColor: Colors.grey,
             unselectedIconTheme: IconThemeData(
