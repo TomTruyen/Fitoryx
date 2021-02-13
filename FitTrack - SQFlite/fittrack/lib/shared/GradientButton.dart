@@ -19,10 +19,14 @@ class GradientButton extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  Colors.blueAccent[700],
+                  Colors.blueAccent[400],
                   Colors.blueAccent[200],
-                  Colors.lightBlueAccent[200],
                 ],
+                tileMode: TileMode.repeated,
               ),
               borderRadius: BorderRadius.circular(30.0)),
           child: Container(

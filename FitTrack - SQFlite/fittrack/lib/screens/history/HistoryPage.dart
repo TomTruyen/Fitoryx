@@ -204,6 +204,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                               child: GradientText(
                                 text: name,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             for (int i = 0; i < 3; i++)

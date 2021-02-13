@@ -231,7 +231,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                         child: Container(
                                           padding: EdgeInsets.fromLTRB(
                                               16.0, 0.0, 16.0, 12.0),
-                                          child: GradientText(text: name),
+                                          child: GradientText(
+                                            text: name,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
                                       ),
                                       Container(

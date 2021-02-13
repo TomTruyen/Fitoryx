@@ -302,7 +302,10 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                         16.0,
                                         12.0,
                                       ),
-                                      child: GradientText(text: _name),
+                                      child: GradientText(
+                                        text: _name,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ),
                                   Container(
@@ -496,6 +499,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                       flex: 1,
                                       child: GradientText(
                                         text: (i + 1).toString(),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                     Expanded(

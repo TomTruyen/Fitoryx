@@ -171,10 +171,14 @@ class FilterWidget extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: !selected
             ? LinearGradient(
-                colors: [
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  Colors.blueAccent[700],
+                  Colors.blueAccent[400],
                   Colors.blueAccent[200],
-                  Colors.lightBlueAccent[200],
                 ],
+                tileMode: TileMode.repeated,
               )
             : null,
         borderRadius: BorderRadius.all(
@@ -187,10 +191,14 @@ class FilterWidget extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: selected
               ? LinearGradient(
-                  colors: [
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.blueAccent[700],
+                    Colors.blueAccent[400],
                     Colors.blueAccent[200],
-                    Colors.lightBlueAccent[200],
                   ],
+                  tileMode: TileMode.repeated,
                 )
               : null,
           color: !selected ? Colors.white : null,

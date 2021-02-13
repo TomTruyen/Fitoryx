@@ -318,7 +318,10 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                             Flexible(
                               child: Container(
                                 padding: EdgeInsets.all(16.0),
-                                child: GradientText(text: _exercise.name),
+                                child: GradientText(
+                                  text: _exercise.name,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                             if (_exercise.restEnabled == 1)
@@ -418,6 +421,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                   flex: 1,
                                   child: GradientText(
                                     text: (i + 1).toString(),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                                 Expanded(

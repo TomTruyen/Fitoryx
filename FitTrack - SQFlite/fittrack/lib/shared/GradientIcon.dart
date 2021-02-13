@@ -14,8 +14,9 @@ class GradientIcon extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: <Color>[
+            Colors.blueAccent[700],
+            Colors.blueAccent[400],
             Colors.blueAccent[200],
-            Colors.lightBlue[200],
           ],
           tileMode: TileMode.repeated,
         ).createShader(bounds);

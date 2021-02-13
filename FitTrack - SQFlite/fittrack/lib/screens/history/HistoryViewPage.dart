@@ -241,6 +241,7 @@ class HistoryViewPage extends StatelessWidget {
                                 ),
                                 child: GradientText(
                                   text: _exercise.name,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
@@ -276,10 +277,12 @@ class HistoryViewPage extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               Expanded(
-                                  flex: 1,
-                                  child: GradientText(
-                                    text: (i + 1).toString(),
-                                  )),
+                                flex: 1,
+                                child: GradientText(
+                                  text: (i + 1).toString(),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                               Expanded(
                                 flex: 3,
                                 child: Container(

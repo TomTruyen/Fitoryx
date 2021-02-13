@@ -453,6 +453,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                               ? GradientText(
                                   text: name,
                                   fontSize: 16.0,
+                                  overflow: TextOverflow.ellipsis,
                                 )
                               : Text(
                                   name,
@@ -462,6 +463,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
                           subtitle: isGradient
                               ? GradientText(
                                   text: category == "" ? "None" : category,
+                                  overflow: TextOverflow.ellipsis,
                                 )
                               : Text(
                                   category == "" ? "None" : category,

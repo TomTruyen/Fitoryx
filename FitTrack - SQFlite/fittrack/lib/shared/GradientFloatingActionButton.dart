@@ -17,10 +17,14 @@ class GradientFloatingActionButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: LinearGradient(
-            colors: [
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[
+              Colors.blueAccent[700],
+              Colors.blueAccent[400],
               Colors.blueAccent[200],
-              Colors.lightBlueAccent[200],
             ],
+            tileMode: TileMode.repeated,
           ),
         ),
       ),
