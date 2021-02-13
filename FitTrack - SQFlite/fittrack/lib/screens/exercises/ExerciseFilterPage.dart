@@ -19,6 +19,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
     if (type == 'userCreated') {
       return [
         InkWell(
+          borderRadius: BorderRadius.circular(12.0),
           child: FilterWidget(
             value: 'User Created Exercise',
             selected: filter.isUserCreated == 0 ? false : true,
@@ -49,6 +50,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
 
       filterWidgets.add(
         InkWell(
+          borderRadius: BorderRadius.circular(12.0),
           child: FilterWidget(
             value: items[i],
             selected: selected,
@@ -168,8 +170,9 @@ class FilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       decoration: BoxDecoration(
-        gradient: !selected
+        gradient: selected
             ? LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -181,46 +184,27 @@ class FilterWidget extends StatelessWidget {
                 tileMode: TileMode.repeated,
               )
             : null,
+        color: !selected ? Colors.white : null,
+        border: !selected
+            ? Border.all(color: Colors.blueAccent[400])
+            : Border.all(color: Colors.transparent),
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
       ),
-      padding: EdgeInsets.all(1.0),
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-        decoration: BoxDecoration(
-          gradient: selected
-              ? LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Colors.blueAccent[700],
-                    Colors.blueAccent[400],
-                    Colors.blueAccent[200],
-                  ],
-                  tileMode: TileMode.repeated,
-                )
-              : null,
-          color: !selected ? Colors.white : null,
-          borderRadius: BorderRadius.all(
-            Radius.circular(12.0),
-          ),
-        ),
-        child: !selected
-            ? GradientText(
-                text: value,
+      child: !selected
+          ? GradientText(
+              text: value,
+              fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
+            )
+          : Text(
+              value,
+              style: TextStyle(
+                color: Colors.white,
                 fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
-              )
-            : Text(
-                value,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize:
-                      Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
-                ),
-                textAlign: TextAlign.center,
               ),
-      ),
+              textAlign: TextAlign.center,
+            ),
     );
   }
 }
