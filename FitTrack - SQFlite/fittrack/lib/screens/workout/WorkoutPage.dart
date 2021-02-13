@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:fittrack/screens/workout/popups/DeleteWorkoutPopup.dart';
+import 'package:fittrack/shared/GradientIcon.dart';
+import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -116,37 +118,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     ),
                   ),
                 ),
-                // SliverToBoxAdapter(
-                //   child: Container(
-                //     height: 60.0,
-                //     padding:
-                //         EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                //     child: FlatButton(
-                //       color: Theme.of(context).accentColor,
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(12.0),
-                //       ),
-                //       child: Text(
-                //         'Create Workout',
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //         ),
-                //       ),
-                //       onPressed: () {
-                // workout.reset();
-
-                // Navigator.of(context).push(
-                //   CupertinoPageRoute(
-                //     fullscreenDialog: true,
-                //     builder: (BuildContext context) => WorkoutBuildPage(
-                //       updateWorkouts: updateWorkouts,
-                //     ),
-                //   ),
-                // );
-                //       },
-                //     ),
-                //   ),
-                // ),
                 SliverToBoxAdapter(
                   child: Container(
                     margin: EdgeInsets.symmetric(
@@ -260,14 +231,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                         child: Container(
                                           padding: EdgeInsets.fromLTRB(
                                               16.0, 0.0, 16.0, 12.0),
-                                          child: Text(
-                                            name,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color:
-                                                  Theme.of(context).accentColor,
-                                            ),
-                                          ),
+                                          child: GradientText(text: name),
                                         ),
                                       ),
                                       Container(
@@ -285,10 +249,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(8.0)),
                                             ),
-                                            icon: Icon(
-                                              Icons.more_vert,
-                                              color:
-                                                  Theme.of(context).accentColor,
+                                            icon: GradientIcon(
+                                              icon: Icon(Icons.more_vert),
                                             ),
                                             onSelected: (selection) async {
                                               switch (selection) {

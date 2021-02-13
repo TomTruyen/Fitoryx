@@ -4,6 +4,7 @@ import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/screens/history/popups/DeleteHistoryPopup.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
+import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -238,12 +239,8 @@ class HistoryViewPage extends StatelessWidget {
                                   16.0,
                                   12.0,
                                 ),
-                                child: Text(
-                                  _exercise.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                  ),
+                                child: GradientText(
+                                  text: _exercise.name,
                                 ),
                               ),
                             ),
@@ -265,11 +262,9 @@ class HistoryViewPage extends StatelessWidget {
                                       ),
                                     ),
                                     SizedBox(width: 5.0),
-                                    Text(
-                                      "${_exercise.getTotalWeightLifted().toString()} ${globals.sqlDatabase.settings.weightUnit}",
-                                      style: TextStyle(
-                                        color: Theme.of(context).accentColor,
-                                      ),
+                                    GradientText(
+                                      text:
+                                          "${_exercise.getTotalWeightLifted().toString()} ${globals.sqlDatabase.settings.weightUnit}",
                                     ),
                                   ],
                                 ),
@@ -281,15 +276,10 @@ class HistoryViewPage extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               Expanded(
-                                flex: 1,
-                                child: Text(
-                                  (i + 1).toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                ),
-                              ),
+                                  flex: 1,
+                                  child: GradientText(
+                                    text: (i + 1).toString(),
+                                  )),
                               Expanded(
                                 flex: 3,
                                 child: Container(

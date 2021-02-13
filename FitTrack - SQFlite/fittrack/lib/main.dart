@@ -62,7 +62,6 @@ class _MyAppState extends State<MyApp> {
           buttonColor: Colors.blue[900],
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             unselectedItemColor: Colors.grey,
-            // selectedItemColor: Colors.blue[900],
             unselectedIconTheme: IconThemeData(
               size: 24.0,
             ),

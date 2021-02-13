@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
+import 'package:fittrack/shared/GradientButton.dart';
+import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -109,20 +111,15 @@ class _HistoryPageState extends State<HistoryPage> {
                   children: <Widget>[
                     Text("No workouts performed."),
                     SizedBox(height: 10.0),
-                    FlatButton(
-                      color: Theme.of(context).accentColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                    Container(
+                      height: 40.0,
+                      width: 150.0,
+                      child: GradientButton(
+                        text: 'Start now',
+                        onPressed: () {
+                          widget.changePage(globals.PageEnum.workout.index);
+                        },
                       ),
-                      child: Text(
-                        'Start now',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () {
-                        widget.changePage(globals.PageEnum.workout.index);
-                      },
                     ),
                   ],
                 ),
@@ -199,14 +196,14 @@ class _HistoryPageState extends State<HistoryPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              padding:
-                                  EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 12.0),
-                              child: Text(
-                                name,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                ),
+                              padding: EdgeInsets.fromLTRB(
+                                16.0,
+                                16.0,
+                                16.0,
+                                12.0,
+                              ),
+                              child: GradientText(
+                                text: name,
                               ),
                             ),
                             for (int i = 0; i < 3; i++)

@@ -1,5 +1,7 @@
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/shared/GradientFloatingActionButton.dart';
+import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -430,25 +432,16 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         TextStyle subtitle =
                             Theme.of(context).textTheme.subtitle2;
 
+                        bool isGradient = false;
+
                         if (widget.isReplaceActive) {
                           if (_exercise.compare(exerciseToReplace)) {
-                            style =
-                                TextStyle(color: Theme.of(context).accentColor);
-                            subtitle = Theme.of(context)
-                                .textTheme
-                                .subtitle2
-                                .copyWith(color: Theme.of(context).accentColor);
+                            isGradient = true;
                           }
                         } else if (workoutExercises.isNotEmpty) {
                           for (int j = 0; j < workoutExercises.length; j++) {
                             if (workoutExercises[j].compare(_exercise)) {
-                              style = TextStyle(
-                                  color: Theme.of(context).accentColor);
-                              subtitle = Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  .copyWith(
-                                      color: Theme.of(context).accentColor);
+                              isGradient = true;
 
                               break;
                             }
@@ -456,16 +449,25 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         }
 
                         return ListTile(
-                          title: Text(
-                            name,
-                            overflow: TextOverflow.ellipsis,
-                            style: style,
-                          ),
-                          subtitle: Text(
-                            category == "" ? "None" : category,
-                            overflow: TextOverflow.ellipsis,
-                            style: subtitle,
-                          ),
+                          title: isGradient
+                              ? GradientText(
+                                  text: name,
+                                  fontSize: 16.0,
+                                )
+                              : Text(
+                                  name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: style,
+                                ),
+                          subtitle: isGradient
+                              ? GradientText(
+                                  text: category == "" ? "None" : category,
+                                )
+                              : Text(
+                                  category == "" ? "None" : category,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: subtitle,
+                                ),
                           trailing: !widget.isSelectActive && isUserCreated
                               ? IconButton(
                                   icon: Icon(Icons.delete, color: Colors.black),
@@ -535,8 +537,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
             ),
             floatingActionButton: widget.isReplaceActive &&
                     !exerciseToReplace.compare(widget.workout.exerciseToReplace)
-                ? FloatingActionButton(
-                    child: Icon(Icons.check),
+                ? GradientFloatingActionButton(
+                    icon: Icon(Icons.check),
                     onPressed: () {
                       widget.workout.replaceExercise(exerciseToReplace);
                       tryPopContext(context);
@@ -545,8 +547,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
                 : widget.isSelectActive &&
                         workoutExercises.isNotEmpty &&
                         !widget.isReplaceActive
-                    ? FloatingActionButton(
-                        child: Icon(Icons.check),
+                    ? GradientFloatingActionButton(
+                        icon: Icon(Icons.check),
                         onPressed: () {
                           widget.workout.updateExercises(workoutExercises);
                           tryPopContext(context);

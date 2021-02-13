@@ -1,3 +1,4 @@
+import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -147,26 +148,6 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
               color: Colors.transparent,
               padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
               width: MediaQuery.of(context).size.width,
-              // child: FlatButton(
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(12.0),
-              //     side: BorderSide(
-              //       width: 1,
-              //       color: Theme.of(context).accentColor,
-              //     ),
-              //   ),
-              //   color: Theme.of(context).accentColor,
-              //   padding: EdgeInsets.all(14.0),
-              //   child: Text(
-              //     'Clear Filters',
-              //     style: TextStyle(
-              //       color: Colors.white,
-              //     ),
-              //   ),
-              //   onPressed: () {
-              //     filter.clearAllFilters();
-              //   },
-              // ),
               child: GradientButton(
                 text: 'Clear Filters',
                 onPressed: () {
@@ -187,24 +168,50 @@ class FilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
       decoration: BoxDecoration(
-        color: selected ? Theme.of(context).accentColor : Colors.white,
+        gradient: !selected
+            ? LinearGradient(
+                colors: [
+                  Colors.blueAccent[200],
+                  Colors.lightBlueAccent[200],
+                ],
+              )
+            : null,
         borderRadius: BorderRadius.all(
           Radius.circular(12.0),
         ),
-        border: Border.all(
-          color: Theme.of(context).accentColor,
-          width: 1.0,
-        ),
       ),
-      child: Text(
-        value,
-        style: TextStyle(
-          color: selected ? Colors.white : Theme.of(context).accentColor,
-          fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
+      padding: EdgeInsets.all(1.0),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+        decoration: BoxDecoration(
+          gradient: selected
+              ? LinearGradient(
+                  colors: [
+                    Colors.blueAccent[200],
+                    Colors.lightBlueAccent[200],
+                  ],
+                )
+              : null,
+          color: !selected ? Colors.white : null,
+          borderRadius: BorderRadius.all(
+            Radius.circular(12.0),
+          ),
         ),
-        textAlign: TextAlign.center,
+        child: !selected
+            ? GradientText(
+                text: value,
+                fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
+              )
+            : Text(
+                value,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize:
+                      Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
+                ),
+                textAlign: TextAlign.center,
+              ),
       ),
     );
   }

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
 import 'package:fittrack/screens/workout/WorkoutRestTimerPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
+import 'package:fittrack/shared/GradientIcon.dart';
+import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -316,13 +318,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                             Flexible(
                               child: Container(
                                 padding: EdgeInsets.all(16.0),
-                                child: Text(
-                                  _exercise.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                ),
+                                child: GradientText(text: _exercise.name),
                               ),
                             ),
                             if (_exercise.restEnabled == 1)
@@ -330,19 +326,16 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                 padding: EdgeInsets.all(16.0),
                                 child: Row(
                                   children: <Widget>[
-                                    Icon(
-                                      Icons.schedule,
-                                      color: Theme.of(context).accentColor,
+                                    GradientIcon(
+                                      icon: Icon(Icons.schedule),
                                     ),
                                     SizedBox(
                                       width: 5.0,
                                     ),
-                                    Text(
-                                      "${_exercise.restSeconds ~/ 60}:${(_exercise.restSeconds % 60).toString().padLeft(2, '0')}",
-                                      style: TextStyle(
-                                        color: Theme.of(context).accentColor,
-                                      ),
-                                    )
+                                    GradientText(
+                                      text:
+                                          "${_exercise.restSeconds ~/ 60}:${(_exercise.restSeconds % 60).toString().padLeft(2, '0')}",
+                                    ),
                                   ],
                                 ),
                               ),
@@ -423,12 +416,8 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                               children: <Widget>[
                                 Expanded(
                                   flex: 1,
-                                  child: Text(
-                                    (i + 1).toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Theme.of(context).accentColor,
-                                    ),
+                                  child: GradientText(
+                                    text: (i + 1).toString(),
                                   ),
                                 ),
                                 Expanded(

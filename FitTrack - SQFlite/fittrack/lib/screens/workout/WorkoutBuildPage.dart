@@ -1,3 +1,6 @@
+import 'package:fittrack/shared/GradientFloatingActionButton.dart';
+import 'package:fittrack/shared/GradientIcon.dart';
+import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -294,14 +297,12 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                   Flexible(
                                     child: Container(
                                       padding: EdgeInsets.fromLTRB(
-                                          16.0, 0.0, 16.0, 12.0),
-                                      child: Text(
-                                        _name,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: Theme.of(context).accentColor,
-                                        ),
+                                        16.0,
+                                        0.0,
+                                        16.0,
+                                        12.0,
                                       ),
+                                      child: GradientText(text: _name),
                                     ),
                                   ),
                                   Container(
@@ -319,10 +320,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(8.0)),
                                         ),
-                                        icon: Icon(
-                                          Icons.more_vert,
-                                          color: Theme.of(context).accentColor,
-                                        ),
+                                        icon: GradientIcon(),
                                         onSelected: (selection) {
                                           if (selection == 'remove') {
                                             workout.removeExercise(index);
@@ -496,12 +494,8 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                   children: <Widget>[
                                     Expanded(
                                       flex: 1,
-                                      child: Text(
-                                        (i + 1).toString(),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Theme.of(context).accentColor,
-                                        ),
+                                      child: GradientText(
+                                        text: (i + 1).toString(),
                                       ),
                                     ),
                                     Expanded(
@@ -603,12 +597,9 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                   ],
                                 ),
                               FlatButton(
-                                child: Text(
-                                  'ADD SET',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context).accentColor,
-                                  ),
+                                child: GradientText(
+                                  text: 'ADD SET',
+                                  fontWeight: FontWeight.w600,
                                 ),
                                 onPressed: () {
                                   workout.addExerciseSet(index);
@@ -632,8 +623,8 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                 ),
               ],
             ),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add_outlined),
+            floatingActionButton: GradientFloatingActionButton(
+              icon: Icon(Icons.add_outlined),
               onPressed: () {
                 Navigator.of(context).push(
                   CupertinoPageRoute(

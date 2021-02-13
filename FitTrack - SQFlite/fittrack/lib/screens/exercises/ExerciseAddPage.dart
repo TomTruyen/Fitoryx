@@ -1,4 +1,5 @@
 import 'package:fittrack/shared/ErrorPopup.dart';
+import 'package:fittrack/shared/GradientFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/shared/CategoryList.dart';
@@ -215,8 +216,8 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check),
+      floatingActionButton: GradientFloatingActionButton(
+        icon: Icon(Icons.check),
         onPressed: () async {
           if (formKey.currentState.validate()) {
             dynamic result = await globals.sqlDatabase
