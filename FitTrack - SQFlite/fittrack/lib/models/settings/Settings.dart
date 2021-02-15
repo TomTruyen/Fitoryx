@@ -13,6 +13,9 @@ class Settings {
   int isRestTimerEnabled;
   int isVibrateUponFinishEnabled;
 
+  // Profile Page
+  int workoutsPerWeekGoal;
+
   Settings({
     this.id,
     this.weightUnit = 'kg',
@@ -23,6 +26,7 @@ class Settings {
     this.defaultRestTime = 60,
     this.isRestTimerEnabled = 1,
     this.isVibrateUponFinishEnabled = 1,
+    this.workoutsPerWeekGoal,
   });
 
   Settings clone() {
@@ -36,6 +40,7 @@ class Settings {
       defaultRestTime: defaultRestTime ?? 60,
       isRestTimerEnabled: isRestTimerEnabled ?? 1,
       isVibrateUponFinishEnabled: isVibrateUponFinishEnabled ?? 1,
+      workoutsPerWeekGoal: workoutsPerWeekGoal,
     );
   }
 
@@ -50,6 +55,7 @@ class Settings {
       defaultRestTime: settings['defaultRestTime'] ?? 60,
       isRestTimerEnabled: settings['isRestTimerEnabled'] ?? 1,
       isVibrateUponFinishEnabled: settings['isVibrateUponFinishEnabled'] ?? 1,
+      workoutsPerWeekGoal: settings['workoutsPerWeekGoal'],
     );
   }
 }
