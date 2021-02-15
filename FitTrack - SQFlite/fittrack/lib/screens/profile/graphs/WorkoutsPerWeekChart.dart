@@ -100,7 +100,7 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
           BarChartRodData(
             backDrawRodData: BackgroundBarChartRodData(
               show: true,
-              y: settings.workoutsPerWeekGoal.toDouble() ?? 7,
+              y: settings.workoutsPerWeekGoal?.toDouble() ?? 7,
               colors: [Colors.blue[50]],
             ),
             colors: [
@@ -196,6 +196,11 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
 
   if (workoutsPerWeekBarData.length < TOTAL_WEEKS) {
     int diff = TOTAL_WEEKS - workoutsPerWeekBarData.length;
+
+    if (workoutsPerWeekBarData.length == 0) {
+      startOfCurrentWeek = startOfCurrentWeek.add(Duration(days: 7));
+      startOfNextWeek = startOfNextWeek.add(Duration(days: 7));
+    }
 
     for (int i = 0; i < diff; i++) {
       startOfCurrentWeek = startOfCurrentWeek.subtract(Duration(days: 7));
