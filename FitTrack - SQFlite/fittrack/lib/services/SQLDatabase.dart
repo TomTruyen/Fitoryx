@@ -8,9 +8,10 @@ import 'package:fittrack/shared/Functions.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
+const SECRET_KEY =
+    "d55cb8eba585b7ed03db0d4e2c8947c6"; // fittrack_secret_key_for_encryption (MD5 Hashed)
+
 class SQLDatabase {
-  final String SECRET_KEY =
-      "d55cb8eba585b7ed03db0d4e2c8947c6"; // fittrack_secret_key_for_encryption (MD5 Hashed)
   final List<String> tables = [
     'exercises',
     'workouts',
@@ -49,7 +50,7 @@ class SQLDatabase {
             'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal REAL, carbs REAL, protein REAL, fat REAL, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
           );
           await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER)',
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, workoutsPerWeekGoal INTEGER)',
           );
         },
       );
@@ -160,7 +161,7 @@ class SQLDatabase {
       if (_settings.id == null) {
         // INSERT
         await db.rawInsert(
-          'INSERT INTO settings (weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO settings (weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, workoutsPerWeekGoal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [
             _settings.weightUnit,
             _settings.kcalGoal,
@@ -170,12 +171,13 @@ class SQLDatabase {
             _settings.defaultRestTime,
             _settings.isRestTimerEnabled,
             _settings.isVibrateUponFinishEnabled,
+            _settings.workoutsPerWeekGoal,
           ],
         );
       } else {
         // UPDATE
         await db.rawUpdate(
-          'UPDATE settings SET weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ? WHERE id = ?',
+          'UPDATE settings SET weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, workoutsPerWeekGoal = ? WHERE id = ?',
           [
             _settings.weightUnit,
             _settings.kcalGoal,
@@ -185,6 +187,7 @@ class SQLDatabase {
             _settings.defaultRestTime,
             _settings.isRestTimerEnabled,
             _settings.isVibrateUponFinishEnabled,
+            _settings.workoutsPerWeekGoal,
             _settings.id,
           ],
         );

@@ -129,7 +129,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-                // kcal, carbs, protein, fat goals
                 Divider(color: Color.fromRGBO(70, 70, 70, 1)),
                 Container(
                   margin: EdgeInsets.only(top: 10.0),
