@@ -28,6 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void updateSettings(Settings _settings) {
+    globals.sqlDatabase.settings = _settings;
+
     setState(() {
       settings = _settings;
     });
