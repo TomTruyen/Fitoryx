@@ -81,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   margin: EdgeInsets.symmetric(
-                    horizontal: 8.0,
+                    horizontal: 12.0,
                     vertical: 4.0,
                   ),
                   child: Container(
