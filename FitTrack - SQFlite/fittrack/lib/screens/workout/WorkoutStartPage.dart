@@ -162,7 +162,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                             );
 
                             if (result != null) {
-                              await globals.sqlDatabase.getWorkoutsHistory();
+                              await globals.sqlDatabase.fetchWorkoutsHistory();
 
                               Workout _workout =
                                   globals.sqlDatabase.workoutsHistory[0];

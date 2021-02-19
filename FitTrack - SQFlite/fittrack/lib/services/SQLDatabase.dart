@@ -65,11 +65,11 @@ class SQLDatabase {
   }
 
   Future<void> updateData() async {
-    await getSettings();
-    await getUserExercises();
-    await getFood();
-    await getWorkouts();
-    await getWorkoutsHistory();
+    await fetchSettings();
+    await fetchUserExercises();
+    await fetchFood();
+    await fetchWorkouts();
+    await fetchWorkoutsHistory();
   }
 
   Future<dynamic> resetDatabase() async {
@@ -151,9 +151,9 @@ class SQLDatabase {
     }
   }
 
-  Future<void> getUpdatedWeights() async {
-    await getWorkouts();
-    await getWorkoutsHistory();
+  Future<void> fetchUpdatedWeights() async {
+    await fetchWorkouts();
+    await fetchWorkoutsHistory();
   }
 
   Future<dynamic> updateSettings(Settings _settings) async {
@@ -200,7 +200,7 @@ class SQLDatabase {
     }
   }
 
-  Future<void> getSettings() async {
+  Future<void> fetchSettings() async {
     try {
       List<Map<String, dynamic>> dbSettings = await db.rawQuery(
         "SELECT * FROM settings LIMIT 1",
@@ -212,7 +212,7 @@ class SQLDatabase {
         settings = Settings.fromJSON(dbSettings[0]);
       }
     } catch (e) {
-      print("Get Settings Error: $e");
+      print("Fetch Settings Error: $e");
     }
   }
 
@@ -230,7 +230,7 @@ class SQLDatabase {
     }
   }
 
-  Future<void> getWorkoutsHistory() async {
+  Future<void> fetchWorkoutsHistory() async {
     try {
       List<Map<String, dynamic>> dbWorkoutsHistory = await db.rawQuery(
               "SELECT * FROM workouts_history ORDER BY timeInMillisSinceEpoch DESC") ??
@@ -250,7 +250,7 @@ class SQLDatabase {
         workoutsHistory = _workoutsHistory;
       }
     } catch (e) {
-      print("Get Workouts History Error: $e");
+      print("Fetch Workouts History Error: $e");
     }
   }
 
@@ -354,7 +354,7 @@ class SQLDatabase {
     }
   }
 
-  Future<void> getWorkouts() async {
+  Future<void> fetchWorkouts() async {
     try {
       List<Map<String, dynamic>> dbWorkouts = await db.rawQuery(
               "SELECT * FROM workouts ORDER BY timeInMillisSinceEpoch DESC") ??
@@ -374,7 +374,7 @@ class SQLDatabase {
         workouts = _workouts;
       }
     } catch (e) {
-      print("Get Workouts Error: $e");
+      print("Fetch Workouts Error: $e");
     }
   }
 
@@ -448,7 +448,7 @@ class SQLDatabase {
     }
   }
 
-  Future<void> getUserExercises() async {
+  Future<void> fetchUserExercises() async {
     try {
       List<Map<String, dynamic>> dbExercises =
           await db.rawQuery("SELECT * FROM exercises") ?? [];
@@ -466,11 +466,11 @@ class SQLDatabase {
         userExercises = exercises;
       }
     } catch (e) {
-      print("Get UserExercise Error: $e");
+      print("Fetch UserExercise Error: $e");
     }
   }
 
-  Future<void> getFood() async {
+  Future<void> fetchFood() async {
     try {
       List<Map<String, dynamic>> dbFood =
           await db.rawQuery("SELECT * FROM food ORDER BY date DESC") ?? [];
@@ -488,7 +488,7 @@ class SQLDatabase {
         food = _food;
       }
     } catch (e) {
-      print("Get Food Error: $e");
+      print("Fetch Food Error: $e");
     }
   }
 

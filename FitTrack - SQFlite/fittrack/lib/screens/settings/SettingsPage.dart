@@ -73,7 +73,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 color: Colors.black,
               ),
               onPressed: () async {
-                await globals.sqlDatabase.getSettings();
+                await globals.sqlDatabase.fetchSettings();
 
                 tryPopContext(context);
               },

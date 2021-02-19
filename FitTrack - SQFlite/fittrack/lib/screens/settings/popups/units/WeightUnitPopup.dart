@@ -159,7 +159,7 @@ Future<void> showPopupWeightUnit(
 
                               if (result != null) {
                                 updateSettings(newSettings);
-                                await globals.sqlDatabase.getUpdatedWeights();
+                                await globals.sqlDatabase.fetchUpdatedWeights();
                                 tryPopContext(context);
                               } else {
                                 tryPopContext(context);

@@ -29,7 +29,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   bool sortAscending = false;
 
   Future<void> updateWorkouts() async {
-    await globals.sqlDatabase.getWorkouts();
+    await globals.sqlDatabase.fetchWorkouts();
 
     workouts = globals.sqlDatabase.workouts;
 

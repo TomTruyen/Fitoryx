@@ -77,7 +77,7 @@ class _FoodAddPageState extends State<FoodAddPage> {
                       .addFood(kcal, carbs, protein, fat);
 
                   if (result != null) {
-                    await globals.sqlDatabase.getFood();
+                    await globals.sqlDatabase.fetchFood();
 
                     widget.updateFood(globals.sqlDatabase.food[0]);
 

@@ -52,7 +52,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
   TextEditingController searchController = TextEditingController();
 
   Future<void> updateUserExercises() async {
-    await globals.sqlDatabase.getUserExercises();
+    await globals.sqlDatabase.fetchUserExercises();
 
     setState(() {
       forceFilter = true;

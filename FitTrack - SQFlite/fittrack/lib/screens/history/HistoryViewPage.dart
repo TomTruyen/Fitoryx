@@ -68,7 +68,7 @@ class HistoryViewPage extends StatelessWidget {
                                 globals.sqlDatabase.addWorkout(workout.clone());
 
                             if (result != null) {
-                              await globals.sqlDatabase.getWorkouts();
+                              await globals.sqlDatabase.fetchWorkouts();
 
                               Navigator.pushReplacement(
                                 context,
