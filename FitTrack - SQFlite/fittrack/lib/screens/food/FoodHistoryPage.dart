@@ -14,6 +14,43 @@ class FoodHistoryPage extends StatefulWidget {
 }
 
 class _FoodHistoryPageState extends State<FoodHistoryPage> {
+  List<Food> food = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.foodList.isNotEmpty) {
+      List<Food> _calculatedFoodList = [];
+
+      widget.foodList.forEach((Food _food) {
+        double kcal = 0;
+        double carbs = 0;
+        double protein = 0;
+        double fat = 0;
+
+        for (int i = 0; i < _food.foodPerHour.length; i++) {
+          kcal += _food.foodPerHour[i].kcal;
+          carbs += _food.foodPerHour[i].carbs;
+          protein += _food.foodPerHour[i].protein;
+          fat += _food.foodPerHour[i].fat;
+        }
+
+        Food newFood = _food.clone();
+        newFood.kcal = kcal;
+        newFood.carbs = carbs;
+        newFood.protein = protein;
+        newFood.fat = fat;
+
+        _calculatedFoodList.add(newFood);
+      });
+
+      setState(() {
+        food = _calculatedFoodList;
+      });
+    }
+  }
+
   bool sortAscending = false;
 
   void sortFoodHistory(bool orderAscending) {
@@ -94,11 +131,11 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
                 ),
               ),
             ),
-          if (widget.foodList.isNotEmpty)
+          if (food.isNotEmpty)
             SliverList(
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
-                Food _food = widget.foodList[index];
+                Food _food = food[index];
 
                 int year = int.parse(_food.date.split('-')[2]);
                 int month = int.parse(_food.date.split('-')[1]);
@@ -162,7 +199,7 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
                     vertical: 4.0,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -171,8 +208,7 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
                           style: TextStyle(
                             color: Colors.grey[800],
                             fontSize:
-                                Theme.of(context).textTheme.bodyText2.fontSize *
-                                    1.05,
+                                Theme.of(context).textTheme.bodyText2.fontSize,
                           ),
                         ),
                         SizedBox(height: 10.0),
@@ -180,43 +216,107 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
                           children: <Widget>[
                             Text(
                               'Calories: ',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize *
+                                    0.8,
+                              ),
                             ),
-                            Text(kcalString),
+                            Text(
+                              kcalString,
+                              style: TextStyle(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize *
+                                    0.8,
+                              ),
+                            ),
                           ],
                         ),
                         Row(
                           children: <Widget>[
                             Text(
                               'Carbs: ',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize *
+                                    0.8,
+                              ),
                             ),
-                            Text(carbsString),
+                            Text(
+                              carbsString,
+                              style: TextStyle(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize *
+                                    0.8,
+                              ),
+                            ),
                           ],
                         ),
                         Row(
                           children: <Widget>[
                             Text(
                               'Protein: ',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize *
+                                    0.8,
+                              ),
                             ),
-                            Text(proteinString),
+                            Text(
+                              proteinString,
+                              style: TextStyle(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize *
+                                    0.8,
+                              ),
+                            ),
                           ],
                         ),
                         Row(
                           children: <Widget>[
                             Text(
                               'Fat: ',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize *
+                                    0.8,
+                              ),
                             ),
-                            Text(fatString),
+                            Text(
+                              fatString,
+                              style: TextStyle(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        .fontSize *
+                                    0.8,
+                              ),
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
                 );
-              }, childCount: widget.foodList.length),
+              }, childCount: food.length),
             ),
         ],
       ),

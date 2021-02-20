@@ -5,29 +5,39 @@ import 'package:fittrack/models/food/FoodPerHour.dart';
 class Food {
   int id;
   List<FoodPerHour> foodPerHour;
-  // double kcal;
-  // double carbs;
-  // double protein;
-  // double fat;
   double kcalGoal;
   double carbsGoal;
   double proteinGoal;
   double fatGoal;
   String date;
 
+  // Used for easier access in FoodHistoryPage
+  double kcal;
+  double carbs;
+  double protein;
+  double fat;
+
   Food({
     this.id,
     this.foodPerHour,
-    // this.kcal = 0.0,
-    // this.carbs = 0.0,
-    // this.protein = 0.0,
-    // this.fat = 0.0,
     this.kcalGoal,
     this.carbsGoal,
     this.proteinGoal,
     this.fatGoal,
     this.date,
   });
+
+  Food clone() {
+    return new Food(
+      id: id,
+      foodPerHour: foodPerHour,
+      kcalGoal: kcalGoal,
+      carbsGoal: carbsGoal,
+      proteinGoal: proteinGoal,
+      fatGoal: fatGoal,
+      date: date,
+    );
+  }
 
   static Food fromJSON(Map<String, dynamic> food) {
     List<FoodPerHour> _foodPerHour = [];

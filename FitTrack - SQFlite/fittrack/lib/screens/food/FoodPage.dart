@@ -68,7 +68,7 @@ class _FoodPageState extends State<FoodPage> {
     List<Food> _foodHistoryList = List.of(globals.sqlDatabase.food) ?? [];
 
     if (_foodHistoryList.isNotEmpty && _foodHistoryList[0].date == date) {
-      _foodHistoryList.removeAt(0);
+      // _foodHistoryList.removeAt(0);
     }
 
     setState(() {
@@ -153,7 +153,7 @@ class _FoodPageState extends State<FoodPage> {
           SliverFillRemaining(
             hasScrollBody: false,
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
+              margin: EdgeInsets.symmetric(vertical: 8.0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
