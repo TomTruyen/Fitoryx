@@ -271,9 +271,10 @@ Future<void> showPopupImportData(
                                                                     millisSeconds),
                                                             () {
                                                               updateSettings(
-                                                                  globals
-                                                                      .sqlDatabase
-                                                                      .settings);
+                                                                globals
+                                                                    .sqlDatabase
+                                                                    .settings,
+                                                              );
 
                                                               setState(() {
                                                                 isCompleted =

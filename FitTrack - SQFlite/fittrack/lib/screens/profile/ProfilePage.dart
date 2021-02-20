@@ -73,9 +73,6 @@ class _ProfilePageState extends State<ProfilePage> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                // https://pub.dev/packages/fl_chart --> Docs lezen
-                // https://www.youtube.com/watch?v=LB7B3zudivI --> Tutorial video voor linechart
-
                 Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
@@ -157,7 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Container(
                             margin: EdgeInsets.only(top: 16.0),
                             child: WorkoutsPerWeekChart(
-                              workoutHistory: workoutHistory,
+                              workoutHistory: workoutHistory ?? [],
                               settings: settings,
                             ),
                           ),
