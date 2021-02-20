@@ -68,7 +68,7 @@ class _FoodPageState extends State<FoodPage> {
     List<Food> _foodHistoryList = List.of(globals.sqlDatabase.food) ?? [];
 
     if (_foodHistoryList.isNotEmpty && _foodHistoryList[0].date == date) {
-      // _foodHistoryList.removeAt(0);
+      _foodHistoryList.removeAt(0);
     }
 
     setState(() {
@@ -189,7 +189,7 @@ class _FoodPageState extends State<FoodPage> {
                               child: Container(
                                 margin: EdgeInsets.only(top: 16.0),
                                 child: FoodGraph(
-                                  foodPerHourList: food.foodPerHour,
+                                  foodPerHourList: food.foodPerHour ?? [],
                                 ),
                               ),
                             ),
