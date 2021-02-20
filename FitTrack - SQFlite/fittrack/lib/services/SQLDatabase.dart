@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
+import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/shared/Functions.dart';
@@ -47,7 +48,7 @@ class SQLDatabase {
             'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration TEXT, workoutDurationInMilliseconds INTEGER)',
           );
           await db.execute(
-            'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, kcal REAL, carbs REAL, protein REAL, fat REAL, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
+            'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, foodPerHour TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
           );
           await db.execute(
             'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, workoutsPerWeekGoal INTEGER)',
@@ -503,19 +504,39 @@ class SQLDatabase {
 
       String date = dateTimeToString(now);
 
+      List<FoodPerHour> foodPerHourList = [];
+
+      if (food.isNotEmpty) {
+        foodPerHourList = List.of(food[0].foodPerHour) ?? [];
+      }
+
       if (food.isNotEmpty && food[0].date == date) {
-        kcal += food[0].kcal;
-        carbs += food[0].carbs;
-        protein += food[0].protein;
-        fat += food[0].fat;
+        int foundHourIndex = -1;
+        for (int i = 0; i < foodPerHourList.length; i++) {
+          if (foodPerHourList[i].hour == now.hour) {
+            foundHourIndex = i;
+            break;
+          }
+        }
+
+        if (foundHourIndex > -1) {
+          foodPerHourList[foundHourIndex].kcal += kcal;
+          foodPerHourList[foundHourIndex].carbs += carbs;
+          foodPerHourList[foundHourIndex].protein += protein;
+          foodPerHourList[foundHourIndex].fat += fat;
+        } else {
+          foodPerHourList.add(new FoodPerHour(
+              kcal: kcal,
+              carbs: carbs,
+              protein: protein,
+              fat: fat,
+              hour: now.hour));
+        }
         // Update
         await db.rawUpdate(
-          'UPDATE food SET kcal = ?, carbs = ?, protein = ?, fat = ?, kcalGoal = ?, carbsGoal = ? proteinGoal = ?, fatGoal = ? WHERE date = ?',
+          'UPDATE food SET foodPerHour = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ? WHERE date = ?',
           [
-            kcal,
-            carbs,
-            protein,
-            fat,
+            jsonEncode(convertFoodPerHourListToJsonList(foodPerHourList)),
             settings.kcalGoal,
             settings.carbsGoal,
             settings.proteinGoal,
@@ -525,13 +546,18 @@ class SQLDatabase {
         );
       } else {
         // Insert
+        foodPerHourList.add(new FoodPerHour(
+          kcal: kcal,
+          carbs: carbs,
+          protein: protein,
+          fat: fat,
+          hour: now.hour,
+        ));
+
         await db.rawInsert(
-          'INSERT INTO food (kcal, carbs, protein, fat, kcalGoal, carbsGoal, proteinGoal, fatGoal, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO food (foodPerHour, kcalGoal, carbsGoal, proteinGoal, fatGoal, date) VALUES (?, ?, ?, ?, ?, ?)',
           [
-            kcal,
-            carbs,
-            protein,
-            fat,
+            jsonEncode(convertFoodPerHourListToJsonList(foodPerHourList)),
             settings.kcalGoal,
             settings.carbsGoal,
             settings.proteinGoal,

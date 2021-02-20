@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:device_info/device_info.dart';
 import 'package:ext_storage/ext_storage.dart';
+import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -115,4 +116,15 @@ String convertIosDeviceInfoToString(IosDeviceInfo data) {
   info += 'utsname.machine: ${data.utsname.machine}\n';
 
   return info;
+}
+
+List<Map<String, dynamic>> convertFoodPerHourListToJsonList(
+    List<FoodPerHour> foodPerHourList) {
+  List<Map<String, dynamic>> list = [];
+
+  for (int i = 0; i < foodPerHourList.length; i++) {
+    list.add(foodPerHourList[i].toJSON());
+  }
+
+  return list;
 }

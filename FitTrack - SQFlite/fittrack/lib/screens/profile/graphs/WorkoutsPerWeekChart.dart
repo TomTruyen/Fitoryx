@@ -44,6 +44,7 @@ class WorkoutsPerWeekChart extends StatelessWidget {
         ),
         barTouchData: BarTouchData(
           touchTooltipData: BarTouchTooltipData(
+              tooltipPadding: EdgeInsets.all(10.0),
               tooltipBgColor: Colors.blueGrey,
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 String date = _getTitle(group.x.toDouble(), datesList);

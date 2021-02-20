@@ -2,6 +2,7 @@ import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/food/FoodAddPage.dart';
 import 'package:fittrack/screens/food/FoodHistoryPage.dart';
+import 'package:fittrack/screens/food/graphs/FoodGraph.dart';
 import 'package:fittrack/shared/FoodDisplayCard.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,11 @@ class _FoodPageState extends State<FoodPage> {
   Settings settings;
   Food food;
 
+  double kcal = 0;
+  double carbs = 0;
+  double protein = 0;
+  double fat = 0;
+
   @override
   void initState() {
     super.initState();
@@ -32,8 +38,26 @@ class _FoodPageState extends State<FoodPage> {
 
     if (globals.sqlDatabase.food.isNotEmpty &&
         globals.sqlDatabase.food[0].date == date) {
+      Food _food = globals.sqlDatabase.food[0];
+
+      double _kcal = 0;
+      double _carbs = 0;
+      double _protein = 0;
+      double _fat = 0;
+
+      for (int i = 0; i < _food.foodPerHour.length; i++) {
+        _kcal += _food.foodPerHour[i].kcal;
+        _carbs += _food.foodPerHour[i].carbs;
+        _protein += _food.foodPerHour[i].protein;
+        _fat += _food.foodPerHour[i].fat;
+      }
+
       setState(() {
-        food = globals.sqlDatabase.food[0];
+        food = _food;
+        kcal = _kcal;
+        carbs = _carbs;
+        protein = _protein;
+        fat = _fat;
       });
     } else {
       setState(() {
@@ -53,8 +77,24 @@ class _FoodPageState extends State<FoodPage> {
   }
 
   void updateFood(Food newFood) {
+    double _kcal = 0;
+    double _carbs = 0;
+    double _protein = 0;
+    double _fat = 0;
+
+    for (int i = 0; i < newFood.foodPerHour.length; i++) {
+      _kcal += newFood.foodPerHour[i].kcal;
+      _carbs += newFood.foodPerHour[i].carbs;
+      _protein += newFood.foodPerHour[i].protein;
+      _fat += newFood.foodPerHour[i].fat;
+    }
+
     setState(() {
       food = newFood;
+      kcal = _kcal;
+      carbs = _carbs;
+      protein = _protein;
+      fat = _fat;
     });
   }
 
@@ -119,8 +159,49 @@ class _FoodPageState extends State<FoodPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Expanded(
+                    flex: 4,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 4.0,
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 3.0,
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 16.0),
+                                child: Text(
+                                  'Calories per hour',
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 5,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 16.0),
+                                child: FoodGraph(
+                                  foodPerHourList: food.foodPerHour,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
                     child: FoodDisplayCard(
-                      value: food.kcal % 1 == 0 ? food.kcal.toInt() : food.kcal,
+                      value: kcal % 1 == 0 ? kcal.toInt() : kcal,
                       goal: settings.kcalGoal != null &&
                               settings.kcalGoal % 1 == 0
                           ? settings.kcalGoal.toInt()
@@ -129,37 +210,43 @@ class _FoodPageState extends State<FoodPage> {
                     ),
                   ),
                   Expanded(
-                    child: FoodDisplayCard(
-                      value:
-                          food.carbs % 1 == 0 ? food.carbs.toInt() : food.carbs,
-                      goal: settings.carbsGoal != null &&
-                              settings.carbsGoal % 1 == 0
-                          ? settings.carbsGoal.toInt()
-                          : settings.carbsGoal,
-                      name: 'carbs',
-                    ),
-                  ),
-                  Expanded(
-                    child: FoodDisplayCard(
-                      value: food.protein % 1 == 0
-                          ? food.protein.toInt()
-                          : food.protein,
-                      goal: settings.proteinGoal != null &&
-                              settings.proteinGoal % 1 == 0
-                          ? settings.proteinGoal.toInt()
-                          : settings.proteinGoal,
-                      name: 'protein',
-                    ),
-                  ),
-                  Expanded(
-                    child: FoodDisplayCard(
-                      value:
-                          food.fat % 1 == 0 ? food.fat.toInt() : food.protein,
-                      goal:
-                          settings.fatGoal != null && settings.fatGoal % 1 == 0
-                              ? settings.fatGoal.toInt()
-                              : settings.fatGoal,
-                      name: 'fat',
+                    flex: 2,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: FoodDisplayCard(
+                            value: carbs % 1 == 0 ? carbs.toInt() : carbs,
+                            goal: settings.carbsGoal != null &&
+                                    settings.carbsGoal % 1 == 0
+                                ? settings.carbsGoal.toInt()
+                                : settings.carbsGoal,
+                            name: 'carbs',
+                            isMacro: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: FoodDisplayCard(
+                            value: protein % 1 == 0 ? protein.toInt() : protein,
+                            goal: settings.proteinGoal != null &&
+                                    settings.proteinGoal % 1 == 0
+                                ? settings.proteinGoal.toInt()
+                                : settings.proteinGoal,
+                            name: 'protein',
+                            isMacro: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: FoodDisplayCard(
+                            value: fat % 1 == 0 ? fat.toInt() : protein,
+                            goal: settings.fatGoal != null &&
+                                    settings.fatGoal % 1 == 0
+                                ? settings.fatGoal.toInt()
+                                : settings.fatGoal,
+                            name: 'fat',
+                            isMacro: true,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

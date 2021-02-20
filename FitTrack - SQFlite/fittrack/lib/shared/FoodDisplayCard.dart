@@ -4,8 +4,14 @@ class FoodDisplayCard extends StatelessWidget {
   final dynamic value;
   final dynamic goal;
   final String name;
+  final bool isMacro;
 
-  FoodDisplayCard({this.value, this.goal, this.name});
+  FoodDisplayCard({
+    this.value,
+    this.goal,
+    this.name,
+    this.isMacro = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,7 @@ class FoodDisplayCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       margin: EdgeInsets.symmetric(
-        horizontal: 8.0,
+        horizontal: isMacro ? 4.0 : 8.0,
         vertical: 4.0,
       ),
       child: Column(
@@ -23,16 +29,21 @@ class FoodDisplayCard extends StatelessWidget {
           Text(
             name.toLowerCase() == 'kcal' ? "$value" : "${value}g",
             style: TextStyle(
-              fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 1.5,
+              fontSize: isMacro
+                  ? Theme.of(context).textTheme.bodyText2.fontSize
+                  : Theme.of(context).textTheme.bodyText2.fontSize * 1.5,
             ),
           ),
           SizedBox(height: 5.0),
           Text(
             goal != null && goal > 0
-                ? 'OF $goal ${name.toUpperCase()}'
+                ? isMacro
+                    ? 'OF $goal \n ${name.toUpperCase()}'
+                    : 'OF $goal ${name.toUpperCase()}'
                 : '${name.toUpperCase()}',
             style: TextStyle(
               color: Colors.grey[600],
+              fontSize: isMacro ? 12.0 : null,
             ),
           ),
         ],
