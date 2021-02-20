@@ -17,6 +17,10 @@ import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
+  final Function updateProfilePage;
+
+  SettingsPage({this.updateProfilePage});
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -48,6 +52,8 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       settings = _settings;
     });
+
+    widget.updateProfilePage();
   }
 
   @override
@@ -205,7 +211,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: Theme.of(context).textTheme.caption,
                   ),
                   onTap: () async {
-                    await showPopupImportData(context, updateSettings);
+                    await showPopupImportData(
+                      context,
+                      updateSettings,
+                    );
                   },
                 ),
                 ListTile(

@@ -21,6 +21,10 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
 
+    updateProfilePage();
+  }
+
+  void updateProfilePage() {
     setState(() {
       workoutHistory = globals.sqlDatabase.workoutsHistory ?? [];
       settings = globals.sqlDatabase.settings ?? Settings();
@@ -63,7 +67,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     context,
                     CupertinoPageRoute(
                       fullscreenDialog: true,
-                      builder: (context) => SettingsPage(),
+                      builder: (context) => SettingsPage(
+                        updateProfilePage: updateProfilePage,
+                      ),
                     ),
                   );
                 },
