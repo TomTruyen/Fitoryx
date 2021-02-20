@@ -164,6 +164,11 @@ class _HistoryPageState extends State<HistoryPage> {
                   Workout _workout = workoutsHistory[index];
 
                   String name = _workout.name;
+                  int dateInMilliseconds = _workout.timeInMillisSinceEpoch;
+                  DateTime _date =
+                      DateTime.fromMillisecondsSinceEpoch(dateInMilliseconds);
+                  String date =
+                      "${_date.day.toString().padLeft(2, '0')}-${_date.month.toString().padLeft(2, '0')}-${_date.year}";
 
                   return Card(
                     key: UniqueKey(),
@@ -202,9 +207,19 @@ class _HistoryPageState extends State<HistoryPage> {
                                 16.0,
                                 12.0,
                               ),
-                              child: GradientText(
-                                text: name,
-                                overflow: TextOverflow.ellipsis,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  GradientText(
+                                    text: "$name",
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  GradientText(
+                                    text: "$date",
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
                               ),
                             ),
                             for (int i = 0; i < 3; i++)
