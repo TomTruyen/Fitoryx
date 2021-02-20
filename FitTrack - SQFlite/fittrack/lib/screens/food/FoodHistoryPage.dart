@@ -54,7 +54,7 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
   bool sortAscending = false;
 
   void sortFoodHistory(bool orderAscending) {
-    widget.foodList.sort((Food a, Food b) {
+    food.sort((Food a, Food b) {
       if (orderAscending) return a.date.compareTo(b.date);
 
       return -a.date.compareTo(b.date);
