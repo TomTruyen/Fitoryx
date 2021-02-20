@@ -5,6 +5,7 @@ import 'package:fittrack/screens/history/popups/DeleteHistoryPopup.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/GradientText.dart';
+import 'package:fittrack/shared/GradientIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -258,8 +259,9 @@ class HistoryViewPage extends StatelessWidget {
                                   children: <Widget>[
                                     Transform.rotate(
                                       angle: -pi / 4,
-                                      child: Icon(
-                                        Icons.fitness_center_outlined,
+                                      child: GradientIcon(
+                                        icon:
+                                            Icon(Icons.fitness_center_outlined),
                                       ),
                                     ),
                                     SizedBox(width: 5.0),
