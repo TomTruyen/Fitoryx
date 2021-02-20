@@ -108,8 +108,14 @@ class FoodGraph extends StatelessWidget {
 LineChartBarData _getDailyKcalDataList(List<FoodPerHour> foodPerHourList) {
   List<FlSpot> spots = [];
 
-  for (int i = 0; i < foodPerHourList.length; i++) {
-    spots.add(FlSpot(i.toDouble(), foodPerHourList[i].kcal));
+  if (foodPerHourList.isEmpty) {
+    for (int i = 0; i < 24; i++) {
+      spots.add(FlSpot(i.toDouble(), 0));
+    }
+  } else {
+    for (int i = 0; i < foodPerHourList.length; i++) {
+      spots.add(FlSpot(i.toDouble(), foodPerHourList[i].kcal));
+    }
   }
 
   return LineChartBarData(
