@@ -162,6 +162,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
+
+                        // Weight Chart (+ somewhere a system to input weight (maybe in settings))
+
+                        // Body Fat % chart (+ somewhere a system to input weight (maybe in settings))
+
+                        // 1RM of exercise throughout time: Select all exercises that are in finishedworkouts, that match the exercise that is selected from the dropdown that we will add
                       ],
                     ),
                   ),
