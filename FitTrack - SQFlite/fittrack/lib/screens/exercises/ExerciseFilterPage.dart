@@ -15,68 +15,6 @@ class ExerciseFilterPage extends StatefulWidget {
 }
 
 class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
-  List<Widget> buildFilterWidgets(ExerciseFilter filter, String type) {
-    if (type == 'userCreated') {
-      return [
-        InkWell(
-          borderRadius: BorderRadius.circular(12.0),
-          child: FilterWidget(
-            value: 'User Created Exercise',
-            selected: filter.isUserCreated == 0 ? false : true,
-          ),
-          onTap: () {
-            filter.toggleUserCreated();
-          },
-        ),
-      ];
-    }
-
-    List<Widget> filterWidgets = [];
-
-    List<String> items = type == 'category' ? categories : equipment;
-    List<String> selectedItems = type == 'category'
-        ? filter.selectedCategories
-        : filter.selectedEquipment;
-
-    for (int i = 0; i < items.length; i++) {
-      bool selected = false;
-
-      for (int j = 0; j < selectedItems.length; j++) {
-        if (selectedItems[j] == items[i]) {
-          selected = true;
-          break;
-        }
-      }
-
-      filterWidgets.add(
-        InkWell(
-          borderRadius: BorderRadius.circular(12.0),
-          child: FilterWidget(
-            value: items[i],
-            selected: selected,
-          ),
-          onTap: () {
-            if (selected) {
-              if (type == 'category') {
-                filter.removeCategory(items[i]);
-              } else {
-                filter.removeEquipment(items[i]);
-              }
-            } else {
-              if (type == 'category') {
-                filter.addCategory(items[i]);
-              } else {
-                filter.addEquipment(items[i]);
-              }
-            }
-          },
-        ),
-      );
-    }
-
-    return filterWidgets;
-  }
-
   @override
   Widget build(BuildContext context) {
     ExerciseFilter filter = Provider.of<ExerciseFilter>(context) ?? null;
@@ -207,4 +145,65 @@ class FilterWidget extends StatelessWidget {
             ),
     );
   }
+}
+
+List<Widget> buildFilterWidgets(ExerciseFilter filter, String type) {
+  if (type == 'userCreated') {
+    return [
+      InkWell(
+        borderRadius: BorderRadius.circular(12.0),
+        child: FilterWidget(
+          value: 'User Created Exercise',
+          selected: filter.isUserCreated == 0 ? false : true,
+        ),
+        onTap: () {
+          filter.toggleUserCreated();
+        },
+      ),
+    ];
+  }
+
+  List<Widget> filterWidgets = [];
+
+  List<String> items = type == 'category' ? categories : equipment;
+  List<String> selectedItems =
+      type == 'category' ? filter.selectedCategories : filter.selectedEquipment;
+
+  for (int i = 0; i < items.length; i++) {
+    bool selected = false;
+
+    for (int j = 0; j < selectedItems.length; j++) {
+      if (selectedItems[j] == items[i]) {
+        selected = true;
+        break;
+      }
+    }
+
+    filterWidgets.add(
+      InkWell(
+        borderRadius: BorderRadius.circular(12.0),
+        child: FilterWidget(
+          value: items[i],
+          selected: selected,
+        ),
+        onTap: () {
+          if (selected) {
+            if (type == 'category') {
+              filter.removeCategory(items[i]);
+            } else {
+              filter.removeEquipment(items[i]);
+            }
+          } else {
+            if (type == 'category') {
+              filter.addCategory(items[i]);
+            } else {
+              filter.addEquipment(items[i]);
+            }
+          }
+        },
+      ),
+    );
+  }
+
+  return filterWidgets;
 }
