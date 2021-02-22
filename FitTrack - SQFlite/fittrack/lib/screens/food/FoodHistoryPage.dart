@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class FoodHistoryPage extends StatefulWidget {
   final List<Food> foodList;
@@ -15,6 +16,9 @@ class FoodHistoryPage extends StatefulWidget {
 
 class _FoodHistoryPageState extends State<FoodHistoryPage> {
   List<Food> food = [];
+
+  int currentMonth;
+  int currentYear;
 
   @override
   void initState() {
@@ -189,132 +193,165 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
 
                 fatString += "g";
 
-                return Card(
-                  key: UniqueKey(),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 4.0,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          _date,
+                String dateDivider = "";
+
+                if ((currentMonth == null && currentYear == null) ||
+                    requiresDateDivider(date, currentMonth, currentYear)) {
+                  currentMonth = date.month;
+                  currentYear = date.year;
+
+                  DateFormat format = new DateFormat("MMMM yyyy");
+                  dateDivider = format.format(date);
+                }
+
+                return Column(
+                  children: <Widget>[
+                    if (dateDivider != "")
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          dateDivider,
                           style: TextStyle(
-                            color: Colors.grey[800],
+                            color: Colors.grey[700],
                             fontSize:
-                                Theme.of(context).textTheme.bodyText2.fontSize,
+                                Theme.of(context).textTheme.bodyText2.fontSize *
+                                    0.8,
                           ),
                         ),
-                        SizedBox(height: 10.0),
-                        Row(
+                      ),
+                    Card(
+                      key: UniqueKey(),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 4.0,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Calories: ',
+                              _date,
                               style: TextStyle(
-                                fontWeight: FontWeight.w600,
+                                color: Colors.grey[800],
                                 fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize *
-                                    0.8,
+                                    .textTheme
+                                    .bodyText2
+                                    .fontSize,
                               ),
                             ),
-                            Text(
-                              kcalString,
-                              style: TextStyle(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize *
-                                    0.8,
-                              ),
+                            SizedBox(height: 10.0),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Calories: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize *
+                                        0.8,
+                                  ),
+                                ),
+                                Text(
+                                  kcalString,
+                                  style: TextStyle(
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize *
+                                        0.8,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Carbs: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize *
+                                        0.8,
+                                  ),
+                                ),
+                                Text(
+                                  carbsString,
+                                  style: TextStyle(
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize *
+                                        0.8,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Protein: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize *
+                                        0.8,
+                                  ),
+                                ),
+                                Text(
+                                  proteinString,
+                                  style: TextStyle(
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize *
+                                        0.8,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Fat: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize *
+                                        0.8,
+                                  ),
+                                ),
+                                Text(
+                                  fatString,
+                                  style: TextStyle(
+                                    fontSize: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2
+                                            .fontSize *
+                                        0.8,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Carbs: ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize *
-                                    0.8,
-                              ),
-                            ),
-                            Text(
-                              carbsString,
-                              style: TextStyle(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize *
-                                    0.8,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Protein: ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize *
-                                    0.8,
-                              ),
-                            ),
-                            Text(
-                              proteinString,
-                              style: TextStyle(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize *
-                                    0.8,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Fat: ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize *
-                                    0.8,
-                              ),
-                            ),
-                            Text(
-                              fatString,
-                              style: TextStyle(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2
-                                        .fontSize *
-                                    0.8,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 );
               }, childCount: food.length),
             ),

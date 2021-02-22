@@ -128,3 +128,7 @@ List<Map<String, dynamic>> convertFoodPerHourListToJsonList(
 
   return list;
 }
+
+bool requiresDateDivider(DateTime date, int currentMonth, int currentYear) {
+  return date.month != currentMonth || date.year != currentYear;
+}

@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
+import 'package:fittrack/shared/Functions.dart';
 import 'package:fittrack/shared/GradientButton.dart';
 import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:intl/intl.dart';
 
 class HistoryPage extends StatefulWidget {
   final Function changePage;
@@ -23,6 +25,9 @@ class _HistoryPageState extends State<HistoryPage> {
   List<Workout> workoutsHistory =
       List.of(globals.sqlDatabase.workoutsHistory) ?? [];
   bool sortAscending = false;
+
+  int currentMonth;
+  int currentYear;
 
   Future<void> updateWorkoutsHistory() async {
     await globals.sqlDatabase.fetchWorkoutsHistory();
@@ -164,81 +169,111 @@ class _HistoryPageState extends State<HistoryPage> {
                   Workout _workout = workoutsHistory[index];
 
                   String name = _workout.name;
-                  int dateInMilliseconds = _workout.timeInMillisSinceEpoch;
-                  DateTime _date =
-                      DateTime.fromMillisecondsSinceEpoch(dateInMilliseconds);
-                  String date =
-                      "${_date.day.toString().padLeft(2, '0')}-${_date.month.toString().padLeft(2, '0')}-${_date.year}";
+                  DateTime _date = DateTime.fromMillisecondsSinceEpoch(
+                    _workout.timeInMillisSinceEpoch,
+                  );
 
-                  return Card(
-                    key: UniqueKey(),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 4.0,
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8.0),
-                      onTap: () {
-                        _workout.setUncompleted();
+                  String dateDivider = "";
 
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            fullscreenDialog: true,
-                            builder: (BuildContext context) => HistoryViewPage(
-                              workout: _workout.clone(),
-                              updateWorkoutsHistory: updateWorkoutsHistory,
+                  if ((currentMonth == null && currentYear == null) ||
+                      requiresDateDivider(_date, currentMonth, currentYear)) {
+                    currentMonth = _date.month;
+                    currentYear = _date.year;
+
+                    DateFormat format = new DateFormat("MMMM yyyy");
+                    dateDivider = format.format(_date);
+                  }
+
+                  return Column(
+                    children: <Widget>[
+                      if (dateDivider != "")
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                          ),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            dateDivider,
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      .fontSize *
+                                  0.8,
                             ),
                           ),
-                        );
-                      },
-                      child: Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.fromLTRB(
-                                16.0,
-                                16.0,
-                                16.0,
-                                12.0,
+                        ),
+                      Card(
+                        key: UniqueKey(),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 4.0,
+                        ),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(8.0),
+                          onTap: () {
+                            _workout.setUncompleted();
+
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                fullscreenDialog: true,
+                                builder: (BuildContext context) =>
+                                    HistoryViewPage(
+                                  workout: _workout.clone(),
+                                  updateWorkoutsHistory: updateWorkoutsHistory,
+                                ),
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  GradientText(
-                                    text: "$name",
-                                    overflow: TextOverflow.ellipsis,
+                            );
+                          },
+                          child: Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(
+                                    16.0,
+                                    16.0,
+                                    16.0,
+                                    12.0,
                                   ),
-                                  GradientText(
-                                    text: "$date",
-                                    overflow: TextOverflow.ellipsis,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      GradientText(
+                                        text: "$name",
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                for (int i = 0; i < 3; i++)
+                                  buildExerciseWidget(context, _workout, i),
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                    vertical: 4.0,
+                                  ),
+                                  child: Text(
+                                    _workout.exercises.length > 3
+                                        ? 'More...'
+                                        : '',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                ),
+                              ],
                             ),
-                            for (int i = 0; i < 3; i++)
-                              buildExerciseWidget(context, _workout, i),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                                vertical: 4.0,
-                              ),
-                              child: Text(
-                                _workout.exercises.length > 3 ? 'More...' : '',
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   );
                 },
                 childCount: workoutsHistory.length,
