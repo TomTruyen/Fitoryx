@@ -149,52 +149,16 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
 
                 String _date = getFormattedDateFromDateTime(date);
 
-                // KCAL
                 String kcalString =
-                    "${_food.kcal % 1 == 0 ? _food.kcal.toInt() : _food.kcal}";
-
-                if (_food.kcalGoal != null) {
-                  kcalString +=
-                      " / ${_food.kcalGoal % 1 == 0 ? _food.kcalGoal.toInt() : _food.kcalGoal}";
-                }
-
-                kcalString += "kcal";
-
-                // CARBS
+                    getFoodGoalString(_food.kcal, _food.kcalGoal, 'kcal');
                 String carbsString =
-                    "${_food.carbs % 1 == 0 ? _food.carbs.toInt() : _food.carbs}";
-
-                if (_food.carbsGoal != null) {
-                  carbsString +=
-                      " / ${_food.carbsGoal % 1 == 0 ? _food.carbsGoal.toInt() : _food.carbsGoal}";
-                }
-
-                carbsString += "g";
-
-                //PROTEIN
+                    getFoodGoalString(_food.carbs, _food.carbsGoal, 'g');
                 String proteinString =
-                    "${_food.protein % 1 == 0 ? _food.protein.toInt() : _food.protein}";
-
-                if (_food.proteinGoal != null) {
-                  proteinString +=
-                      " / ${_food.proteinGoal % 1 == 0 ? _food.proteinGoal.toInt() : _food.proteinGoal}";
-                }
-
-                proteinString += "g";
-
-                //FAT
+                    getFoodGoalString(_food.protein, _food.proteinGoal, 'g');
                 String fatString =
-                    "${_food.fat % 1 == 0 ? _food.fat.toInt() : _food.fat}";
-
-                if (_food.fatGoal != null) {
-                  fatString +=
-                      " / ${_food.fatGoal % 1 == 0 ? _food.fatGoal.toInt() : _food.fatGoal}";
-                }
-
-                fatString += "g";
+                    getFoodGoalString(_food.fat, _food.fatGoal, 'g');
 
                 String dateDivider = "";
-
                 if ((currentMonth == null && currentYear == null) ||
                     requiresDateDivider(date, currentMonth, currentYear)) {
                   currentMonth = date.month;

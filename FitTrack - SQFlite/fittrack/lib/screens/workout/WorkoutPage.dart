@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientButton.dart';
-import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/shared/ExerciseWidget.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/screens/workout/WorkoutBuildPage.dart';
@@ -56,36 +56,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
     setState(() {
       sortAscending = orderAscending;
     });
-  }
-
-  Widget buildExerciseWidget(
-    BuildContext context,
-    Workout workout,
-    int exerciseIndex,
-  ) {
-    String exerciseString = "";
-
-    if (workout.exercises.length > exerciseIndex) {
-      Exercise exercise = workout.exercises[exerciseIndex];
-
-      exerciseString = "${exercise.sets.length} x ${exercise.name}";
-
-      if (exercise.equipment != "") {
-        exerciseString += " (${exercise.equipment})";
-      }
-    }
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 4.0,
-      ),
-      child: Text(
-        exerciseString,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.caption,
-      ),
-    );
   }
 
   @override

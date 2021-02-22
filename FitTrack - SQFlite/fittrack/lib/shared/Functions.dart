@@ -132,3 +132,31 @@ List<Map<String, dynamic>> convertFoodPerHourListToJsonList(
 bool requiresDateDivider(DateTime date, int currentMonth, int currentYear) {
   return date.month != currentMonth || date.year != currentYear;
 }
+
+// Food Pages
+dynamic tryConvertDoubleToInt(double value) {
+  if (value == null || value % 1 != 0) {
+    return value;
+  }
+
+  return value.toInt();
+}
+
+String getFoodGoalString(double value, double goal, String measurement) {
+  String foodGoalString = "";
+
+  // Check if no decimals, so we can remove it
+  foodGoalString = tryConvertDoubleToInt(value).toString();
+
+  // Check if there is a goal set and add it to string if it is set
+  if (goal != null) {
+    // Check if no decimals, so we can remove it
+    foodGoalString += " / ";
+    foodGoalString += tryConvertDoubleToInt(goal).toString();
+  }
+
+  // Add measurement
+  foodGoalString += measurement;
+
+  return foodGoalString;
+}

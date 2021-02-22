@@ -1,4 +1,5 @@
 import 'package:fittrack/models/food/FoodPerHour.dart';
+import 'package:fittrack/shared/Functions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -86,8 +87,7 @@ class FoodGraph extends StatelessWidget {
                     ? "${(spots[0].x - 12).toInt()} PM"
                     : "${(spots[0].x).toInt()} AM";
 
-                dynamic kcal =
-                    spots[0].y % 1 == 0 ? spots[0].y.toInt() : spots[0].y;
+                dynamic kcal = tryConvertDoubleToInt(spots[0].y);
 
                 return [
                   LineTooltipItem(

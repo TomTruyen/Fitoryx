@@ -201,11 +201,8 @@ class _FoodPageState extends State<FoodPage> {
                   Expanded(
                     flex: 3,
                     child: FoodDisplayCard(
-                      value: kcal % 1 == 0 ? kcal.toInt() : kcal,
-                      goal: settings.kcalGoal != null &&
-                              settings.kcalGoal % 1 == 0
-                          ? settings.kcalGoal.toInt()
-                          : settings.kcalGoal,
+                      value: tryConvertDoubleToInt(kcal),
+                      goal: tryConvertDoubleToInt(settings.kcalGoal),
                       name: 'kcal',
                     ),
                   ),
@@ -215,33 +212,24 @@ class _FoodPageState extends State<FoodPage> {
                       children: <Widget>[
                         Expanded(
                           child: FoodDisplayCard(
-                            value: carbs % 1 == 0 ? carbs.toInt() : carbs,
-                            goal: settings.carbsGoal != null &&
-                                    settings.carbsGoal % 1 == 0
-                                ? settings.carbsGoal.toInt()
-                                : settings.carbsGoal,
+                            value: tryConvertDoubleToInt(carbs),
+                            goal: tryConvertDoubleToInt(settings.carbsGoal),
                             name: 'carbs',
                             isMacro: true,
                           ),
                         ),
                         Expanded(
                           child: FoodDisplayCard(
-                            value: protein % 1 == 0 ? protein.toInt() : protein,
-                            goal: settings.proteinGoal != null &&
-                                    settings.proteinGoal % 1 == 0
-                                ? settings.proteinGoal.toInt()
-                                : settings.proteinGoal,
+                            value: tryConvertDoubleToInt(protein),
+                            goal: tryConvertDoubleToInt(settings.proteinGoal),
                             name: 'protein',
                             isMacro: true,
                           ),
                         ),
                         Expanded(
                           child: FoodDisplayCard(
-                            value: fat % 1 == 0 ? fat.toInt() : protein,
-                            goal: settings.fatGoal != null &&
-                                    settings.fatGoal % 1 == 0
-                                ? settings.fatGoal.toInt()
-                                : settings.fatGoal,
+                            value: tryConvertDoubleToInt(fat),
+                            goal: tryConvertDoubleToInt(settings.fatGoal),
                             name: 'fat',
                             isMacro: true,
                           ),

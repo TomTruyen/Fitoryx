@@ -601,10 +601,7 @@ class SQLDatabase {
 
     - Food Table
     id INTEGER
-    kcal REAL
-    carbs REAL
-    protein REAL
-    fat REAL
+    foodValues TEXT
     kcalGoal REAL
     carbsGoal REAL
     proteinGoal REAL

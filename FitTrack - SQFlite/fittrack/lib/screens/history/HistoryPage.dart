@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/shared/ExerciseWidget.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
 import 'package:fittrack/shared/Functions.dart';
@@ -57,36 +57,6 @@ class _HistoryPageState extends State<HistoryPage> {
     setState(() {
       sortAscending = orderAscending;
     });
-  }
-
-  Widget buildExerciseWidget(
-    BuildContext context,
-    Workout workout,
-    int exerciseIndex,
-  ) {
-    String exerciseString = "";
-
-    if (workout.exercises.length > exerciseIndex) {
-      Exercise exercise = workout.exercises[exerciseIndex];
-
-      exerciseString = "${exercise.sets.length} x ${exercise.name}";
-
-      if (exercise.equipment != "") {
-        exerciseString += " (${exercise.equipment})";
-      }
-    }
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 4.0,
-      ),
-      child: Text(
-        exerciseString,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.caption,
-      ),
-    );
   }
 
   @override
