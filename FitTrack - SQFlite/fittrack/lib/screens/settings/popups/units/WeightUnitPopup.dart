@@ -153,6 +153,7 @@ Future<void> showPopupWeightUnit(
                             onPressed: () async {
                               Settings newSettings = settings.clone();
                               newSettings.weightUnit = weightUnit;
+                              newSettings.updateUserWeights(weightUnit);
 
                               dynamic result = await globals.sqlDatabase
                                   .updateSettings(newSettings);

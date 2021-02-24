@@ -120,4 +120,17 @@ class Settings {
       );
     }
   }
+
+  void updateUserWeights(String _weightUnit) {
+    for (int i = 0; i < userWeight.length; i++) {
+      if (userWeight[i].weightUnit != _weightUnit) {
+        userWeight[i].weight = recalculateWeight(
+          userWeight[i].weight,
+          _weightUnit,
+        );
+
+        userWeight[i].weightUnit = _weightUnit;
+      }
+    }
+  }
 }
