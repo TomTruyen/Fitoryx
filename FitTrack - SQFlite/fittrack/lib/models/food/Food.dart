@@ -66,10 +66,6 @@ class Food {
     return new Food(
       id: food['id'],
       foodPerHour: _foodPerHour,
-      // kcal: food['kcal'] ?? 0.0,
-      // carbs: food['carbs'] ?? 0.0,
-      // protein: food['protein'] ?? 0.0,
-      // fat: food['fat'] ?? 0.0,
       kcalGoal: food['kcalGoal'],
       carbsGoal: food['carbsGoal'],
       proteinGoal: food['proteinGoal'],

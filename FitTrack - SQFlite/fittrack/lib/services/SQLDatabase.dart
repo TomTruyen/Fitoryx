@@ -4,6 +4,7 @@ import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/Settings.dart';
+import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -51,7 +52,7 @@ class SQLDatabase {
             'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, foodPerHour TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
           );
           await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, workoutsPerWeekGoal INTEGER)',
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, userWeight TEXT, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, workoutsPerWeekGoal INTEGER)',
           );
         },
       );
@@ -162,8 +163,9 @@ class SQLDatabase {
       if (_settings.id == null) {
         // INSERT
         await db.rawInsert(
-          'INSERT INTO settings (weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, workoutsPerWeekGoal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO settings (userWeight, weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, workoutsPerWeekGoal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [
+            jsonEncode(convertUserWeightListToJsonList(_settings.userWeight)),
             _settings.weightUnit,
             _settings.kcalGoal,
             _settings.carbsGoal,
@@ -178,8 +180,9 @@ class SQLDatabase {
       } else {
         // UPDATE
         await db.rawUpdate(
-          'UPDATE settings SET weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, workoutsPerWeekGoal = ? WHERE id = ?',
+          'UPDATE settings SET userWeight = ?, weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, workoutsPerWeekGoal = ? WHERE id = ?',
           [
+            jsonEncode(convertUserWeightListToJsonList(_settings.userWeight)),
             _settings.weightUnit,
             _settings.kcalGoal,
             _settings.carbsGoal,
@@ -208,7 +211,13 @@ class SQLDatabase {
       );
 
       if (dbSettings.isEmpty) {
-        settings = new Settings();
+        settings = new Settings(
+          userWeight: [
+            UserWeight(
+              timeInMilliseconds: DateTime.now().millisecondsSinceEpoch,
+            )
+          ],
+        );
       } else {
         settings = Settings.fromJSON(dbSettings[0]);
       }
@@ -610,6 +619,7 @@ class SQLDatabase {
 
     - Settings Table
     id INTEGER
+    userWeight TEXT (json)
     weightUnit TEXT
     kcalGoal REAL
     carbsGoal REAL

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
+import 'package:fittrack/screens/settings/popups/personal_info/WeightPopup.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -88,6 +89,29 @@ class _SettingsPageState extends State<SettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
+                Container(
+                  margin: EdgeInsets.only(top: 10.0),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'Personal Info',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                ListTile(
+                  title: Text('Weight'),
+                  subtitle: Text(
+                    "${settings.userWeight[0].weight} ${settings.weightUnit}",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () async {
+                    await showPopupWeight(
+                      context,
+                      settings,
+                      updateSettings,
+                    );
+                  },
+                ),
+                Divider(color: Color.fromRGBO(70, 70, 70, 1)),
                 Container(
                   margin: EdgeInsets.only(top: 10.0),
                   padding: EdgeInsets.symmetric(horizontal: 16.0),

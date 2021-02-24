@@ -1,5 +1,6 @@
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
+import 'package:fittrack/shared/Functions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -131,28 +132,11 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
 
   DateTime now = DateTime.now();
   DateTime startOfCurrentWeek = now.subtract(Duration(days: now.weekday - 1));
-  startOfCurrentWeek = new DateTime(
-    startOfCurrentWeek.year,
-    startOfCurrentWeek.month,
-    startOfCurrentWeek.day,
-    0,
-    0,
-    0,
-    0,
-    0,
-  );
+  startOfCurrentWeek = convertDateTimeToDate(startOfCurrentWeek);
 
   DateTime startOfNextWeek = now.add(Duration(days: 7 - now.weekday));
-  startOfNextWeek = new DateTime(
-    startOfNextWeek.year,
-    startOfNextWeek.month,
-    startOfNextWeek.day,
-    0,
-    0,
-    0,
-    0,
-    0,
-  );
+  startOfNextWeek = convertDateTimeToDate(startOfNextWeek);
+
   int count = 0;
   if (workoutHistory.isNotEmpty) {
     for (int i = workoutHistory.length - 1; i >= 0; i--) {

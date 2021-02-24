@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:device_info/device_info.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
+import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -119,11 +120,24 @@ String convertIosDeviceInfoToString(IosDeviceInfo data) {
 }
 
 List<Map<String, dynamic>> convertFoodPerHourListToJsonList(
-    List<FoodPerHour> foodPerHourList) {
+  List<FoodPerHour> foodPerHourList,
+) {
   List<Map<String, dynamic>> list = [];
 
   for (int i = 0; i < foodPerHourList.length; i++) {
     list.add(foodPerHourList[i].toJSON());
+  }
+
+  return list;
+}
+
+List<Map<String, dynamic>> convertUserWeightListToJsonList(
+  List<UserWeight> userWeightList,
+) {
+  List<Map<String, dynamic>> list = [];
+
+  for (int i = 0; i < userWeightList.length; i++) {
+    list.add(userWeightList[i].toJSON());
   }
 
   return list;
@@ -159,4 +173,29 @@ String getFoodGoalString(double value, double goal, String measurement) {
   foodGoalString += measurement;
 
   return foodGoalString;
+}
+
+DateTime convertDateTimeToDate(DateTime dateTime) {
+  DateTime date = new DateTime(
+    dateTime.year,
+    dateTime.month,
+    dateTime.day,
+    0,
+    0,
+    0,
+    0,
+    0,
+  );
+
+  return date;
+}
+
+bool isSameDay(DateTime dateTime1, DateTime dateTime2) {
+  if (dateTime1.day == dateTime2.day &&
+      dateTime1.month == dateTime2.month &&
+      dateTime1.year == dateTime2.year) {
+    return true;
+  }
+
+  return false;
 }
