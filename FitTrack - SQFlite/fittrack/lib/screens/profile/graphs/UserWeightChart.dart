@@ -26,6 +26,7 @@ class UserWeightChart extends StatelessWidget {
               color: Colors.blueAccent,
               fontSize: 10.0,
             ),
+            interval: _getInterval(userWeights, timespan),
             getTitles: (double value) {
               return _getTitleWithoutYear(value, datesList);
             },
@@ -41,7 +42,11 @@ class UserWeightChart extends StatelessWidget {
         ),
         lineBarsData: [
           _getUserWeightList(
-              List.of(userWeights), datesList, settings, timespan),
+            List.of(userWeights),
+            datesList,
+            settings,
+            timespan,
+          ),
         ],
         showingTooltipIndicators: [],
         lineTouchData: LineTouchData(
@@ -93,6 +98,23 @@ class UserWeightChart extends StatelessWidget {
   }
 }
 
+double _getInterval(List<UserWeight> userWeights, int timespan) {
+  final double maxInterval = 6.0;
+
+  if (timespan > -1) {
+    List<UserWeight> _userWeight = getUserWeightsWithinTimespan(
+      userWeights,
+      timespan,
+    );
+
+    if (_userWeight.length < maxInterval) return _userWeight.length.toDouble();
+  } else {
+    if (userWeights.length < maxInterval) return userWeights.length.toDouble();
+  }
+
+  return (userWeights.length / maxInterval).round().toDouble();
+}
+
 String _getTitle(double value, List<String> _datesList) {
   int _value = value.toInt();
 
@@ -102,6 +124,7 @@ String _getTitle(double value, List<String> _datesList) {
   return _datesList[_value];
 }
 
+// gets title without year, also gets titles for values that "don't exist";
 String _getTitleWithoutYear(double value, List<String> _datesList) {
   int _value = value.toInt();
 
@@ -121,34 +144,6 @@ LineChartBarData _getUserWeightList(
   Settings settings,
   int timespanInDays, //timespan in days from most recent datetime
 ) {
-  userWeights = [
-    UserWeight(
-        weight: 60,
-        weightUnit: "kg",
-        timeInMilliseconds: DateTime.now().millisecondsSinceEpoch),
-    UserWeight(
-        weight: 80,
-        weightUnit: "kg",
-        timeInMilliseconds:
-            DateTime.now().subtract(Duration(days: 5)).millisecondsSinceEpoch),
-    UserWeight(
-        weight: 90,
-        weightUnit: "kg",
-        timeInMilliseconds:
-            DateTime.now().subtract(Duration(days: 20)).millisecondsSinceEpoch),
-    UserWeight(
-        weight: 50,
-        weightUnit: "kg",
-        timeInMilliseconds:
-            DateTime.now().subtract(Duration(days: 50)).millisecondsSinceEpoch),
-    UserWeight(
-        weight: 40,
-        weightUnit: "kg",
-        timeInMilliseconds: DateTime.now()
-            .subtract(Duration(days: 751))
-            .millisecondsSinceEpoch),
-  ].reversed.toList(); // test date
-
   if (userWeights.isEmpty) {
     DateTime now = DateTime.now();
 
