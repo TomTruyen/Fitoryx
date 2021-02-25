@@ -1,5 +1,6 @@
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
+import 'package:fittrack/shared/Functions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -52,18 +53,27 @@ class UserWeightChart extends StatelessWidget {
           touchTooltipData: LineTouchTooltipData(
             fitInsideVertically: true,
             fitInsideHorizontally: true,
-            // getTooltipItems: (List<LineBarSpot> spots) {
-            //   String hour = spots[0].x > 12
-            //       ? "${(spots[0].x - 12).toInt()} PM"
-            //       : "${(spots[0].x).toInt()} AM";
+            getTooltipItems: (List<LineBarSpot> spots) {
+              double weight = spots[0].y;
+              int timeInMillisecondsSinceEpoch = spots[0].x.toInt();
 
-            //   dynamic kcal = tryConvertDoubleToInt(spots[0].y);
+              String date = "/";
 
-            //   return [
-            //     LineTooltipItem(
-            //         "$hour \n $kcal KCAL", TextStyle(color: Colors.blue[50]))
-            //   ];
-            // },
+              if (timeInMillisecondsSinceEpoch > 0) {
+                DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+                  timeInMillisecondsSinceEpoch,
+                );
+
+                date = dateTimeToStringWithoutYear(dateTime);
+              }
+
+              return [
+                LineTooltipItem(
+                  "Date: $date \n$weight ${settings.weightUnit}",
+                  TextStyle(color: Colors.blue[50]),
+                )
+              ];
+            },
             tooltipPadding: EdgeInsets.all(10.0),
             tooltipBgColor: Colors.blueGrey,
           ),
@@ -83,7 +93,12 @@ LineChartBarData _getUserWeightList(List<UserWeight> userWeights) {
     // add FlSpots to fill graph at 0, maybe 1 flspot per month?
   } else {
     for (int i = 0; i < userWeights.length; i++) {
-      spots.add(FlSpot(i.toDouble(), userWeights[i].weight));
+      spots.add(
+        FlSpot(
+          userWeights[i].timeInMilliseconds.toDouble(),
+          userWeights[i].weight,
+        ),
+      );
     }
   }
 

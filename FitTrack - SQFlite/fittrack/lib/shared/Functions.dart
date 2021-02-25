@@ -56,6 +56,13 @@ String dateTimeToString(DateTime date) {
   return "$day-$month-$year";
 }
 
+String dateTimeToStringWithoutYear(DateTime date) {
+  String day = date.day.toString().padLeft(2, '0');
+  String month = date.month.toString().padLeft(2, '0');
+
+  return "$day-$month";
+}
+
 Future<String> getDevicePath() async {
   final directory = await ExtStorage.getExternalStoragePublicDirectory(
       ExtStorage.DIRECTORY_DOWNLOADS);
