@@ -1,5 +1,4 @@
 // Flutter Packages
-import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/material.dart';
