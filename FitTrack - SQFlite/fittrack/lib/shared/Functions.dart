@@ -206,3 +206,31 @@ bool isSameDay(DateTime dateTime1, DateTime dateTime2) {
 
   return false;
 }
+
+List<UserWeight> getUserWeightsWithinTimespan(
+    List<UserWeight> userWeights, int timespanInDays) {
+  if (timespanInDays < 30) timespanInDays = 30;
+
+  List<UserWeight> userWeightsWithinTimespan = [];
+
+  DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
+    userWeights[userWeights.length - 1].timeInMilliseconds,
+  );
+
+  DateTime latestDateTimeAllowed = mostRecentDateTime.subtract(
+    Duration(days: timespanInDays),
+  );
+
+  for (int i = 0; i < userWeights.length; i++) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(
+      userWeights[i].timeInMilliseconds,
+    );
+
+    if (date.isAfter(latestDateTimeAllowed) ||
+        isSameDay(date, latestDateTimeAllowed)) {
+      userWeightsWithinTimespan.add(userWeights[i]);
+    }
+  }
+
+  return userWeightsWithinTimespan;
+}

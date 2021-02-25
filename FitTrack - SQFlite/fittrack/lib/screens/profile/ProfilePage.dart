@@ -18,6 +18,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Settings settings;
   List<Workout> workoutHistory;
 
+  int weightTimespan = 30; // timespan of weightgraph (in days)
+
   @override
   void initState() {
     super.initState();
@@ -255,6 +257,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: UserWeightChart(
                               userWeights: settings.userWeight,
                               settings: settings,
+                              timespan: weightTimespan,
                             ),
                           ),
                         ),

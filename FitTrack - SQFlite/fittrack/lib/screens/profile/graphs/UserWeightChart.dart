@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 class UserWeightChart extends StatelessWidget {
   final List<UserWeight> userWeights;
   final Settings settings;
+  final int timespan; // timespan of weightgraph (in days)
 
   final List<String> datesList = [];
 
-  UserWeightChart({this.userWeights, this.settings});
+  UserWeightChart({this.userWeights, this.settings, this.timespan = 30});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class UserWeightChart extends StatelessWidget {
           ),
         ),
         lineBarsData: [
-          _getUserWeightList(userWeights, datesList),
+          _getUserWeightList(userWeights, datesList, timespan),
         ],
         showingTooltipIndicators: [],
         lineTouchData: LineTouchData(
@@ -100,8 +101,11 @@ String _getTitle(double value, List<String> _datesList) {
 LineChartBarData _getUserWeightList(
   List<UserWeight> userWeights,
   List<String> _datesList,
+  int timespanInDays, //timespan in days from most recent datetime
 ) {
-  userWeights = userWeights.reversed.toList();
+  userWeights = List.of(userWeights).reversed.toList();
+
+  userWeights = getUserWeightsWithinTimespan(userWeights, timespanInDays);
 
   List<FlSpot> spots = [];
 
