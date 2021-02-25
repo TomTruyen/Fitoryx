@@ -8,6 +8,8 @@ class UserWeightChart extends StatelessWidget {
   final List<UserWeight> userWeights;
   final Settings settings;
 
+  final List<String> datesList = [];
+
   UserWeightChart({this.userWeights, this.settings});
 
   @override
@@ -17,8 +19,19 @@ class UserWeightChart extends StatelessWidget {
         gridData: FlGridData(show: false),
         titlesData: FlTitlesData(
           show: true,
+          bottomTitles: SideTitles(
+            showTitles: true,
+            getTextStyles: (value) => const TextStyle(
+              color: Colors.blueAccent,
+              fontSize: 10.0,
+            ),
+            getTitles: (double value) {
+              return _getTitle(value, datesList);
+            },
+          ),
           leftTitles: SideTitles(showTitles: false),
         ),
+        minY: 0,
         borderData: FlBorderData(
           show: true,
           border: Border(
@@ -26,7 +39,7 @@ class UserWeightChart extends StatelessWidget {
           ),
         ),
         lineBarsData: [
-          _getUserWeightList(userWeights),
+          _getUserWeightList(userWeights, datesList),
         ],
         showingTooltipIndicators: [],
         lineTouchData: LineTouchData(
@@ -55,17 +68,11 @@ class UserWeightChart extends StatelessWidget {
             fitInsideHorizontally: true,
             getTooltipItems: (List<LineBarSpot> spots) {
               double weight = spots[0].y;
-              int timeInMillisecondsSinceEpoch = spots[0].x.toInt();
+              double timeInMillisecondsSinceEpoch = spots[0].x;
 
               String date = "/";
 
-              if (timeInMillisecondsSinceEpoch > 0) {
-                DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
-                  timeInMillisecondsSinceEpoch,
-                );
-
-                date = dateTimeToStringWithoutYear(dateTime);
-              }
+              date = _getTitle(timeInMillisecondsSinceEpoch, datesList);
 
               return [
                 LineTooltipItem(
@@ -84,22 +91,56 @@ class UserWeightChart extends StatelessWidget {
   }
 }
 
-LineChartBarData _getUserWeightList(List<UserWeight> userWeights) {
+String _getTitle(double value, List<String> _datesList) {
+  int _value = value.toInt();
+
+  return _datesList[_value];
+}
+
+LineChartBarData _getUserWeightList(
+  List<UserWeight> userWeights,
+  List<String> _datesList,
+) {
   userWeights = userWeights.reversed.toList();
 
   List<FlSpot> spots = [];
 
-  if (userWeights.isEmpty) {
-    // add FlSpots to fill graph at 0, maybe 1 flspot per month?
-  } else {
-    for (int i = 0; i < userWeights.length; i++) {
-      spots.add(
-        FlSpot(
-          userWeights[i].timeInMilliseconds.toDouble(),
-          userWeights[i].weight,
+  for (int i = 0; i < userWeights.length; i++) {
+    spots.add(
+      FlSpot(
+        i.toDouble(),
+        userWeights[i].weight,
+      ),
+    );
+
+    _datesList.add(
+      dateTimeToStringWithoutYear(
+        DateTime.fromMillisecondsSinceEpoch(
+          userWeights[i].timeInMilliseconds,
         ),
-      );
+      ),
+    );
+  }
+
+  if (spots.isEmpty) {
+    for (int i = 0; i < 2; i++) {
+      spots.add(FlSpot(i.toDouble(), 0));
+      _datesList.add("");
     }
+  } else if (spots.length < 2) {
+    spots.add(FlSpot(1, spots[0].y));
+    _datesList.insert(
+      0,
+      dateTimeToStringWithoutYear(
+        DateTime.fromMillisecondsSinceEpoch(
+          userWeights[0].timeInMilliseconds,
+        ).subtract(
+          Duration(
+            days: 1,
+          ),
+        ),
+      ),
+    );
   }
 
   return LineChartBarData(
