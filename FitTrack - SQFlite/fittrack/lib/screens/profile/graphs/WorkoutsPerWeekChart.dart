@@ -50,6 +50,9 @@ class WorkoutsPerWeekChart extends StatelessWidget {
               fitInsideVertically: true,
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 String date = _getTitle(group.x.toDouble(), datesList);
+
+                date = date.split('-').join('/');
+
                 String untilDate =
                     "${(int.parse(date.split('/')[0]) + 7)}/${date.split('/')[1]}";
 
@@ -66,9 +69,6 @@ class WorkoutsPerWeekChart extends StatelessWidget {
 
 String _getTitle(double value, List<String> _datesList) {
   int _value = value.toInt();
-
-  if (value < 0) value = 0;
-  if (_value > _datesList.length - 1) _value = _datesList.length - 1;
 
   return _datesList[_value - 1];
 }
