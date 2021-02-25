@@ -107,7 +107,8 @@ class Settings {
     DateTime lastWeightInputDate =
         DateTime.fromMillisecondsSinceEpoch(userWeight[0].timeInMilliseconds);
 
-    if (isSameDay(date, lastWeightInputDate)) {
+    if (isSameDay(date, lastWeightInputDate) ||
+        userWeight[0].timeInMilliseconds == 0) {
       userWeight[0] = new UserWeight(
         weight: _weight,
         weightUnit: _weightUnit,
