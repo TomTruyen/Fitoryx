@@ -1,5 +1,6 @@
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
+import 'package:fittrack/screens/profile/graphs/UserWeightChart.dart';
 import 'package:fittrack/screens/profile/graphs/WorkoutsPerWeekChart.dart';
 import 'package:fittrack/screens/profile/popups/WorkoutsPerWeekPopup.dart';
 import 'package:fittrack/screens/settings/SettingsPage.dart';
@@ -165,12 +166,49 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
-
-                        // Weight Chart (+ somewhere a system to input weight (maybe in settings))
-
-                        // Body Fat % chart (+ somewhere a system to input weight (maybe in settings))
-
-                        // 1RM of exercise throughout time: Select all exercises that are in finishedworkouts, that match the exercise that is selected from the dropdown that we will add
+                      ],
+                    ),
+                  ),
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 12.0,
+                    vertical: 4.0,
+                  ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 3.0,
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 16.0),
+                                child: Text(
+                                  'Weight',
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 16.0),
+                            child: UserWeightChart(
+                              userWeights: settings.userWeight,
+                              settings: settings,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
