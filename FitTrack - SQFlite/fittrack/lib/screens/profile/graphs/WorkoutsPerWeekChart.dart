@@ -67,6 +67,9 @@ class WorkoutsPerWeekChart extends StatelessWidget {
 String _getTitle(double value, List<String> _datesList) {
   int _value = value.toInt();
 
+  if (value < 0) value = 0;
+  if (_value > _datesList.length - 1) _value = _datesList.length - 1;
+
   return _datesList[_value - 1];
 }
 
@@ -92,7 +95,7 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
   ) {
     _datesList.insert(
       0,
-      "${startOfCurrentWeek.day.toString().padLeft(2, '0')}/${startOfCurrentWeek.month.toString().padLeft(2, '0')}",
+      dateTimeToStringWithoutYear(startOfCurrentWeek),
     );
 
     workoutsPerWeekBarData.insert(

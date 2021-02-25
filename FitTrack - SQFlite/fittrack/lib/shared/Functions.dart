@@ -208,9 +208,9 @@ bool isSameDay(DateTime dateTime1, DateTime dateTime2) {
 }
 
 List<UserWeight> getUserWeightsWithinTimespan(
-    List<UserWeight> userWeights, int timespanInDays) {
-  if (timespanInDays < 30) timespanInDays = 30;
-
+  List<UserWeight> userWeights,
+  int timespanInDays,
+) {
   List<UserWeight> userWeightsWithinTimespan = [];
 
   DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
@@ -233,4 +233,20 @@ List<UserWeight> getUserWeightsWithinTimespan(
   }
 
   return userWeightsWithinTimespan;
+}
+
+List<UserWeight> sortUserWeightsByDate(
+  List<UserWeight> userWeights,
+  bool isAscending,
+) {
+  List<UserWeight> sortedUserWeights = List.of(userWeights);
+
+  sortedUserWeights.sort((UserWeight a, UserWeight b) {
+    if (!isAscending)
+      return a.timeInMilliseconds.compareTo(b.timeInMilliseconds);
+
+    return -a.timeInMilliseconds.compareTo(b.timeInMilliseconds);
+  });
+
+  return sortedUserWeights;
 }

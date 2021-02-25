@@ -27,7 +27,7 @@ class UserWeightChart extends StatelessWidget {
               fontSize: 10.0,
             ),
             getTitles: (double value) {
-              return _getTitle(value, datesList);
+              return _getTitleWithoutYear(value, datesList);
             },
           ),
           leftTitles: SideTitles(showTitles: false),
@@ -40,7 +40,8 @@ class UserWeightChart extends StatelessWidget {
           ),
         ),
         lineBarsData: [
-          _getUserWeightList(userWeights, datesList, timespan),
+          _getUserWeightList(
+              List.of(userWeights), datesList, settings, timespan),
         ],
         showingTooltipIndicators: [],
         lineTouchData: LineTouchData(
@@ -95,17 +96,97 @@ class UserWeightChart extends StatelessWidget {
 String _getTitle(double value, List<String> _datesList) {
   int _value = value.toInt();
 
+  if (value < 0) value = 0;
+  if (_value > _datesList.length - 1) _value = _datesList.length - 1;
+
   return _datesList[_value];
+}
+
+String _getTitleWithoutYear(double value, List<String> _datesList) {
+  int _value = value.toInt();
+
+  if (value < 0) value = 0;
+  if (_value > _datesList.length - 1) _value = _datesList.length - 1;
+
+  String _date = _datesList[_value];
+  List<String> _splittedDate = _date.split('-');
+  _splittedDate.removeLast();
+
+  return _splittedDate.join('-');
 }
 
 LineChartBarData _getUserWeightList(
   List<UserWeight> userWeights,
   List<String> _datesList,
+  Settings settings,
   int timespanInDays, //timespan in days from most recent datetime
 ) {
-  userWeights = List.of(userWeights).reversed.toList();
+  userWeights = [
+    UserWeight(
+        weight: 60,
+        weightUnit: "kg",
+        timeInMilliseconds: DateTime.now().millisecondsSinceEpoch),
+    UserWeight(
+        weight: 80,
+        weightUnit: "kg",
+        timeInMilliseconds:
+            DateTime.now().subtract(Duration(days: 5)).millisecondsSinceEpoch),
+    UserWeight(
+        weight: 90,
+        weightUnit: "kg",
+        timeInMilliseconds:
+            DateTime.now().subtract(Duration(days: 20)).millisecondsSinceEpoch),
+    UserWeight(
+        weight: 50,
+        weightUnit: "kg",
+        timeInMilliseconds:
+            DateTime.now().subtract(Duration(days: 50)).millisecondsSinceEpoch),
+    UserWeight(
+        weight: 40,
+        weightUnit: "kg",
+        timeInMilliseconds: DateTime.now()
+            .subtract(Duration(days: 751))
+            .millisecondsSinceEpoch),
+  ].reversed.toList(); // test date
 
-  userWeights = getUserWeightsWithinTimespan(userWeights, timespanInDays);
+  if (userWeights.isEmpty) {
+    DateTime now = DateTime.now();
+
+    userWeights = [
+      UserWeight(
+          weightUnit: settings.weightUnit,
+          timeInMilliseconds: now.millisecondsSinceEpoch),
+      UserWeight(
+        weightUnit: settings.weightUnit,
+        timeInMilliseconds: now
+            .subtract(
+              Duration(days: timespanInDays),
+            )
+            .millisecondsSinceEpoch,
+      ),
+    ];
+  } else if (userWeights.length < 2) {
+    double weight = userWeights[0].weight;
+    String weightUnit = userWeights[0].weightUnit;
+    int timeInMilliseconds = DateTime.now()
+        .subtract(Duration(days: timespanInDays))
+        .millisecondsSinceEpoch;
+
+    userWeights.add(
+      UserWeight(
+        weight: weight,
+        weightUnit: weightUnit,
+        timeInMilliseconds: timeInMilliseconds,
+      ),
+    );
+  }
+
+  userWeights = sortUserWeightsByDate(userWeights, false);
+
+  if (timespanInDays > -1) {
+    // -1 == ALL so no timespan
+    userWeights = getUserWeightsWithinTimespan(userWeights, timespanInDays);
+  }
 
   List<FlSpot> spots = [];
 
@@ -117,34 +198,13 @@ LineChartBarData _getUserWeightList(
       ),
     );
 
-    _datesList.add(
-      dateTimeToStringWithoutYear(
-        DateTime.fromMillisecondsSinceEpoch(
-          userWeights[i].timeInMilliseconds,
-        ),
+    String _date = dateTimeToString(
+      DateTime.fromMillisecondsSinceEpoch(
+        userWeights[i].timeInMilliseconds,
       ),
     );
-  }
 
-  if (spots.isEmpty) {
-    for (int i = 0; i < 2; i++) {
-      spots.add(FlSpot(i.toDouble(), 0));
-      _datesList.add("");
-    }
-  } else if (spots.length < 2) {
-    spots.add(FlSpot(1, spots[0].y));
-    _datesList.insert(
-      0,
-      dateTimeToStringWithoutYear(
-        DateTime.fromMillisecondsSinceEpoch(
-          userWeights[0].timeInMilliseconds,
-        ).subtract(
-          Duration(
-            days: 1,
-          ),
-        ),
-      ),
-    );
+    _datesList.add(_date);
   }
 
   return LineChartBarData(

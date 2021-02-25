@@ -2,6 +2,7 @@ import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/profile/graphs/UserWeightChart.dart';
 import 'package:fittrack/screens/profile/graphs/WorkoutsPerWeekChart.dart';
+import 'package:fittrack/screens/profile/popups/UserWeightTimespanPopup.dart';
 import 'package:fittrack/screens/profile/popups/WorkoutsPerWeekPopup.dart';
 import 'package:fittrack/screens/settings/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +26,19 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
 
     updateProfilePage();
+  }
+
+  String _getTimespanString() {
+    switch (weightTimespan) {
+      case 7:
+        return "1 Week";
+      case 30:
+        return "1 Month";
+      case 365:
+        return "1 Year";
+      default:
+        return "All";
+    }
   }
 
   void updateProfilePage() {
@@ -194,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Container(
                                 margin: EdgeInsets.only(left: 16.0),
                                 child: Text(
-                                  'Weight',
+                                  'Weight (${_getTimespanString()})',
                                   style: TextStyle(fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -222,9 +236,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     onSelected: (selection) async {
                                       if (selection == 'timespan') {
-                                        // show popup
-                                        // popup will have some date scroller (like cupertino picker)
-                                        // where use can select amount of  --> all time/years/months/days
+                                        int _timespan =
+                                            await showPopupUserWeightTimespan(
+                                          context,
+                                          weightTimespan,
+                                        );
+
+                                        setState(() {
+                                          weightTimespan = _timespan;
+                                        });
                                       }
                                     },
                                     itemBuilder: (BuildContext context) =>
