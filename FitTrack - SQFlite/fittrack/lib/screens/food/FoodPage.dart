@@ -206,36 +206,39 @@ class _FoodPageState extends State<FoodPage> {
                       name: 'kcal',
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: FoodDisplayCard(
-                            value: tryConvertDoubleToInt(carbs),
-                            goal: tryConvertDoubleToInt(settings.carbsGoal),
-                            name: 'carbs',
-                            isMacro: true,
-                          ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery.of(context).size.width / 3.0,
+                        width: MediaQuery.of(context).size.width / 3.0,
+                        child: FoodDisplayCard(
+                          value: tryConvertDoubleToInt(carbs),
+                          goal: tryConvertDoubleToInt(settings.carbsGoal),
+                          name: 'carbs',
+                          isMacro: true,
                         ),
-                        Expanded(
-                          child: FoodDisplayCard(
-                            value: tryConvertDoubleToInt(protein),
-                            goal: tryConvertDoubleToInt(settings.proteinGoal),
-                            name: 'protein',
-                            isMacro: true,
-                          ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.width / 3.0,
+                        width: MediaQuery.of(context).size.width / 3.0,
+                        child: FoodDisplayCard(
+                          value: tryConvertDoubleToInt(protein),
+                          goal: tryConvertDoubleToInt(settings.proteinGoal),
+                          name: 'protein',
+                          isMacro: true,
                         ),
-                        Expanded(
-                          child: FoodDisplayCard(
-                            value: tryConvertDoubleToInt(fat),
-                            goal: tryConvertDoubleToInt(settings.fatGoal),
-                            name: 'fat',
-                            isMacro: true,
-                          ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.width / 3.0,
+                        width: MediaQuery.of(context).size.width / 3.0,
+                        child: FoodDisplayCard(
+                          value: tryConvertDoubleToInt(fat),
+                          goal: tryConvertDoubleToInt(settings.fatGoal),
+                          name: 'fat',
+                          isMacro: true,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
