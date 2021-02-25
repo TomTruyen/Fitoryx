@@ -222,7 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       if (selection == 'timespan') {
                                         // show popup
                                         // popup will have some date scroller (like cupertino picker)
-                                        // where use can select amount of years/months/days
+                                        // where use can select amount of  --> all time/years/months/days
                                       }
                                     },
                                     itemBuilder: (BuildContext context) =>
@@ -231,7 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         height: 40.0,
                                         value: 'timespan',
                                         child: Text(
-                                          'Set timespan',
+                                          'Edit timespan',
                                           style: Theme.of(context)
                                               .textTheme
                                               .button
