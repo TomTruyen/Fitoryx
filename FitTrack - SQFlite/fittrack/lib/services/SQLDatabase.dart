@@ -211,13 +211,7 @@ class SQLDatabase {
       );
 
       if (dbSettings.isEmpty) {
-        settings = new Settings(
-          userWeight: [
-            UserWeight(
-              timeInMilliseconds: DateTime.now().millisecondsSinceEpoch,
-            )
-          ],
-        );
+        settings = new Settings();
       } else {
         settings = Settings.fromJSON(dbSettings[0]);
       }

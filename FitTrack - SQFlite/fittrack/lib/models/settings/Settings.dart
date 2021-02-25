@@ -38,7 +38,11 @@ class Settings {
     this.isRestTimerEnabled = 1,
     this.isVibrateUponFinishEnabled = 1,
     this.workoutsPerWeekGoal,
-  });
+  }) {
+    if (this.userWeight == null || this.userWeight.isEmpty) {
+      this.userWeight = [UserWeight(weightUnit: this.weightUnit ?? 'kg')];
+    }
+  }
 
   Settings clone() {
     return new Settings(
