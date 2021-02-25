@@ -24,11 +24,15 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.name = "",
     this.weightUnit = "kg",
     this.timeInMillisSinceEpoch,
-    this.exercises = const [],
+    this.exercises,
     this.duration = "00:00",
     this.workoutDurationInMilliseconds = 0,
     this.note = "",
-  });
+  }) {
+    if (this.exercises == null) {
+      this.exercises = [];
+    }
+  }
 
   void copyWorkout(Workout workout) {
     id = workout.id;
