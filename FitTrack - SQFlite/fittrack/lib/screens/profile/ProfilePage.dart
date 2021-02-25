@@ -196,6 +196,55 @@ class _ProfilePageState extends State<ProfilePage> {
                                   style: TextStyle(fontWeight: FontWeight.w600),
                                 ),
                               ),
+                              Container(
+                                padding: EdgeInsets.only(bottom: 12.0),
+                                child: Theme(
+                                  data: Theme.of(context).copyWith(
+                                    cardColor: Color.fromRGBO(35, 35, 35, 1),
+                                    dividerColor: Color.fromRGBO(
+                                      150,
+                                      150,
+                                      150,
+                                      1,
+                                    ),
+                                  ),
+                                  child: PopupMenuButton(
+                                    offset: Offset(0, 50),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(8.0),
+                                      ),
+                                    ),
+                                    icon: Icon(
+                                      Icons.more_vert,
+                                    ),
+                                    onSelected: (selection) async {
+                                      if (selection == 'timespan') {
+                                        // show popup
+                                        // popup will have some date scroller (like cupertino picker)
+                                        // where use can select amount of years/months/days
+                                      }
+                                    },
+                                    itemBuilder: (BuildContext context) =>
+                                        <PopupMenuEntry>[
+                                      PopupMenuItem(
+                                        height: 40.0,
+                                        value: 'timespan',
+                                        child: Text(
+                                          'Set timespan',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
