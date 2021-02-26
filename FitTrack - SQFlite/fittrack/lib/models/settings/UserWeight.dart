@@ -3,8 +3,19 @@ class UserWeight {
   String weightUnit;
   int timeInMilliseconds;
 
-  UserWeight(
-      {this.weight = 0.0, this.weightUnit = "kg", this.timeInMilliseconds = 0});
+  UserWeight({
+    this.weight = 0.0,
+    this.weightUnit = "kg",
+    this.timeInMilliseconds = 0,
+  });
+
+  UserWeight clone() {
+    return new UserWeight(
+      weight: weight,
+      weightUnit: weightUnit,
+      timeInMilliseconds: timeInMilliseconds,
+    );
+  }
 
   static fromJSON(Map<String, dynamic> json) {
     return new UserWeight(
