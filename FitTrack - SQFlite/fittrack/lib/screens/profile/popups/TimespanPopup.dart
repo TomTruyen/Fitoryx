@@ -1,7 +1,7 @@
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/material.dart';
 
-Future<int> showPopupUserWeightTimespan(
+Future<int> showPopupTimespan(
   BuildContext context,
   int _timespan,
 ) async {
