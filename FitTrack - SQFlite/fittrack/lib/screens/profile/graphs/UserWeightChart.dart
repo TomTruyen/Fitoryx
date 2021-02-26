@@ -26,9 +26,9 @@ class UserWeightChart extends StatelessWidget {
               color: Colors.blueAccent,
               fontSize: 10.0,
             ),
-            interval: _getInterval(userWeights, timespan),
+            interval: getInterval(userWeights, timespan),
             getTitles: (double value) {
-              return _getTitleWithoutYear(value, datesList);
+              return getTitleWithoutYear(value, datesList);
             },
           ),
           leftTitles: SideTitles(showTitles: false),
@@ -79,7 +79,7 @@ class UserWeightChart extends StatelessWidget {
 
               String date = "/";
 
-              date = _getTitle(timeInMillisecondsSinceEpoch, datesList);
+              date = getTitle(timeInMillisecondsSinceEpoch, datesList);
 
               return [
                 LineTooltipItem(
@@ -98,7 +98,7 @@ class UserWeightChart extends StatelessWidget {
   }
 }
 
-double _getInterval(List<UserWeight> userWeights, int timespan) {
+double getInterval(List<UserWeight> userWeights, int timespan) {
   final double maxInterval = 6.0;
 
   if (timespan > -1) {
@@ -115,29 +115,6 @@ double _getInterval(List<UserWeight> userWeights, int timespan) {
   return (userWeights.length / maxInterval).round().toDouble();
 }
 
-String _getTitle(double value, List<String> _datesList) {
-  int _value = value.toInt();
-
-  if (value < 0) value = 0;
-  if (_value > _datesList.length - 1) _value = _datesList.length - 1;
-
-  return _datesList[_value];
-}
-
-// gets title without year, also gets titles for values that "don't exist";
-String _getTitleWithoutYear(double value, List<String> _datesList) {
-  int _value = value.toInt();
-
-  if (value < 0) value = 0;
-  if (_value > _datesList.length - 1) _value = _datesList.length - 1;
-
-  String _date = _datesList[_value];
-  List<String> _splittedDate = _date.split('-');
-  _splittedDate.removeLast();
-
-  return _splittedDate.join('-');
-}
-
 LineChartBarData _getUserWeightList(
   List<UserWeight> userWeights,
   List<String> _datesList,
@@ -149,8 +126,9 @@ LineChartBarData _getUserWeightList(
 
     userWeights = [
       UserWeight(
-          weightUnit: settings.weightUnit,
-          timeInMilliseconds: now.millisecondsSinceEpoch),
+        weightUnit: settings.weightUnit,
+        timeInMilliseconds: now.millisecondsSinceEpoch,
+      ),
       UserWeight(
         weightUnit: settings.weightUnit,
         timeInMilliseconds: now
@@ -178,10 +156,7 @@ LineChartBarData _getUserWeightList(
 
   userWeights = sortUserWeightsByDate(userWeights, false);
 
-  if (timespanInDays > -1) {
-    // -1 == ALL so no timespan
-    userWeights = getUserWeightsWithinTimespan(userWeights, timespanInDays);
-  }
+  userWeights = getUserWeightsWithinTimespan(userWeights, timespanInDays);
 
   List<FlSpot> spots = [];
 
