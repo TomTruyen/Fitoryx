@@ -32,7 +32,7 @@ class Workout {
     _clone.weightUnit = weightUnit ?? "kg";
     _clone.timeInMillisSinceEpoch =
         timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch;
-    _clone.exercises = List.of(exercises) ?? [];
+    _clone.exercises = exercises != null ? List.of(exercises) : [] ?? [];
     _clone.duration = duration ?? "00:00";
     _clone.workoutDurationInMilliseconds = workoutDurationInMilliseconds ?? 0;
     _clone.note = note ?? "";
@@ -83,6 +83,8 @@ class Workout {
 
   double getTotalWeightLifted() {
     double totalWeight = 0;
+
+    if (exercises == null) return 0;
 
     for (int i = 0; i < exercises.length; i++)
       for (int j = 0; j < exercises[i].sets.length; j++)
