@@ -44,6 +44,7 @@ class WorkoutsPerWeekChart extends StatelessWidget {
           settings,
         ),
         barTouchData: BarTouchData(
+          touchExtraThreshold: EdgeInsets.all(12.0),
           touchTooltipData: BarTouchTooltipData(
               tooltipPadding: EdgeInsets.all(10.0),
               tooltipBgColor: Colors.blueGrey,

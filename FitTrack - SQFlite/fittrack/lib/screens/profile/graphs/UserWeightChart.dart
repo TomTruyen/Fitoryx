@@ -50,6 +50,7 @@ class UserWeightChart extends StatelessWidget {
         ],
         showingTooltipIndicators: [],
         lineTouchData: LineTouchData(
+          touchSpotThreshold: 16.0,
           enabled: true,
           getTouchedSpotIndicator:
               (LineChartBarData data, List<int> touchSpots) {
