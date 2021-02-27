@@ -113,32 +113,18 @@ double getInterval(
 
     workoutHistory = [
       Workout(
-          weightUnit: settings.weightUnit,
-          timeInMillisSinceEpoch:
-              now.subtract(Duration(days: 10)).millisecondsSinceEpoch,
-          exercises: [
-            Exercise(sets: [ExerciseSet(weight: 10, reps: 10)])
-          ]),
+        weightUnit: settings.weightUnit,
+        timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
+      ),
       Workout(
-          weightUnit: settings.weightUnit,
-          timeInMillisSinceEpoch:
-              now.subtract(Duration(days: 17)).millisecondsSinceEpoch),
+        weightUnit: settings.weightUnit,
+        timeInMillisSinceEpoch: now
+            .subtract(
+              Duration(days: timespan),
+            )
+            .millisecondsSinceEpoch,
+      ),
     ];
-
-    // workoutHistory = [
-    //   Workout(
-    //     weightUnit: settings.weightUnit,
-    //     timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
-    //   ),
-    //   Workout(
-    //     weightUnit: settings.weightUnit,
-    //     timeInMillisSinceEpoch: now
-    //         .subtract(
-    //           Duration(days: timespan),
-    //         )
-    //         .millisecondsSinceEpoch,
-    //   ),
-    // ];
   } else if (workoutHistory.length < 2) {
     Workout _clone = workoutHistory[0].clone();
     _clone.timeInMillisSinceEpoch = DateTime.now()
