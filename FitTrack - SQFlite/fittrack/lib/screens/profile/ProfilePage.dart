@@ -4,6 +4,7 @@ import 'package:fittrack/screens/profile/graphs/TotalWeightLiftedChart.dart';
 import 'package:fittrack/screens/profile/graphs/UserWeightChart.dart';
 import 'package:fittrack/screens/profile/graphs/WorkoutsPerWeekChart.dart';
 import 'package:fittrack/screens/profile/popups/TimespanPopup.dart';
+import 'package:fittrack/screens/profile/popups/ToggleGraphsPopup.dart';
 import 'package:fittrack/screens/profile/popups/WorkoutsPerWeekPopup.dart';
 import 'package:fittrack/screens/settings/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
@@ -111,7 +112,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     Text('Toggle graphs'),
                   ],
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  await showPopupToggleGraphs(context, updateSettings);
+                },
               ),
             ),
           ),
