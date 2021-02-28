@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/shared/Functions.dart';

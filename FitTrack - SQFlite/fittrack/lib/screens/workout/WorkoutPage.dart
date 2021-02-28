@@ -33,11 +33,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
     workouts = globals.sqlDatabase.workouts;
 
-    sortWorkouts(sortAscending);
+    sortWorkouts(workouts, sortAscending);
   }
 
-  void sortWorkouts(bool orderAscending) {
-    workouts.sort((Workout a, Workout b) {
+  void sortWorkouts(List<Workout> _workouts, bool orderAscending) {
+    _workouts.sort((Workout a, Workout b) {
       if (orderAscending) {
         return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
             ? -1
@@ -55,6 +55,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
     setState(() {
       sortAscending = orderAscending;
+      workouts = _workouts;
     });
   }
 
@@ -151,7 +152,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           ],
                         ),
                         onPressed: () {
-                          sortWorkouts(!sortAscending);
+                          sortWorkouts(workouts, !sortAscending);
                         },
                       ),
                     ),

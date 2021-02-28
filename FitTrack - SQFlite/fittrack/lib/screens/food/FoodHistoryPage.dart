@@ -57,8 +57,8 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
 
   bool sortAscending = false;
 
-  void sortFoodHistory(bool orderAscending) {
-    food.sort((Food a, Food b) {
+  void sortFoodHistory(List<Food> _food, bool orderAscending) {
+    _food.sort((Food a, Food b) {
       if (orderAscending) return a.date.compareTo(b.date);
 
       return -a.date.compareTo(b.date);
@@ -66,6 +66,7 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
 
     setState(() {
       sortAscending = orderAscending;
+      _food = food;
     });
   }
 
@@ -130,7 +131,7 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
                     ],
                   ),
                   onPressed: () {
-                    sortFoodHistory(!sortAscending);
+                    sortFoodHistory(food, !sortAscending);
                   },
                 ),
               ),

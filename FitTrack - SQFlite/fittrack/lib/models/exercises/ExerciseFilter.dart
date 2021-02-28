@@ -66,14 +66,14 @@ class ExerciseFilter extends ChangeNotifier {
     notifyListeners();
   }
 
-  ExerciseFilter copy() {
-    ExerciseFilter copy = new ExerciseFilter();
-    copy.searchValue = searchValue;
-    copy.isUserCreated = isUserCreated;
-    copy.selectedCategories = selectedCategories;
-    copy.selectedEquipment = selectedEquipment;
-    copy.exerciseCount = exerciseCount;
+  ExerciseFilter clone() {
+    ExerciseFilter clone = new ExerciseFilter();
+    clone.searchValue = searchValue;
+    clone.isUserCreated = isUserCreated;
+    clone.selectedCategories = selectedCategories;
+    clone.selectedEquipment = selectedEquipment;
+    clone.exerciseCount = exerciseCount;
 
-    return copy;
+    return clone;
   }
 }

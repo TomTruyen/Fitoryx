@@ -32,7 +32,7 @@ class GraphToShow {
   }
 }
 
-int _foundGraphsToShowInListIndex(
+int foundGraphsToShowInListIndex(
   List<GraphToShow> graphToShowList,
   GraphToShow graphToShow,
 ) {
@@ -61,7 +61,7 @@ List<GraphToShow> getGraphsToShowListFromJson(Map<String, dynamic> settings) {
     for (int i = 0; i < _graphsToShowJsonList.length; i++) {
       GraphToShow graphToShow = GraphToShow.fromJSON(_graphsToShowJsonList[i]);
 
-      int foundIndex = _foundGraphsToShowInListIndex(
+      int foundIndex = foundGraphsToShowInListIndex(
         _graphsToShowList,
         graphToShow,
       );

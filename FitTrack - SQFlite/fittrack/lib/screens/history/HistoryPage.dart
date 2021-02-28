@@ -34,11 +34,12 @@ class _HistoryPageState extends State<HistoryPage> {
 
     workoutsHistory = globals.sqlDatabase.workoutsHistory;
 
-    sortWorkoutsHistory(sortAscending);
+    sortWorkoutsHistory(workoutsHistory, sortAscending);
   }
 
-  void sortWorkoutsHistory(bool orderAscending) {
-    workoutsHistory.sort((Workout a, Workout b) {
+  void sortWorkoutsHistory(
+      List<Workout> _workoutsHistory, bool orderAscending) {
+    _workoutsHistory.sort((Workout a, Workout b) {
       if (orderAscending) {
         return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
             ? -1
@@ -56,6 +57,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
     setState(() {
       sortAscending = orderAscending;
+      workoutsHistory = _workoutsHistory;
     });
   }
 
@@ -127,7 +129,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     ],
                   ),
                   onPressed: () {
-                    sortWorkoutsHistory(!sortAscending);
+                    sortWorkoutsHistory(workoutsHistory, !sortAscending);
                   },
                 ),
               ),

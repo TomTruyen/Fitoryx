@@ -1,5 +1,3 @@
-import 'package:fittrack/models/exercises/Exercise.dart';
-import 'package:fittrack/models/exercises/ExerciseSet.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/shared/Functions.dart';
