@@ -94,6 +94,27 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
+          SliverToBoxAdapter(
+            child: Container(
+              alignment: Alignment.centerRight,
+              margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(Icons.remove_red_eye),
+                    SizedBox(width: 5.0),
+                    Text('Toggle graphs'),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
