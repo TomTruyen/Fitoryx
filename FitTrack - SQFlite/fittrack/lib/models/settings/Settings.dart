@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/shared/Functions.dart';
 
@@ -24,6 +25,7 @@ class Settings {
   int isVibrateUponFinishEnabled;
 
   // Profile Page
+  List<GraphToShow> graphsToShow;
   int workoutsPerWeekGoal;
 
   Settings({
@@ -37,10 +39,15 @@ class Settings {
     this.defaultRestTime = 60,
     this.isRestTimerEnabled = 1,
     this.isVibrateUponFinishEnabled = 1,
+    this.graphsToShow,
     this.workoutsPerWeekGoal,
   }) {
     if (this.userWeight == null || this.userWeight.isEmpty) {
       this.userWeight = [UserWeight(weightUnit: this.weightUnit ?? 'kg')];
+    }
+
+    if (this.graphsToShow == null) {
+      this.graphsToShow = GraphToShow.getDefaultGraphs();
     }
   }
 
@@ -56,35 +63,14 @@ class Settings {
       defaultRestTime: defaultRestTime ?? 60,
       isRestTimerEnabled: isRestTimerEnabled ?? 1,
       isVibrateUponFinishEnabled: isVibrateUponFinishEnabled ?? 1,
+      graphsToShow: graphsToShow,
       workoutsPerWeekGoal: workoutsPerWeekGoal,
     );
   }
 
   static Settings fromJSON(Map<String, dynamic> settings) {
-    List<UserWeight> _userWeightList = [];
-
-    List<dynamic> _userWeightJsonList = [];
-    if (settings['userWeight'] != null) {
-      _userWeightJsonList = jsonDecode(settings['userWeight']) ?? [];
-    }
-
-    for (int i = 0; i < _userWeightJsonList.length; i++) {
-      UserWeight userWeight = UserWeight.fromJSON(_userWeightJsonList[i]);
-
-      _userWeightList.add(userWeight);
-    }
-
-    if (_userWeightList.isEmpty) {
-      _userWeightList.add(
-        new UserWeight(weightUnit: settings['weightUnit'] ?? 'kg'),
-      );
-    }
-
-    _userWeightList.sort(
-      (a, b) => a.timeInMilliseconds.compareTo(b.timeInMilliseconds),
-    );
-
-    _userWeightList = _userWeightList.reversed.toList();
+    List<UserWeight> _userWeightList = getUserWeightListFromJson(settings);
+    List<GraphToShow> _graphsToShowList = getGraphsToShowListFromJson(settings);
 
     return new Settings(
       id: settings['id'],
@@ -97,8 +83,31 @@ class Settings {
       defaultRestTime: settings['defaultRestTime'] ?? 60,
       isRestTimerEnabled: settings['isRestTimerEnabled'] ?? 1,
       isVibrateUponFinishEnabled: settings['isVibrateUponFinishEnabled'] ?? 1,
+      graphsToShow: _graphsToShowList ?? [],
       workoutsPerWeekGoal: settings['workoutsPerWeekGoal'],
     );
+  }
+
+  bool shouldShowGraph(String title) {
+    for (int i = 0; i < graphsToShow.length; i++) {
+      if (graphsToShow[i].title.toLowerCase() == title.toLowerCase()) {
+        if (graphsToShow[i].show) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  bool shouldShowNoGraphs() {
+    for (int i = 0; i < graphsToShow.length; i++) {
+      if (graphsToShow[i].show) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   void tryAddUserWeight(double _weight, String _weightUnit) {

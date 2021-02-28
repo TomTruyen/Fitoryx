@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:device_info/device_info.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
+import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:flutter/material.dart';
@@ -146,6 +147,18 @@ List<Map<String, dynamic>> convertUserWeightListToJsonList(
 
   for (int i = 0; i < userWeightList.length; i++) {
     list.add(userWeightList[i].toJSON());
+  }
+
+  return list;
+}
+
+List<Map<String, dynamic>> convertGraphToShowListToJsonList(
+  List<GraphToShow> graphToShowList,
+) {
+  List<Map<String, dynamic>> list = [];
+
+  for (int i = 0; i < graphToShowList.length; i++) {
+    list.add(graphToShowList[i].toJSON());
   }
 
   return list;

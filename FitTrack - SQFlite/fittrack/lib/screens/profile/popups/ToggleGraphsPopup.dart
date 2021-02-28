@@ -1,10 +1,30 @@
+import 'package:fittrack/models/settings/Settings.dart';
+import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Functions.dart';
 import 'package:flutter/material.dart';
 
+import 'package:fittrack/shared/Globals.dart' as globals;
+
 Future<void> showPopupToggleGraphs(
   BuildContext context,
+  Settings settings,
   Function updateSettings,
 ) async {
+  Settings newSettings = settings.clone();
+
+  String _getFormattedTitle(String title) {
+    switch (title) {
+      case 'workoutsPerWeek':
+        return 'Workouts per week';
+      case 'userWeight':
+        return 'Weight';
+      case 'totalWeightLifted':
+        return 'Total weight lifted';
+      default:
+        return '';
+    }
+  }
+
   await showDialog(
     context: context,
     barrierDismissible: true,
@@ -57,13 +77,14 @@ Future<void> showPopupToggleGraphs(
                         ),
                         Expanded(
                           flex: 3,
-                          child: ListView(
-                            children: <Widget>[
-                              CheckboxListTile(
+                          child: ListView.builder(
+                            itemBuilder: (BuildContext context, int index) {
+                              return CheckboxListTile(
                                 activeColor: Colors.blue[700],
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
-                                  'Workouts per week',
+                                  _getFormattedTitle(
+                                      newSettings.graphsToShow[index].title),
                                   style: TextStyle(
                                     fontSize: Theme.of(context)
                                             .textTheme
@@ -76,56 +97,16 @@ Future<void> showPopupToggleGraphs(
                                 dense: true,
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
-                                value: true,
+                                value: newSettings.graphsToShow[index].show,
                                 onChanged: (bool value) {
-                                  // toggle values
+                                  setState(() {
+                                    newSettings.graphsToShow[index].show =
+                                        value;
+                                  });
                                 },
-                              ),
-                              CheckboxListTile(
-                                contentPadding: EdgeInsets.zero,
-                                activeColor: Colors.blue[700],
-                                title: Text(
-                                  'Weight',
-                                  style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            .fontSize *
-                                        0.9,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                dense: true,
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                value: true,
-                                onChanged: (bool value) {
-                                  // toggle values
-                                },
-                              ),
-                              CheckboxListTile(
-                                activeColor: Colors.blue[700],
-                                contentPadding: EdgeInsets.zero,
-                                title: Text(
-                                  'Total weight lifted',
-                                  style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            .fontSize *
-                                        0.9,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                dense: true,
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                value: true,
-                                onChanged: (bool value) {
-                                  // toggle values
-                                },
-                              ),
-                            ],
+                              );
+                            },
+                            itemCount: newSettings.graphsToShow.length,
                           ),
                         ),
                         Expanded(
@@ -141,9 +122,19 @@ Future<void> showPopupToggleGraphs(
                                 ),
                               ),
                               onPressed: () async {
-                                // update settings + setstate voor upate profiles,
-                                // updateSettings(newSettings);
-                                tryPopContext(context);
+                                dynamic result = await globals.sqlDatabase
+                                    .updateSettings(newSettings);
+
+                                if (result != null) {
+                                  updateSettings(newSettings);
+                                  tryPopContext(context);
+                                } else {
+                                  showPopupError(
+                                    context,
+                                    'Failed to update',
+                                    'Failed to update graph visibility',
+                                  );
+                                }
                               },
                             ),
                           ),

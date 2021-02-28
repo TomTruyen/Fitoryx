@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserWeight {
   double weight;
   String weightUnit;
@@ -32,4 +34,33 @@ class UserWeight {
       'timeInMilliseconds': timeInMilliseconds,
     };
   }
+}
+
+List<UserWeight> getUserWeightListFromJson(Map<String, dynamic> settings) {
+  List<UserWeight> _userWeightList = [];
+
+  List<dynamic> _userWeightJsonList = [];
+  if (settings['userWeight'] != null) {
+    _userWeightJsonList = jsonDecode(settings['userWeight']) ?? [];
+  }
+
+  for (int i = 0; i < _userWeightJsonList.length; i++) {
+    UserWeight userWeight = UserWeight.fromJSON(_userWeightJsonList[i]);
+
+    _userWeightList.add(userWeight);
+  }
+
+  if (_userWeightList.isEmpty) {
+    _userWeightList.add(
+      new UserWeight(weightUnit: settings['weightUnit'] ?? 'kg'),
+    );
+  }
+
+  _userWeightList.sort(
+    (a, b) => a.timeInMilliseconds.compareTo(b.timeInMilliseconds),
+  );
+
+  _userWeightList = _userWeightList.reversed.toList();
+
+  return _userWeightList;
 }

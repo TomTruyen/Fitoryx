@@ -113,303 +113,333 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 onPressed: () async {
-                  await showPopupToggleGraphs(context, updateSettings);
+                  await showPopupToggleGraphs(
+                    context,
+                    settings,
+                    updateSettings,
+                  );
                 },
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 4.0,
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 3.0,
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  'Workouts per week',
-                                  style: TextStyle(fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(bottom: 12.0),
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                    cardColor: Color.fromRGBO(35, 35, 35, 1),
-                                    dividerColor:
-                                        Color.fromRGBO(150, 150, 150, 1),
-                                  ),
-                                  child: PopupMenuButton(
-                                    offset: Offset(0, 50),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(8.0),
-                                      ),
-                                    ),
-                                    icon: Icon(
-                                      Icons.more_vert,
-                                    ),
-                                    onSelected: (selection) async {
-                                      if (selection == 'edit') {
-                                        showWorkoutsPerWeekPopup(
-                                          context,
-                                          settings,
-                                          updateSettings,
-                                        );
-                                      }
-                                    },
-                                    itemBuilder: (BuildContext context) =>
-                                        <PopupMenuEntry>[
-                                      PopupMenuItem(
-                                        height: 40.0,
-                                        value: 'edit',
-                                        child: Text(
-                                          'Edit goal',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              .copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 16.0),
-                            child: WorkoutsPerWeekChart(
-                              workoutHistory: List.of(workoutHistory) ?? [],
-                              settings: settings,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 4.0,
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 3.0,
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  'Weight (${_getTimespanString()})',
-                                  style: TextStyle(fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(bottom: 12.0),
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                    cardColor: Color.fromRGBO(35, 35, 35, 1),
-                                    dividerColor: Color.fromRGBO(
-                                      150,
-                                      150,
-                                      150,
-                                      1,
-                                    ),
-                                  ),
-                                  child: PopupMenuButton(
-                                    offset: Offset(0, 50),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(8.0),
-                                      ),
-                                    ),
-                                    icon: Icon(
-                                      Icons.more_vert,
-                                    ),
-                                    onSelected: (selection) async {
-                                      if (selection == 'timespan') {
-                                        int _timespan = await showPopupTimespan(
-                                          context,
-                                          weightTimespan,
-                                        );
-
-                                        setState(() {
-                                          weightTimespan = _timespan;
-                                        });
-                                      }
-                                    },
-                                    itemBuilder: (BuildContext context) =>
-                                        <PopupMenuEntry>[
-                                      PopupMenuItem(
-                                        height: 40.0,
-                                        value: 'timespan',
-                                        child: Text(
-                                          'Edit timespan',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              .copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 16.0),
-                            child: UserWeightChart(
-                              userWeights: List.of(settings.userWeight) ?? [],
-                              settings: settings,
-                              timespan: weightTimespan,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 4.0,
-                  ),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 3.0,
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  'Total weight lifted (${_getTimespanString()})',
-                                  style: TextStyle(fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(bottom: 12.0),
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                    cardColor: Color.fromRGBO(35, 35, 35, 1),
-                                    dividerColor: Color.fromRGBO(
-                                      150,
-                                      150,
-                                      150,
-                                      1,
-                                    ),
-                                  ),
-                                  child: PopupMenuButton(
-                                    offset: Offset(0, 50),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(8.0),
-                                      ),
-                                    ),
-                                    icon: Icon(
-                                      Icons.more_vert,
-                                    ),
-                                    onSelected: (selection) async {
-                                      if (selection == 'timespan') {
-                                        int _timespan = await showPopupTimespan(
-                                          context,
-                                          weightTimespan,
-                                        );
-
-                                        setState(() {
-                                          weightTimespan = _timespan;
-                                        });
-                                      }
-                                    },
-                                    itemBuilder: (BuildContext context) =>
-                                        <PopupMenuEntry>[
-                                      PopupMenuItem(
-                                        height: 40.0,
-                                        value: 'timespan',
-                                        child: Text(
-                                          'Edit timespan',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              .copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 16.0),
-                            child: TotalWeightLiftedChart(
-                              workoutHistory: List.of(workoutHistory) ?? [],
-                              settings: settings,
-                              timespan: weightTimespan,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+          if (settings.shouldShowNoGraphs())
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: Text('No graphs to show'),
+              ),
             ),
-          ),
+          if (!settings.shouldShowNoGraphs())
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  if (settings.shouldShowGraph('workoutsPerWeek'))
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 4.0,
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 3.0,
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'Workouts per week',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 12.0),
+                                    child: Theme(
+                                      data: Theme.of(context).copyWith(
+                                        cardColor:
+                                            Color.fromRGBO(35, 35, 35, 1),
+                                        dividerColor:
+                                            Color.fromRGBO(150, 150, 150, 1),
+                                      ),
+                                      child: PopupMenuButton(
+                                        offset: Offset(0, 50),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                        ),
+                                        icon: Icon(
+                                          Icons.more_vert,
+                                        ),
+                                        onSelected: (selection) async {
+                                          if (selection == 'edit') {
+                                            showWorkoutsPerWeekPopup(
+                                              context,
+                                              settings,
+                                              updateSettings,
+                                            );
+                                          }
+                                        },
+                                        itemBuilder: (BuildContext context) =>
+                                            <PopupMenuEntry>[
+                                          PopupMenuItem(
+                                            height: 40.0,
+                                            value: 'edit',
+                                            child: Text(
+                                              'Edit goal',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .button
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 16.0),
+                                child: WorkoutsPerWeekChart(
+                                  workoutHistory: List.of(workoutHistory) ?? [],
+                                  settings: settings,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  if (settings.shouldShowGraph('userWeight'))
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 4.0,
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 3.0,
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'Weight (${_getTimespanString()})',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 12.0),
+                                    child: Theme(
+                                      data: Theme.of(context).copyWith(
+                                        cardColor:
+                                            Color.fromRGBO(35, 35, 35, 1),
+                                        dividerColor: Color.fromRGBO(
+                                          150,
+                                          150,
+                                          150,
+                                          1,
+                                        ),
+                                      ),
+                                      child: PopupMenuButton(
+                                        offset: Offset(0, 50),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                        ),
+                                        icon: Icon(
+                                          Icons.more_vert,
+                                        ),
+                                        onSelected: (selection) async {
+                                          if (selection == 'timespan') {
+                                            int _timespan =
+                                                await showPopupTimespan(
+                                              context,
+                                              weightTimespan,
+                                            );
+
+                                            setState(() {
+                                              weightTimespan = _timespan;
+                                            });
+                                          }
+                                        },
+                                        itemBuilder: (BuildContext context) =>
+                                            <PopupMenuEntry>[
+                                          PopupMenuItem(
+                                            height: 40.0,
+                                            value: 'timespan',
+                                            child: Text(
+                                              'Edit timespan',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .button
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 16.0),
+                                child: UserWeightChart(
+                                  userWeights:
+                                      List.of(settings.userWeight) ?? [],
+                                  settings: settings,
+                                  timespan: weightTimespan,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  if (settings.shouldShowGraph('totalWeightLifted'))
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 4.0,
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 3.0,
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'Total weight lifted (${_getTimespanString()})',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 12.0),
+                                    child: Theme(
+                                      data: Theme.of(context).copyWith(
+                                        cardColor:
+                                            Color.fromRGBO(35, 35, 35, 1),
+                                        dividerColor: Color.fromRGBO(
+                                          150,
+                                          150,
+                                          150,
+                                          1,
+                                        ),
+                                      ),
+                                      child: PopupMenuButton(
+                                        offset: Offset(0, 50),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                        ),
+                                        icon: Icon(
+                                          Icons.more_vert,
+                                        ),
+                                        onSelected: (selection) async {
+                                          if (selection == 'timespan') {
+                                            int _timespan =
+                                                await showPopupTimespan(
+                                              context,
+                                              weightTimespan,
+                                            );
+
+                                            setState(() {
+                                              weightTimespan = _timespan;
+                                            });
+                                          }
+                                        },
+                                        itemBuilder: (BuildContext context) =>
+                                            <PopupMenuEntry>[
+                                          PopupMenuItem(
+                                            height: 40.0,
+                                            value: 'timespan',
+                                            child: Text(
+                                              'Edit timespan',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .button
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 16.0),
+                                child: TotalWeightLiftedChart(
+                                  workoutHistory: List.of(workoutHistory) ?? [],
+                                  settings: settings,
+                                  timespan: weightTimespan,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
         ],
       ),
     );
