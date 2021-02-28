@@ -195,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Expanded(
-                          flex: 5,
+                          flex: 4,
                           child: Container(
                             margin: EdgeInsets.only(top: 16.0),
                             child: WorkoutsPerWeekChart(
@@ -292,7 +292,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Expanded(
-                          flex: 5,
+                          flex: 4,
                           child: Container(
                             margin: EdgeInsets.only(top: 16.0),
                             child: UserWeightChart(
@@ -390,7 +390,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Expanded(
-                          flex: 5,
+                          flex: 4,
                           child: Container(
                             margin: EdgeInsets.only(top: 16.0),
                             child: TotalWeightLiftedChart(
