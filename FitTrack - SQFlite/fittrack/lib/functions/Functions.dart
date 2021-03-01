@@ -8,11 +8,14 @@ import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
+import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 
 // Function imports
 import 'package:fittrack/functions/ConvertFunctions.dart' as ConvertFunctions;
 import 'package:fittrack/functions/DateFunctions.dart' as DateFunctions;
 import 'package:fittrack/functions/FileFunctions.dart' as FileFunctions;
+import 'package:fittrack/functions/FilterFunctions.dart' as FilterFunctions;
 import 'package:fittrack/functions/GraphFunctions.dart' as GraphFunctions;
 import 'package:fittrack/functions/SortFunctions.dart' as SortFunctions;
 import 'package:fittrack/functions/OtherFunctions.dart' as OtherFunctions;
@@ -100,6 +103,25 @@ Future<File> writeToFile(File file, String data) async {
 
 Future<dynamic> readFromFile(File file) async {
   return await FileFunctions.readFromFile(file);
+}
+
+// Filter Functions
+Map<String, dynamic> getFilteredExercises(
+  ExerciseFilter filter,
+  List<Exercise> userExercises,
+  List<Exercise> workoutExercises,
+  bool isReplaceActive,
+  Exercise exerciseToReplace,
+  Exercise workoutExerciseToReplace,
+) {
+  return FilterFunctions.getFilteredExercises(
+    filter,
+    userExercises,
+    workoutExercises,
+    isReplaceActive,
+    exerciseToReplace,
+    workoutExerciseToReplace,
+  );
 }
 
 // Graph Functions
