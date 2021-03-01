@@ -1,4 +1,4 @@
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> showEndWorkoutWarningDialog(

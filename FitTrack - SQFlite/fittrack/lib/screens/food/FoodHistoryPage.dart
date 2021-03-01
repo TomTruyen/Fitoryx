@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:fittrack/models/food/Food.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

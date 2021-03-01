@@ -13,7 +13,7 @@ import 'package:fittrack/screens/settings/popups/data/ImportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/food/NutritionGoalsPopup.dart';
 import 'package:fittrack/screens/settings/popups/rest_timer/DefaultRestTimePopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 

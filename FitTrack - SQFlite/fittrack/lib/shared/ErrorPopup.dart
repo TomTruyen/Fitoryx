@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 
 Future<void> showPopupError(
   BuildContext context,

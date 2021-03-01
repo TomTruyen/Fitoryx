@@ -4,7 +4,7 @@ import 'package:fittrack/screens/food/FoodAddPage.dart';
 import 'package:fittrack/screens/food/FoodHistoryPage.dart';
 import 'package:fittrack/screens/food/graphs/FoodGraph.dart';
 import 'package:fittrack/shared/FoodDisplayCard.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

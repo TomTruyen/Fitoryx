@@ -1,6 +1,6 @@
 // Flutter Packages
 import 'package:fittrack/shared/ErrorPopup.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/models/settings/Settings.dart';

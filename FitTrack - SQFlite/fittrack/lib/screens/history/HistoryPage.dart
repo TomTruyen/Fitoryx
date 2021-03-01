@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:fittrack/shared/ExerciseWidget.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/GradientButton.dart';
 import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';

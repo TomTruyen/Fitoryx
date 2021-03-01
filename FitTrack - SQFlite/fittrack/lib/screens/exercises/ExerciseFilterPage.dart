@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/GradientButton.dart';
 import 'package:fittrack/shared/Loader.dart';
 import 'package:fittrack/shared/CategoryList.dart';

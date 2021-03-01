@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/workout/popups/EndWorkoutWarningPopup.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientButton.dart';
 

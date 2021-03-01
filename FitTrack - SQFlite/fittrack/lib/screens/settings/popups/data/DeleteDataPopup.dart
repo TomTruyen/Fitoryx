@@ -2,7 +2,7 @@
 import 'dart:math';
 
 import 'package:fittrack/models/settings/Settings.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:flutter/material.dart';
 
 // My Packages

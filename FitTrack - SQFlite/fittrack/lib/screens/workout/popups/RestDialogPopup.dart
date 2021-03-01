@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
 Future<void> showRestDialog(

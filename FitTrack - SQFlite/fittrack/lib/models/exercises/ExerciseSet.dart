@@ -1,5 +1,5 @@
 import 'package:fittrack/models/settings/Settings.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ExerciseSet {

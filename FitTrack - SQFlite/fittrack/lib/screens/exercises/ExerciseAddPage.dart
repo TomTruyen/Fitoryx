@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fittrack/shared/CategoryList.dart';
 import 'package:fittrack/shared/EquipmentList.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ExerciseAddPage extends StatefulWidget {

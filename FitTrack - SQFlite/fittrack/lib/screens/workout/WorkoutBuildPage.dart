@@ -11,7 +11,7 @@ import 'package:fittrack/models/exercises/ExerciseSet.dart';
 import 'package:fittrack/screens/exercises/ExercisesPage.dart';
 import 'package:fittrack/screens/workout/popups/RestDialogPopup.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Loader.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:reorderables/reorderables.dart';

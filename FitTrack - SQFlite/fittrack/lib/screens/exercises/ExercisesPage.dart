@@ -1,5 +1,5 @@
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
-import 'package:fittrack/shared/Functions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/GradientFloatingActionButton.dart';
 import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/foundation.dart';
