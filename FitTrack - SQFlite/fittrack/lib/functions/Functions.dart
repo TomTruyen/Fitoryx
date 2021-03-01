@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:device_info/device_info.dart';
 
+import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
@@ -161,6 +162,14 @@ List<Workout> sortWorkoutHistoryByDate(
   bool isAscending,
 ) {
   return SortFunctions.sortWorkoutHistoryByDate(workoutHistory, isAscending);
+}
+
+List<Workout> sortWorkoutsByDate(List<Workout> _workouts, bool orderAscending) {
+  return SortFunctions.sortWorkoutsByDate(_workouts, orderAscending);
+}
+
+List<Food> sortFoodByDate(List<Food> _food, bool orderAscending) {
+  return SortFunctions.sortFoodByDate(_food, orderAscending);
 }
 
 // Other Functions

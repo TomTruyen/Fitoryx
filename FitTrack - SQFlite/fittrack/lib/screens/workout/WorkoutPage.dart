@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:fittrack/screens/workout/popups/DeleteWorkoutPopup.dart';
@@ -37,25 +38,14 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   void sortWorkouts(List<Workout> _workouts, bool orderAscending) {
-    _workouts.sort((Workout a, Workout b) {
-      if (orderAscending) {
-        return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
-            ? -1
-            : a.timeInMillisSinceEpoch > b.timeInMillisSinceEpoch
-                ? 1
-                : 0;
-      } else {
-        return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
-            ? 1
-            : a.timeInMillisSinceEpoch > b.timeInMillisSinceEpoch
-                ? -1
-                : 0;
-      }
-    });
+    List<Workout> sortedWorkouts = sortWorkoutsByDate(
+      _workouts,
+      orderAscending,
+    );
 
     setState(() {
       sortAscending = orderAscending;
-      workouts = _workouts;
+      workouts = sortedWorkouts;
     });
   }
 

@@ -38,26 +38,17 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   void sortWorkoutsHistory(
-      List<Workout> _workoutsHistory, bool orderAscending) {
-    _workoutsHistory.sort((Workout a, Workout b) {
-      if (orderAscending) {
-        return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
-            ? -1
-            : a.timeInMillisSinceEpoch > b.timeInMillisSinceEpoch
-                ? 1
-                : 0;
-      } else {
-        return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
-            ? 1
-            : a.timeInMillisSinceEpoch > b.timeInMillisSinceEpoch
-                ? -1
-                : 0;
-      }
-    });
+    List<Workout> _workoutsHistory,
+    bool orderAscending,
+  ) {
+    List<Workout> sortedWorkoutHistory = sortWorkoutsByDate(
+      _workoutsHistory,
+      orderAscending,
+    );
 
     setState(() {
       sortAscending = orderAscending;
-      workoutsHistory = _workoutsHistory;
+      workoutsHistory = sortedWorkoutHistory;
     });
   }
 

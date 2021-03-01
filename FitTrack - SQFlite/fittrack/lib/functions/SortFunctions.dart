@@ -1,3 +1,4 @@
+import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 
@@ -31,4 +32,38 @@ List<Workout> sortWorkoutHistoryByDate(
   });
 
   return sortedWorkoutHistory;
+}
+
+List<Workout> sortWorkoutsByDate(List<Workout> _workouts, bool orderAscending) {
+  List<Workout> sortedWorkouts = List.of(_workouts);
+
+  sortedWorkouts.sort((Workout a, Workout b) {
+    if (orderAscending) {
+      return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
+          ? -1
+          : a.timeInMillisSinceEpoch > b.timeInMillisSinceEpoch
+              ? 1
+              : 0;
+    } else {
+      return a.timeInMillisSinceEpoch < b.timeInMillisSinceEpoch
+          ? 1
+          : a.timeInMillisSinceEpoch > b.timeInMillisSinceEpoch
+              ? -1
+              : 0;
+    }
+  });
+
+  return sortedWorkouts;
+}
+
+List<Food> sortFoodByDate(List<Food> _food, bool orderAscending) {
+  List<Food> sortedFood = List.of(_food);
+
+  sortedFood.sort((Food a, Food b) {
+    if (orderAscending) return a.date.compareTo(b.date);
+
+    return -a.date.compareTo(b.date);
+  });
+
+  return sortedFood;
 }
