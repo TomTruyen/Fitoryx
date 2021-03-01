@@ -510,7 +510,7 @@ class SQLDatabase {
     try {
       DateTime now = DateTime.now();
 
-      String date = dateTimeToString(now);
+      String date = convertDateTimeToString(now);
 
       List<FoodPerHour> foodPerHourList = [];
 

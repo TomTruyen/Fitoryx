@@ -139,7 +139,9 @@ class HistoryViewPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    getDateTimeFromMilliseconds(workout.timeInMillisSinceEpoch),
+                    getFormattedDateTimeFromMilliseconds(
+                      workout.timeInMillisSinceEpoch,
+                    ),
                     style: TextStyle(
                       color: Colors.grey[800],
                       fontSize:

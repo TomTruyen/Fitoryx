@@ -169,7 +169,7 @@ LineChartBarData _getUserWeightList(
       ),
     );
 
-    String _date = dateTimeToString(
+    String _date = convertDateTimeToString(
       DateTime.fromMillisecondsSinceEpoch(
         userWeights[i].timeInMilliseconds,
       ),

@@ -190,7 +190,7 @@ LineChartBarData _getTotalWeightLiftedList(
   for (int i = 0; i < workoutHistory.length; i++) {
     spots.add(FlSpot(i.toDouble(), workoutHistory[i].getTotalWeightLifted()));
 
-    String date = dateTimeToString(
+    String date = convertDateTimeToString(
       DateTime.fromMillisecondsSinceEpoch(
         workoutHistory[i].timeInMillisSinceEpoch,
       ),

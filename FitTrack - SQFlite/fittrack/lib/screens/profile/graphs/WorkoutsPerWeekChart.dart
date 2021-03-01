@@ -96,7 +96,7 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
   ) {
     _datesList.insert(
       0,
-      dateTimeToStringWithoutYear(startOfCurrentWeek),
+      convertDateTimeToStringWithoutYear(startOfCurrentWeek),
     );
 
     workoutsPerWeekBarData.insert(

@@ -34,7 +34,7 @@ class _FoodPageState extends State<FoodPage> {
 
     DateTime now = DateTime.now();
 
-    String date = dateTimeToString(now);
+    String date = convertDateTimeToString(now);
 
     if (globals.sqlDatabase.food.isNotEmpty &&
         globals.sqlDatabase.food[0].date == date) {
