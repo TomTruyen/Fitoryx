@@ -63,6 +63,8 @@ class _FoodHistoryPageState extends State<FoodHistoryPage> {
     setState(() {
       sortAscending = orderAscending;
       _food = sortedFood;
+      currentMonth = null;
+      currentYear = null;
     });
   }
 

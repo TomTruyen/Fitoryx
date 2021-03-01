@@ -49,6 +49,8 @@ class _HistoryPageState extends State<HistoryPage> {
     setState(() {
       sortAscending = orderAscending;
       workoutsHistory = sortedWorkoutHistory;
+      currentMonth = null;
+      currentYear = null;
     });
   }
 
