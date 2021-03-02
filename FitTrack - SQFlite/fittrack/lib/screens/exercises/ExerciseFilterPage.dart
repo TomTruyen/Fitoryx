@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/GradientButton.dart';
-import 'package:fittrack/shared/Loader.dart';
 import 'package:fittrack/shared/CategoryList.dart';
 import 'package:fittrack/shared/EquipmentList.dart';
 
@@ -19,83 +18,81 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
   Widget build(BuildContext context) {
     ExerciseFilter filter = Provider.of<ExerciseFilter>(context) ?? null;
 
-    return filter == null
-        ? Loader()
-        : Scaffold(
-            body: ScrollConfiguration(
-              behavior: ScrollBehavior(),
-              child: CustomScrollView(
-                physics: BouncingScrollPhysics(),
-                slivers: <Widget>[
-                  SliverAppBar(
-                    backgroundColor: Colors.grey[50],
-                    floating: false,
-                    pinned: true,
-                    leading: IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
-                        tryPopContext(context);
-                      },
-                    ),
-                    title: Text(
-                      'Filter (${filter.exerciseCount})',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  SliverFillRemaining(
-                    child: Container(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Category'),
-                          SizedBox(height: 20.0),
-                          Wrap(
-                            spacing: 10.0,
-                            runSpacing: 10.0,
-                            children: buildFilterWidgets(filter, 'category'),
-                          ),
-                          SizedBox(height: 20.0),
-                          Text('Equipment'),
-                          SizedBox(height: 20.0),
-                          Wrap(
-                            spacing: 10.0,
-                            runSpacing: 10.0,
-                            children: buildFilterWidgets(filter, 'equipment'),
-                          ),
-                          SizedBox(height: 20.0),
-                          Text('User Created'),
-                          SizedBox(height: 20.0),
-                          Wrap(
-                            spacing: 10.0,
-                            runSpacing: 10.0,
-                            children: buildFilterWidgets(filter, 'userCreated'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            bottomNavigationBar: Container(
-              color: Colors.transparent,
-              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
-              width: MediaQuery.of(context).size.width,
-              child: GradientButton(
-                text: 'Clear Filters',
+    return Scaffold(
+      body: ScrollConfiguration(
+        behavior: ScrollBehavior(),
+        child: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: <Widget>[
+            SliverAppBar(
+              backgroundColor: Colors.grey[50],
+              floating: false,
+              pinned: true,
+              leading: IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.black,
+                ),
                 onPressed: () {
-                  filter.clearAllFilters();
+                  tryPopContext(context);
                 },
               ),
+              title: Text(
+                'Filter (${filter.exerciseCount})',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
-          );
+            SliverFillRemaining(
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Category'),
+                    SizedBox(height: 20.0),
+                    Wrap(
+                      spacing: 10.0,
+                      runSpacing: 10.0,
+                      children: buildFilterWidgets(filter, 'category'),
+                    ),
+                    SizedBox(height: 20.0),
+                    Text('Equipment'),
+                    SizedBox(height: 20.0),
+                    Wrap(
+                      spacing: 10.0,
+                      runSpacing: 10.0,
+                      children: buildFilterWidgets(filter, 'equipment'),
+                    ),
+                    SizedBox(height: 20.0),
+                    Text('User Created'),
+                    SizedBox(height: 20.0),
+                    Wrap(
+                      spacing: 10.0,
+                      runSpacing: 10.0,
+                      children: buildFilterWidgets(filter, 'userCreated'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: Colors.transparent,
+        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+        width: MediaQuery.of(context).size.width,
+        child: GradientButton(
+          text: 'Clear Filters',
+          onPressed: () {
+            filter.clearAllFilters();
+          },
+        ),
+      ),
+    );
   }
 }
 

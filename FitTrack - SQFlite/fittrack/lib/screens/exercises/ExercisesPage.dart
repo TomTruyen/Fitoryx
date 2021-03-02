@@ -13,7 +13,6 @@ import 'package:fittrack/screens/exercises/ExerciseAddPage.dart';
 import 'package:fittrack/screens/exercises/popups/DeleteExercisePopup.dart';
 import 'package:fittrack/screens/exercises/ExerciseFilterPage.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
-import 'package:fittrack/shared/Loader.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ExercisesPage extends StatefulWidget {
@@ -350,158 +349,153 @@ class _ExercisesPageState extends State<ExercisesPage> {
       }
     }
 
-    return filter == null
-        ? Loader()
-        : Scaffold(
-            body: CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              slivers: <Widget>[
-                isSearchActive ? searchAppBar(filter) : defaultAppBar(),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int i) {
-                      if (_filteredExercises[i] is Exercise) {
-                        Exercise _exercise = _filteredExercises[i] as Exercise;
+    return Scaffold(
+      body: CustomScrollView(
+        physics: BouncingScrollPhysics(),
+        slivers: <Widget>[
+          isSearchActive ? searchAppBar(filter) : defaultAppBar(),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int i) {
+                if (_filteredExercises[i] is Exercise) {
+                  Exercise _exercise = _filteredExercises[i] as Exercise;
 
-                        String name = _exercise.name;
+                  String name = _exercise.name;
 
-                        if (_exercise.equipment != "") {
-                          name += ' (${_exercise.equipment})';
-                        }
+                  if (_exercise.equipment != "") {
+                    name += ' (${_exercise.equipment})';
+                  }
 
-                        String category = _exercise.category;
-                        bool isUserCreated =
-                            _exercise.isUserCreated == 0 ? false : true;
+                  String category = _exercise.category;
+                  bool isUserCreated =
+                      _exercise.isUserCreated == 0 ? false : true;
 
-                        TextStyle style;
-                        TextStyle subtitle =
-                            Theme.of(context).textTheme.subtitle2;
+                  TextStyle style;
+                  TextStyle subtitle = Theme.of(context).textTheme.subtitle2;
 
-                        bool isGradient = false;
+                  bool isGradient = false;
 
-                        if (widget.isReplaceActive) {
-                          if (_exercise.compare(exerciseToReplace)) {
-                            isGradient = true;
-                          }
-                        } else if (workoutExercises.isNotEmpty) {
-                          for (int j = 0; j < workoutExercises.length; j++) {
-                            if (workoutExercises[j].compare(_exercise)) {
-                              isGradient = true;
+                  if (widget.isReplaceActive) {
+                    if (_exercise.compare(exerciseToReplace)) {
+                      isGradient = true;
+                    }
+                  } else if (workoutExercises.isNotEmpty) {
+                    for (int j = 0; j < workoutExercises.length; j++) {
+                      if (workoutExercises[j].compare(_exercise)) {
+                        isGradient = true;
 
-                              break;
+                        break;
+                      }
+                    }
+                  }
+
+                  return ListTile(
+                    title: isGradient
+                        ? GradientText(
+                            text: name,
+                            fontSize: 16.0,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        : Text(
+                            name,
+                            overflow: TextOverflow.ellipsis,
+                            style: style,
+                          ),
+                    subtitle: isGradient
+                        ? GradientText(
+                            text: category == "" ? "None" : category,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        : Text(
+                            category == "" ? "None" : category,
+                            overflow: TextOverflow.ellipsis,
+                            style: subtitle,
+                          ),
+                    trailing: !widget.isSelectActive && isUserCreated
+                        ? IconButton(
+                            icon: Icon(Icons.delete, color: Colors.black),
+                            onPressed: () async {
+                              await showPopupDeleteExercise(
+                                context,
+                                _filteredExercises[i].id,
+                                name,
+                                updateUserExercises,
+                              );
+                            },
+                          )
+                        : null,
+                    onTap: widget.isSelectActive
+                        ? () {
+                            if (widget.isReplaceActive) {
+                              setState(() {
+                                exerciseToReplace = _exercise;
+                                forceFilter = true;
+                              });
+                            } else {
+                              int foundIndex = -1;
+
+                              for (int j = 0;
+                                  j < workoutExercises.length;
+                                  j++) {
+                                if (workoutExercises[j].compare(_exercise)) {
+                                  foundIndex = j;
+                                  break;
+                                }
+                              }
+
+                              if (foundIndex != -1) {
+                                workoutExercises.removeAt(foundIndex);
+                              } else {
+                                workoutExercises.add(_exercise.clone());
+                              }
+
+                              setState(() {
+                                workoutExercises = List.of(workoutExercises);
+                              });
                             }
                           }
-                        }
-
-                        return ListTile(
-                          title: isGradient
-                              ? GradientText(
-                                  text: name,
-                                  fontSize: 16.0,
-                                  overflow: TextOverflow.ellipsis,
-                                )
-                              : Text(
-                                  name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: style,
-                                ),
-                          subtitle: isGradient
-                              ? GradientText(
-                                  text: category == "" ? "None" : category,
-                                  overflow: TextOverflow.ellipsis,
-                                )
-                              : Text(
-                                  category == "" ? "None" : category,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: subtitle,
-                                ),
-                          trailing: !widget.isSelectActive && isUserCreated
-                              ? IconButton(
-                                  icon: Icon(Icons.delete, color: Colors.black),
-                                  onPressed: () async {
-                                    await showPopupDeleteExercise(
-                                      context,
-                                      _filteredExercises[i].id,
-                                      name,
-                                      updateUserExercises,
-                                    );
-                                  },
-                                )
-                              : null,
-                          onTap: widget.isSelectActive
-                              ? () {
-                                  if (widget.isReplaceActive) {
-                                    setState(() {
-                                      exerciseToReplace = _exercise;
-                                      forceFilter = true;
-                                    });
-                                  } else {
-                                    int foundIndex = -1;
-
-                                    for (int j = 0;
-                                        j < workoutExercises.length;
-                                        j++) {
-                                      if (workoutExercises[j]
-                                          .compare(_exercise)) {
-                                        foundIndex = j;
-                                        break;
-                                      }
-                                    }
-
-                                    if (foundIndex != -1) {
-                                      workoutExercises.removeAt(foundIndex);
-                                    } else {
-                                      workoutExercises.add(_exercise.clone());
-                                    }
-
-                                    setState(() {
-                                      workoutExercises =
-                                          List.of(workoutExercises);
-                                    });
-                                  }
-                                }
-                              : null,
-                        );
-                      } else {
-                        return Container(
-                          alignment: Alignment.centerLeft,
-                          height: 30.0,
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            _filteredExercises[i],
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                    childCount: _filteredExercises.length,
-                  ),
-                ),
-              ],
+                        : null,
+                  );
+                } else {
+                  return Container(
+                    alignment: Alignment.centerLeft,
+                    height: 30.0,
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      _filteredExercises[i],
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                }
+              },
+              childCount: _filteredExercises.length,
             ),
-            floatingActionButton: widget.isReplaceActive &&
-                    !exerciseToReplace.compare(widget.workout.exerciseToReplace)
-                ? GradientFloatingActionButton(
-                    icon: Icon(Icons.check),
-                    onPressed: () {
-                      widget.workout.replaceExercise(exerciseToReplace);
-                      tryPopContext(context);
-                    },
-                  )
-                : widget.isSelectActive &&
-                        workoutExercises.isNotEmpty &&
-                        !widget.isReplaceActive
-                    ? GradientFloatingActionButton(
-                        icon: Icon(Icons.check),
-                        onPressed: () {
-                          widget.workout.updateExercises(workoutExercises);
-                          tryPopContext(context);
-                        },
-                      )
-                    : null,
-          );
+          ),
+        ],
+      ),
+      floatingActionButton: widget.isReplaceActive &&
+              !exerciseToReplace.compare(widget.workout.exerciseToReplace)
+          ? GradientFloatingActionButton(
+              icon: Icon(Icons.check),
+              onPressed: () {
+                widget.workout.replaceExercise(exerciseToReplace);
+                tryPopContext(context);
+              },
+            )
+          : widget.isSelectActive &&
+                  workoutExercises.isNotEmpty &&
+                  !widget.isReplaceActive
+              ? GradientFloatingActionButton(
+                  icon: Icon(Icons.check),
+                  onPressed: () {
+                    widget.workout.updateExercises(workoutExercises);
+                    tryPopContext(context);
+                  },
+                )
+              : null,
+    );
   }
 }
