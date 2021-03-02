@@ -2,7 +2,7 @@ import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:intl/intl.dart';
 
-String getFormattedDateTimeFromMilliseconds(int milliseconds) {
+String getFormattedDateTimeFromMillisecondsSinceEpoch(int milliseconds) {
   DateTime date = new DateTime.fromMillisecondsSinceEpoch(milliseconds);
   DateFormat dateFormat = new DateFormat('EEEE, d MMMM y, H:mm');
 

@@ -1,4 +1,3 @@
-import 'package:device_info/device_info.dart';
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/GraphToShow.dart';

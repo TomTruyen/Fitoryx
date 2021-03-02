@@ -57,8 +57,9 @@ String convertIosDeviceInfoToString(IosDeviceInfo data) {
 }
 
 // Date Functions
-String getFormattedDateTimeFromMilliseconds(int milliseconds) {
-  return DateFunctions.getFormattedDateTimeFromMilliseconds(milliseconds);
+String getFormattedDateTimeFromMillisecondsSinceEpoch(int milliseconds) {
+  return DateFunctions.getFormattedDateTimeFromMillisecondsSinceEpoch(
+      milliseconds);
 }
 
 String getFormattedDateFromDateTime(DateTime date) {
