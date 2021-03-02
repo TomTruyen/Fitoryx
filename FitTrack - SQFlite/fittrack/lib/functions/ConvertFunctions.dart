@@ -8,7 +8,7 @@ import 'package:fittrack/models/settings/UserWeight.dart';
 double convertToDecimalPlaces(double input, int amountOfDecimals) {
   int fac = pow(10, amountOfDecimals);
 
-  return (input * fac).round() / fac;
+  return (input * fac).truncateToDouble() / fac;
 }
 
 dynamic tryConvertDoubleToInt(double value) {
