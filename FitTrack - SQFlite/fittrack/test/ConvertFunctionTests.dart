@@ -15,6 +15,16 @@ void main() {
 }
 
 void convertToDecimalPlacesTests() {
+  test('convertToDecimalPlaces should return a double', () {
+    double input = 10.962;
+
+    dynamic result = convertToDecimalPlaces(input, 1);
+
+    expect(result, isInstanceOf<double>(),
+        reason:
+            "Result should be of type 'double' but was of type '${result.runtimeType}'");
+  });
+
   test(
     'convertToDecimalPlaces should convert double to a double with a set amount of decimals',
     () {
@@ -23,10 +33,6 @@ void convertToDecimalPlacesTests() {
       dynamic resultZeroDecimals = convertToDecimalPlaces(input, 0);
       dynamic resultOneDecimals = convertToDecimalPlaces(input, 1);
       dynamic resultTwoDecimals = convertToDecimalPlaces(input, 2);
-
-      expect(resultZeroDecimals, isInstanceOf<double>(),
-          reason:
-              "Result should be of type 'double' but was of type '${resultZeroDecimals.runtimeType}'");
 
       expect(resultZeroDecimals, 10,
           reason: "Result was $resultZeroDecimals but expected 10");
@@ -69,6 +75,24 @@ void tryConvertDoubleToIntTests() {
 
 void convertFoodPerHourListToJsonListTests() {
   test(
+    'convertFoodPerHourListToJsonList should return List<Map<String, dynamic>>',
+    () {
+      List<FoodPerHour> foodPerHourList = [
+        FoodPerHour(kcal: 250, carbs: 125, protein: 62.5, fat: 25, hour: 5),
+        FoodPerHour(kcal: 500, carbs: 250, protein: 125, fat: 50, hour: 10),
+        FoodPerHour(kcal: 1000, carbs: 500, protein: 250, fat: 100, hour: 20),
+      ];
+
+      dynamic foodPerHourJsonList =
+          convertFoodPerHourListToJsonList(foodPerHourList);
+
+      expect(foodPerHourJsonList, isInstanceOf<List<Map<String, dynamic>>>(),
+          reason:
+              "Result should be of type 'List<Map<String, dynamic>> but was of type ${foodPerHourJsonList.runtimeType}");
+    },
+  );
+
+  test(
     'convertFoodPerHourListToJsonList should convert List<FoodPerHour> to List<Map<String, dynamic>>',
     () {
       List<FoodPerHour> foodPerHourList = [
@@ -104,10 +128,6 @@ void convertFoodPerHourListToJsonListTests() {
       dynamic foodPerHourJsonList =
           convertFoodPerHourListToJsonList(foodPerHourList);
 
-      expect(foodPerHourJsonList, isInstanceOf<List<Map<String, dynamic>>>(),
-          reason:
-              "Result should be of type 'List<Map<String, dynamic>> but was of type ${foodPerHourJsonList.runtimeType}");
-
       expect(foodPerHourJsonList, hasLength(foodPerHourList.length),
           reason:
               "Result was expected to have ${foodPerHourList.length} values in List but has ${foodPerHourJsonList.length}");
@@ -120,6 +140,24 @@ void convertFoodPerHourListToJsonListTests() {
 }
 
 void convertUserWeightListToJsonListTests() {
+  test(
+    'convertUserWeightListToJsonList should return List<Map<String, dynamic>>',
+    () {
+      List<UserWeight> userWeightList = [
+        UserWeight(weight: 50, weightUnit: 'kg'),
+        UserWeight(weight: 100, weightUnit: 'kg'),
+        UserWeight(weight: 200, weightUnit: 'lbs', timeInMilliseconds: 1000),
+      ];
+
+      dynamic userWeightListJsonList =
+          convertUserWeightListToJsonList(userWeightList);
+
+      expect(userWeightListJsonList, isInstanceOf<List<Map<String, dynamic>>>(),
+          reason:
+              "Result should be of type 'List<Map<String, dynamic>> but was of type ${userWeightListJsonList.runtimeType}");
+    },
+  );
+
   test(
     'convertUserWeightListToJsonList should convert List<UserWeight> to List<Map<String, dynamic>>',
     () {
@@ -150,10 +188,6 @@ void convertUserWeightListToJsonListTests() {
       dynamic userWeightListJsonList =
           convertUserWeightListToJsonList(userWeightList);
 
-      expect(userWeightListJsonList, isInstanceOf<List<Map<String, dynamic>>>(),
-          reason:
-              "Result should be of type 'List<Map<String, dynamic>> but was of type ${userWeightListJsonList.runtimeType}");
-
       expect(userWeightListJsonList, hasLength(userWeightList.length),
           reason:
               "Result was expected to have ${userWeightList.length} values in List but has ${userWeightListJsonList.length}");
@@ -166,6 +200,24 @@ void convertUserWeightListToJsonListTests() {
 }
 
 void convertGraphToShowListToJsonListTests() {
+  test(
+    'convertGraphToShowListToJsonList should return List<Map<String, dynamic>>',
+    () {
+      List<GraphToShow> graphsToShowList = [
+        GraphToShow(title: 'workoutsPerWeek', show: true),
+        GraphToShow(title: 'userWeight', show: false),
+        GraphToShow(title: 'totalWeightLifted', show: true),
+      ];
+
+      dynamic graphsToShowJsonList =
+          convertGraphToShowListToJsonList(graphsToShowList);
+
+      expect(graphsToShowJsonList, isInstanceOf<List<Map<String, dynamic>>>(),
+          reason:
+              "Result should be of type 'List<Map<String, dynamic>> but was of type ${graphsToShowJsonList.runtimeType}");
+    },
+  );
+
   test(
       'convertGraphToShowListToJsonList should convert List<GraphToShow> to List<Map<String, dynamic>>',
       () {
@@ -192,10 +244,6 @@ void convertGraphToShowListToJsonListTests() {
 
     dynamic graphsToShowJsonList =
         convertGraphToShowListToJsonList(graphsToShowList);
-
-    expect(graphsToShowJsonList, isInstanceOf<List<Map<String, dynamic>>>(),
-        reason:
-            "Result should be of type 'List<Map<String, dynamic>> but was of type ${graphsToShowJsonList.runtimeType}");
 
     expect(graphsToShowJsonList, hasLength(graphsToShowList.length),
         reason:

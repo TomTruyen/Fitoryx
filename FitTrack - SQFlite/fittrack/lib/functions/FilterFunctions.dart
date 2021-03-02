@@ -93,12 +93,4 @@ Map<String, dynamic> getFilteredExercises(
     'exercises': filtered,
     'exercisesLength': selectedExercises.length,
   };
-  // setState(() {
-  //   _filteredExercises = filtered;
-  // });
-
-  // Future.delayed(
-  //   Duration(seconds: 0),
-  //   () => filter.updateExerciseCount(selectedExercises.length),
-  // );
 }
