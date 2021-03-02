@@ -9,7 +9,7 @@ List<UserWeight> sortUserWeightsByDate(
   List<UserWeight> sortedUserWeights = List.of(userWeights);
 
   sortedUserWeights.sort((UserWeight a, UserWeight b) {
-    if (!isAscending)
+    if (isAscending)
       return a.timeInMilliseconds.compareTo(b.timeInMilliseconds);
 
     return -a.timeInMilliseconds.compareTo(b.timeInMilliseconds);
@@ -25,7 +25,7 @@ List<Workout> sortWorkoutsByDate(
   List<Workout> sortWorkoutsByDate = List.of(workouts);
 
   sortWorkoutsByDate.sort((Workout a, Workout b) {
-    if (!isAscending)
+    if (isAscending)
       return a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
 
     return -a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
