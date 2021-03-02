@@ -110,6 +110,7 @@ Future<dynamic> readFromFile(File file) async {
 // Filter Functions
 Map<String, dynamic> getFilteredExercises(
   ExerciseFilter filter,
+  List<Exercise> exercises,
   List<Exercise> userExercises,
   List<Exercise> workoutExercises,
   bool isReplaceActive,
@@ -118,6 +119,7 @@ Map<String, dynamic> getFilteredExercises(
 ) {
   return FilterFunctions.getFilteredExercises(
     filter,
+    exercises,
     userExercises,
     workoutExercises,
     isReplaceActive,

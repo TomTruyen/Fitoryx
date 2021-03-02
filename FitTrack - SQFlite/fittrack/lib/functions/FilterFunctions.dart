@@ -1,9 +1,9 @@
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
-import 'package:fittrack/shared/ExerciseList.dart';
 
 Map<String, dynamic> getFilteredExercises(
   ExerciseFilter filter,
+  List<Exercise> exercises,
   List<Exercise> userExercises,
   List<Exercise> workoutExercises,
   bool isReplaceActive,
