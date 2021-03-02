@@ -38,9 +38,15 @@ List<Food> sortFoodByDate(List<Food> _food, bool orderAscending) {
   List<Food> sortedFood = List.of(_food);
 
   sortedFood.sort((Food a, Food b) {
-    if (orderAscending) return a.date.compareTo(b.date);
+    DateTime aDate = DateTime(int.parse(a.date.split('-')[2]),
+        int.parse(a.date.split('-')[1]), int.parse(a.date.split('-')[0]));
 
-    return -a.date.compareTo(b.date);
+    DateTime bDate = DateTime(int.parse(b.date.split('-')[2]),
+        int.parse(b.date.split('-')[1]), int.parse(b.date.split('-')[0]));
+
+    if (orderAscending) return aDate.compareTo(bDate);
+
+    return -aDate.compareTo(bDate);
   });
 
   return sortedFood;
