@@ -22,8 +22,12 @@ import 'package:fittrack/functions/SortFunctions.dart' as SortFunctions;
 import 'package:fittrack/functions/OtherFunctions.dart' as OtherFunctions;
 
 // Convert Functions
-double convertToDecimalPlaces(double input, int amountOfDecimals) {
-  return ConvertFunctions.convertToDecimalPlaces(input, amountOfDecimals);
+double convertToDecimalPlaces(double input, int amountOfDecimals, bool round) {
+  return ConvertFunctions.convertToDecimalPlaces(
+    input,
+    amountOfDecimals,
+    round,
+  );
 }
 
 dynamic tryConvertDoubleToInt(double value) {

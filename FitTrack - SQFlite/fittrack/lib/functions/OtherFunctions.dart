@@ -12,10 +12,10 @@ double recalculateWeight(double weight, String newUnit) {
 
   switch (newUnit.toLowerCase()) {
     case 'kg':
-      return convertToDecimalPlaces(weight / LBS_IN_KG, 1);
+      return convertToDecimalPlaces(weight / LBS_IN_KG, 1, true);
       break;
     case 'lbs':
-      return convertToDecimalPlaces(weight * LBS_IN_KG, 1);
+      return convertToDecimalPlaces(weight * LBS_IN_KG, 1, true);
       break;
     default:
       return weight;

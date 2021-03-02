@@ -18,7 +18,7 @@ void convertToDecimalPlacesTests() {
   test('convertToDecimalPlaces should return a double', () {
     double input = 10.962;
 
-    dynamic result = convertToDecimalPlaces(input, 1);
+    dynamic result = convertToDecimalPlaces(input, 1, false);
 
     expect(result, isInstanceOf<double>(),
         reason:
@@ -30,9 +30,9 @@ void convertToDecimalPlacesTests() {
     () {
       double input = 10.962;
 
-      dynamic resultZeroDecimals = convertToDecimalPlaces(input, 0);
-      dynamic resultOneDecimals = convertToDecimalPlaces(input, 1);
-      dynamic resultTwoDecimals = convertToDecimalPlaces(input, 2);
+      dynamic resultZeroDecimals = convertToDecimalPlaces(input, 0, false);
+      dynamic resultOneDecimals = convertToDecimalPlaces(input, 1, false);
+      dynamic resultTwoDecimals = convertToDecimalPlaces(input, 2, false);
 
       expect(resultZeroDecimals, 10,
           reason: "Result was $resultZeroDecimals but expected 10");
@@ -214,7 +214,7 @@ void convertGraphToShowListToJsonListTests() {
 
       expect(graphsToShowJsonList, isInstanceOf<List<Map<String, dynamic>>>(),
           reason:
-              "Result should be of type 'List<Map<String, dynamic>> but was of type ${graphsToShowJsonList.runtimeType}");
+              "Result should be of type 'List<Map<String, dynamic>>' but was of type ${graphsToShowJsonList.runtimeType}");
     },
   );
 

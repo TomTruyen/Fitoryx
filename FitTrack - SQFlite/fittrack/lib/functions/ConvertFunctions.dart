@@ -5,10 +5,14 @@ import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 
-double convertToDecimalPlaces(double input, int amountOfDecimals) {
+double convertToDecimalPlaces(double input, int amountOfDecimals, bool round) {
   int fac = pow(10, amountOfDecimals);
 
-  return (input * fac).truncateToDouble() / fac;
+  if (round) {
+    return (input * fac).roundToDouble() / fac;
+  } else {
+    return (input * fac).truncateToDouble() / fac;
+  }
 }
 
 dynamic tryConvertDoubleToInt(double value) {
