@@ -6,44 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ConvertFunctions', () {
-    convertToDecimalPlacesTests();
     tryConvertDoubleToIntTests();
     convertFoodPerHourListToJsonListTests();
     convertUserWeightListToJsonListTests();
     convertGraphToShowListToJsonListTests();
   });
-}
-
-void convertToDecimalPlacesTests() {
-  test('convertToDecimalPlaces should return a double', () {
-    double input = 10.962;
-
-    dynamic result = convertToDecimalPlaces(input, 1, false);
-
-    expect(result, isInstanceOf<double>(),
-        reason:
-            "Result should be of type 'double' but was of type '${result.runtimeType}'");
-  });
-
-  test(
-    'convertToDecimalPlaces should convert double to a double with a set amount of decimals',
-    () {
-      double input = 10.962;
-
-      dynamic resultZeroDecimals = convertToDecimalPlaces(input, 0, false);
-      dynamic resultOneDecimals = convertToDecimalPlaces(input, 1, false);
-      dynamic resultTwoDecimals = convertToDecimalPlaces(input, 2, false);
-
-      expect(resultZeroDecimals, 10,
-          reason: "Result was $resultZeroDecimals but expected 10");
-
-      expect(resultOneDecimals, 10.9,
-          reason: "Result was $resultOneDecimals but expected 10.9");
-
-      expect(resultTwoDecimals, 10.96,
-          reason: "Result was $resultTwoDecimals but expected 10.96");
-    },
-  );
 }
 
 void tryConvertDoubleToIntTests() {

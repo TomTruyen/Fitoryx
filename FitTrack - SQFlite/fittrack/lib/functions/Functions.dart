@@ -164,13 +164,6 @@ List<UserWeight> sortUserWeightsByDate(
   return SortFunctions.sortUserWeightsByDate(userWeights, isAscending);
 }
 
-List<Workout> sortWorkoutHistoryByDate(
-  List<Workout> workoutHistory,
-  bool isAscending,
-) {
-  return SortFunctions.sortWorkoutHistoryByDate(workoutHistory, isAscending);
-}
-
 List<Workout> sortWorkoutsByDate(List<Workout> _workouts, bool orderAscending) {
   return SortFunctions.sortWorkoutsByDate(_workouts, orderAscending);
 }

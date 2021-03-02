@@ -183,7 +183,7 @@ LineChartBarData _getTotalWeightLiftedList(
 
   List<FlSpot> spots = [];
 
-  workoutHistory = sortWorkoutHistoryByDate(workoutHistory, false);
+  workoutHistory = sortWorkoutsByDate(workoutHistory, false);
 
   workoutHistory = getWorkoutHistoryWithinTimespan(workoutHistory, timespan);
 
