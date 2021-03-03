@@ -173,7 +173,7 @@ void convertGraphToShowListToJsonListTests() {
       List<GraphToShow> graphsToShowList = [
         GraphToShow(title: 'workoutsPerWeek', show: true),
         GraphToShow(title: 'userWeight', show: false),
-        GraphToShow(title: 'totalWeightLifted', show: true),
+        GraphToShow(title: 'totalVolume', show: true),
       ];
 
       dynamic graphsToShowJsonList =
@@ -191,7 +191,7 @@ void convertGraphToShowListToJsonListTests() {
     List<GraphToShow> graphsToShowList = [
       GraphToShow(title: 'workoutsPerWeek', show: true),
       GraphToShow(title: 'userWeight', show: false),
-      GraphToShow(title: 'totalWeightLifted', show: true),
+      GraphToShow(title: 'totalVolume', show: true),
     ];
 
     List<Map<String, dynamic>> expectedJsonList = [
@@ -204,7 +204,7 @@ void convertGraphToShowListToJsonListTests() {
         'show': false,
       },
       {
-        'title': 'totalWeightLifted',
+        'title': 'totalVolume',
         'show': true,
       },
     ];

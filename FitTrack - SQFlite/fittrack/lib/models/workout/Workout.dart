@@ -81,17 +81,17 @@ class Workout {
     return reps;
   }
 
-  double getTotalWeightLifted() {
-    double totalWeight = 0;
+  double getTotalVolume() {
+    double totalVolume = 0;
 
     if (exercises == null) return 0;
 
     for (int i = 0; i < exercises.length; i++)
       for (int j = 0; j < exercises[i].sets.length; j++)
-        totalWeight += ((exercises[i].sets[j].reps ?? 0) *
+        totalVolume += ((exercises[i].sets[j].reps ?? 0) *
             (exercises[i].sets[j].weight ?? 0));
 
-    return totalWeight;
+    return totalVolume;
   }
 
   String exercisesToJsonString() {

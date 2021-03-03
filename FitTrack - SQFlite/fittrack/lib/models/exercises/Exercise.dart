@@ -62,14 +62,14 @@ class Exercise {
     return isCompleted;
   }
 
-  double getTotalWeightLifted() {
-    double weight = 0;
+  double getTotalVolume() {
+    double totalVolume = 0;
 
     for (int i = 0; i < sets.length; i++) {
-      weight += ((sets[i].reps ?? 0) * (sets[i].weight ?? 0));
+      totalVolume += ((sets[i].reps ?? 0) * (sets[i].weight ?? 0));
     }
 
-    return weight;
+    return totalVolume;
   }
 
   static Exercise fromJSON(

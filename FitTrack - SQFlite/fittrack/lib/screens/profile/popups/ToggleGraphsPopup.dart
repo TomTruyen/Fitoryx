@@ -18,8 +18,8 @@ Future<void> showPopupToggleGraphs(
         return 'Workouts per week';
       case 'userWeight':
         return 'Weight';
-      case 'totalWeightLifted':
-        return 'Total weight lifted';
+      case 'totalVolume':
+        return 'Total volume';
       default:
         return '';
     }

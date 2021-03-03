@@ -4,14 +4,14 @@ import 'package:fittrack/functions/Functions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class TotalWeightLiftedChart extends StatelessWidget {
+class TotalVolumeChart extends StatelessWidget {
   final List<Workout> workoutHistory;
   final Settings settings;
   final int timespan;
 
   final List<String> datesList = [];
 
-  TotalWeightLiftedChart({
+  TotalVolumeChart({
     this.workoutHistory,
     this.settings,
     this.timespan = 30,
@@ -45,7 +45,7 @@ class TotalWeightLiftedChart extends StatelessWidget {
           ),
         ),
         lineBarsData: [
-          _getTotalWeightLiftedList(
+          _getTotalVolumeList(
             List.of(workoutHistory),
             datesList,
             settings,
@@ -149,7 +149,7 @@ double getInterval(
   return (workoutHistory.length / maxInterval).round().toDouble();
 }
 
-LineChartBarData _getTotalWeightLiftedList(
+LineChartBarData _getTotalVolumeList(
   List<Workout> workoutHistory,
   List<String> datesList,
   Settings settings,
@@ -188,7 +188,7 @@ LineChartBarData _getTotalWeightLiftedList(
   workoutHistory = getWorkoutHistoryWithinTimespan(workoutHistory, timespan);
 
   for (int i = 0; i < workoutHistory.length; i++) {
-    spots.add(FlSpot(i.toDouble(), workoutHistory[i].getTotalWeightLifted()));
+    spots.add(FlSpot(i.toDouble(), workoutHistory[i].getTotalVolume()));
 
     String date = convertDateTimeToString(
       DateTime.fromMillisecondsSinceEpoch(

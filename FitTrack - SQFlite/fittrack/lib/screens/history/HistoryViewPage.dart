@@ -172,13 +172,13 @@ class HistoryViewPage extends StatelessWidget {
                     text: TextSpan(
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'Total Weight Lifted: ',
+                          text: 'Total Volume: ',
                           style: TextStyle(
                             color: Colors.black,
                           ),
                         ),
                         TextSpan(
-                          text: workout.getTotalWeightLifted().toString() +
+                          text: workout.getTotalVolume().toString() +
                               " " +
                               globals.sqlDatabase.settings.weightUnit,
                           style: TextStyle(
@@ -269,7 +269,7 @@ class HistoryViewPage extends StatelessWidget {
                                     SizedBox(width: 5.0),
                                     GradientText(
                                       text:
-                                          "${_exercise.getTotalWeightLifted().toString()} ${globals.sqlDatabase.settings.weightUnit}",
+                                          "${_exercise.getTotalVolume().toString()} ${globals.sqlDatabase.settings.weightUnit}",
                                     ),
                                   ],
                                 ),

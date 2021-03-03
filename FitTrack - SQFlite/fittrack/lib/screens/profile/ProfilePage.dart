@@ -1,6 +1,6 @@
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
-import 'package:fittrack/screens/profile/graphs/TotalWeightLiftedChart.dart';
+import 'package:fittrack/screens/profile/graphs/TotalVolumeChart.dart';
 import 'package:fittrack/screens/profile/graphs/UserWeightChart.dart';
 import 'package:fittrack/screens/profile/graphs/WorkoutsPerWeekChart.dart';
 import 'package:fittrack/screens/profile/popups/TimespanPopup.dart';
@@ -333,7 +333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                  if (settings.shouldShowGraph('totalWeightLifted'))
+                  if (settings.shouldShowGraph('totalVolume'))
                     Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -357,7 +357,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Container(
                                     margin: EdgeInsets.only(left: 16.0),
                                     child: Text(
-                                      'Total weight lifted (${_getTimespanString()})',
+                                      'Total volume (${_getTimespanString()})',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600),
                                     ),
@@ -426,7 +426,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               flex: 4,
                               child: Container(
                                 margin: EdgeInsets.only(top: 16.0),
-                                child: TotalWeightLiftedChart(
+                                child: TotalVolumeChart(
                                   workoutHistory: List.of(workoutHistory) ?? [],
                                   settings: settings,
                                   timespan: weightTimespan,
