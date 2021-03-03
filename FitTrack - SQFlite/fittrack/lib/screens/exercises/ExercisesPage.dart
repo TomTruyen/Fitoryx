@@ -214,6 +214,16 @@ class _ExercisesPageState extends State<ExercisesPage> {
           filled: true,
           hintText: 'Search exercises...',
           hintStyle: TextStyle(color: Colors.black54),
+          suffixIcon: GestureDetector(
+            child: Icon(
+              Icons.close_outlined,
+              color: Colors.black,
+            ),
+            onTap: () {
+              searchController.text = "";
+              filter.updateSearchValue("");
+            },
+          ),
         ),
         onChanged: (query) {
           filter.updateSearchValue(query);
@@ -231,16 +241,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
         },
       ),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.close_outlined,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            searchController.text = "";
-            filter.updateSearchValue("");
-          },
-        ),
         IconButton(
           icon: Icon(
             Icons.filter_list_outlined,
