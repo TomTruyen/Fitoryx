@@ -142,6 +142,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
             color: Colors.black,
           ),
           onPressed: () {
+            clearFocus(context);
+
             Navigator.of(context).push(
               CupertinoPageRoute(
                 fullscreenDialog: true,
@@ -245,6 +247,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
             color: Colors.black,
           ),
           onPressed: () {
+            clearFocus(context);
+
             Navigator.of(context).push(
               CupertinoPageRoute(
                 fullscreenDialog: true,
@@ -417,6 +421,8 @@ class _ExercisesPageState extends State<ExercisesPage> {
                         ? IconButton(
                             icon: Icon(Icons.delete, color: Colors.black),
                             onPressed: () async {
+                              clearFocus(context);
+
                               await showPopupDeleteExercise(
                                 context,
                                 _filteredExercises[i].id,

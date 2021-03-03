@@ -185,6 +185,7 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                             ],
                           ),
                           onTap: () {
+                            clearFocus(context);
                             showPopupMenu(true);
                           },
                         ),
@@ -204,6 +205,7 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                             ],
                           ),
                           onTap: () {
+                            clearFocus(context);
                             showPopupMenu(false);
                           },
                         ),
@@ -220,6 +222,8 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
         icon: Icon(Icons.check),
         onPressed: () async {
           if (formKey.currentState.validate()) {
+            clearFocus(context);
+
             dynamic result = await globals.sqlDatabase
                 .addExercise(exerciseName, exerciseCategory, exerciseEquipment);
 

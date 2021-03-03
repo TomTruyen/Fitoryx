@@ -7,6 +7,14 @@ void tryPopContext(BuildContext context) {
   }
 }
 
+void clearFocus(BuildContext context) {
+  FocusScopeNode currentFocus = FocusScope.of(context);
+
+  if (!currentFocus.hasPrimaryFocus) {
+    currentFocus.unfocus();
+  }
+}
+
 double recalculateWeight(double weight, String newUnit) {
   const double LBS_IN_KG = 2.2046226218;
 

@@ -177,6 +177,10 @@ void tryPopContext(BuildContext context) {
   OtherFunctions.tryPopContext(context);
 }
 
+void clearFocus(BuildContext context) {
+  OtherFunctions.clearFocus(context);
+}
+
 double recalculateWeight(double weight, String newUnit) {
   return OtherFunctions.recalculateWeight(weight, newUnit);
 }
