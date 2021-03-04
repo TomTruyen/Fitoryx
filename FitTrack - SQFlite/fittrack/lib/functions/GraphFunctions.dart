@@ -11,15 +11,18 @@ List<UserWeight> getUserWeightsWithinTimespan(
   DateTime now = DateTime.now();
 
   DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
-    userWeights[userWeights.length - 1].timeInMilliseconds,
+    userWeights.last?.timeInMilliseconds ?? now.millisecondsSinceEpoch,
   );
 
   if (!hasSameDayUserWeights(userWeights, mostRecentDateTime)) {
-    UserWeight mostRecentClone = userWeights[userWeights.length - 1].clone();
-    mostRecentClone.timeInMilliseconds = now.millisecondsSinceEpoch;
-    userWeights.add(mostRecentClone);
+    UserWeight mostRecentClone = userWeights.last?.clone();
 
-    mostRecentDateTime = now;
+    if (mostRecentClone != null) {
+      mostRecentClone.timeInMilliseconds = now.millisecondsSinceEpoch;
+      userWeights.add(mostRecentClone);
+
+      mostRecentDateTime = now;
+    }
   }
 
   DateTime latestDateTimeAllowed = mostRecentDateTime.subtract(
@@ -65,15 +68,18 @@ List<Workout> getWorkoutHistoryWithinTimespan(
   DateTime now = DateTime.now();
 
   DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
-    workoutHistory[workoutHistory.length - 1].timeInMillisSinceEpoch,
+    workoutHistory.last?.timeInMillisSinceEpoch ?? now.millisecondsSinceEpoch,
   );
 
   if (!hasSameDayWorkoutHistory(workoutHistory, mostRecentDateTime)) {
-    Workout mostRecentClone = workoutHistory[workoutHistory.length - 1].clone();
-    mostRecentClone.timeInMillisSinceEpoch = now.millisecondsSinceEpoch;
-    workoutHistory.add(mostRecentClone);
+    Workout mostRecentClone = workoutHistory.last?.clone();
 
-    mostRecentDateTime = now;
+    if (mostRecentClone != null) {
+      mostRecentClone.timeInMillisSinceEpoch = now.millisecondsSinceEpoch;
+      workoutHistory.add(mostRecentClone);
+
+      mostRecentDateTime = now;
+    }
   }
 
   DateTime latestDateTimeAllowed = mostRecentDateTime.subtract(
