@@ -74,7 +74,7 @@ Future<bool> showEndWorkoutWarningDialog(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Cancel',
                                     style: TextStyle(
@@ -86,7 +86,7 @@ Future<bool> showEndWorkoutWarningDialog(
                                     tryPopContext(context);
                                   },
                                 ),
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Yes, I\'m sure',
                                     style: TextStyle(

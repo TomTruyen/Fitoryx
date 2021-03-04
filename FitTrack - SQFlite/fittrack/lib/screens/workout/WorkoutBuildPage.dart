@@ -173,7 +173,6 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                                       Color.fromRGBO(150, 150, 150, 1),
                                 ),
                                 child: PopupMenuButton(
-                                  offset: Offset(0, 50),
                                   shape: RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8.0)),
@@ -445,7 +444,7 @@ class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
                               ),
                             ],
                           ),
-                        FlatButton(
+                        TextButton(
                           child: GradientText(
                             text: 'ADD SET',
                             fontWeight: FontWeight.w600,

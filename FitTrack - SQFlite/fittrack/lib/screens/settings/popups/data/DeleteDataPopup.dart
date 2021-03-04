@@ -106,7 +106,7 @@ Future<void> showPopupDeleteData(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: <Widget>[
-                                          FlatButton(
+                                          TextButton(
                                             child: Text(
                                               'OK',
                                               style: TextStyle(
@@ -160,7 +160,7 @@ Future<void> showPopupDeleteData(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
-                                              FlatButton(
+                                              TextButton(
                                                 child: Text(
                                                   'OK',
                                                   style: TextStyle(
@@ -214,7 +214,7 @@ Future<void> showPopupDeleteData(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
-                                              FlatButton(
+                                              TextButton(
                                                 child: Text(
                                                   'CANCEL',
                                                   style: TextStyle(
@@ -226,7 +226,7 @@ Future<void> showPopupDeleteData(
                                                   tryPopContext(context);
                                                 },
                                               ),
-                                              FlatButton(
+                                              TextButton(
                                                 child: Text(
                                                   'OK',
                                                   style: TextStyle(

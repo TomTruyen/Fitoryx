@@ -58,7 +58,6 @@ class HistoryViewPage extends StatelessWidget {
                         dividerColor: Color.fromRGBO(70, 70, 70, 1),
                       ),
                       child: PopupMenuButton(
-                        offset: Offset(0.0, 80.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         ),

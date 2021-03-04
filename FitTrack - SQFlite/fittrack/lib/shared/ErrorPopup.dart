@@ -72,7 +72,7 @@ Future<void> showPopupError(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'OK',
                                     style: TextStyle(

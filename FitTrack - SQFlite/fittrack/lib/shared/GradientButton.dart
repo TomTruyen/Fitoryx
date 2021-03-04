@@ -10,12 +10,14 @@ class GradientButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50.0,
-      child: FlatButton(
-        onPressed: onPressed,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          padding: EdgeInsets.all(0.0),
         ),
-        padding: EdgeInsets.all(0.0),
+        onPressed: onPressed,
         child: Ink(
           decoration: BoxDecoration(
               gradient: LinearGradient(

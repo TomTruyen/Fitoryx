@@ -98,8 +98,7 @@ Future<void> showPopupWeight(
                         Expanded(
                           child: Container(
                             alignment: Alignment.centerRight,
-                            child: FlatButton(
-                              color: Colors.transparent,
+                            child: TextButton(
                               child: Text(
                                 'OK',
                                 style: TextStyle(

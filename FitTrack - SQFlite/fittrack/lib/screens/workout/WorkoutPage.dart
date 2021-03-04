@@ -116,11 +116,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: Container(
                 alignment: Alignment.centerRight,
                 margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    primary: Theme.of(context).textTheme.bodyText2.color,
                   ),
-                  color: Colors.transparent,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -129,9 +131,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         transform: sortAscending
                             ? Matrix4.rotationX(pi)
                             : Matrix4.rotationX(0),
-                        child: Icon(
-                          Icons.sort,
-                        ),
+                        child: Icon(Icons.sort),
                       ),
                       SizedBox(width: 5.0),
                       Text('Sort by date'),
@@ -201,7 +201,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                           Color.fromRGBO(150, 150, 150, 1),
                                     ),
                                     child: PopupMenuButton(
-                                      offset: Offset(0, 50),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8.0)),

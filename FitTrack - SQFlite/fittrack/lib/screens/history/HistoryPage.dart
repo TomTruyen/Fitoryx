@@ -100,11 +100,13 @@ class _HistoryPageState extends State<HistoryPage> {
               child: Container(
                 alignment: Alignment.centerRight,
                 margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    primary: Theme.of(context).textTheme.bodyText2.color,
                   ),
-                  color: Colors.transparent,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[

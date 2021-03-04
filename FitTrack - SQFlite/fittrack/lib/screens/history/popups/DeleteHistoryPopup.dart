@@ -78,7 +78,7 @@ Future<bool> showPopupDeleteHistory(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Cancel',
                                     style: TextStyle(
@@ -90,7 +90,7 @@ Future<bool> showPopupDeleteHistory(
                                     tryPopContext(context);
                                   },
                                 ),
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'OK',
                                     style: TextStyle(

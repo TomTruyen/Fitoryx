@@ -99,11 +99,13 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  primary: Theme.of(context).textTheme.bodyText2.color,
                 ),
-                color: Colors.transparent,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -172,7 +174,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                             Color.fromRGBO(150, 150, 150, 1),
                                       ),
                                       child: PopupMenuButton(
-                                        offset: Offset(0, 50),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(8.0),
@@ -271,7 +272,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                       ),
                                       child: PopupMenuButton(
-                                        offset: Offset(0, 50),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(8.0),
@@ -376,7 +376,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                       ),
                                       child: PopupMenuButton(
-                                        offset: Offset(0, 50),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(8.0),

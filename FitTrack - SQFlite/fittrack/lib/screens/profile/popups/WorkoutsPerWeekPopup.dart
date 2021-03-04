@@ -88,7 +88,7 @@ Future<void> showWorkoutsPerWeekPopup(
                       Expanded(
                         child: Container(
                           alignment: Alignment.centerRight,
-                          child: FlatButton(
+                          child: TextButton(
                             child: Text(
                               'OK',
                               style: TextStyle(

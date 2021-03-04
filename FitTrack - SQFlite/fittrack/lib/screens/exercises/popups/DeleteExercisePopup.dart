@@ -77,7 +77,7 @@ Future<void> showPopupDeleteExercise(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Cancel',
                                     style: TextStyle(
@@ -89,7 +89,7 @@ Future<void> showPopupDeleteExercise(
                                     tryPopContext(context);
                                   },
                                 ),
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'OK',
                                     style: TextStyle(
