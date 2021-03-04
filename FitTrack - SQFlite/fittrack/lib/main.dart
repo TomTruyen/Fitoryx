@@ -81,6 +81,10 @@ class _MyAppState extends State<MyApp> {
               fontSize: 13.0,
             ),
           ),
+          textSelectionTheme: TextSelectionThemeData(
+            selectionHandleColor: Colors.blue[900],
+            selectionColor: Colors.blue[100],
+          ),
         ),
         home: FutureBuilder<dynamic>(
           future: _database,
