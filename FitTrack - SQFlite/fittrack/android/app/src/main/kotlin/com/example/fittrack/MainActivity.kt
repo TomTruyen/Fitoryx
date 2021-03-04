@@ -1,4 +1,4 @@
-package com.example.fittrack
+package com.tomtruyen.fittrack
 
 import io.flutter.embedding.android.FlutterActivity
 
