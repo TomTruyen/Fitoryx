@@ -8,9 +8,11 @@ import 'package:fittrack/screens/food/FoodPage.dart';
 import 'package:fittrack/screens/history/HistoryPage.dart';
 import 'package:fittrack/screens/profile/ProfilePage.dart';
 import 'package:fittrack/screens/workout/WorkoutPage.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Wrapper extends StatefulWidget {
   Wrapper({Key key}) : super(key: key);
@@ -28,6 +30,8 @@ class _WrapperState extends State<Wrapper> {
   void initState() {
     super.initState();
 
+    getSharedPreferences();
+
     setState(() {
       _pages = [
         ProfilePage(),
@@ -37,6 +41,27 @@ class _WrapperState extends State<Wrapper> {
         FoodPage()
       ];
     });
+  }
+
+  Future<void> getSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool hasShownReview = prefs.getBool('reviewShown');
+    if (hasShownReview == false || hasShownReview == null) {
+      int amountOfTimeAppWasOpened = prefs.getInt('amountOpened');
+      if (amountOfTimeAppWasOpened == null) {
+        prefs.setInt('amountOpened', 1);
+      } else if (amountOfTimeAppWasOpened < 5) {
+        prefs.setInt('amountOpened', amountOfTimeAppWasOpened + 1);
+      } else if (amountOfTimeAppWasOpened == 5) {
+        final InAppReview inAppReview = InAppReview.instance;
+
+        if (await inAppReview.isAvailable()) {
+          await inAppReview.requestReview();
+
+          prefs.setBool('reviewShown', true);
+        }
+      }
+    }
   }
 
   void changePage(int _newPageIndex) {
