@@ -10,8 +10,12 @@ class UserWeight {
   UserWeight({
     this.weight = 0.0,
     this.weightUnit = "kg",
-    this.timeInMillisSinceEpoch = 0,
-  });
+    this.timeInMillisSinceEpoch,
+  }) {
+    if (this.timeInMillisSinceEpoch == null) {
+      this.timeInMillisSinceEpoch = DateTime.now().millisecondsSinceEpoch;
+    }
+  }
 
   UserWeight clone() {
     return new UserWeight(
