@@ -111,15 +111,16 @@ class Settings {
   void tryAddUserWeight(double _weight, String _weightUnit) {
     DateTime date = DateTime.now();
 
-    DateTime lastWeightInputDate =
-        DateTime.fromMillisecondsSinceEpoch(userWeight[0].timeInMilliseconds);
+    DateTime lastWeightInputDate = DateTime.fromMillisecondsSinceEpoch(
+      userWeight[0].timeInMillisSinceEpoch,
+    );
 
     if (isSameDay(date, lastWeightInputDate) ||
-        userWeight[0].timeInMilliseconds == 0) {
+        userWeight[0].timeInMillisSinceEpoch == 0) {
       userWeight[0] = new UserWeight(
         weight: _weight,
         weightUnit: _weightUnit,
-        timeInMilliseconds: date.millisecondsSinceEpoch,
+        timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
       );
     } else {
       userWeight.insert(
@@ -127,7 +128,7 @@ class Settings {
         new UserWeight(
           weight: _weight,
           weightUnit: _weightUnit,
-          timeInMilliseconds: date.millisecondsSinceEpoch,
+          timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
         ),
       );
     }

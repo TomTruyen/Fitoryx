@@ -61,8 +61,9 @@ bool hasSameDayUserWeights(List<UserWeight> userWeights, DateTime date) {
   }
 
   for (int i = 0; i < userWeights.length; i++) {
-    DateTime userWeightDate =
-        DateTime.fromMillisecondsSinceEpoch(userWeights[i].timeInMilliseconds);
+    DateTime userWeightDate = DateTime.fromMillisecondsSinceEpoch(
+      userWeights[i].timeInMillisSinceEpoch,
+    );
 
     if (isSameDay(userWeightDate, date)) {
       return true;

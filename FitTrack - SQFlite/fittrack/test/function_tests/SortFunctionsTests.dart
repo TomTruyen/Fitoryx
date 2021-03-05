@@ -19,8 +19,8 @@ void sortUserWeightsByDateTests() {
       DateTime date = DateTime(2021, 3, 2);
 
       List<UserWeight> userWeights = [
-        UserWeight(timeInMilliseconds: 0),
-        UserWeight(timeInMilliseconds: date.millisecondsSinceEpoch),
+        UserWeight(timeInMillisSinceEpoch: 0),
+        UserWeight(timeInMillisSinceEpoch: date.millisecondsSinceEpoch),
       ];
 
       bool isAscending = true;
@@ -38,9 +38,9 @@ void sortUserWeightsByDateTests() {
     () {
       DateTime date = DateTime(2021, 3, 2);
 
-      UserWeight userWeight1 = UserWeight(timeInMilliseconds: 100);
+      UserWeight userWeight1 = UserWeight(timeInMillisSinceEpoch: 100);
       UserWeight userWeight2 = UserWeight(
-        timeInMilliseconds: date.millisecondsSinceEpoch,
+        timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
       );
 
       List<UserWeight> userWeights = [userWeight1, userWeight2];
@@ -61,9 +61,9 @@ void sortUserWeightsByDateTests() {
     () {
       DateTime date = DateTime(2021, 3, 2);
 
-      UserWeight userWeight1 = UserWeight(timeInMilliseconds: 100);
+      UserWeight userWeight1 = UserWeight(timeInMillisSinceEpoch: 100);
       UserWeight userWeight2 = UserWeight(
-        timeInMilliseconds: date.millisecondsSinceEpoch,
+        timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
       );
 
       List<UserWeight> userWeights = [userWeight1, userWeight2];

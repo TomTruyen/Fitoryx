@@ -10,9 +10,9 @@ List<UserWeight> sortUserWeightsByDate(
 
   sortedUserWeights.sort((UserWeight a, UserWeight b) {
     if (isAscending)
-      return a.timeInMilliseconds.compareTo(b.timeInMilliseconds);
+      return a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
 
-    return -a.timeInMilliseconds.compareTo(b.timeInMilliseconds);
+    return -a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
   });
 
   return sortedUserWeights;

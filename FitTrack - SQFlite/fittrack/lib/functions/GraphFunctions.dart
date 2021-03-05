@@ -11,14 +11,14 @@ List<UserWeight> getUserWeightsWithinTimespan(
   DateTime now = DateTime.now();
 
   DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
-    userWeights.last?.timeInMilliseconds ?? now.millisecondsSinceEpoch,
+    userWeights.last?.timeInMillisSinceEpoch ?? now.millisecondsSinceEpoch,
   );
 
   if (!hasSameDayUserWeights(userWeights, mostRecentDateTime)) {
     UserWeight mostRecentClone = userWeights.last?.clone();
 
     if (mostRecentClone != null) {
-      mostRecentClone.timeInMilliseconds = now.millisecondsSinceEpoch;
+      mostRecentClone.timeInMillisSinceEpoch = now.millisecondsSinceEpoch;
       userWeights.add(mostRecentClone);
 
       mostRecentDateTime = now;
@@ -34,7 +34,7 @@ List<UserWeight> getUserWeightsWithinTimespan(
       userWeightsWithinTimespan.add(userWeights[i]);
     } else {
       DateTime date = DateTime.fromMillisecondsSinceEpoch(
-        userWeights[i].timeInMilliseconds,
+        userWeights[i].timeInMillisSinceEpoch,
       );
       if (date.isAfter(latestDateTimeAllowed) ||
           isSameDay(date, latestDateTimeAllowed)) {
@@ -50,7 +50,7 @@ List<UserWeight> getUserWeightsWithinTimespan(
             latestDateTimeAllowed,
           ))) {
     UserWeight _clone = userWeightsWithinTimespan[0].clone();
-    _clone.timeInMilliseconds =
+    _clone.timeInMillisSinceEpoch =
         now.subtract(Duration(days: timespan)).millisecondsSinceEpoch;
 
     userWeightsWithinTimespan.insert(0, _clone);

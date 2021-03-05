@@ -128,11 +128,11 @@ LineChartBarData _getUserWeightList(
     userWeights = [
       UserWeight(
         weightUnit: settings.weightUnit,
-        timeInMilliseconds: now.millisecondsSinceEpoch,
+        timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
       ),
       UserWeight(
         weightUnit: settings.weightUnit,
-        timeInMilliseconds: now
+        timeInMillisSinceEpoch: now
             .subtract(
               Duration(days: timespanInDays),
             )
@@ -150,7 +150,7 @@ LineChartBarData _getUserWeightList(
       UserWeight(
         weight: weight,
         weightUnit: weightUnit,
-        timeInMilliseconds: timeInMilliseconds,
+        timeInMillisSinceEpoch: timeInMilliseconds,
       ),
     );
   }
@@ -171,7 +171,7 @@ LineChartBarData _getUserWeightList(
 
     String _date = convertDateTimeToString(
       DateTime.fromMillisecondsSinceEpoch(
-        userWeights[i].timeInMilliseconds,
+        userWeights[i].timeInMillisSinceEpoch,
       ),
     );
 

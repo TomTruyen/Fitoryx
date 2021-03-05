@@ -1,21 +1,23 @@
 import 'dart:convert';
 
+import 'package:fittrack/functions/Functions.dart';
+
 class UserWeight {
   double weight;
   String weightUnit;
-  int timeInMilliseconds;
+  int timeInMillisSinceEpoch;
 
   UserWeight({
     this.weight = 0.0,
     this.weightUnit = "kg",
-    this.timeInMilliseconds = 0,
+    this.timeInMillisSinceEpoch = 0,
   });
 
   UserWeight clone() {
     return new UserWeight(
       weight: weight,
       weightUnit: weightUnit,
-      timeInMilliseconds: timeInMilliseconds,
+      timeInMillisSinceEpoch: timeInMillisSinceEpoch,
     );
   }
 
@@ -23,7 +25,7 @@ class UserWeight {
     return new UserWeight(
       weight: json['weight'] ?? 0.0,
       weightUnit: json['weightUnit'] ?? "kg",
-      timeInMilliseconds: json['timeInMilliseconds'] ?? 0,
+      timeInMillisSinceEpoch: json['timeInMillisSinceEpoch'] ?? 0,
     );
   }
 
@@ -31,7 +33,7 @@ class UserWeight {
     return {
       'weight': weight,
       'weightUnit': weightUnit,
-      'timeInMilliseconds': timeInMilliseconds,
+      'timeInMillisSinceEpoch': timeInMillisSinceEpoch,
     };
   }
 }
@@ -56,11 +58,7 @@ List<UserWeight> getUserWeightListFromJson(Map<String, dynamic> settings) {
     );
   }
 
-  _userWeightList.sort(
-    (a, b) => a.timeInMilliseconds.compareTo(b.timeInMilliseconds),
-  );
-
-  _userWeightList = _userWeightList.reversed.toList();
+  _userWeightList = sortUserWeightsByDate(_userWeightList, false);
 
   return _userWeightList;
 }

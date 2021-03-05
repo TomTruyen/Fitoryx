@@ -227,9 +227,9 @@ void hasSameDayUserWeightsTests() {
       DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
 
       List<UserWeight> userWeightList = [
-        UserWeight(timeInMilliseconds: 0),
+        UserWeight(timeInMillisSinceEpoch: 0),
         UserWeight(
-          timeInMilliseconds:
+          timeInMillisSinceEpoch:
               date.subtract(Duration(days: 1)).millisecondsSinceEpoch,
         ),
       ];
@@ -248,9 +248,9 @@ void hasSameDayUserWeightsTests() {
       DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
 
       List<UserWeight> userWeightList = [
-        UserWeight(timeInMilliseconds: 0),
+        UserWeight(timeInMillisSinceEpoch: 0),
         UserWeight(
-          timeInMilliseconds:
+          timeInMillisSinceEpoch:
               date.subtract(Duration(days: 1)).millisecondsSinceEpoch,
         ),
       ];
@@ -268,8 +268,8 @@ void hasSameDayUserWeightsTests() {
       DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
 
       List<UserWeight> userWeightList = [
-        UserWeight(timeInMilliseconds: 0),
-        UserWeight(timeInMilliseconds: date.millisecondsSinceEpoch),
+        UserWeight(timeInMillisSinceEpoch: 0),
+        UserWeight(timeInMillisSinceEpoch: date.millisecondsSinceEpoch),
       ];
 
       dynamic result = hasSameDayUserWeights(userWeightList, date);

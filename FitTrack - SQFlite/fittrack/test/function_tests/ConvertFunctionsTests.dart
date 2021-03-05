@@ -113,7 +113,11 @@ void convertUserWeightListToJsonListTests() {
       List<UserWeight> userWeightList = [
         UserWeight(weight: 50, weightUnit: 'kg'),
         UserWeight(weight: 100, weightUnit: 'kg'),
-        UserWeight(weight: 200, weightUnit: 'lbs', timeInMilliseconds: 1000),
+        UserWeight(
+          weight: 200,
+          weightUnit: 'lbs',
+          timeInMillisSinceEpoch: 1000,
+        ),
       ];
 
       dynamic userWeightListJsonList =
@@ -131,7 +135,11 @@ void convertUserWeightListToJsonListTests() {
       List<UserWeight> userWeightList = [
         UserWeight(weight: 50, weightUnit: 'kg'),
         UserWeight(weight: 100, weightUnit: 'kg'),
-        UserWeight(weight: 200, weightUnit: 'lbs', timeInMilliseconds: 1000),
+        UserWeight(
+          weight: 200,
+          weightUnit: 'lbs',
+          timeInMillisSinceEpoch: 1000,
+        ),
       ];
 
       List<Map<String, dynamic>> expectedJsonList = [
