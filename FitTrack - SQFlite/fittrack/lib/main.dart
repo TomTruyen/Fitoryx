@@ -64,6 +64,11 @@ class _MyAppState extends State<MyApp> {
               size: 26.0,
             ),
           ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              primary: Colors.grey[900],
+            ),
+          ),
           textTheme: TextTheme(
             // Main Text
             bodyText2: TextStyle(
