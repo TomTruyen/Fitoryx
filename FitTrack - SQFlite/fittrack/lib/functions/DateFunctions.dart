@@ -55,34 +55,20 @@ bool isSameDay(DateTime dateTime1, DateTime dateTime2) {
   return false;
 }
 
-bool hasSameDayUserWeights(List<UserWeight> userWeights, DateTime date) {
-  if (userWeights == null || userWeights.isEmpty) {
+bool hasSameDay(List<dynamic> list, DateTime date) {
+  if (list == null || list.isEmpty) {
     return false;
   }
 
-  for (int i = 0; i < userWeights.length; i++) {
+  if (list is List<Workout>) list = List.of(list).cast<Workout>();
+  if (list is List<UserWeight>) list = List.of(list).cast<UserWeight>();
+
+  for (int i = 0; i < list.length; i++) {
     DateTime userWeightDate = DateTime.fromMillisecondsSinceEpoch(
-      userWeights[i].timeInMillisSinceEpoch,
+      list[i].timeInMillisSinceEpoch,
     );
 
     if (isSameDay(userWeightDate, date)) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-bool hasSameDayWorkoutHistory(List<Workout> workoutHistory, DateTime date) {
-  if (workoutHistory == null || workoutHistory.isEmpty) {
-    return false;
-  }
-
-  for (int i = 0; i < workoutHistory.length; i++) {
-    DateTime workoutHistoryDate = DateTime.fromMillisecondsSinceEpoch(
-        workoutHistory[i].timeInMillisSinceEpoch);
-
-    if (isSameDay(workoutHistoryDate, date)) {
       return true;
     }
   }

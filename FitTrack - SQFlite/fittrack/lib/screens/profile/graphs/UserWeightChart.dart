@@ -103,10 +103,10 @@ double getInterval(List<UserWeight> userWeights, int timespan) {
   final double maxInterval = 6.0;
 
   if (timespan > -1) {
-    List<UserWeight> _userWeight = getUserWeightsWithinTimespan(
+    List<UserWeight> _userWeight = getDataWithinTimespan(
       userWeights,
       timespan,
-    );
+    ).cast<UserWeight>();
 
     if (_userWeight.length < maxInterval) return _userWeight.length.toDouble();
   } else {
@@ -157,7 +157,8 @@ LineChartBarData _getUserWeightList(
 
   userWeights = sortByDate(userWeights, false).cast<UserWeight>();
 
-  userWeights = getUserWeightsWithinTimespan(userWeights, timespanInDays);
+  userWeights =
+      getDataWithinTimespan(userWeights, timespanInDays).cast<UserWeight>();
 
   List<FlSpot> spots = [];
 

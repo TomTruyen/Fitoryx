@@ -1,5 +1,4 @@
 import 'package:fittrack/functions/Functions.dart';
-import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
@@ -12,8 +11,7 @@ void main() {
     convertDateTimeToStringWithoutYearTests();
     convertDateTimeToDateTests();
     isSameDayTests();
-    hasSameDayUserWeightsTests();
-    hasSameDayWorkoutHistoryTests();
+    hasSameDayTests();
   });
 }
 
@@ -220,73 +218,9 @@ void isSameDayTests() {
   );
 }
 
-void hasSameDayUserWeightsTests() {
+void hasSameDayTests() {
   test(
-    'hasSameDayUserWeights should return bool',
-    () {
-      DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
-
-      List<UserWeight> userWeightList = [
-        UserWeight(timeInMillisSinceEpoch: 0),
-        UserWeight(
-          timeInMillisSinceEpoch:
-              date.subtract(Duration(days: 1)).millisecondsSinceEpoch,
-        ),
-      ];
-
-      dynamic result = hasSameDayUserWeights(userWeightList, date);
-
-      expect(result, isInstanceOf<bool>(),
-          reason:
-              "Result was expected to be of type 'bool' but was of type ${result.runtimeType}");
-    },
-  );
-
-  test(
-    'hasSameDayUserWeights should return false if date is not found in List<UserWeight>',
-    () {
-      DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
-
-      List<UserWeight> userWeightList = [
-        UserWeight(timeInMillisSinceEpoch: 0),
-        UserWeight(
-          timeInMillisSinceEpoch:
-              date.subtract(Duration(days: 1)).millisecondsSinceEpoch,
-        ),
-      ];
-
-      dynamic result = hasSameDayUserWeights(userWeightList, date);
-
-      expect(result, false,
-          reason: "Result was expected to equal 'false' but was '$result'");
-    },
-  );
-
-  test(
-    'hasSameDayUserWeights should return true if date is found in List<UserWeight>',
-    () {
-      DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
-
-      List<UserWeight> userWeightList = [
-        UserWeight(timeInMillisSinceEpoch: 0),
-        UserWeight(timeInMillisSinceEpoch: date.millisecondsSinceEpoch),
-      ];
-
-      dynamic result = hasSameDayUserWeights(userWeightList, date);
-
-      expect(result, isInstanceOf<bool>(),
-          reason:
-              "Result was expected to be of type 'bool' but was of type ${result.runtimeType}");
-
-      expect(result, true,
-          reason: "Result was expected to equal 'false' but was '$result'");
-    },
-  );
-}
-
-void hasSameDayWorkoutHistoryTests() {
-  test(
-    'hasSameDayWorkoutHistory should return bool',
+    'hasSameDay should return bool',
     () {
       DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
 
@@ -298,7 +232,7 @@ void hasSameDayWorkoutHistoryTests() {
         ),
       ];
 
-      dynamic result = hasSameDayWorkoutHistory(workoutHistoryList, date);
+      dynamic result = hasSameDay(workoutHistoryList, date);
 
       expect(result, isInstanceOf<bool>(),
           reason:
@@ -307,7 +241,7 @@ void hasSameDayWorkoutHistoryTests() {
   );
 
   test(
-    'hasSameDayWorkoutHistory should return false if date is not found in List<Workout>',
+    'hasSameDay should return false if date is not found in List<dynamic>',
     () {
       DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
 
@@ -319,7 +253,7 @@ void hasSameDayWorkoutHistoryTests() {
         ),
       ];
 
-      dynamic result = hasSameDayWorkoutHistory(workoutHistoryList, date);
+      dynamic result = hasSameDay(workoutHistoryList, date);
 
       expect(result, false,
           reason: "Result was expected to equal 'false' but was '$result'");
@@ -327,7 +261,7 @@ void hasSameDayWorkoutHistoryTests() {
   );
 
   test(
-    'hasSameDayWorkoutHistory should return true if date is found in List<Workout>',
+    'hasSameDay should return true if date is found in List<dynamic>',
     () {
       DateTime date = DateTime(2020, 3, 1, 0, 0, 0, 0);
 
@@ -336,7 +270,7 @@ void hasSameDayWorkoutHistoryTests() {
         Workout(timeInMillisSinceEpoch: date.millisecondsSinceEpoch),
       ];
 
-      dynamic result = hasSameDayWorkoutHistory(workoutHistoryList, date);
+      dynamic result = hasSameDay(workoutHistoryList, date);
 
       expect(result, isInstanceOf<bool>(),
           reason:

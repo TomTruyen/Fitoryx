@@ -8,7 +8,6 @@ import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
-import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 
@@ -86,12 +85,8 @@ bool isSameDay(DateTime dateTime1, DateTime dateTime2) {
   return DateFunctions.isSameDay(dateTime1, dateTime2);
 }
 
-bool hasSameDayUserWeights(List<UserWeight> userWeights, DateTime date) {
-  return DateFunctions.hasSameDayUserWeights(userWeights, date);
-}
-
-bool hasSameDayWorkoutHistory(List<Workout> workoutHistory, DateTime date) {
-  return DateFunctions.hasSameDayWorkoutHistory(workoutHistory, date);
+bool hasSameDay(List<dynamic> list, DateTime date) {
+  return DateFunctions.hasSameDay(list, date);
 }
 
 // File Functions
@@ -133,19 +128,8 @@ Map<String, dynamic> getFilteredExercises(
 }
 
 // Graph Functions
-List<UserWeight> getUserWeightsWithinTimespan(
-  List<UserWeight> userWeights,
-  int timespan,
-) {
-  return GraphFunctions.getUserWeightsWithinTimespan(userWeights, timespan);
-}
-
-List<Workout> getWorkoutHistoryWithinTimespan(
-  List<Workout> workoutHistory,
-  int timespan,
-) {
-  return GraphFunctions.getWorkoutHistoryWithinTimespan(
-      workoutHistory, timespan);
+List<dynamic> getDataWithinTimespan(List<dynamic> data, int timespan) {
+  return GraphFunctions.getDataWithinTimespan(data, timespan);
 }
 
 String getTitle(double value, List<String> _datesList) {
@@ -157,13 +141,6 @@ String getTitleWithoutYear(double value, List<String> _datesList) {
 }
 
 // Sort Functions
-// List<UserWeight> sortUserWeightsByDate(
-//   List<UserWeight> userWeights,
-//   bool isAscending,
-// ) {
-//   return SortFunctions.sortUserWeightsByDate(userWeights, isAscending);
-// }
-
 List<dynamic> sortByDate(List<dynamic> list, bool orderAscending) {
   return SortFunctions.sortByDate(list, orderAscending);
 }

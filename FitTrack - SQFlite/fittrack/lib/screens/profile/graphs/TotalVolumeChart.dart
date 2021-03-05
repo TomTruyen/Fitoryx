@@ -134,10 +134,10 @@ double getInterval(
   }
 
   if (timespan > -1) {
-    List<Workout> _workoutHistory = getWorkoutHistoryWithinTimespan(
+    List<Workout> _workoutHistory = getDataWithinTimespan(
       workoutHistory,
       timespan,
-    );
+    ).cast<Workout>();
 
     if (_workoutHistory.length < maxInterval)
       return _workoutHistory.length.toDouble();
@@ -185,7 +185,8 @@ LineChartBarData _getTotalVolumeList(
 
   workoutHistory = sortByDate(workoutHistory, false).cast<Workout>();
 
-  workoutHistory = getWorkoutHistoryWithinTimespan(workoutHistory, timespan);
+  workoutHistory =
+      getDataWithinTimespan(workoutHistory, timespan).cast<Workout>();
 
   for (int i = 0; i < workoutHistory.length; i++) {
     spots.add(FlSpot(i.toDouble(), workoutHistory[i].getTotalVolume()));
