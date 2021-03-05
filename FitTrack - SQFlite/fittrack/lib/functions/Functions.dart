@@ -18,7 +18,7 @@ import 'package:fittrack/functions/FileFunctions.dart' as FileFunctions;
 import 'package:fittrack/functions/FilterFunctions.dart' as FilterFunctions;
 import 'package:fittrack/functions/GraphFunctions.dart' as GraphFunctions;
 import 'package:fittrack/functions/SortFunctions.dart' as SortFunctions;
-import 'package:fittrack/functions/OtherFunctions.dart' as OtherFunctions;
+import 'package:fittrack/functions/UtilFunctions.dart' as UtilFunctions;
 
 // Convert Functions
 double convertToDecimalPlaces(double input, int amountOfDecimals, bool round) {
@@ -151,21 +151,21 @@ List<Food> sortFoodByDate(List<Food> _food, bool orderAscending) {
 
 // Other Functions
 void tryPopContext(BuildContext context) {
-  OtherFunctions.tryPopContext(context);
+  UtilFunctions.tryPopContext(context);
 }
 
 void clearFocus(BuildContext context) {
-  OtherFunctions.clearFocus(context);
+  UtilFunctions.clearFocus(context);
 }
 
 double recalculateWeight(double weight, String newUnit) {
-  return OtherFunctions.recalculateWeight(weight, newUnit);
+  return UtilFunctions.recalculateWeight(weight, newUnit);
 }
 
 bool requiresDateDivider(DateTime date, int currentMonth, int currentYear) {
-  return OtherFunctions.requiresDateDivider(date, currentMonth, currentYear);
+  return UtilFunctions.requiresDateDivider(date, currentMonth, currentYear);
 }
 
 String getFoodGoalString(double value, double goal, String measurement) {
-  return OtherFunctions.getFoodGoalString(value, goal, measurement);
+  return UtilFunctions.getFoodGoalString(value, goal, measurement);
 }

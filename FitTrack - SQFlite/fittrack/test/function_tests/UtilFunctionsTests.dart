@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group(
-    'OtherFunctions',
+    'UtilFunctions',
     () {
       recalculateWeightTests();
       requiresDateDividerTests();
