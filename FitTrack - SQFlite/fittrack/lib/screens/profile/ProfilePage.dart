@@ -22,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   List<Workout> workoutHistory;
 
   int weightTimespan = 30; // timespan of weightgraph (in days)
+  int volumeTimespan = 30; // timespan of volumegraph (in days)
 
   @override
   void initState() {
@@ -30,8 +31,8 @@ class _ProfilePageState extends State<ProfilePage> {
     updateProfilePage();
   }
 
-  String _getTimespanString() {
-    switch (weightTimespan) {
+  String _getTimespanString(timespan) {
+    switch (timespan) {
       case 7:
         return "1 Week";
       case 30:
@@ -253,7 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Container(
                                     margin: EdgeInsets.only(left: 16.0),
                                     child: Text(
-                                      'Weight (${_getTimespanString()})',
+                                      'Weight (${_getTimespanString(weightTimespan)})',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600),
                                     ),
@@ -357,7 +358,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Container(
                                     margin: EdgeInsets.only(left: 16.0),
                                     child: Text(
-                                      'Total volume (${_getTimespanString()})',
+                                      'Total volume (${_getTimespanString(volumeTimespan)})',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600),
                                     ),
@@ -389,11 +390,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                             int _timespan =
                                                 await showPopupTimespan(
                                               context,
-                                              weightTimespan,
+                                              volumeTimespan,
                                             );
 
                                             setState(() {
-                                              weightTimespan = _timespan;
+                                              volumeTimespan = _timespan;
                                             });
                                           }
                                         },
@@ -428,7 +429,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: TotalVolumeChart(
                                   workoutHistory: List.of(workoutHistory) ?? [],
                                   settings: settings,
-                                  timespan: weightTimespan,
+                                  timespan: volumeTimespan,
                                 ),
                               ),
                             ),
