@@ -122,6 +122,8 @@ LineChartBarData _getUserWeightList(
   Settings settings,
   int timespanInDays, //timespan in days from most recent datetime
 ) {
+  const MIN_LENGTH = 2;
+
   if (userWeights.isEmpty) {
     DateTime now = DateTime.now();
 
@@ -139,7 +141,7 @@ LineChartBarData _getUserWeightList(
             .millisecondsSinceEpoch,
       ),
     ];
-  } else if (userWeights.length < 2) {
+  } else if (userWeights.length < MIN_LENGTH) {
     double weight = userWeights[0].weight;
     String weightUnit = userWeights[0].weightUnit;
     int timeInMilliseconds = DateTime.now()

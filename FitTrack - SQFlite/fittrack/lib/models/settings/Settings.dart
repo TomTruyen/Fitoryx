@@ -41,7 +41,12 @@ class Settings {
     this.workoutsPerWeekGoal,
   }) {
     if (this.userWeight == null || this.userWeight.isEmpty) {
-      this.userWeight = [UserWeight(weightUnit: this.weightUnit ?? 'kg')];
+      this.userWeight = [
+        UserWeight(
+          weightUnit: this.weightUnit ?? 'kg',
+          timeInMillisSinceEpoch: DateTime.now().millisecondsSinceEpoch,
+        )
+      ];
     }
 
     if (this.graphsToShow == null) {

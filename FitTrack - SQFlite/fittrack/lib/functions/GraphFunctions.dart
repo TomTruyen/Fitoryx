@@ -15,7 +15,7 @@ List<dynamic> getDataWithinTimespan(
   DateTime now = DateTime.now();
 
   DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
-    data.last?.timeInMillisSinceEpoch ?? now.millisecondsSinceEpoch,
+    data.last.timeInMillisSinceEpoch ?? now.millisecondsSinceEpoch,
   );
 
   if (!hasSameDay(data, mostRecentDateTime)) {
