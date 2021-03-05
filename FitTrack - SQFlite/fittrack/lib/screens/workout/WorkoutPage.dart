@@ -37,10 +37,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   void sortWorkouts(List<Workout> _workouts, bool orderAscending) {
-    List<Workout> sortedWorkouts = sortWorkoutsByDate(
+    List<Workout> sortedWorkouts = sortByDate(
       _workouts,
       orderAscending,
-    );
+    ).cast<Workout>();
 
     setState(() {
       sortAscending = orderAscending;

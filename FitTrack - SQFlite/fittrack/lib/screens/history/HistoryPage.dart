@@ -41,10 +41,10 @@ class _HistoryPageState extends State<HistoryPage> {
     List<Workout> _workoutsHistory,
     bool orderAscending,
   ) {
-    List<Workout> sortedWorkoutHistory = sortWorkoutsByDate(
+    List<Workout> sortedWorkoutHistory = sortByDate(
       _workoutsHistory,
       orderAscending,
-    );
+    ).cast<Workout>();
 
     setState(() {
       sortAscending = orderAscending;

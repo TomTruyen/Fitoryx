@@ -157,15 +157,15 @@ String getTitleWithoutYear(double value, List<String> _datesList) {
 }
 
 // Sort Functions
-List<UserWeight> sortUserWeightsByDate(
-  List<UserWeight> userWeights,
-  bool isAscending,
-) {
-  return SortFunctions.sortUserWeightsByDate(userWeights, isAscending);
-}
+// List<UserWeight> sortUserWeightsByDate(
+//   List<UserWeight> userWeights,
+//   bool isAscending,
+// ) {
+//   return SortFunctions.sortUserWeightsByDate(userWeights, isAscending);
+// }
 
-List<Workout> sortWorkoutsByDate(List<Workout> _workouts, bool orderAscending) {
-  return SortFunctions.sortWorkoutsByDate(_workouts, orderAscending);
+List<dynamic> sortByDate(List<dynamic> list, bool orderAscending) {
+  return SortFunctions.sortByDate(list, orderAscending);
 }
 
 List<Food> sortFoodByDate(List<Food> _food, bool orderAscending) {

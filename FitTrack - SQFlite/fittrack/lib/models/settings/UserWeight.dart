@@ -58,7 +58,7 @@ List<UserWeight> getUserWeightListFromJson(Map<String, dynamic> settings) {
     );
   }
 
-  _userWeightList = sortUserWeightsByDate(_userWeightList, false);
+  _userWeightList = sortByDate(_userWeightList, false).cast<UserWeight>();
 
   return _userWeightList;
 }

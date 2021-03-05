@@ -183,7 +183,7 @@ LineChartBarData _getTotalVolumeList(
 
   List<FlSpot> spots = [];
 
-  workoutHistory = sortWorkoutsByDate(workoutHistory, false);
+  workoutHistory = sortByDate(workoutHistory, false).cast<Workout>();
 
   workoutHistory = getWorkoutHistoryWithinTimespan(workoutHistory, timespan);
 

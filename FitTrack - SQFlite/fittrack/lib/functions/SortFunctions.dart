@@ -2,36 +2,40 @@ import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 
-List<UserWeight> sortUserWeightsByDate(
-  List<UserWeight> userWeights,
+// List<UserWeight> sortUserWeightsByDate(
+//   List<UserWeight> userWeights,
+//   bool isAscending,
+// ) {
+//   List<UserWeight> sortedUserWeights = List.of(userWeights);
+
+//   sortedUserWeights.sort((UserWeight a, UserWeight b) {
+//     if (isAscending)
+//       return a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
+
+//     return -a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
+//   });
+
+//   return sortedUserWeights;
+// }
+
+List<dynamic> sortByDate(
+  List<dynamic> list,
   bool isAscending,
 ) {
-  List<UserWeight> sortedUserWeights = List.of(userWeights);
+  List<dynamic> sortListByDate = List.of(list);
 
-  sortedUserWeights.sort((UserWeight a, UserWeight b) {
+  if (list is List<Workout>) sortListByDate = sortListByDate.cast<Workout>();
+  if (list is List<UserWeight>)
+    sortListByDate = sortListByDate.cast<UserWeight>();
+
+  sortListByDate.sort((a, b) {
     if (isAscending)
       return a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
 
     return -a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
   });
 
-  return sortedUserWeights;
-}
-
-List<Workout> sortWorkoutsByDate(
-  List<Workout> workouts,
-  bool isAscending,
-) {
-  List<Workout> sortWorkoutsByDate = List.of(workouts);
-
-  sortWorkoutsByDate.sort((Workout a, Workout b) {
-    if (isAscending)
-      return a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
-
-    return -a.timeInMillisSinceEpoch.compareTo(b.timeInMillisSinceEpoch);
-  });
-
-  return sortWorkoutsByDate;
+  return sortListByDate;
 }
 
 List<Food> sortFoodByDate(List<Food> _food, bool orderAscending) {

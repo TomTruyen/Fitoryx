@@ -155,7 +155,7 @@ LineChartBarData _getUserWeightList(
     );
   }
 
-  userWeights = sortUserWeightsByDate(userWeights, false);
+  userWeights = sortByDate(userWeights, false).cast<UserWeight>();
 
   userWeights = getUserWeightsWithinTimespan(userWeights, timespanInDays);
 
