@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:ext_storage/ext_storage.dart';
+import 'package:package_info/package_info.dart';
+
+import 'package:fittrack/shared/Globals.dart' as globals;
 
 Future<String> getDevicePath() async {
   final directory = await ExtStorage.getExternalStoragePublicDirectory(
@@ -33,5 +36,26 @@ Future<dynamic> readFromFile(File file) async {
   } catch (e) {
     print("Read From File Error: $e");
     return null;
+  }
+}
+
+Future autoExportData() async {
+  try {
+    String devicePath = await getDevicePath();
+
+    PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+
+    File file = await getFile(
+      devicePath,
+      'FitTrack-Auto-Export-v${_packageInfo.version}-b${_packageInfo.buildNumber}.db',
+    );
+
+    dynamic result = await globals.sqlDatabase.exportDatabase();
+
+    if (result != null) {
+      await writeToFile(file, result.toString());
+    }
+  } catch (e) {
+    print("Auto Export Data Error: $e");
   }
 }
