@@ -78,9 +78,9 @@ class SQLDatabase {
     await fetchWorkoutsHistory();
   }
 
-  Future<void> tryAutoExportData() async {
+  Future<void> autoExportData() async {
     if (settings.isAutoExportEnabled == 1) {
-      await autoExportData();
+      await tryAutoExportData();
     }
   }
 

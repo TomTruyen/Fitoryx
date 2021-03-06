@@ -39,7 +39,7 @@ Future<dynamic> readFromFile(File file) async {
   }
 }
 
-Future<void> autoExportData() async {
+Future<void> tryAutoExportData() async {
   try {
     print("auto exporting datat");
 
