@@ -200,6 +200,33 @@ class SQLDatabase {
     }
   }
 
+  Future<dynamic> updateUserWeightUnit(List<UserWeight> _userWeights) async {
+    try {
+      Batch batch = db.batch();
+      for (int i = 0; i < _userWeights.length; i++) {
+        UserWeight _userWeight = _userWeights[i];
+
+        if (_userWeight.id != null) {
+          batch.rawUpdate(
+            'UPDATE userWeight SET weight = ?, weightUnit = ? WHERE id = ?',
+            [
+              _userWeight.weight,
+              _userWeight.weightUnit,
+              _userWeight.id,
+            ],
+          );
+        }
+      }
+
+      await batch.commit(continueOnError: false, noResult: true);
+
+      return "";
+    } catch (e) {
+      print("Update UserWeight WeightUnit Error: $e");
+      return null;
+    }
+  }
+
   Future<dynamic> updateSettings(Settings _settings) async {
     try {
       if (_settings.id == null) {

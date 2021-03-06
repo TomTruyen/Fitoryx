@@ -77,7 +77,6 @@ class Settings {
   }
 
   static Settings fromJSON(Map<String, dynamic> settings) {
-    print("SETTING FROM JSON");
     List<UserWeight> _userWeightList = getUserWeightListFromJson(settings);
     List<GraphToShow> _graphsToShowList = getGraphsToShowListFromJson(settings);
 

@@ -158,10 +158,15 @@ Future<void> showPopupWeightUnit(
                                 newSettings.weightUnit = weightUnit;
                                 newSettings.updateUserWeights(weightUnit);
 
+                                dynamic updateResult = await globals.sqlDatabase
+                                    .updateUserWeightUnit(
+                                  newSettings.userWeight,
+                                );
+
                                 dynamic result = await globals.sqlDatabase
                                     .updateSettings(newSettings);
 
-                                if (result != null) {
+                                if (result != null && updateResult != null) {
                                   updateSettings(newSettings);
                                   await globals.sqlDatabase
                                       .fetchUpdatedWeights();
