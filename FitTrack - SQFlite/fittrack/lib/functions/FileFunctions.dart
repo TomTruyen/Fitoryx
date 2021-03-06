@@ -39,7 +39,7 @@ Future<dynamic> readFromFile(File file) async {
   }
 }
 
-Future autoExportData() async {
+Future<void> autoExportData() async {
   try {
     String devicePath = await getDevicePath();
 

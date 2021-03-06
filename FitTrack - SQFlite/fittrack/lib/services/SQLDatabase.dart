@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fittrack/functions/FileFunctions.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
@@ -71,6 +72,12 @@ class SQLDatabase {
     await fetchFood();
     await fetchWorkouts();
     await fetchWorkoutsHistory();
+  }
+
+  Future<void> tryAutoExportData() async {
+    if (settings.isAutoExportEnabled == 1) {
+      await autoExportData();
+    }
   }
 
   Future<dynamic> resetDatabase() async {
@@ -204,6 +211,8 @@ class SQLDatabase {
         );
       }
 
+      await autoExportData();
+
       return "";
     } catch (e) {
       print("Update Settings Error: $e");
@@ -233,6 +242,8 @@ class SQLDatabase {
         'DELETE FROM workouts_history WHERE id = ?',
         [id],
       );
+
+      await autoExportData();
 
       return "";
     } catch (e) {
@@ -290,6 +301,8 @@ class SQLDatabase {
         ],
       );
 
+      await autoExportData();
+
       return "";
     } catch (e) {
       print("Add Workout Error: $e");
@@ -329,6 +342,8 @@ class SQLDatabase {
         ],
       );
 
+      await autoExportData();
+
       return "";
     } catch (e) {
       print("Update Workout Error $e");
@@ -342,6 +357,8 @@ class SQLDatabase {
         'DELETE FROM workouts WHERE id = ?',
         [id],
       );
+
+      await autoExportData();
 
       return "";
     } catch (e) {
@@ -357,6 +374,8 @@ class SQLDatabase {
       if (result == null) {
         return null;
       }
+
+      await autoExportData();
 
       return "";
     } catch (e) {
@@ -422,6 +441,8 @@ class SQLDatabase {
         ],
       );
 
+      await autoExportData();
+
       return "";
     } catch (e) {
       print("Save Workout Error: $e");
@@ -433,13 +454,16 @@ class SQLDatabase {
       String exerciseEquipment) async {
     try {
       await db.rawInsert(
-          'INSERT INTO exercises (name, category, equipment, isUserCreated) VALUES (?, ?, ?, ?)',
-          [
-            exerciseName,
-            exerciseCategory,
-            exerciseEquipment,
-            1,
-          ]);
+        'INSERT INTO exercises (name, category, equipment, isUserCreated) VALUES (?, ?, ?, ?)',
+        [
+          exerciseName,
+          exerciseCategory,
+          exerciseEquipment,
+          1,
+        ],
+      );
+
+      await autoExportData();
 
       return "";
     } catch (e) {
@@ -451,6 +475,8 @@ class SQLDatabase {
   Future<dynamic> deleteExercise(int id) async {
     try {
       await db.rawDelete('DELETE FROM exercises WHERE id = ?', [id]);
+
+      await autoExportData();
 
       return "";
     } catch (e) {
@@ -579,6 +605,8 @@ class SQLDatabase {
           ],
         );
       }
+
+      await autoExportData();
 
       return "";
     } catch (e) {
