@@ -70,6 +70,7 @@ Future<int> showPopupTimespan(
                                         Expanded(
                                           flex: 1,
                                           child: Radio(
+                                            activeColor: Colors.blue[700],
                                             value: 7,
                                             groupValue: timespan,
                                             onChanged: (int value) {
@@ -105,6 +106,7 @@ Future<int> showPopupTimespan(
                                         Expanded(
                                           flex: 1,
                                           child: Radio(
+                                            activeColor: Colors.blue[700],
                                             value: 30,
                                             groupValue: timespan,
                                             onChanged: (int value) {
@@ -140,6 +142,7 @@ Future<int> showPopupTimespan(
                                         Expanded(
                                           flex: 1,
                                           child: Radio(
+                                            activeColor: Colors.blue[700],
                                             groupValue: timespan,
                                             value: 365,
                                             onChanged: (int value) {
@@ -175,6 +178,7 @@ Future<int> showPopupTimespan(
                                         Expanded(
                                           flex: 1,
                                           child: Radio(
+                                            activeColor: Colors.blue[700],
                                             value: -1,
                                             groupValue: timespan,
                                             onChanged: (int value) {

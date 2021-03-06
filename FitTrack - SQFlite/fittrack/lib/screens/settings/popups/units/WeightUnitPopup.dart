@@ -76,6 +76,7 @@ Future<void> showPopupWeightUnit(
                                         Expanded(
                                           flex: 1,
                                           child: Radio(
+                                            activeColor: Colors.blue[700],
                                             value: 'kg',
                                             groupValue: weightUnit,
                                             onChanged: (String value) {
@@ -111,6 +112,7 @@ Future<void> showPopupWeightUnit(
                                         Expanded(
                                           flex: 1,
                                           child: Radio(
+                                            activeColor: Colors.blue[700],
                                             groupValue: weightUnit,
                                             value: 'lbs',
                                             onChanged: (String value) {
