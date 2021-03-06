@@ -51,7 +51,7 @@ class SQLDatabase {
             'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, foodPerHour TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
           );
           await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, userWeight TEXT, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, graphsToShow TEXT, workoutsPerWeekGoal INTEGER)',
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, userWeight TEXT, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, graphsToShow TEXT, workoutsPerWeekGoal INTEGER, isAutoExportEnabled INTEGER)',
           );
         },
       );
@@ -162,7 +162,7 @@ class SQLDatabase {
       if (_settings.id == null) {
         // INSERT
         await db.rawInsert(
-          'INSERT INTO settings (userWeight, weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, graphsToShow, workoutsPerWeekGoal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO settings (userWeight, weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, graphsToShow, workoutsPerWeekGoal, isAutoExportEnabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [
             jsonEncode(convertUserWeightListToJsonList(_settings.userWeight)),
             _settings.weightUnit,
@@ -177,12 +177,13 @@ class SQLDatabase {
               convertGraphToShowListToJsonList(_settings.graphsToShow),
             ),
             _settings.workoutsPerWeekGoal,
+            _settings.isAutoExportEnabled,
           ],
         );
       } else {
         // UPDATE
         await db.rawUpdate(
-          'UPDATE settings SET userWeight = ?, weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, graphsToShow = ?, workoutsPerWeekGoal = ? WHERE id = ?',
+          'UPDATE settings SET userWeight = ?, weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, graphsToShow = ?, workoutsPerWeekGoal = ?, isAutoExportEnabled = ? WHERE id = ?',
           [
             jsonEncode(convertUserWeightListToJsonList(_settings.userWeight)),
             _settings.weightUnit,
@@ -197,6 +198,7 @@ class SQLDatabase {
               convertGraphToShowListToJsonList(_settings.graphsToShow),
             ),
             _settings.workoutsPerWeekGoal,
+            _settings.isAutoExportEnabled,
             _settings.id,
           ],
         );
@@ -533,12 +535,15 @@ class SQLDatabase {
           foodPerHourList[foundHourIndex].protein += protein;
           foodPerHourList[foundHourIndex].fat += fat;
         } else {
-          foodPerHourList.add(new FoodPerHour(
+          foodPerHourList.add(
+            new FoodPerHour(
               kcal: kcal,
               carbs: carbs,
               protein: protein,
               fat: fat,
-              hour: now.hour));
+              hour: now.hour,
+            ),
+          );
         }
         // Update
         await db.rawUpdate(

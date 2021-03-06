@@ -26,6 +26,9 @@ class Settings {
   List<GraphToShow> graphsToShow;
   int workoutsPerWeekGoal;
 
+  // AutoExport
+  int isAutoExportEnabled;
+
   Settings({
     this.id,
     this.userWeight,
@@ -39,6 +42,7 @@ class Settings {
     this.isVibrateUponFinishEnabled = 1,
     this.graphsToShow,
     this.workoutsPerWeekGoal,
+    this.isAutoExportEnabled = 0,
   }) {
     if (this.userWeight == null || this.userWeight.isEmpty) {
       this.userWeight = [
@@ -68,6 +72,7 @@ class Settings {
       isVibrateUponFinishEnabled: isVibrateUponFinishEnabled ?? 1,
       graphsToShow: graphsToShow,
       workoutsPerWeekGoal: workoutsPerWeekGoal,
+      isAutoExportEnabled: isAutoExportEnabled,
     );
   }
 
@@ -88,6 +93,7 @@ class Settings {
       isVibrateUponFinishEnabled: settings['isVibrateUponFinishEnabled'] ?? 1,
       graphsToShow: _graphsToShowList ?? [],
       workoutsPerWeekGoal: settings['workoutsPerWeekGoal'],
+      isAutoExportEnabled: settings['isAutoExportEnabled'] ?? 0,
     );
   }
 

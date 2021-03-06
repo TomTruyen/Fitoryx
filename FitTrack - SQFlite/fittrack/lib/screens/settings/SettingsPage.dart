@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
+import 'package:fittrack/screens/settings/popups/data/AutoExportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/personal_info/WeightPopup.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -258,6 +259,49 @@ class _SettingsPageState extends State<SettingsPage> {
                       fileName,
                       updateSettings,
                     );
+                  },
+                ),
+                SwitchListTile(
+                  activeColor: Colors.blueAccent[700],
+                  title: Text('Auto export data'),
+                  subtitle: Text(
+                    'Automatically exports data to a file',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  value: settings.isAutoExportEnabled == 1 ? true : false,
+                  onChanged: (bool value) async {
+                    bool isConfirmed = false;
+
+                    if (settings.isAutoExportEnabled == 0 && value == true) {
+                      isConfirmed = await showPopupAutoExportData(
+                        context,
+                        updateSettings,
+                      );
+                    }
+
+                    if (isConfirmed) {
+                      Settings newSettings = settings.clone();
+                      newSettings.isAutoExportEnabled = 1;
+
+                      dynamic result = await globals.sqlDatabase.updateSettings(
+                        newSettings,
+                      );
+
+                      if (result != null) {
+                        updateSettings(newSettings);
+                      }
+                    } else {
+                      Settings newSettings = settings.clone();
+                      newSettings.isAutoExportEnabled = 0;
+
+                      dynamic result = await globals.sqlDatabase.updateSettings(
+                        newSettings,
+                      );
+
+                      if (result != null) {
+                        updateSettings(newSettings);
+                      }
+                    }
                   },
                 ),
                 ListTile(
