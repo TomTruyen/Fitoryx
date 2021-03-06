@@ -41,6 +41,8 @@ Future<dynamic> readFromFile(File file) async {
 
 Future<void> autoExportData() async {
   try {
+    print("auto exporting datat");
+
     String devicePath = await getDevicePath();
 
     PackageInfo _packageInfo = await PackageInfo.fromPlatform();
@@ -53,6 +55,7 @@ Future<void> autoExportData() async {
     dynamic result = await globals.sqlDatabase.exportDatabase();
 
     if (result != null) {
+      print("writing file");
       await writeToFile(file, result.toString());
     }
   } catch (e) {

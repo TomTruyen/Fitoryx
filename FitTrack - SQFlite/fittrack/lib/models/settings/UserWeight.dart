@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:fittrack/functions/Functions.dart';
 
 class UserWeight {
+  int id;
   double weight;
   String weightUnit;
   int timeInMillisSinceEpoch;
 
   UserWeight({
+    this.id,
     this.weight = 0.0,
     this.weightUnit = "kg",
     this.timeInMillisSinceEpoch,
@@ -19,6 +21,7 @@ class UserWeight {
 
   UserWeight clone() {
     return new UserWeight(
+      id: id,
       weight: weight,
       weightUnit: weightUnit,
       timeInMillisSinceEpoch: timeInMillisSinceEpoch,
@@ -27,6 +30,7 @@ class UserWeight {
 
   static fromJSON(Map<String, dynamic> json) {
     return new UserWeight(
+      id: json['id'],
       weight: json['weight'] ?? 0.0,
       weightUnit: json['weightUnit'] ?? "kg",
       timeInMillisSinceEpoch: json['timeInMillisSinceEpoch'] ?? 0,
@@ -35,6 +39,7 @@ class UserWeight {
 
   Map<String, dynamic> toJSON() {
     return {
+      'id': id,
       'weight': weight,
       'weightUnit': weightUnit,
       'timeInMillisSinceEpoch': timeInMillisSinceEpoch,
@@ -47,7 +52,7 @@ List<UserWeight> getUserWeightListFromJson(Map<String, dynamic> settings) {
 
   List<dynamic> _userWeightJsonList = [];
   if (settings['userWeight'] != null) {
-    _userWeightJsonList = jsonDecode(settings['userWeight']) ?? [];
+    _userWeightJsonList = settings['userWeight'] ?? [];
   }
 
   for (int i = 0; i < _userWeightJsonList.length; i++) {
@@ -61,8 +66,6 @@ List<UserWeight> getUserWeightListFromJson(Map<String, dynamic> settings) {
       new UserWeight(weightUnit: settings['weightUnit'] ?? 'kg'),
     );
   }
-
-  _userWeightList = sortByDate(_userWeightList, false).cast<UserWeight>();
 
   return _userWeightList;
 }

@@ -77,6 +77,7 @@ class Settings {
   }
 
   static Settings fromJSON(Map<String, dynamic> settings) {
+    print("SETTING FROM JSON");
     List<UserWeight> _userWeightList = getUserWeightListFromJson(settings);
     List<GraphToShow> _graphsToShowList = getGraphsToShowListFromJson(settings);
 
@@ -119,7 +120,9 @@ class Settings {
     return true;
   }
 
-  void tryAddUserWeight(double _weight, String _weightUnit) {
+  bool tryAddUserWeight(double _weight, String _weightUnit) {
+    bool isInsert = true;
+
     DateTime date = DateTime.now();
 
     DateTime lastWeightInputDate = DateTime.fromMillisecondsSinceEpoch(
@@ -129,10 +132,13 @@ class Settings {
     if (isSameDay(date, lastWeightInputDate) ||
         userWeight[0].timeInMillisSinceEpoch == 0) {
       userWeight[0] = new UserWeight(
+        id: userWeight[0].id,
         weight: _weight,
         weightUnit: _weightUnit,
         timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
       );
+
+      isInsert = false;
     } else {
       userWeight.insert(
         0,
@@ -143,6 +149,8 @@ class Settings {
         ),
       );
     }
+
+    return isInsert;
   }
 
   void updateUserWeights(String _weightUnit) {

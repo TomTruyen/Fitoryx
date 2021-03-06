@@ -36,6 +36,8 @@ class FoodInputWidget extends StatelessWidget {
           suffixText: name.toUpperCase(),
         ),
         onChanged: (String value) {
+          if (value == "") value = "0";
+
           updateValue(double.parse(value), name);
         },
       ),

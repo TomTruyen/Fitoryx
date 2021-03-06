@@ -89,6 +89,8 @@ Future<void> showPopupWeight(
                                   suffixText: weightUnit.toUpperCase(),
                                 ),
                                 onChanged: (String value) {
+                                  if (value == "") value = "0";
+
                                   weight = double.parse(value);
                                 },
                               ),
@@ -108,16 +110,24 @@ Future<void> showPopupWeight(
                               ),
                               onPressed: () async {
                                 Settings newSettings = settings.clone();
-                                newSettings.tryAddUserWeight(
-                                    weight, weightUnit);
+                                bool isInsert = newSettings.tryAddUserWeight(
+                                  weight,
+                                  weightUnit,
+                                );
 
-                                dynamic result = await globals.sqlDatabase
-                                    .updateSettings(newSettings);
+                                dynamic result =
+                                    await globals.sqlDatabase.updateUserWeight(
+                                  newSettings.userWeight[0],
+                                  isInsert,
+                                );
+
+                                // dynamic result = await globals.sqlDatabase
+                                //     .updateSettings(newSettings);
 
                                 if (result != null) {
                                   updateSettings(newSettings);
-                                  await globals.sqlDatabase
-                                      .fetchUpdatedWeights();
+                                  // await globals.sqlDatabase
+                                  //     .fetchUpdatedWeights();
                                   tryPopContext(context);
                                 } else {
                                   tryPopContext(context);

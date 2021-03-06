@@ -5,6 +5,7 @@ import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/Settings.dart';
+import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/functions/Functions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -52,7 +53,10 @@ class SQLDatabase {
             'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, foodPerHour TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
           );
           await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, userWeight TEXT, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, graphsToShow TEXT, workoutsPerWeekGoal INTEGER, isAutoExportEnabled INTEGER)',
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, graphsToShow TEXT, workoutsPerWeekGoal INTEGER, isAutoExportEnabled INTEGER)',
+          );
+          await db.execute(
+            'CREATE TABLE userWeight (id INTEGER PRIMARY KEY UNIQUE, weight REAL, weightUnit TEXT, timeInMillisSinceEpoch INTEGER)',
           );
         },
       );
@@ -164,14 +168,45 @@ class SQLDatabase {
     await fetchWorkoutsHistory();
   }
 
+  Future<dynamic> updateUserWeight(UserWeight userWeight, bool isInsert) async {
+    try {
+      if (isInsert || userWeight.id == null) {
+        await db.rawInsert(
+          'INSERT INTO userWeight (weight, weightUnit, timeInMillisSinceEpoch) VALUES (?, ?, ?)',
+          [
+            userWeight.weight,
+            userWeight.weightUnit,
+            userWeight.timeInMillisSinceEpoch,
+          ],
+        );
+      } else {
+        await db.rawUpdate(
+          'UPDATE userWeight SET weight = ?, weightUnit = ?, timeInMillisSinceEpoch = ? WHERE id = ?',
+          [
+            userWeight.weight,
+            userWeight.weightUnit,
+            userWeight.timeInMillisSinceEpoch,
+            userWeight.id,
+          ],
+        );
+      }
+
+      await autoExportData();
+
+      return "";
+    } catch (e) {
+      print("Update UserWeight Error: $e");
+      return null;
+    }
+  }
+
   Future<dynamic> updateSettings(Settings _settings) async {
     try {
       if (_settings.id == null) {
         // INSERT
         await db.rawInsert(
-          'INSERT INTO settings (userWeight, weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, graphsToShow, workoutsPerWeekGoal, isAutoExportEnabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO settings (weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, graphsToShow, workoutsPerWeekGoal, isAutoExportEnabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [
-            jsonEncode(convertUserWeightListToJsonList(_settings.userWeight)),
             _settings.weightUnit,
             _settings.kcalGoal,
             _settings.carbsGoal,
@@ -190,9 +225,8 @@ class SQLDatabase {
       } else {
         // UPDATE
         await db.rawUpdate(
-          'UPDATE settings SET userWeight = ?, weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, graphsToShow = ?, workoutsPerWeekGoal = ?, isAutoExportEnabled = ? WHERE id = ?',
+          'UPDATE settings SET weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, graphsToShow = ?, workoutsPerWeekGoal = ?, isAutoExportEnabled = ? WHERE id = ?',
           [
-            jsonEncode(convertUserWeightListToJsonList(_settings.userWeight)),
             _settings.weightUnit,
             _settings.kcalGoal,
             _settings.carbsGoal,
@@ -226,10 +260,25 @@ class SQLDatabase {
         "SELECT * FROM settings LIMIT 1",
       );
 
+      List<Map<String, dynamic>> dbUserWeight = await db.rawQuery(
+        "SELECT * FROM userWeight ORDER BY timeInMillisSinceEpoch DESC",
+      );
+
       if (dbSettings.isEmpty) {
         settings = new Settings();
+
+        if (dbUserWeight.isNotEmpty) {
+          settings.userWeight = getUserWeightListFromJson(
+            {
+              "userWeight": dbUserWeight,
+            },
+          );
+        }
       } else {
-        settings = Settings.fromJSON(dbSettings[0]);
+        Map<String, dynamic> dbSetting = jsonDecode(jsonEncode(dbSettings[0]));
+        dbSetting.putIfAbsent('userWeight', () => dbUserWeight);
+
+        settings = Settings.fromJSON(dbSetting);
       }
     } catch (e) {
       print("Fetch Settings Error: $e");

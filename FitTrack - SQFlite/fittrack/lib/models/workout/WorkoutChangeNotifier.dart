@@ -99,10 +99,14 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   }
 
   void updateExerciseSetWeight(int exerciseIndex, int setIndex, String value) {
+    if (value == "") value = "0";
+
     exercises[exerciseIndex].sets[setIndex].weight = double.parse(value);
   }
 
   void updateExerciseSetReps(int exerciseIndex, int setIndex, String value) {
+    if (value == "") value = "0";
+
     exercises[exerciseIndex].sets[setIndex].reps = int.parse(value);
   }
 
