@@ -155,38 +155,10 @@ LineChartBarData _getTotalVolumeList(
   Settings settings,
   int timespan,
 ) {
-  if (workoutHistory.isEmpty) {
-    DateTime now = DateTime.now();
-
-    workoutHistory = [
-      Workout(
-        weightUnit: settings.weightUnit,
-        timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
-      ),
-      Workout(
-        weightUnit: settings.weightUnit,
-        timeInMillisSinceEpoch: now
-            .subtract(
-              Duration(days: timespan),
-            )
-            .millisecondsSinceEpoch,
-      ),
-    ];
-  } else if (workoutHistory.length < 2) {
-    Workout _clone = workoutHistory[0].clone();
-    _clone.timeInMillisSinceEpoch = DateTime.now()
-        .subtract(Duration(days: timespan))
-        .millisecondsSinceEpoch;
-
-    workoutHistory.add(_clone);
-  }
-
-  List<FlSpot> spots = [];
-
-  workoutHistory = sortByDate(workoutHistory, true).cast<Workout>();
-
   workoutHistory =
       getDataWithinTimespan(workoutHistory, timespan).cast<Workout>();
+
+  List<FlSpot> spots = [];
 
   for (int i = 0; i < workoutHistory.length; i++) {
     spots.add(FlSpot(i.toDouble(), workoutHistory[i].getTotalVolume()));

@@ -1,21 +1,180 @@
+import 'package:fittrack/models/food/Food.dart';
+import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/functions/Functions.dart';
+
+import 'package:fittrack/shared/Globals.dart' as globals;
+
+int _getIndexOfLastValueBeforeTimespan(List<dynamic> data, int timespan) {
+  if (data == null || data.isEmpty) return -1;
+
+  int index = -1;
+
+  data = sortByDate(data, false);
+
+  DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
+    data.first?.timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
+  );
+
+  for (int i = 0; i < data.length; i++) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(
+      data[i].timeInMillisSinceEpoch,
+    );
+
+    if (date.isBefore(mostRecentDateTime) ||
+        isSameDay(date, mostRecentDateTime)) {
+      index = i;
+      break;
+    }
+  }
+
+  return index;
+}
+
+List<dynamic> _fillDataWorkout(List<Workout> workoutHistory, int timespan) {
+  const MIN_LENGTH = 2;
+
+  if (workoutHistory.isEmpty) {
+    DateTime now = DateTime.now();
+
+    workoutHistory = [
+      Workout(
+        weightUnit: globals.sqlDatabase.settings.weightUnit ?? 'kg',
+        timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
+      ),
+      Workout(
+        weightUnit: globals.sqlDatabase.settings.weightUnit ?? 'kg',
+        timeInMillisSinceEpoch: now
+            .subtract(
+              Duration(days: timespan),
+            )
+            .millisecondsSinceEpoch,
+      ),
+    ];
+  } else if (workoutHistory.length < MIN_LENGTH) {
+    Workout _clone = workoutHistory[0].clone();
+    _clone.exercises = [];
+    _clone.timeInMillisSinceEpoch = DateTime.now()
+        .subtract(Duration(days: timespan))
+        .millisecondsSinceEpoch;
+
+    workoutHistory.insert(0, _clone);
+  }
+
+  return workoutHistory;
+}
+
+List<dynamic> _fillDataUserWeight(List<UserWeight> userWeights, int timespan) {
+  const MIN_LENGTH = 2;
+
+  if (userWeights.isEmpty) {
+    DateTime now = DateTime.now();
+
+    userWeights = [
+      UserWeight(
+        weightUnit: globals.sqlDatabase.settings.weightUnit ?? 'kg',
+        timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
+      ),
+      UserWeight(
+        weightUnit: globals.sqlDatabase.settings.weightUnit ?? 'kg',
+        timeInMillisSinceEpoch: now
+            .subtract(
+              Duration(days: timespan),
+            )
+            .millisecondsSinceEpoch,
+      ),
+    ];
+  } else if (userWeights.length < MIN_LENGTH) {
+    double weight = 0;
+    String weightUnit = userWeights[0].weightUnit;
+    int timeInMilliseconds = DateTime.now()
+        .subtract(Duration(days: timespan))
+        .millisecondsSinceEpoch;
+
+    userWeights.insert(
+      0,
+      UserWeight(
+        weight: weight,
+        weightUnit: weightUnit,
+        timeInMillisSinceEpoch: timeInMilliseconds,
+      ),
+    );
+  }
+
+  return userWeights;
+}
+
+List<dynamic> _fillDataFood(List<Food> food, int timespan) {
+  const MIN_LENGTH = 2;
+
+  if (food.isEmpty) {
+    DateTime now = DateTime.now();
+
+    food = [
+      Food(
+        foodPerHour: [],
+        timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
+      ),
+      Food(
+        foodPerHour: [],
+        timeInMillisSinceEpoch: now
+            .subtract(
+              Duration(days: timespan),
+            )
+            .millisecondsSinceEpoch,
+      ),
+    ];
+  } else if (food.length < MIN_LENGTH) {
+    List<FoodPerHour> foodPerHour = [];
+    int timeInMilliseconds = DateTime.now()
+        .subtract(Duration(days: timespan))
+        .millisecondsSinceEpoch;
+
+    food.insert(
+      0,
+      Food(
+        foodPerHour: foodPerHour,
+        timeInMillisSinceEpoch: timeInMilliseconds,
+      ),
+    );
+  }
+
+  return food;
+}
 
 List<dynamic> getDataWithinTimespan(
   List<dynamic> data,
   int timespan,
 ) {
-  if (data is List<Workout>) data = List.of(data).cast<Workout>();
+  const MIN_LENGTH = 2;
 
-  if (data is List<UserWeight>) data = List.of(data).cast<UserWeight>();
+  List<dynamic> _originalData = List.of(data);
+
+  if (data is List<Workout>) {
+    data = List.of(data).cast<Workout>();
+    data = _fillDataWorkout(data, timespan).cast<Workout>();
+    data = sortByDate(data, true).cast<Workout>();
+  }
+
+  if (data is List<UserWeight>) {
+    data = List.of(data).cast<UserWeight>();
+    data = _fillDataUserWeight(data, timespan).cast<UserWeight>();
+    data = sortByDate(data, true).cast<UserWeight>();
+  }
+
+  if (data is List<Food>) {
+    data = List.of(data).cast<Food>();
+    data = _fillDataFood(data, timespan).cast<Food>();
+    data = sortByDate(data, true).cast<Food>();
+  }
 
   List<dynamic> dateWithinTimespan = [];
 
   DateTime now = DateTime.now();
 
   DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
-    data.last.timeInMillisSinceEpoch ?? now.millisecondsSinceEpoch,
+    data.last?.timeInMillisSinceEpoch ?? now.millisecondsSinceEpoch,
   );
 
   if (!hasSameDay(data, mostRecentDateTime)) {
@@ -47,134 +206,65 @@ List<dynamic> getDataWithinTimespan(
     }
   }
 
-  if (dateWithinTimespan.isNotEmpty &&
-      (dateWithinTimespan.length < 2 ||
-          !hasSameDay(
-            dateWithinTimespan,
-            latestDateTimeAllowed,
-          ))) {
-    dynamic _clone = dateWithinTimespan[0].clone();
-    _clone.timeInMillisSinceEpoch =
-        now.subtract(Duration(days: timespan)).millisecondsSinceEpoch;
+  dynamic mostRecentData = dateWithinTimespan[0];
 
-    dateWithinTimespan.insert(0, _clone);
+  int index = _getIndexOfLastValueBeforeTimespan(data, timespan);
+
+  int milliseconds =
+      now.subtract(Duration(days: timespan)).millisecondsSinceEpoch;
+
+  if (index > -1) {
+    dynamic clone = data[index].clone();
+    clone.timeInMillisSinceEpoch = milliseconds;
+    dateWithinTimespan.insert(0, clone);
+  } else {
+    if (_originalData is List<Workout>) {
+      dateWithinTimespan.insert(
+        0,
+        Workout(
+          timeInMillisSinceEpoch: milliseconds,
+          exercises: [],
+        ),
+      );
+    }
+
+    if (_originalData is List<UserWeight>) {
+      dateWithinTimespan.insert(
+        0,
+        UserWeight(
+          timeInMillisSinceEpoch: milliseconds,
+          weightUnit: dateWithinTimespan[0].weightUnit,
+        ),
+      );
+    }
+
+    if (_originalData is List<Food>) {
+      dateWithinTimespan.insert(
+        0,
+        Food(
+          timeInMillisSinceEpoch: milliseconds,
+          foodPerHour: [],
+        ),
+      );
+    }
   }
+
+  if (!isSameDay(mostRecentDateTime, now)) {
+    dynamic clone = mostRecentData.clone();
+    clone.timeInMillisSinceEpoch = now.millisecondsSinceEpoch;
+    dateWithinTimespan.add(clone);
+  }
+
+  // Fix when the first 2 values are the same date
+  DateTime firstDate = DateTime.fromMillisecondsSinceEpoch(
+      dateWithinTimespan[0].timeInMillisSinceEpoch);
+  DateTime secondDate = DateTime.fromMillisecondsSinceEpoch(
+      dateWithinTimespan[1].timeInMillisSinceEpoch);
+
+  if (isSameDay(firstDate, secondDate)) dateWithinTimespan.removeAt(0);
 
   return dateWithinTimespan;
 }
-
-// List<UserWeight> getUserWeightsWithinTimespan(
-//   List<UserWeight> userWeights,
-//   int timespan,
-// ) {
-//   List<UserWeight> userWeightsWithinTimespan = [];
-
-//   DateTime now = DateTime.now();
-
-//   DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
-//     userWeights.last?.timeInMillisSinceEpoch ?? now.millisecondsSinceEpoch,
-//   );
-
-//   if (!hasSameDayUserWeights(userWeights, mostRecentDateTime)) {
-//     UserWeight mostRecentClone = userWeights.last?.clone();
-
-//     if (mostRecentClone != null) {
-//       mostRecentClone.timeInMillisSinceEpoch = now.millisecondsSinceEpoch;
-//       userWeights.add(mostRecentClone);
-
-//       mostRecentDateTime = now;
-//     }
-//   }
-
-//   DateTime latestDateTimeAllowed = mostRecentDateTime.subtract(
-//     Duration(days: timespan),
-//   );
-
-//   for (int i = 0; i < userWeights.length; i++) {
-//     if (timespan == -1) {
-//       userWeightsWithinTimespan.add(userWeights[i]);
-//     } else {
-//       DateTime date = DateTime.fromMillisecondsSinceEpoch(
-//         userWeights[i].timeInMillisSinceEpoch,
-//       );
-//       if (date.isAfter(latestDateTimeAllowed) ||
-//           isSameDay(date, latestDateTimeAllowed)) {
-//         userWeightsWithinTimespan.add(userWeights[i]);
-//       }
-//     }
-//   }
-
-//   if (userWeightsWithinTimespan.isNotEmpty &&
-//       (userWeightsWithinTimespan.length < 2 ||
-//           !hasSameDayUserWeights(
-//             userWeightsWithinTimespan,
-//             latestDateTimeAllowed,
-//           ))) {
-//     UserWeight _clone = userWeightsWithinTimespan[0].clone();
-//     _clone.timeInMillisSinceEpoch =
-//         now.subtract(Duration(days: timespan)).millisecondsSinceEpoch;
-
-//     userWeightsWithinTimespan.insert(0, _clone);
-//   }
-
-//   return userWeightsWithinTimespan;
-// }
-
-// List<Workout> getWorkoutHistoryWithinTimespan(
-//   List<Workout> workoutHistory,
-//   int timespan,
-// ) {
-//   List<Workout> workoutHistoryWithinTimespan = [];
-
-//   DateTime now = DateTime.now();
-
-//   DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
-//     workoutHistory.last?.timeInMillisSinceEpoch ?? now.millisecondsSinceEpoch,
-//   );
-
-//   if (!hasSameDayWorkoutHistory(workoutHistory, mostRecentDateTime)) {
-//     Workout mostRecentClone = workoutHistory.last?.clone();
-
-//     if (mostRecentClone != null) {
-//       mostRecentClone.timeInMillisSinceEpoch = now.millisecondsSinceEpoch;
-//       workoutHistory.add(mostRecentClone);
-
-//       mostRecentDateTime = now;
-//     }
-//   }
-
-//   DateTime latestDateTimeAllowed = mostRecentDateTime.subtract(
-//     Duration(days: timespan),
-//   );
-
-//   for (int i = 0; i < workoutHistory.length; i++) {
-//     if (timespan == -1) {
-//       workoutHistoryWithinTimespan.add(workoutHistory[i]);
-//     } else {
-//       DateTime date = DateTime.fromMillisecondsSinceEpoch(
-//         workoutHistory[i].timeInMillisSinceEpoch,
-//       );
-
-//       if (date.isAfter(latestDateTimeAllowed) ||
-//           isSameDay(date, latestDateTimeAllowed)) {
-//         workoutHistoryWithinTimespan.add(workoutHistory[i]);
-//       }
-//     }
-//   }
-
-//   if (workoutHistoryWithinTimespan.isNotEmpty &&
-//       (workoutHistoryWithinTimespan.length < 2 ||
-//           !hasSameDayWorkoutHistory(
-//               workoutHistoryWithinTimespan, latestDateTimeAllowed))) {
-//     Workout _clone = workoutHistoryWithinTimespan[0].clone();
-//     _clone.timeInMillisSinceEpoch =
-//         now.subtract(Duration(days: timespan)).millisecondsSinceEpoch;
-
-//     workoutHistoryWithinTimespan.insert(0, _clone);
-//   }
-
-//   return workoutHistoryWithinTimespan;
-// }
 
 String getTitle(double value, List<String> _datesList) {
   int _value = value.toInt();

@@ -28,6 +28,7 @@ class GraphToShow {
       GraphToShow(title: 'workoutsPerWeek', show: true),
       GraphToShow(title: 'userWeight', show: true),
       GraphToShow(title: 'totalVolume', show: true),
+      GraphToShow(title: 'nutritionGraph', show: true),
     ];
   }
 }

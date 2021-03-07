@@ -1,17 +1,17 @@
+import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/Settings.dart';
-import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class UserWeightChart extends StatelessWidget {
-  final List<UserWeight> userWeights;
+class NutritionChart extends StatelessWidget {
+  final List<Food> food;
   final Settings settings;
   final int timespan; // timespan of weightgraph (in days)
 
   final List<String> datesList = [];
 
-  UserWeightChart({this.userWeights, this.settings, this.timespan = 30});
+  NutritionChart({this.food, this.settings, this.timespan = 30});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class UserWeightChart extends StatelessWidget {
               color: Colors.blueAccent,
               fontSize: 10.0,
             ),
-            interval: getInterval(userWeights, timespan),
+            interval: getInterval(food, timespan),
             getTitles: (double value) {
               return getTitleWithoutYear(value, datesList);
             },
@@ -41,8 +41,8 @@ class UserWeightChart extends StatelessWidget {
           ),
         ),
         lineBarsData: [
-          _getUserWeightList(
-            List.of(userWeights),
+          _getFoodList(
+            List.of(food),
             datesList,
             settings,
             timespan,
@@ -75,7 +75,9 @@ class UserWeightChart extends StatelessWidget {
             fitInsideVertically: true,
             fitInsideHorizontally: true,
             getTooltipItems: (List<LineBarSpot> spots) {
-              double weight = spots[0].y;
+              dynamic kcal = spots[0].y;
+              kcal = tryConvertDoubleToInt(kcal);
+
               double timeInMillisecondsSinceEpoch = spots[0].x;
 
               String date = "/";
@@ -84,7 +86,7 @@ class UserWeightChart extends StatelessWidget {
 
               return [
                 LineTooltipItem(
-                  "Date: $date \n$weight ${settings.weightUnit}",
+                  "Date: $date \n$kcal kcal",
                   TextStyle(color: Colors.blue[50]),
                 )
               ];
@@ -99,45 +101,46 @@ class UserWeightChart extends StatelessWidget {
   }
 }
 
-double getInterval(List<UserWeight> userWeights, int timespan) {
+double getInterval(List<Food> food, int timespan) {
   final double maxInterval = 6.0;
 
   if (timespan > -1) {
-    List<UserWeight> _userWeight = getDataWithinTimespan(
-      userWeights,
+    List<Food> _food = getDataWithinTimespan(
+      food,
       timespan,
-    ).cast<UserWeight>();
+    ).cast<Food>();
 
-    if (_userWeight.length < maxInterval) return _userWeight.length.toDouble();
+    if (_food.length < maxInterval) return _food.length.toDouble();
   } else {
-    if (userWeights.length < maxInterval) return userWeights.length.toDouble();
+    if (food.length < maxInterval) return food.length.toDouble();
   }
 
-  return (userWeights.length / maxInterval).round().toDouble();
+  return (food.length / maxInterval).round().toDouble();
 }
 
-LineChartBarData _getUserWeightList(
-  List<UserWeight> userWeights,
+LineChartBarData _getFoodList(
+  List<Food> food,
   List<String> _datesList,
   Settings settings,
   int timespanInDays, //timespan in days from most recent datetime
 ) {
-  userWeights =
-      getDataWithinTimespan(userWeights, timespanInDays).cast<UserWeight>();
+  food = getDataWithinTimespan(food, timespanInDays).cast<Food>();
 
   List<FlSpot> spots = [];
 
-  for (int i = 0; i < userWeights.length; i++) {
+  for (int i = 0; i < food.length; i++) {
+    double kcal = food[i].getTotalKcal();
+
     spots.add(
       FlSpot(
         i.toDouble(),
-        userWeights[i].weight,
+        kcal,
       ),
     );
 
     String _date = convertDateTimeToString(
       DateTime.fromMillisecondsSinceEpoch(
-        userWeights[i].timeInMillisSinceEpoch,
+        food[i].timeInMillisSinceEpoch,
       ),
     );
 

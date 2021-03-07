@@ -17,6 +17,9 @@ class Food {
   double protein;
   double fat;
 
+  // used for timespan graph
+  int timeInMillisSinceEpoch;
+
   Food({
     this.id,
     this.foodPerHour,
@@ -25,6 +28,7 @@ class Food {
     this.proteinGoal,
     this.fatGoal,
     this.date,
+    this.timeInMillisSinceEpoch,
   });
 
   Food clone() {
@@ -36,7 +40,32 @@ class Food {
       proteinGoal: proteinGoal,
       fatGoal: fatGoal,
       date: date,
+      timeInMillisSinceEpoch: timeInMillisSinceEpoch,
     );
+  }
+
+  double getTotalKcal() {
+    if (foodPerHour == null || foodPerHour.isEmpty) return 0;
+
+    double kcal = 0;
+    for (int i = 0; i < foodPerHour.length; i++)
+      kcal += foodPerHour[i].kcal ?? 0;
+
+    return kcal;
+  }
+
+  static int convertDateStringToTimeInMillis(String date) {
+    if (date == null || date == "" || date.split('-').length < 3) {
+      return null;
+    }
+
+    int year = int.parse(date.split('-')[2]);
+    int month = int.parse(date.split('-')[1]);
+    int day = int.parse(date.split('-')[0]);
+
+    DateTime dateTime = DateTime(year, month, day);
+
+    return dateTime.millisecondsSinceEpoch;
   }
 
   static Food fromJSON(Map<String, dynamic> food) {
@@ -71,6 +100,7 @@ class Food {
       proteinGoal: food['proteinGoal'],
       fatGoal: food['fatGoal'],
       date: food['date'],
+      timeInMillisSinceEpoch: convertDateStringToTimeInMillis(food['date']),
     );
   }
 }

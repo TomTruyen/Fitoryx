@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:fittrack/functions/Functions.dart';
-
 class UserWeight {
   int id;
   double weight;

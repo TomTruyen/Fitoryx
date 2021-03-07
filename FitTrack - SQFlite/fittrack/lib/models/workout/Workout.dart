@@ -22,7 +22,9 @@ class Workout {
     this.duration = "00:00",
     this.workoutDurationInMilliseconds = 0,
     this.note = "",
-  });
+  }) {
+    if (this.exercises == null) this.exercises = [];
+  }
 
   Workout clone() {
     Workout _clone = new Workout();
