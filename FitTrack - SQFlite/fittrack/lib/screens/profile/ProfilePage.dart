@@ -442,7 +442,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                  if (settings.shouldShowGraph('nutritionGraph'))
+                  if (settings.shouldShowGraph('caloriesGraph'))
                     Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -466,7 +466,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Container(
                                     margin: EdgeInsets.only(left: 16.0),
                                     child: Text(
-                                      'Nutrition (${_getTimespanString(nutritionTimespan)})',
+                                      'Calories (${_getTimespanString(nutritionTimespan)})',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600),
                                     ),

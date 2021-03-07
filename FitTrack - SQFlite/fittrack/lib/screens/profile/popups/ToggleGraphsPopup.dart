@@ -20,6 +20,8 @@ Future<void> showPopupToggleGraphs(
         return 'Weight';
       case 'totalVolume':
         return 'Total volume';
+      case 'caloriesGraph':
+        return 'Calories';
       default:
         return '';
     }
