@@ -12,28 +12,25 @@ import 'package:fittrack/screens/workout/popups/RestDialogPopup.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
 
 class WorkoutBuildPage extends StatefulWidget {
-  final WorkoutChangeNotifier workout;
   final Function updateWorkouts;
   final bool isEdit;
 
-  WorkoutBuildPage({this.workout, this.updateWorkouts, this.isEdit = false});
+  WorkoutBuildPage({this.updateWorkouts, this.isEdit = false});
 
   @override
-  _WorkoutBuildPageState createState() => _WorkoutBuildPageState(
-        workout: workout,
-      );
+  _WorkoutBuildPageState createState() => _WorkoutBuildPageState();
 }
 
 class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
-  final WorkoutChangeNotifier workout;
-
-  _WorkoutBuildPageState({this.workout});
-
   @override
   Widget build(BuildContext context) {
+    WorkoutChangeNotifier workout =
+        Provider.of<WorkoutChangeNotifier>(context) ?? null;
+
     return Scaffold(
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),

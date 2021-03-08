@@ -82,6 +82,20 @@ Future<void> showRestDialog(
                               child: AbsorbPointer(
                                 absorbing: currentExerciseRestEnabled == 0,
                                 child: CupertinoPicker(
+                                  selectionOverlay: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        top: BorderSide(
+                                          color: Colors.grey[200],
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.grey[200],
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                   scrollController: FixedExtentScrollController(
                                     initialItem:
                                         (currentExerciseRestSeconds ~/ 5) - 1,

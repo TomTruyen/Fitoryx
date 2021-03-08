@@ -91,8 +91,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     CupertinoPageRoute(
                       fullscreenDialog: true,
                       builder: (BuildContext context) => WorkoutBuildPage(
-                        workout: workout,
-                        updateWorkouts: updateWorkouts,
+                       updateWorkouts: updateWorkouts,
                       ),
                     ),
                   );
@@ -221,7 +220,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                                 builder:
                                                     (BuildContext context) =>
                                                         WorkoutBuildPage(
-                                                  workout: workout,
                                                   updateWorkouts:
                                                       updateWorkouts,
                                                   isEdit: true,

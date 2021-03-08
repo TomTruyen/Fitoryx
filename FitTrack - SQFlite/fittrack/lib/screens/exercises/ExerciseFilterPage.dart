@@ -6,25 +6,18 @@ import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/GradientButton.dart';
 import 'package:fittrack/shared/CategoryList.dart';
 import 'package:fittrack/shared/EquipmentList.dart';
+import 'package:provider/provider.dart';
 
 class ExerciseFilterPage extends StatefulWidget {
-  final ExerciseFilter filter;
-
-  ExerciseFilterPage({this.filter});
-
   @override
-  _ExerciseFilterPageState createState() => _ExerciseFilterPageState(
-        filter: filter,
-      );
+  _ExerciseFilterPageState createState() => _ExerciseFilterPageState();
 }
 
 class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
-  final ExerciseFilter filter;
-
-  _ExerciseFilterPageState({this.filter});
-
   @override
   Widget build(BuildContext context) {
+    final ExerciseFilter filter = Provider.of<ExerciseFilter>(context) ?? null;
+
     return Scaffold(
       body: ScrollConfiguration(
         behavior: ScrollBehavior(),

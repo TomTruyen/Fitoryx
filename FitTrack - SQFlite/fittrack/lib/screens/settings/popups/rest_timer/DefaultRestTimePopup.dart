@@ -73,6 +73,20 @@ Future<void> showPopupDefaultRestTime(
                               margin: EdgeInsets.only(top: 16.0),
                               height: 100.0,
                               child: CupertinoPicker(
+                                selectionOverlay: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        color: Colors.grey[200],
+                                        width: 1,
+                                      ),
+                                      bottom: BorderSide(
+                                        color: Colors.grey[200],
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 scrollController: FixedExtentScrollController(
                                   initialItem: (defaultRestTime ~/ 5) - 1,
                                 ),

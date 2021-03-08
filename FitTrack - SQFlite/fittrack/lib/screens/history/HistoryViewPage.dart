@@ -360,7 +360,7 @@ class HistoryViewPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 10.0),
+                              SizedBox(height: 10.0),
                             ],
                           ),
                       ],
