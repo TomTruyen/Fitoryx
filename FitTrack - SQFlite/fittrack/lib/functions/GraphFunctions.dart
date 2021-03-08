@@ -147,8 +147,6 @@ List<dynamic> getDataWithinTimespan(
   List<dynamic> data,
   int timespan,
 ) {
-  const MIN_LENGTH = 2;
-
   List<dynamic> _originalData = List.of(data);
 
   if (data is List<Workout>) {

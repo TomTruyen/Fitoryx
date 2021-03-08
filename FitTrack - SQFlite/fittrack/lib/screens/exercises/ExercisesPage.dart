@@ -101,7 +101,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
     );
   }
 
-  SliverAppBar defaultAppBar() {
+  SliverAppBar defaultAppBar(ExerciseFilter filter) {
     return SliverAppBar(
       backgroundColor: Colors.grey[50],
       floating: true,
@@ -147,7 +147,9 @@ class _ExercisesPageState extends State<ExercisesPage> {
             Navigator.of(context).push(
               CupertinoPageRoute(
                 fullscreenDialog: true,
-                builder: (BuildContext context) => ExerciseFilterPage(),
+                builder: (BuildContext context) => ExerciseFilterPage(
+                  filter: filter,
+                ),
               ),
             );
           },
@@ -251,7 +253,9 @@ class _ExercisesPageState extends State<ExercisesPage> {
             Navigator.of(context).push(
               CupertinoPageRoute(
                 fullscreenDialog: true,
-                builder: (BuildContext context) => ExerciseFilterPage(),
+                builder: (BuildContext context) => ExerciseFilterPage(
+                  filter: filter,
+                ),
               ),
             );
           },
@@ -357,7 +361,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),
         slivers: <Widget>[
-          isSearchActive ? searchAppBar(filter) : defaultAppBar(),
+          isSearchActive ? searchAppBar(filter) : defaultAppBar(filter),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int i) {

@@ -3,7 +3,6 @@ import 'package:fittrack/shared/GradientIcon.dart';
 import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
@@ -16,21 +15,25 @@ import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:reorderables/reorderables.dart';
 
 class WorkoutBuildPage extends StatefulWidget {
+  final WorkoutChangeNotifier workout;
   final Function updateWorkouts;
   final bool isEdit;
 
-  WorkoutBuildPage({this.updateWorkouts, this.isEdit = false});
+  WorkoutBuildPage({this.workout, this.updateWorkouts, this.isEdit = false});
 
   @override
-  _WorkoutBuildPageState createState() => _WorkoutBuildPageState();
+  _WorkoutBuildPageState createState() => _WorkoutBuildPageState(
+        workout: workout,
+      );
 }
 
 class _WorkoutBuildPageState extends State<WorkoutBuildPage> {
+  final WorkoutChangeNotifier workout;
+
+  _WorkoutBuildPageState({this.workout});
+
   @override
   Widget build(BuildContext context) {
-    WorkoutChangeNotifier workout =
-        Provider.of<WorkoutChangeNotifier>(context) ?? null;
-
     return Scaffold(
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),

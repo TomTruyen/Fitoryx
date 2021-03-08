@@ -67,11 +67,7 @@ List<GraphToShow> getGraphsToShowListFromJson(Map<String, dynamic> settings) {
         graphToShow,
       );
 
-      if (foundIndex == -1) {
-        _graphsToShowList.add(graphToShow);
-      } else {
-        _graphsToShowList[foundIndex] = graphToShow;
-      }
+      if (foundIndex > -1) _graphsToShowList[foundIndex] = graphToShow;
     }
   }
 
