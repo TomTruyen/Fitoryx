@@ -76,7 +76,6 @@ class NutritionChart extends StatelessWidget {
             fitInsideHorizontally: true,
             getTooltipItems: (List<LineBarSpot> spots) {
               dynamic kcal = spots[0].y;
-              kcal = tryConvertDoubleToInt(kcal);
 
               double timeInMillisecondsSinceEpoch = spots[0].x;
 
@@ -86,7 +85,7 @@ class NutritionChart extends StatelessWidget {
 
               return [
                 LineTooltipItem(
-                  "Date: $date \n$kcal kcal",
+                  "Date: $date \n${tryConvertDoubleToInt(kcal)} kcal",
                   TextStyle(color: Colors.blue[50]),
                 )
               ];

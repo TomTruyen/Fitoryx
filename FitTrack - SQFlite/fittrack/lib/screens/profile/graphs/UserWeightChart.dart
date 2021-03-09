@@ -84,7 +84,7 @@ class UserWeightChart extends StatelessWidget {
 
               return [
                 LineTooltipItem(
-                  "Date: $date \n$weight ${settings.weightUnit}",
+                  "Date: $date \n${tryConvertDoubleToInt(weight)} ${settings.weightUnit}",
                   TextStyle(color: Colors.blue[50]),
                 )
               ];
