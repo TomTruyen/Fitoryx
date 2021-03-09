@@ -24,6 +24,27 @@ int hasDataBeforeDate(List<dynamic> data, DateTime date) {
   return index;
 }
 
+bool hasDataAfterToday(List<dynamic> data) {
+  if (data.isEmpty) return false;
+
+  DateTime now = DateTime.now();
+
+  bool found = false;
+
+  for (int i = 0; i < data.length; i++) {
+    DateTime dataDate = DateTime.fromMillisecondsSinceEpoch(
+      data[i].timeInMillisSinceEpoch,
+    );
+
+    if (dataDate.isAfter(now)) {
+      found = true;
+      break;
+    }
+  }
+
+  return found;
+}
+
 List<dynamic> addEmptyData(List<dynamic> list, DateTime date) {
   if (list is List<UserWeight>) {
     list.add(
@@ -89,6 +110,26 @@ List<dynamic> insertEmptyData(List<dynamic> list, DateTime date) {
   return list;
 }
 
+List<dynamic> insertEmptyDataDayBefore(List<dynamic> list) {
+  if (list.isEmpty) {
+    DateTime now = DateTime.now();
+    DateTime yesterday = now.subtract(Duration(days: 1));
+
+    list = addEmptyData(list, now);
+    list = addEmptyData(list, yesterday);
+
+    return list;
+  }
+
+  DateTime lastDate = DateTime.fromMillisecondsSinceEpoch(
+    list.last?.timeInMillisSinceEpoch,
+  );
+  DateTime dateBeforeLastDate = lastDate.subtract(Duration(days: 1));
+  list = insertEmptyData(list, dateBeforeLastDate);
+
+  return list;
+}
+
 List<dynamic> addPreviousData(List<dynamic> list, DateTime date) {
   list = sortByDate(list, true);
 
@@ -136,7 +177,17 @@ List<dynamic> getDataWithinTimespan(
     }
   }
 
+  //  2 = MINIMUM POINTS REQUIRED TO SHOW GRAPH, IF LESS THAN 2 ==> ADD EMPTY ONE BEFORE
+  if (data.length < 2) {
+    data = insertEmptyDataDayBefore(data);
+  }
+
   data = sortByDate(data, true);
+
+  // Check if last date is today, if it is after today then remove it
+  while (hasDataAfterToday(data)) {
+    data.removeLast();
+  }
 
   return data;
 }
