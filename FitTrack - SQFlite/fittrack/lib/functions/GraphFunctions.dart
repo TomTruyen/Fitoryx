@@ -1,4 +1,5 @@
 import 'package:fittrack/models/food/Food.dart';
+import 'package:fittrack/models/settings/BodyFat.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/functions/Functions.dart';
@@ -55,6 +56,15 @@ List<dynamic> addEmptyData(List<dynamic> list, DateTime date) {
     );
   }
 
+  if (list is List<BodyFat>) {
+    list.add(
+      BodyFat(
+        timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
+        percentage: 0,
+      ),
+    );
+  }
+
   if (list is List<Workout>) {
     list.add(
       Workout(
@@ -83,6 +93,16 @@ List<dynamic> insertEmptyData(List<dynamic> list, DateTime date) {
       UserWeight(
         timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
         weight: 0,
+      ),
+    );
+  }
+
+  if (list is List<BodyFat>) {
+    list.insert(
+      0,
+      BodyFat(
+        timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
+        percentage: 0,
       ),
     );
   }
@@ -156,7 +176,7 @@ List<dynamic> getDataWithinTimespan(
   DateTime now = DateTime.now();
 
   if (!hasSameDay(data, now)) {
-    if (data.isNotEmpty && data is List<UserWeight>) {
+    if (data.isNotEmpty && data is List<UserWeight> || data is List<BodyFat>) {
       addPreviousData(data, now);
     } else {
       data = addEmptyData(data, now);
@@ -166,11 +186,11 @@ List<dynamic> getDataWithinTimespan(
   DateTime latestAllowedDateTime = now.subtract(Duration(days: timespan));
   if (!hasSameDay(data, latestAllowedDateTime)) {
     int index = -1;
-    if (data is List<UserWeight>) {
+    if (data is List<UserWeight> || data is List<BodyFat>) {
       index = hasDataBeforeDate(data, latestAllowedDateTime);
     }
 
-    if (data is List<UserWeight> && index > -1) {
+    if ((data is List<UserWeight> || data is List<BodyFat>) && index > -1) {
       addDataFromIndex(data, index, latestAllowedDateTime);
     } else {
       data = insertEmptyData(data, latestAllowedDateTime);

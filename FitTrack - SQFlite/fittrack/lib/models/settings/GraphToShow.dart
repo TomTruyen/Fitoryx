@@ -25,10 +25,11 @@ class GraphToShow {
 
   static List<GraphToShow> getDefaultGraphs() {
     return [
-      GraphToShow(title: 'workoutsPerWeek', show: true),
-      GraphToShow(title: 'userWeight', show: true),
-      GraphToShow(title: 'totalVolume', show: true),
+      GraphToShow(title: 'workoutsPerWeekGraph', show: true),
+      GraphToShow(title: 'userWeightGraph', show: true),
+      GraphToShow(title: 'totalVolumeGraph', show: true),
       GraphToShow(title: 'caloriesGraph', show: true),
+      GraphToShow(title: 'bodyFatGraph', show: true)
     ];
   }
 }

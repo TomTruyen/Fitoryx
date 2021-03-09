@@ -1,6 +1,7 @@
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/workout/Workout.dart';
+import 'package:fittrack/screens/profile/graphs/BodyFatChart.dart';
 import 'package:fittrack/screens/profile/graphs/NutritionChart.dart';
 import 'package:fittrack/screens/profile/graphs/TotalVolumeChart.dart';
 import 'package:fittrack/screens/profile/graphs/UserWeightChart.dart';
@@ -25,6 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
   List<Food> food;
 
   int weightTimespan = 30; // timespan of weightgraph (in days)
+  int bodyFatTimespan = 30; // timespan of volumegraph (in days)
   int volumeTimespan = 30; // timespan of volumegraph (in days)
   int nutritionTimespan = 30; // timespan of volumegraph (in days)
 
@@ -141,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  if (settings.shouldShowGraph('workoutsPerWeek'))
+                  if (settings.shouldShowGraph('workoutsPerWeekGraph'))
                     Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -235,7 +237,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                  if (settings.shouldShowGraph('userWeight'))
+                  if (settings.shouldShowGraph('userWeightGraph'))
                     Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -339,7 +341,110 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                  if (settings.shouldShowGraph('totalVolume'))
+                  if (settings.shouldShowGraph('bodyFatGraph'))
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 12.0,
+                        vertical: 4.0,
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 3.0,
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'Body Fat (${_getTimespanString(bodyFatTimespan)})',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 12.0),
+                                    child: Theme(
+                                      data: Theme.of(context).copyWith(
+                                        cardColor:
+                                            Color.fromRGBO(35, 35, 35, 1),
+                                        dividerColor: Color.fromRGBO(
+                                          150,
+                                          150,
+                                          150,
+                                          1,
+                                        ),
+                                      ),
+                                      child: PopupMenuButton(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                        ),
+                                        icon: Icon(
+                                          Icons.more_vert,
+                                        ),
+                                        onSelected: (selection) async {
+                                          if (selection == 'timespan') {
+                                            int _timespan =
+                                                await showPopupTimespan(
+                                              context,
+                                              bodyFatTimespan,
+                                            );
+
+                                            setState(() {
+                                              bodyFatTimespan = _timespan;
+                                            });
+                                          }
+                                        },
+                                        itemBuilder: (BuildContext context) =>
+                                            <PopupMenuEntry>[
+                                          PopupMenuItem(
+                                            height: 40.0,
+                                            value: 'timespan',
+                                            child: Text(
+                                              'Edit timespan',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .button
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 16.0),
+                                child: BodyFatChart(
+                                  bodyFat: List.of(settings.bodyFat) ?? [],
+                                  settings: settings,
+                                  timespan: nutritionTimespan,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  if (settings.shouldShowGraph('totalVolumeGraph'))
                     Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
