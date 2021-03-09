@@ -14,11 +14,13 @@ Future<void> showPopupToggleGraphs(
 
   String _getFormattedTitle(String title) {
     switch (title) {
-      case 'workoutsPerWeek':
+      case 'workoutsPerWeekGraph':
         return 'Workouts per week';
-      case 'userWeight':
+      case 'userWeightGraph':
         return 'Weight';
-      case 'totalVolume':
+      case 'bodyFatGraph':
+        return 'Body Fat';
+      case 'totalVolumeGraph':
         return 'Total volume';
       case 'caloriesGraph':
         return 'Calories';
