@@ -177,7 +177,8 @@ class HistoryViewPage extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: workout.getTotalVolume().toString() +
+                          text: tryConvertDoubleToInt(workout.getTotalVolume())
+                                  .toString() +
                               " " +
                               globals.sqlDatabase.settings.weightUnit,
                           style: TextStyle(
@@ -268,7 +269,7 @@ class HistoryViewPage extends StatelessWidget {
                                     SizedBox(width: 5.0),
                                     GradientText(
                                       text:
-                                          "${_exercise.getTotalVolume().toString()} ${globals.sqlDatabase.settings.weightUnit}",
+                                          "${tryConvertDoubleToInt(_exercise.getTotalVolume()).toString()} ${globals.sqlDatabase.settings.weightUnit}",
                                     ),
                                   ],
                                 ),
