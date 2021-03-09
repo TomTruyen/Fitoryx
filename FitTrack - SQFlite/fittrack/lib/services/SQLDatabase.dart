@@ -618,11 +618,9 @@ class SQLDatabase {
 
       List<FoodPerHour> foodPerHourList = [];
 
-      if (food.isNotEmpty) {
-        foodPerHourList = List.of(food[0].foodPerHour) ?? [];
-      }
-
       if (food.isNotEmpty && food[0].date == date) {
+        foodPerHourList = List.of(food[0].foodPerHour) ?? [];
+
         int foundHourIndex = -1;
         for (int i = 0; i < foodPerHourList.length; i++) {
           if (foodPerHourList[i].hour == now.hour) {
