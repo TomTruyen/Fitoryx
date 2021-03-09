@@ -432,9 +432,10 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                     ),
                                     child: TextFormField(
                                       enabled: false,
-                                      initialValue: _exercise.sets[i].weight
+                                      initialValue: tryConvertDoubleToInt(
+                                                  _exercise.sets[i].weight)
                                               ?.toString() ??
-                                          '0.0',
+                                          '0',
                                       autofocus: false,
                                       keyboardType: TextInputType.number,
                                       textAlign: TextAlign.center,
