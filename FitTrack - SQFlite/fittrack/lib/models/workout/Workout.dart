@@ -86,7 +86,7 @@ class Workout {
   double getTotalVolume() {
     double totalVolume = 0;
 
-    if (exercises == null) return 0;
+    if (exercises == null || exercises.isEmpty) return 0;
 
     for (int i = 0; i < exercises.length; i++)
       for (int j = 0; j < exercises[i].sets.length; j++)

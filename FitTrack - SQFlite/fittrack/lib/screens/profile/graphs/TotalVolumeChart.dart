@@ -107,32 +107,6 @@ double getInterval(
     List<Workout> workoutHistory, int timespan, Settings settings) {
   final double maxInterval = 6.0;
 
-  if (workoutHistory.isEmpty) {
-    DateTime now = DateTime.now();
-
-    workoutHistory = [
-      Workout(
-        weightUnit: settings.weightUnit,
-        timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
-      ),
-      Workout(
-        weightUnit: settings.weightUnit,
-        timeInMillisSinceEpoch: now
-            .subtract(
-              Duration(days: timespan),
-            )
-            .millisecondsSinceEpoch,
-      ),
-    ];
-  } else if (workoutHistory.length < 2) {
-    Workout _clone = workoutHistory[0].clone();
-    _clone.timeInMillisSinceEpoch = DateTime.now()
-        .subtract(Duration(days: timespan))
-        .millisecondsSinceEpoch;
-
-    workoutHistory.add(_clone);
-  }
-
   if (timespan > -1) {
     List<Workout> _workoutHistory = getDataWithinTimespan(
       workoutHistory,
