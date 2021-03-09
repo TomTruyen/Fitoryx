@@ -1,5 +1,4 @@
 import 'package:fittrack/shared/ErrorPopup.dart';
-import 'package:fittrack/shared/GradientFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/shared/CategoryList.dart';
