@@ -13,17 +13,18 @@ int _getIndexOfLastValueBeforeTimespan(List<dynamic> data, int timespan) {
 
   data = sortByDate(data, false);
 
-  DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
-    data.first?.timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
-  );
+  DateTime now = DateTime.now().subtract(Duration(days: timespan));
+
+  // DateTime mostRecentDateTime = DateTime.fromMillisecondsSinceEpoch(
+  //   data.first?.timeInMillisSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
+  // );
 
   for (int i = 0; i < data.length; i++) {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(
       data[i].timeInMillisSinceEpoch,
     );
 
-    if (date.isBefore(mostRecentDateTime) ||
-        isSameDay(date, mostRecentDateTime)) {
+    if (date.isBefore(now)) {
       index = i;
       break;
     }
@@ -147,8 +148,6 @@ List<dynamic> getDataWithinTimespan(
   List<dynamic> data,
   int timespan,
 ) {
-  List<dynamic> _originalData = List.of(data);
-
   if (data is List<Workout>) {
     data = List.of(data).cast<Workout>();
     data = _fillDataWorkout(data, timespan).cast<Workout>();
@@ -214,9 +213,16 @@ List<dynamic> getDataWithinTimespan(
   if (index > -1) {
     dynamic clone = data[index].clone();
     clone.timeInMillisSinceEpoch = milliseconds;
+
+    if (clone is Workout) clone.exercises = [];
+
+    if (clone is Food) clone.foodPerHour = [];
+
     dateWithinTimespan.insert(0, clone);
   } else {
-    if (_originalData is List<Workout>) {
+    dynamic clone = data[0].clone();
+
+    if (clone is Workout) {
       dateWithinTimespan.insert(
         0,
         Workout(
@@ -226,17 +232,18 @@ List<dynamic> getDataWithinTimespan(
       );
     }
 
-    if (_originalData is List<UserWeight>) {
+    if (clone is UserWeight) {
       dateWithinTimespan.insert(
         0,
         UserWeight(
           timeInMillisSinceEpoch: milliseconds,
+          weight: 0,
           weightUnit: dateWithinTimespan[0].weightUnit,
         ),
       );
     }
 
-    if (_originalData is List<Food>) {
+    if (clone is Food) {
       dateWithinTimespan.insert(
         0,
         Food(
@@ -250,6 +257,11 @@ List<dynamic> getDataWithinTimespan(
   if (!isSameDay(mostRecentDateTime, now)) {
     dynamic clone = mostRecentData.clone();
     clone.timeInMillisSinceEpoch = now.millisecondsSinceEpoch;
+
+    if (clone is Workout) clone.exercises = [];
+
+    if (clone is Food) clone.foodPerHour = [];
+
     dateWithinTimespan.add(clone);
   }
 
@@ -259,7 +271,7 @@ List<dynamic> getDataWithinTimespan(
   DateTime secondDate = DateTime.fromMillisecondsSinceEpoch(
       dateWithinTimespan[1].timeInMillisSinceEpoch);
 
-  if (isSameDay(firstDate, secondDate)) dateWithinTimespan.removeAt(0);
+  if (isSameDay(firstDate, secondDate)) dateWithinTimespan.removeAt(1);
 
   return dateWithinTimespan;
 }
