@@ -1,3 +1,4 @@
+import 'package:fittrack/models/settings/BodyFat.dart';
 import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/functions/Functions.dart';
@@ -7,6 +8,7 @@ class Settings {
 
   // Personal Info
   List<UserWeight> userWeight;
+  List<BodyFat> bodyFat;
 
   // Units
   String weightUnit;
@@ -32,6 +34,7 @@ class Settings {
   Settings({
     this.id,
     this.userWeight,
+    this.bodyFat,
     this.weightUnit = 'kg',
     this.kcalGoal,
     this.carbsGoal,
@@ -53,6 +56,14 @@ class Settings {
       ];
     }
 
+    if (this.bodyFat == null || this.bodyFat.isEmpty) {
+      this.bodyFat = [
+        BodyFat(
+          timeInMillisSinceEpoch: DateTime.now().millisecondsSinceEpoch,
+        )
+      ];
+    }
+
     if (this.graphsToShow == null) {
       this.graphsToShow = GraphToShow.getDefaultGraphs();
     }
@@ -62,6 +73,7 @@ class Settings {
     return new Settings(
       id: id,
       userWeight: userWeight ?? [],
+      bodyFat: bodyFat ?? [],
       weightUnit: weightUnit ?? 'kg',
       kcalGoal: kcalGoal,
       carbsGoal: carbsGoal,
@@ -78,11 +90,24 @@ class Settings {
 
   static Settings fromJSON(Map<String, dynamic> settings) {
     List<UserWeight> _userWeightList = getUserWeightListFromJson(settings);
+    List<BodyFat> _bodyFatList = getBodyFatListFromJson(settings);
     List<GraphToShow> _graphsToShowList = getGraphsToShowListFromJson(settings);
 
     return new Settings(
       id: settings['id'],
-      userWeight: _userWeightList ?? [UserWeight()],
+      userWeight: _userWeightList ??
+          [
+            UserWeight(
+              weightUnit: settings['weightUnit'] ?? 'kg',
+              timeInMillisSinceEpoch: DateTime.now().millisecondsSinceEpoch,
+            )
+          ],
+      bodyFat: _bodyFatList ??
+          [
+            BodyFat(
+              timeInMillisSinceEpoch: DateTime.now().millisecondsSinceEpoch,
+            ),
+          ],
       weightUnit: settings['weightUnit'] ?? 'kg',
       kcalGoal: settings['kcalGoal'],
       carbsGoal: settings['carbsGoal'],
@@ -117,6 +142,37 @@ class Settings {
     }
 
     return true;
+  }
+
+  bool tryAddBodyFat(double percentage) {
+    bool isInsert = true;
+
+    DateTime date = DateTime.now();
+
+    DateTime lastBodyFatInputDate = DateTime.fromMillisecondsSinceEpoch(
+      bodyFat[0].timeInMillisSinceEpoch,
+    );
+
+    if (isSameDay(date, lastBodyFatInputDate) ||
+        bodyFat[0].timeInMillisSinceEpoch == 0) {
+      bodyFat[0] = new BodyFat(
+        id: bodyFat[0].id,
+        percentage: percentage,
+        timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
+      );
+
+      isInsert = false;
+    } else {
+      bodyFat.insert(
+        0,
+        new BodyFat(
+          percentage: percentage,
+          timeInMillisSinceEpoch: date.millisecondsSinceEpoch,
+        ),
+      );
+    }
+
+    return isInsert;
   }
 
   bool tryAddUserWeight(double _weight, String _weightUnit) {

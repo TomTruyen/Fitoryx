@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 
-Future<void> showPopupWeight(
+Future<void> showPopupBodyFat(
   BuildContext context,
   Settings settings,
   Function updateSettings,
 ) async {
-  double weight = settings.userWeight[0].weight ?? 0.0;
-  String weightUnit = settings.weightUnit ?? "kg";
+  double bodyFat = settings.bodyFat[0].percentage ?? 0.0;
 
   await showDialog(
     context: context,
@@ -56,7 +55,7 @@ Future<void> showPopupWeight(
                           child: Container(
                             padding: EdgeInsets.all(8.0),
                             child: Text(
-                              'Weight',
+                              'Body Fat',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18.0,
@@ -70,8 +69,8 @@ Future<void> showPopupWeight(
                             child: Container(
                               margin: EdgeInsets.all(8.0),
                               child: TextFormField(
-                                initialValue: weight != null
-                                    ? tryConvertDoubleToInt(weight).toString()
+                                initialValue: bodyFat != null
+                                    ? tryConvertDoubleToInt(bodyFat).toString()
                                     : '0',
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
@@ -86,12 +85,12 @@ Future<void> showPopupWeight(
                                   filled: true,
                                   hintText: '0.0',
                                   hintStyle: TextStyle(color: Colors.black54),
-                                  suffixText: weightUnit.toUpperCase(),
+                                  suffixText: "%",
                                 ),
                                 onChanged: (String value) {
                                   if (value == "") value = "0";
 
-                                  weight = double.parse(value);
+                                  bodyFat = double.parse(value);
                                 },
                               ),
                             ),
@@ -110,14 +109,13 @@ Future<void> showPopupWeight(
                               ),
                               onPressed: () async {
                                 Settings newSettings = settings.clone();
-                                bool isInsert = newSettings.tryAddUserWeight(
-                                  weight,
-                                  weightUnit,
+                                bool isInsert = newSettings.tryAddBodyFat(
+                                  bodyFat,
                                 );
 
                                 dynamic result =
-                                    await globals.sqlDatabase.updateUserWeight(
-                                  newSettings.userWeight[0],
+                                    await globals.sqlDatabase.updateBodyFat(
+                                  newSettings.bodyFat[0],
                                   isInsert,
                                 );
 
@@ -130,7 +128,7 @@ Future<void> showPopupWeight(
                                   showPopupError(
                                     context,
                                     'Failed to update',
-                                    'Something went wrong updating your weight. Please try again.',
+                                    'Something went wrong updating your body fat. Please try again.',
                                   );
                                 }
                               },

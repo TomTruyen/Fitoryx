@@ -4,6 +4,7 @@ import 'package:fittrack/functions/FileFunctions.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
+import 'package:fittrack/models/settings/BodyFat.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
@@ -22,6 +23,7 @@ class SQLDatabase {
     'food',
     'settings',
     'userWeight',
+    'bodyFat',
   ];
 
   Database db;
@@ -58,6 +60,9 @@ class SQLDatabase {
           );
           await db.execute(
             'CREATE TABLE userWeight (id INTEGER PRIMARY KEY UNIQUE, weight REAL, weightUnit TEXT, timeInMillisSinceEpoch INTEGER)',
+          );
+          await db.execute(
+            'CREATE TABLE bodyFat (id INTEGER PRIMARY KEY UNIQUE, percentage REAL, timeInMillisSinceEpoch INTEGER)',
           );
         },
       );
@@ -167,6 +172,36 @@ class SQLDatabase {
   Future<void> fetchUpdatedWeights() async {
     await fetchWorkouts();
     await fetchWorkoutsHistory();
+  }
+
+  Future<dynamic> updateBodyFat(BodyFat bodyFat, bool isInsert) async {
+    try {
+      if (isInsert || bodyFat.id == null) {
+        await db.rawInsert(
+          'INSERT INTO bodyFat (percentage, timeInMillisSinceEpoch) VALUES (?, ?)',
+          [
+            bodyFat.percentage,
+            bodyFat.timeInMillisSinceEpoch,
+          ],
+        );
+      } else {
+        await db.rawUpdate(
+          'UPDATE bodyFat SET percentage = ?, timeInMillisSinceEpoch = ? WHERE id = ?',
+          [
+            bodyFat.percentage,
+            bodyFat.timeInMillisSinceEpoch,
+            bodyFat.id,
+          ],
+        );
+      }
+
+      await autoExportData();
+
+      return "";
+    } catch (e) {
+      print("Update bodyFat Error: $e");
+      return null;
+    }
   }
 
   Future<dynamic> updateUserWeight(UserWeight userWeight, bool isInsert) async {
@@ -292,6 +327,10 @@ class SQLDatabase {
         "SELECT * FROM userWeight ORDER BY timeInMillisSinceEpoch DESC",
       );
 
+      List<Map<String, dynamic>> dbBodyFat = await db.rawQuery(
+        "SELECT * FROM bodyFat ORDER BY timeInMillisSinceEpoch DESC",
+      );
+
       if (dbSettings.isEmpty) {
         settings = new Settings();
 
@@ -302,9 +341,18 @@ class SQLDatabase {
             },
           );
         }
+
+        if (dbBodyFat.isNotEmpty) {
+          settings.bodyFat = getBodyFatListFromJson(
+            {
+              "bodyFat": dbBodyFat,
+            },
+          );
+        }
       } else {
         Map<String, dynamic> dbSetting = jsonDecode(jsonEncode(dbSettings[0]));
         dbSetting.putIfAbsent('userWeight', () => dbUserWeight);
+        dbSetting.putIfAbsent('bodyFat', () => dbBodyFat);
 
         settings = Settings.fromJSON(dbSetting);
       }

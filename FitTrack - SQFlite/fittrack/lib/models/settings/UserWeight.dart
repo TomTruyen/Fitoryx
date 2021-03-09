@@ -59,7 +59,10 @@ List<UserWeight> getUserWeightListFromJson(Map<String, dynamic> settings) {
 
   if (_userWeightList.isEmpty) {
     _userWeightList.add(
-      new UserWeight(weightUnit: settings['weightUnit'] ?? 'kg'),
+      new UserWeight(
+        weightUnit: settings['weightUnit'] ?? 'kg',
+        timeInMillisSinceEpoch: DateTime.now().millisecondsSinceEpoch,
+      ),
     );
   }
 

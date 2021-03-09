@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:device_info/device_info.dart';
 import 'package:fittrack/screens/settings/popups/data/AutoExportDataPopup.dart';
+import 'package:fittrack/screens/settings/popups/personal_info/BodyFatPopup.dart';
 import 'package:fittrack/screens/settings/popups/personal_info/WeightPopup.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -106,6 +107,20 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   onTap: () async {
                     await showPopupWeight(
+                      context,
+                      settings,
+                      updateSettings,
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text('Body Fat Percentage'),
+                  subtitle: Text(
+                    "${settings.bodyFat[0].percentage} %",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () async {
+                    await showPopupBodyFat(
                       context,
                       settings,
                       updateSettings,
