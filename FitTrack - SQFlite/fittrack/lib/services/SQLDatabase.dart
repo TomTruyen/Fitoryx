@@ -20,7 +20,8 @@ class SQLDatabase {
     'workouts',
     'workouts_history',
     'food',
-    'settings'
+    'settings',
+    'userWeight',
   ];
 
   Database db;
