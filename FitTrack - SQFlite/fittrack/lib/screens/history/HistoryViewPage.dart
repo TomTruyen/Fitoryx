@@ -277,6 +277,38 @@ class HistoryViewPage extends StatelessWidget {
                             ),
                           ],
                         ),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  'SET',
+                                  style: TextStyle(fontSize: 11.0),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  globals.sqlDatabase.settings.weightUnit
+                                      .toUpperCase(),
+                                  style: TextStyle(fontSize: 11.0),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  'REPS',
+                                  style: TextStyle(fontSize: 11.0),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         for (int i = 0; i < _exercise.sets.length; i++)
                           Row(
                             children: <Widget>[
@@ -295,9 +327,10 @@ class HistoryViewPage extends StatelessWidget {
                                   ),
                                   child: TextFormField(
                                     enabled: false,
-                                    initialValue:
-                                        _exercise.sets[i].weight?.toString() ??
-                                            '0.0',
+                                    initialValue: tryConvertDoubleToInt(
+                                                _exercise.sets[i].weight ?? 0)
+                                            ?.toString() ??
+                                        '0',
                                     autofocus: false,
                                     keyboardType: TextInputType.number,
                                     textAlign: TextAlign.center,
