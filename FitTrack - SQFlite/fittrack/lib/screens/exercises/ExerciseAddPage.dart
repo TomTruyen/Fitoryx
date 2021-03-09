@@ -133,6 +133,34 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                   tryPopContext(context);
                 },
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.check,
+                    color: Colors.black,
+                  ),
+                  onPressed: () async {
+                    if (formKey.currentState.validate()) {
+                      clearFocus(context);
+
+                      dynamic result = await globals.sqlDatabase.addExercise(
+                          exerciseName, exerciseCategory, exerciseEquipment);
+
+                      if (result == null) {
+                        showPopupError(
+                          context,
+                          'Adding exercise failed',
+                          'Something went wrong adding the exercise. Please try again.',
+                        );
+                      } else {
+                        await widget.updateUserExercises();
+
+                        tryPopContext(context);
+                      }
+                    }
+                  },
+                ),
+              ],
               title: Text(
                 'New Exercise',
                 style: TextStyle(
@@ -217,29 +245,6 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: GradientFloatingActionButton(
-        icon: Icon(Icons.check),
-        onPressed: () async {
-          if (formKey.currentState.validate()) {
-            clearFocus(context);
-
-            dynamic result = await globals.sqlDatabase
-                .addExercise(exerciseName, exerciseCategory, exerciseEquipment);
-
-            if (result == null) {
-              showPopupError(
-                context,
-                'Adding exercise failed',
-                'Something went wrong adding the exercise. Please try again.',
-              );
-            } else {
-              await widget.updateUserExercises();
-
-              tryPopContext(context);
-            }
-          }
-        },
       ),
     );
   }

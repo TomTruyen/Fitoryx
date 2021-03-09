@@ -70,14 +70,14 @@ class _ExercisesPageState extends State<ExercisesPage> {
     }
   }
 
-  void filterExercises(
+  Future<void> filterExercises(
     ExerciseFilter filter,
     List<Exercise> userExercises,
     List<Exercise> workoutExercises,
     bool isReplaceActive,
     Exercise exerciseToReplace,
     Exercise workoutExerciseToReplace,
-  ) {
+  ) async {
     Map<String, dynamic> filteredExercisesMap = getFilteredExercises(
       filter,
       exercises,
@@ -91,14 +91,18 @@ class _ExercisesPageState extends State<ExercisesPage> {
     List<dynamic> filteredExercises = filteredExercisesMap['exercises'];
     int exerciseLength = filteredExercisesMap['exercisesLength'];
 
-    setState(() {
-      _filteredExercises = filteredExercises;
-    });
+    if (!listEquals(filteredExercises, _filteredExercises)) {
+      setState(() {
+        _filteredExercises = filteredExercises;
+      });
 
-    Future.delayed(
-      Duration(seconds: 0),
-      () => filter.updateExerciseCount(exerciseLength),
-    );
+      await Future.delayed(
+        Duration(seconds: 0),
+        () {
+          filter.updateExerciseCount(exerciseLength);
+        },
+      );
+    }
   }
 
   SliverAppBar defaultAppBar() {
@@ -142,8 +146,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
             color: Colors.black,
           ),
           onPressed: () {
-            clearFocus(context);
-
             Navigator.of(context).push(
               CupertinoPageRoute(
                 fullscreenDialog: true,
