@@ -133,7 +133,7 @@ class _FoodPageState extends State<FoodPage> {
                   );
                 },
               ),
-              globals.heartIcon,
+              globals.getDonationButton(context),
               IconButton(
                 icon: Icon(
                   Icons.add,

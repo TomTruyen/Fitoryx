@@ -72,7 +72,7 @@ class _HistoryPageState extends State<HistoryPage> {
               ),
             ),
             actions: <Widget>[
-              globals.heartIcon,
+              globals.getDonationButton(context),
             ],
           ),
           if (workoutsHistory.length <= 0)

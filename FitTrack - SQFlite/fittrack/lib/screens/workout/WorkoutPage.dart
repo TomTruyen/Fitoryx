@@ -76,7 +76,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               ),
             ),
             actions: <Widget>[
-              globals.heartIcon,
+              globals.getDonationButton(context),
             ],
           ),
           SliverToBoxAdapter(

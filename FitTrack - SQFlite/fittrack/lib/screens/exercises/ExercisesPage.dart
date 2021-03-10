@@ -154,7 +154,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
             );
           },
         ),
-        globals.heartIcon,
+        globals.getDonationButton(context),
         if (!widget.isSelectActive)
           Theme(
             data: Theme.of(context).copyWith(

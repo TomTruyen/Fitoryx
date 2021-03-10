@@ -84,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             actions: <Widget>[
-              globals.heartIcon,
+              globals.getDonationButton(context),
               IconButton(
                 icon: Icon(
                   Icons.settings_outlined,
