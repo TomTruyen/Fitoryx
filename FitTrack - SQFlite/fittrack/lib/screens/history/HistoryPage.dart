@@ -71,6 +71,9 @@ class _HistoryPageState extends State<HistoryPage> {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            actions: <Widget>[
+              globals.heartIcon,
+            ],
           ),
           if (workoutsHistory.length <= 0)
             SliverFillRemaining(

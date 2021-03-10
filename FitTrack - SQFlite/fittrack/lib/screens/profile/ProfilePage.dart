@@ -84,6 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             actions: <Widget>[
+              globals.heartIcon,
               IconButton(
                 icon: Icon(
                   Icons.settings_outlined,

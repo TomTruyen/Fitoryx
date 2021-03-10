@@ -133,6 +133,7 @@ class _FoodPageState extends State<FoodPage> {
                   );
                 },
               ),
+              globals.heartIcon,
               IconButton(
                 icon: Icon(
                   Icons.add,
@@ -147,7 +148,7 @@ class _FoodPageState extends State<FoodPage> {
                     ),
                   );
                 },
-              )
+              ),
             ],
           ),
           SliverFillRemaining(

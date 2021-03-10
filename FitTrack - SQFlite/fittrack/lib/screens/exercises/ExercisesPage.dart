@@ -154,6 +154,7 @@ class _ExercisesPageState extends State<ExercisesPage> {
             );
           },
         ),
+        globals.heartIcon,
         if (!widget.isSelectActive)
           Theme(
             data: Theme.of(context).copyWith(
@@ -258,45 +259,6 @@ class _ExercisesPageState extends State<ExercisesPage> {
             );
           },
         ),
-        if (!widget.isSelectActive)
-          Theme(
-            data: Theme.of(context).copyWith(
-              cardColor: Color.fromRGBO(35, 35, 35, 1),
-              dividerColor: Color.fromRGBO(70, 70, 70, 1),
-            ),
-            child: PopupMenuButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              icon: Icon(Icons.more_vert, color: Colors.black),
-              onSelected: (selection) => {
-                if (selection == 'create')
-                  {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        fullscreenDialog: true,
-                        builder: (context) =>
-                            ExerciseAddPage(updateUserExercises),
-                      ),
-                    )
-                  },
-              },
-              itemBuilder: (BuildContext context) => <PopupMenuItem>[
-                PopupMenuItem(
-                  height: 40.0,
-                  value: 'create',
-                  child: Text(
-                    'Create exercise',
-                    style: Theme.of(context).textTheme.button.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                        ),
-                  ),
-                ),
-              ],
-            ),
-          ),
       ],
     );
   }

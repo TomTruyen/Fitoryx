@@ -75,6 +75,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            actions: <Widget>[
+              globals.heartIcon,
+            ],
           ),
           SliverToBoxAdapter(
             child: Container(
@@ -91,7 +94,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     CupertinoPageRoute(
                       fullscreenDialog: true,
                       builder: (BuildContext context) => WorkoutBuildPage(
-                       updateWorkouts: updateWorkouts,
+                        updateWorkouts: updateWorkouts,
                       ),
                     ),
                   );
