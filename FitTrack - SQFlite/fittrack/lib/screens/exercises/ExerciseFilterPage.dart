@@ -131,6 +131,7 @@ class FilterWidget extends StatelessWidget {
           ? GradientText(
               text: value,
               fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
+              textAlign: TextAlign.center,
             )
           : Text(
               value,
