@@ -43,26 +43,30 @@ class SQLDatabase {
         path,
         version: 1,
         onCreate: (Database db, int version) async {
-          await db.execute(
-            'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
-          );
-          await db.execute(
-            'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
-          );
-          await db.execute(
-            'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration TEXT, workoutDurationInMilliseconds INTEGER)',
-          );
-          await db.execute(
-            'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, foodPerHour TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
-          );
-          await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, graphsToShow TEXT, workoutsPerWeekGoal INTEGER, isAutoExportEnabled INTEGER)',
-          );
-          await db.execute(
-            'CREATE TABLE userWeight (id INTEGER PRIMARY KEY UNIQUE, weight REAL, weightUnit TEXT, timeInMillisSinceEpoch INTEGER)',
-          );
-          await db.execute(
-            'CREATE TABLE bodyFat (id INTEGER PRIMARY KEY UNIQUE, percentage REAL, timeInMillisSinceEpoch INTEGER)',
+          await Future.wait(
+            [
+              db.execute(
+                'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
+              ),
+              db.execute(
+                'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
+              ),
+              db.execute(
+                'CREATE TABLE workouts_history (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT, workoutNote TEXT, workoutDuration TEXT, workoutDurationInMilliseconds INTEGER)',
+              ),
+              db.execute(
+                'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, foodPerHour TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
+              ),
+              db.execute(
+                'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, graphsToShow TEXT, workoutsPerWeekGoal INTEGER, isAutoExportEnabled INTEGER)',
+              ),
+              db.execute(
+                'CREATE TABLE userWeight (id INTEGER PRIMARY KEY UNIQUE, weight REAL, weightUnit TEXT, timeInMillisSinceEpoch INTEGER)',
+              ),
+              db.execute(
+                'CREATE TABLE bodyFat (id INTEGER PRIMARY KEY UNIQUE, percentage REAL, timeInMillisSinceEpoch INTEGER)',
+              ),
+            ],
           );
         },
       );
@@ -77,11 +81,15 @@ class SQLDatabase {
   }
 
   Future<void> updateData() async {
-    await fetchSettings();
-    await fetchUserExercises();
-    await fetchFood();
-    await fetchWorkouts();
-    await fetchWorkoutsHistory();
+    await Future.wait(
+      [
+        fetchSettings(),
+        fetchUserExercises(),
+        fetchFood(),
+        fetchWorkouts(),
+        fetchWorkoutsHistory(),
+      ],
+    );
   }
 
   Future<void> autoExportData() async {
@@ -170,8 +178,12 @@ class SQLDatabase {
   }
 
   Future<void> fetchUpdatedWeights() async {
-    await fetchWorkouts();
-    await fetchWorkoutsHistory();
+    Future.wait(
+      [
+        fetchWorkouts(),
+        fetchWorkoutsHistory(),
+      ],
+    );
   }
 
   Future<dynamic> updateBodyFat(BodyFat bodyFat, bool isInsert) async {
