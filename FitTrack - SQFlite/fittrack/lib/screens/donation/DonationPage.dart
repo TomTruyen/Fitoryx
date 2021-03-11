@@ -1,8 +1,13 @@
+import 'package:fittrack/services/InAppPurchases.dart';
+import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/GradientText.dart';
 import 'package:fittrack/screens/donation/popups/AboutMePopup.dart';
+
+import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 class DonationPage extends StatelessWidget {
   @override
@@ -79,11 +84,26 @@ class DonationPage extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  DonationItem(price: 1),
-                  DonationItem(price: 2),
-                  DonationItem(price: 5),
-                  DonationItem(price: 10),
-                  DonationItem(price: 25),
+                  DonationItem(
+                    price: 1,
+                    purchaseId: InAppPurchases.donationEuro1,
+                  ),
+                  DonationItem(
+                    price: 2,
+                    purchaseId: InAppPurchases.donationEuro2,
+                  ),
+                  DonationItem(
+                    price: 5,
+                    purchaseId: InAppPurchases.donationEuro5,
+                  ),
+                  DonationItem(
+                    price: 10,
+                    purchaseId: InAppPurchases.donationEuro10,
+                  ),
+                  DonationItem(
+                    price: 25,
+                    purchaseId: InAppPurchases.donationEuro25,
+                  ),
                 ],
               ),
             ),
@@ -96,8 +116,9 @@ class DonationPage extends StatelessWidget {
 
 class DonationItem extends StatelessWidget {
   final double price;
+  final String purchaseId;
 
-  DonationItem({@required this.price});
+  DonationItem({@required this.price, @required this.purchaseId});
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +145,19 @@ class DonationItem extends StatelessWidget {
             ],
           ),
         ),
-        onTap: () {
-          // do google pay
-          // https://www.youtube.com/watch?v=NWbkKH-2xcQ
+        onTap: () async {
+          ProductDetails product =
+              globals.inAppPurchases.getProductDetails(purchaseId);
+
+          if (product != null) {
+            await globals.inAppPurchases.buyProduct(product);
+          } else {
+            await showPopupError(
+              context,
+              "Donation not available",
+              "Donations aren't available. Please try again later.",
+            );
+          }
         },
       ),
     );

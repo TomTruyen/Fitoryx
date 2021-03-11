@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:fittrack/models/exercises/ExerciseFilter.dart';
+import 'package:fittrack/services/InAppPurchases.dart';
 import 'package:fittrack/shared/GradientIcon.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,9 @@ class _WrapperState extends State<Wrapper> {
 
     getSharedPreferences();
 
+    globals.inAppPurchases = InAppPurchases();
+    globals.inAppPurchases.initialize();
+
     setState(() {
       _pages = [
         ProfilePage(),
@@ -41,6 +45,12 @@ class _WrapperState extends State<Wrapper> {
         FoodPage()
       ];
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    globals.inAppPurchases?.dispose();
   }
 
   Future<void> getSharedPreferences() async {

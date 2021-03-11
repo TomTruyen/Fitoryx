@@ -1,9 +1,11 @@
+import 'package:fittrack/services/InAppPurchases.dart';
 import 'package:fittrack/services/SQLDatabase.dart';
 import 'package:fittrack/screens/donation/DonationPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 SQLDatabase sqlDatabase;
+InAppPurchases inAppPurchases;
 
 IconButton getDonationButton(BuildContext context) {
   return IconButton(
