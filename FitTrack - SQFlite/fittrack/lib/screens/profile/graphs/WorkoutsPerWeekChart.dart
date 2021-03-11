@@ -71,10 +71,6 @@ class WorkoutsPerWeekChart extends StatelessWidget {
 String _getTitle(double value, List<String> _datesList) {
   int _value = value.toInt();
 
-  if (_value <= 0) {
-    return _datesList[0];
-  }
-
   return _datesList[_value - 1];
 }
 
@@ -83,46 +79,7 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
   List<String> _datesList,
   Settings settings,
 ) {
-  DateTime _now = DateTime.now();
-  _workoutHistory = [
-    Workout(
-      timeInMillisSinceEpoch: _now.millisecondsSinceEpoch,
-    ),
-    Workout(
-      timeInMillisSinceEpoch:
-          _now.subtract(Duration(days: 4)).millisecondsSinceEpoch,
-    ),
-    Workout(
-      timeInMillisSinceEpoch:
-          _now.subtract(Duration(days: 12)).millisecondsSinceEpoch,
-    ),
-    Workout(
-      timeInMillisSinceEpoch:
-          _now.subtract(Duration(days: 18)).millisecondsSinceEpoch,
-    ),
-    Workout(
-      timeInMillisSinceEpoch:
-          _now.subtract(Duration(days: 19)).millisecondsSinceEpoch,
-    ),
-    Workout(
-      timeInMillisSinceEpoch:
-          _now.subtract(Duration(days: 20)).millisecondsSinceEpoch,
-    ),
-    Workout(
-      timeInMillisSinceEpoch:
-          _now.subtract(Duration(days: 21)).millisecondsSinceEpoch,
-    ),
-  ];
-
   const TOTAL_WEEKS = 6;
-  bool _isBetweenDates(
-    DateTime beforeDate,
-    DateTime afterDate,
-    DateTime valueDate,
-  ) {
-    return valueDate.isBefore(beforeDate) &&
-        (valueDate.isAtSameMomentAs(afterDate) || valueDate.isAfter(afterDate));
-  }
 
   void _insertData(
     DateTime startOfCurrentWeek,
@@ -162,6 +119,27 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
     );
   }
 
+  List<Workout> getWorkoutsWithinTimespan(
+    List<Workout> workouts,
+    DateTime start,
+    DateTime end,
+  ) {
+    List<Workout> workoutsWithinTimespan = workouts.where((Workout workout) {
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(
+        workout.timeInMillisSinceEpoch,
+      );
+
+      if (date.isBefore(end) &&
+          (date.isAfter(start) || isSameDay(date, start))) {
+        return true;
+      }
+
+      return false;
+    }).toList();
+
+    return workoutsWithinTimespan;
+  }
+
   List<Workout> workoutHistory = _workoutHistory ?? [];
 
   workoutHistory.sort(
@@ -174,65 +152,22 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
   DateTime startOfCurrentWeek = now.subtract(Duration(days: now.weekday - 1));
   startOfCurrentWeek = convertDateTimeToDate(startOfCurrentWeek);
 
-  DateTime startOfNextWeek = now.add(Duration(days: 7 - now.weekday));
+  DateTime startOfNextWeek = now.add(Duration(days: 7 - now.weekday + 1));
   startOfNextWeek = convertDateTimeToDate(startOfNextWeek);
 
-  int count = 0;
-  if (workoutHistory.isNotEmpty) {
-    for (int i = workoutHistory.length - 1; i >= 0; i--) {
-      DateTime workoutDate = DateTime.fromMillisecondsSinceEpoch(
-        workoutHistory[i].timeInMillisSinceEpoch,
-      );
+  for (int i = 0; i < TOTAL_WEEKS; i++) {
+    List<Workout> workoutsWithinTimespan = getWorkoutsWithinTimespan(
+      _workoutHistory,
+      startOfCurrentWeek,
+      startOfNextWeek,
+    );
 
-      if (_isBetweenDates(startOfNextWeek, startOfCurrentWeek, workoutDate)) {
-        count++;
-      } else {
-        _insertData(startOfCurrentWeek, workoutsPerWeekBarData, count);
+    int count = workoutsWithinTimespan.length;
 
-        if (workoutsPerWeekBarData.length >= TOTAL_WEEKS) {
-          break;
-        }
+    _insertData(startOfCurrentWeek, workoutsPerWeekBarData, count);
 
-        count = 0;
-
-        bool isBetweenDates = false;
-        while (!isBetweenDates) {
-          startOfCurrentWeek = startOfCurrentWeek.subtract(Duration(days: 7));
-          startOfNextWeek = startOfNextWeek.subtract(Duration(days: 7));
-
-          if (_isBetweenDates(
-              startOfNextWeek, startOfCurrentWeek, workoutDate)) {
-            isBetweenDates = true;
-            count++;
-          } else if (workoutsPerWeekBarData.length >= TOTAL_WEEKS) {
-            isBetweenDates = true;
-            break;
-          } else {
-            _insertData(startOfCurrentWeek, workoutsPerWeekBarData, 0);
-          }
-        }
-      }
-    }
-
-    if (count != 0) {
-      _insertData(startOfCurrentWeek, workoutsPerWeekBarData, count);
-    }
-  }
-
-  if (workoutsPerWeekBarData.length < TOTAL_WEEKS) {
-    int diff = TOTAL_WEEKS - workoutsPerWeekBarData.length;
-
-    if (workoutsPerWeekBarData.length == 0) {
-      startOfCurrentWeek = startOfCurrentWeek.add(Duration(days: 7));
-      startOfNextWeek = startOfNextWeek.add(Duration(days: 7));
-    }
-
-    for (int i = 0; i < diff; i++) {
-      startOfCurrentWeek = startOfCurrentWeek.subtract(Duration(days: 7));
-      startOfNextWeek = startOfNextWeek.subtract(Duration(days: 7));
-
-      _insertData(startOfCurrentWeek, workoutsPerWeekBarData, 0);
-    }
+    startOfCurrentWeek = startOfCurrentWeek.subtract(Duration(days: 7));
+    startOfNextWeek = startOfNextWeek.subtract(Duration(days: 7));
   }
 
   return workoutsPerWeekBarData;
