@@ -113,7 +113,12 @@ double getInterval(List<BodyFat> bodyFat, int timespan) {
     if (bodyFat.length < maxInterval) return bodyFat.length.toDouble();
   }
 
-  return (bodyFat.length / maxInterval).round().toDouble();
+  double interval = (bodyFat.length / maxInterval).round().toDouble();
+  if (interval <= 0) {
+    interval = bodyFat.length.toDouble();
+  }
+
+  return interval;
 }
 
 LineChartBarData _getBodyFatList(

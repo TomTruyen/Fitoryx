@@ -114,7 +114,12 @@ double getInterval(List<Food> food, int timespan) {
     if (food.length < maxInterval) return food.length.toDouble();
   }
 
-  return (food.length / maxInterval).round().toDouble();
+  double interval = (food.length / maxInterval).round().toDouble();
+  if (interval <= 0) {
+    interval = food.length.toDouble();
+  }
+
+  return interval;
 }
 
 LineChartBarData _getFoodList(

@@ -126,6 +126,7 @@ class DonationItem extends StatelessWidget {
         ),
         onTap: () {
           // do google pay
+          // https://www.youtube.com/watch?v=NWbkKH-2xcQ
         },
       ),
     );

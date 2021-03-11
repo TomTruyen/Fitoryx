@@ -71,6 +71,10 @@ class WorkoutsPerWeekChart extends StatelessWidget {
 String _getTitle(double value, List<String> _datesList) {
   int _value = value.toInt();
 
+  if (_value <= 0) {
+    return _datesList[0];
+  }
+
   return _datesList[_value - 1];
 }
 
@@ -79,6 +83,37 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
   List<String> _datesList,
   Settings settings,
 ) {
+  DateTime _now = DateTime.now();
+  _workoutHistory = [
+    Workout(
+      timeInMillisSinceEpoch: _now.millisecondsSinceEpoch,
+    ),
+    Workout(
+      timeInMillisSinceEpoch:
+          _now.subtract(Duration(days: 4)).millisecondsSinceEpoch,
+    ),
+    Workout(
+      timeInMillisSinceEpoch:
+          _now.subtract(Duration(days: 12)).millisecondsSinceEpoch,
+    ),
+    Workout(
+      timeInMillisSinceEpoch:
+          _now.subtract(Duration(days: 18)).millisecondsSinceEpoch,
+    ),
+    Workout(
+      timeInMillisSinceEpoch:
+          _now.subtract(Duration(days: 19)).millisecondsSinceEpoch,
+    ),
+    Workout(
+      timeInMillisSinceEpoch:
+          _now.subtract(Duration(days: 20)).millisecondsSinceEpoch,
+    ),
+    Workout(
+      timeInMillisSinceEpoch:
+          _now.subtract(Duration(days: 21)).millisecondsSinceEpoch,
+    ),
+  ];
+
   const TOTAL_WEEKS = 6;
   bool _isBetweenDates(
     DateTime beforeDate,

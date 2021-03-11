@@ -226,7 +226,7 @@ class HistoryViewPage extends StatelessWidget {
                     vertical: 4.0,
                   ),
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    padding: EdgeInsets.fromLTRB(0, 16.0, 8.0, 16.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,92 +310,95 @@ class HistoryViewPage extends StatelessWidget {
                           ),
                         ),
                         for (int i = 0; i < _exercise.sets.length; i++)
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: GradientText(
-                                  text: (i + 1).toString(),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 4.0,
-                                  ),
-                                  child: TextFormField(
-                                    enabled: false,
-                                    initialValue: tryConvertDoubleToInt(
-                                                _exercise.sets[i].weight ?? 0)
-                                            ?.toString() ??
-                                        '0',
-                                    autofocus: false,
-                                    keyboardType: TextInputType.number,
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 4.0),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 1,
+                                  child: GradientText(
+                                    text: (i + 1).toString(),
                                     textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      hintText: '50',
-                                      fillColor: Colors.grey[300],
-                                      filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
-                                        ),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
-                                        ),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      contentPadding: EdgeInsets.all(6.0),
-                                      isDense: true,
-                                    ),
-                                    onChanged: (String value) {},
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 4.0,
-                                  ),
-                                  child: TextFormField(
-                                    enabled: false,
-                                    initialValue:
-                                        _exercise.sets[i].reps?.toString() ??
-                                            '0',
-                                    autofocus: false,
-                                    keyboardType: TextInputType.number,
-                                    textAlign: TextAlign.center,
-                                    decoration: InputDecoration(
-                                      hintText: '10',
-                                      fillColor: Colors.grey[300],
-                                      filled: true,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
-                                        ),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0),
-                                        ),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      contentPadding: EdgeInsets.all(6.0),
-                                      isDense: true,
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 4.0,
                                     ),
-                                    onChanged: (String value) {},
+                                    child: TextFormField(
+                                      enabled: false,
+                                      initialValue: tryConvertDoubleToInt(
+                                                  _exercise.sets[i].weight ?? 0)
+                                              ?.toString() ??
+                                          '0',
+                                      autofocus: false,
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        hintText: '50',
+                                        fillColor: Colors.grey[300],
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        contentPadding: EdgeInsets.all(6.0),
+                                        isDense: true,
+                                      ),
+                                      onChanged: (String value) {},
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: 10.0),
-                            ],
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 4.0,
+                                    ),
+                                    child: TextFormField(
+                                      enabled: false,
+                                      initialValue:
+                                          _exercise.sets[i].reps?.toString() ??
+                                              '0',
+                                      autofocus: false,
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        hintText: '10',
+                                        fillColor: Colors.grey[300],
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        contentPadding: EdgeInsets.all(6.0),
+                                        isDense: true,
+                                      ),
+                                      onChanged: (String value) {},
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10.0),
+                              ],
+                            ),
                           ),
                       ],
                     ),

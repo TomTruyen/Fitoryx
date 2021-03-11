@@ -113,7 +113,12 @@ double getInterval(List<UserWeight> userWeights, int timespan) {
     if (userWeights.length < maxInterval) return userWeights.length.toDouble();
   }
 
-  return (userWeights.length / maxInterval).round().toDouble();
+  double interval = (userWeights.length / maxInterval).round().toDouble();
+  if (interval <= 0) {
+    interval = userWeights.length.toDouble();
+  }
+
+  return interval;
 }
 
 LineChartBarData _getUserWeightList(

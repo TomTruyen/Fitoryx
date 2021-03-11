@@ -120,7 +120,12 @@ double getInterval(
       return workoutHistory.length.toDouble();
   }
 
-  return (workoutHistory.length / maxInterval).round().toDouble();
+  double interval = (workoutHistory.length / maxInterval).round().toDouble();
+  if (interval <= 0) {
+    interval = workoutHistory.length.toDouble();
+  }
+
+  return interval;
 }
 
 LineChartBarData _getTotalVolumeList(
