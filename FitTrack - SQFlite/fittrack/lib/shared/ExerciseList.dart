@@ -7,7 +7,7 @@ List<Exercise> exercises = [
   Exercise(name: 'Back Extension', category: 'Back'),
   Exercise(name: 'Back Extension', category: 'Back', equipment: 'Machine'),
   Exercise(name: 'Ball Slams', category: 'Full Body'),
-  Exercise(name: 'Battle Ropes', category: 'Full Body'),
+  Exercise(name: 'Battle Ropes', category: 'Full Body', type: 'time'),
   Exercise(name: 'Bench Dip', category: 'Triceps'),
   Exercise(name: 'Bench Press', category: 'Chest', equipment: 'Barbell'),
   Exercise(name: 'Bench Press', category: 'Chest', equipment: 'Dumbbell'),

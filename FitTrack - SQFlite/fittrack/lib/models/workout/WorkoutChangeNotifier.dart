@@ -1,8 +1,7 @@
+import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/exercises/ExerciseSet.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fittrack/models/exercises/Exercise.dart';
 
 class WorkoutChangeNotifier extends ChangeNotifier {
   int id;
@@ -108,6 +107,12 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     if (value == "") value = "0";
 
     exercises[exerciseIndex].sets[setIndex].reps = int.parse(value);
+  }
+
+  void updateExerciseSetTime(int exerciseIndex, int setIndex, int value) {
+    exercises[exerciseIndex].sets[setIndex].time = value;
+
+    notifyListeners();
   }
 
   void deleteExerciseSet(int exerciseIndex, int setIndex) {

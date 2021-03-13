@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:fittrack/functions/FileFunctions.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
@@ -8,9 +10,7 @@ import 'package:fittrack/models/settings/BodyFat.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
-import 'package:fittrack/functions/Functions.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 
 const SECRET_KEY =
     "d55cb8eba585b7ed03db0d4e2c8947c6"; // fittrack_secret_key_for_encryption (MD5 Hashed)
@@ -46,7 +46,7 @@ class SQLDatabase {
           await Future.wait(
             [
               db.execute(
-                'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, isUserCreated INTEGER)',
+                'CREATE TABLE exercises (id INTEGER PRIMARY KEY UNIQUE, name TEXT, category TEXT, equipment TEXT, type TEXT, isUserCreated INTEGER)',
               ),
               db.execute(
                 'CREATE TABLE workouts (id INTEGER PRIMARY KEY UNIQUE, name TEXT, weightUnit TEXT, timeInMillisSinceEpoch INTEGER, exercises TEXT)',
@@ -587,15 +587,20 @@ class SQLDatabase {
     }
   }
 
-  Future<dynamic> addExercise(String exerciseName, String exerciseCategory,
-      String exerciseEquipment) async {
+  Future<dynamic> addExercise(
+    String exerciseName,
+    String exerciseCategory,
+    String exerciseEquipment,
+    String exerciseType,
+  ) async {
     try {
       await db.rawInsert(
-        'INSERT INTO exercises (name, category, equipment, isUserCreated) VALUES (?, ?, ?, ?)',
+        'INSERT INTO exercises (name, category, equipment, type, isUserCreated) VALUES (?, ?, ?, ?, ?)',
         [
           exerciseName,
           exerciseCategory,
           exerciseEquipment,
+          exerciseType,
           1,
         ],
       );

@@ -10,8 +10,8 @@ class Exercise {
   String notes;
   int restEnabled;
   int restSeconds;
-
   List<ExerciseSet> sets = [ExerciseSet()];
+  String type;
 
   Exercise({
     this.id,
@@ -24,6 +24,7 @@ class Exercise {
     this.restEnabled,
     this.restSeconds,
     this.sets,
+    this.type = 'weight',
   });
 
   bool compare(Exercise exercise) {
@@ -43,6 +44,7 @@ class Exercise {
     _clone.equipment = equipment ?? "";
     _clone.isUserCreated = isUserCreated ?? 0;
     _clone.sets = [ExerciseSet()];
+    _clone.type = type;
 
     return _clone;
   }
@@ -72,6 +74,21 @@ class Exercise {
     return totalVolume;
   }
 
+  String getTotalTime() {
+    int totalTime = 0;
+
+    for (int i = 0; i < sets.length; i++) {
+      totalTime += sets[i].time ?? 0;
+    }
+
+    if (totalTime == null || totalTime == 0) return '0:00';
+
+    int minutes = (totalTime % 3600) ~/ 60;
+    int seconds = totalTime % 60;
+
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  }
+
   static Exercise fromJSON(
     Map<String, dynamic> exercise, {
     String workoutWeightUnit,
@@ -96,6 +113,7 @@ class Exercise {
       restEnabled: exercise['restEnabled'],
       restSeconds: exercise['restSeconds'],
       sets: setList ?? [],
+      type: exercise['type'] ?? 'weight',
     );
   }
 
@@ -119,6 +137,7 @@ class Exercise {
       'restEnabled': restEnabled,
       'restSeconds': restSeconds,
       'sets': setJSON ?? [],
+      'type': type ?? 'weight',
     };
   }
 }

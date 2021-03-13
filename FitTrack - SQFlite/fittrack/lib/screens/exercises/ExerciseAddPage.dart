@@ -1,10 +1,10 @@
-import 'package:fittrack/shared/ErrorPopup.dart';
-import 'package:flutter/material.dart';
-
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/CategoryList.dart';
 import 'package:fittrack/shared/EquipmentList.dart';
-import 'package:fittrack/functions/Functions.dart';
+import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:fittrack/shared/TypesList.dart';
+import 'package:flutter/material.dart';
 
 class ExerciseAddPage extends StatefulWidget {
   final Function updateUserExercises;
@@ -21,10 +21,11 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
   String exerciseName = "";
   String exerciseCategory = "";
   String exerciseEquipment = "";
+  String exerciseType = "Weight";
 
   @override
   Widget build(BuildContext context) {
-    void showPopupMenu(bool isCategory) async {
+    void showPopupMenu(String type) async {
       List<Widget> _getItems(String title, List<String> options) {
         List<Widget> items = [];
 
@@ -60,8 +61,10 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                 setState(() {
                   if (title == 'Categories') {
                     exerciseCategory = options[i];
-                  } else {
+                  } else if (title == 'Equipement') {
                     exerciseEquipment = options[i];
+                  } else {
+                    exerciseType = options[i];
                   }
                 });
 
@@ -104,8 +107,17 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                     color: Colors.grey[50],
                     child: Column(
                       children: _getItems(
-                          isCategory ? 'Categories' : 'Equipment',
-                          isCategory ? categories : equipment),
+                        type == 'category'
+                            ? 'Categories'
+                            : type == 'equipment'
+                                ? 'Equipment'
+                                : 'Measurement',
+                        type == 'category'
+                            ? categories
+                            : type == 'equipment'
+                                ? equipment
+                                : types,
+                      ),
                     ),
                   ),
                 ),
@@ -142,8 +154,16 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                     if (formKey.currentState.validate()) {
                       clearFocus(context);
 
+                      if (exerciseType != "") {
+                        exerciseType = exerciseType.toLowerCase();
+                      }
+
                       dynamic result = await globals.sqlDatabase.addExercise(
-                          exerciseName, exerciseCategory, exerciseEquipment);
+                        exerciseName,
+                        exerciseCategory,
+                        exerciseEquipment,
+                        exerciseType,
+                      );
 
                       if (result == null) {
                         showPopupError(
@@ -213,7 +233,7 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                           ),
                           onTap: () {
                             clearFocus(context);
-                            showPopupMenu(true);
+                            showPopupMenu('category');
                           },
                         ),
                       ),
@@ -233,7 +253,27 @@ class _ExerciseAddPageState extends State<ExerciseAddPage> {
                           ),
                           onTap: () {
                             clearFocus(context);
-                            showPopupMenu(false);
+                            showPopupMenu('equipment');
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Container(
+                        height: 50.0,
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: InkWell(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('Measurement'),
+                              Text(
+                                exerciseType == "" ? "Weight" : exerciseType,
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            clearFocus(context);
+                            showPopupMenu('type');
                           },
                         ),
                       ),

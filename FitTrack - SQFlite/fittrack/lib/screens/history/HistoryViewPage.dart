@@ -1,17 +1,16 @@
 import 'dart:math';
 
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/history/popups/DeleteHistoryPopup.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
-import 'package:fittrack/shared/GradientText.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientIcon.dart';
+import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fittrack/models/workout/Workout.dart';
-import 'package:fittrack/functions/Functions.dart';
-import 'package:fittrack/shared/Globals.dart' as globals;
 
 class HistoryViewPage extends StatelessWidget {
   final Workout workout;
@@ -216,194 +215,11 @@ class HistoryViewPage extends StatelessWidget {
               (BuildContext context, int index) {
                 Exercise _exercise = workout.exercises[index];
 
-                return Card(
-                  key: UniqueKey(),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 4.0,
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(0, 16.0, 8.0, 16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Flexible(
-                              child: Container(
-                                padding: EdgeInsets.fromLTRB(
-                                  16.0,
-                                  0.0,
-                                  16.0,
-                                  12.0,
-                                ),
-                                child: GradientText(
-                                  text: _exercise.name,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Container(
-                                padding: EdgeInsets.fromLTRB(
-                                  16.0,
-                                  0.0,
-                                  16.0,
-                                  12.0,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Transform.rotate(
-                                      angle: -pi / 4,
-                                      child: GradientIcon(
-                                        icon:
-                                            Icon(Icons.fitness_center_outlined),
-                                      ),
-                                    ),
-                                    SizedBox(width: 5.0),
-                                    GradientText(
-                                      text:
-                                          "${tryConvertDoubleToInt(_exercise.getTotalVolume()).toString()} ${globals.sqlDatabase.settings.weightUnit}",
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  'SET',
-                                  style: TextStyle(fontSize: 11.0),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Text(
-                                  globals.sqlDatabase.settings.weightUnit
-                                      .toUpperCase(),
-                                  style: TextStyle(fontSize: 11.0),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Text(
-                                  'REPS',
-                                  style: TextStyle(fontSize: 11.0),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        for (int i = 0; i < _exercise.sets.length; i++)
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 4.0),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 1,
-                                  child: GradientText(
-                                    text: (i + 1).toString(),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 4.0,
-                                    ),
-                                    child: TextFormField(
-                                      enabled: false,
-                                      initialValue: tryConvertDoubleToInt(
-                                                  _exercise.sets[i].weight ?? 0)
-                                              ?.toString() ??
-                                          '0',
-                                      autofocus: false,
-                                      keyboardType: TextInputType.number,
-                                      textAlign: TextAlign.center,
-                                      decoration: InputDecoration(
-                                        hintText: '50',
-                                        fillColor: Colors.grey[300],
-                                        filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0),
-                                          ),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0),
-                                          ),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        contentPadding: EdgeInsets.all(6.0),
-                                        isDense: true,
-                                      ),
-                                      onChanged: (String value) {},
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 4.0,
-                                    ),
-                                    child: TextFormField(
-                                      enabled: false,
-                                      initialValue:
-                                          _exercise.sets[i].reps?.toString() ??
-                                              '0',
-                                      autofocus: false,
-                                      keyboardType: TextInputType.number,
-                                      textAlign: TextAlign.center,
-                                      decoration: InputDecoration(
-                                        hintText: '10',
-                                        fillColor: Colors.grey[300],
-                                        filled: true,
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0),
-                                          ),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0),
-                                          ),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        contentPadding: EdgeInsets.all(6.0),
-                                        isDense: true,
-                                      ),
-                                      onChanged: (String value) {},
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 10.0),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                );
+                if (_exercise.type == 'weight') {
+                  return buildRepWeightExercise(context, _exercise);
+                } else {
+                  return buildTimeExercise(context, _exercise);
+                }
               },
               childCount: workout.exercises.length,
             ),
@@ -412,4 +228,328 @@ class HistoryViewPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Card buildRepWeightExercise(BuildContext context, Exercise _exercise) {
+  return Card(
+    key: UniqueKey(),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12.0),
+    ),
+    margin: EdgeInsets.symmetric(
+      horizontal: 12.0,
+      vertical: 4.0,
+    ),
+    child: Container(
+      padding: EdgeInsets.fromLTRB(0, 16.0, 8.0, 16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                    16.0,
+                    0.0,
+                    16.0,
+                    12.0,
+                  ),
+                  child: GradientText(
+                    text: _exercise.name,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                    16.0,
+                    0.0,
+                    16.0,
+                    12.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Transform.rotate(
+                        angle: -pi / 4,
+                        child: GradientIcon(
+                          icon: Icon(Icons.fitness_center_outlined),
+                        ),
+                      ),
+                      SizedBox(width: 5.0),
+                      GradientText(
+                        text:
+                            "${tryConvertDoubleToInt(_exercise.getTotalVolume()).toString()} ${globals.sqlDatabase.settings.weightUnit}",
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    'SET',
+                    style: TextStyle(fontSize: 11.0),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    globals.sqlDatabase.settings.weightUnit.toUpperCase(),
+                    style: TextStyle(fontSize: 11.0),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'REPS',
+                    style: TextStyle(fontSize: 11.0),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          for (int i = 0; i < _exercise.sets.length; i++)
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 4.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: GradientText(
+                      text: (i + 1).toString(),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 4.0,
+                      ),
+                      child: TextFormField(
+                        enabled: false,
+                        initialValue:
+                            tryConvertDoubleToInt(_exercise.sets[i].weight ?? 0)
+                                    ?.toString() ??
+                                '0',
+                        autofocus: false,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: '50',
+                          fillColor: Colors.grey[300],
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: EdgeInsets.all(6.0),
+                          isDense: true,
+                        ),
+                        onChanged: (String value) {},
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 4.0,
+                      ),
+                      child: TextFormField(
+                        enabled: false,
+                        initialValue: _exercise.sets[i].reps?.toString() ?? '0',
+                        autofocus: false,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: '10',
+                          fillColor: Colors.grey[300],
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: EdgeInsets.all(6.0),
+                          isDense: true,
+                        ),
+                        onChanged: (String value) {},
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                ],
+              ),
+            ),
+        ],
+      ),
+    ),
+  );
+}
+
+Card buildTimeExercise(BuildContext context, Exercise _exercise) {
+  return Card(
+    key: UniqueKey(),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12.0),
+    ),
+    margin: EdgeInsets.symmetric(
+      horizontal: 12.0,
+      vertical: 4.0,
+    ),
+    child: Container(
+      padding: EdgeInsets.fromLTRB(0, 16.0, 8.0, 16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                    16.0,
+                    0.0,
+                    16.0,
+                    12.0,
+                  ),
+                  child: GradientText(
+                    text: _exercise.name,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(
+                    16.0,
+                    0.0,
+                    16.0,
+                    12.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      GradientIcon(
+                        icon: Icon(Icons.schedule),
+                      ),
+                      SizedBox(width: 5.0),
+                      GradientText(
+                        text: _exercise.getTotalTime(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    'SET',
+                    style: TextStyle(fontSize: 11.0),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    'TIME',
+                    style: TextStyle(fontSize: 11.0),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          for (int i = 0; i < _exercise.sets.length; i++)
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 4.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: GradientText(
+                      text: (i + 1).toString(),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 4.0,
+                      ),
+                      child: TextFormField(
+                        enabled: false,
+                        initialValue: _exercise.sets[i].getTime(),
+                        autofocus: false,
+                        keyboardType: TextInputType.text,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: '0',
+                          fillColor: Colors.grey[300],
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: EdgeInsets.all(6.0),
+                          isDense: true,
+                        ),
+                        onChanged: (String value) {},
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                ],
+              ),
+            ),
+        ],
+      ),
+    ),
+  );
 }
