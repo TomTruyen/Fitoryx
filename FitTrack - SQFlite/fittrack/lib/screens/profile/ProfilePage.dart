@@ -10,10 +10,9 @@ import 'package:fittrack/screens/profile/popups/TimespanPopup.dart';
 import 'package:fittrack/screens/profile/popups/ToggleGraphsPopup.dart';
 import 'package:fittrack/screens/profile/popups/WorkoutsPerWeekPopup.dart';
 import 'package:fittrack/screens/settings/SettingsPage.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ProfilePage extends StatefulWidget {
   @override

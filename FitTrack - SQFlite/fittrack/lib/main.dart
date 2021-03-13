@@ -1,16 +1,16 @@
 import 'dart:math';
+
+import 'package:fittrack/models/exercises/ExerciseFilter.dart';
+import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
+import 'package:fittrack/screens/Wrapper.dart';
+import 'package:fittrack/services/SQLDatabase.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:fittrack/shared/Loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
-
-import 'package:fittrack/shared/Loader.dart';
-import 'package:fittrack/screens/Wrapper.dart';
-import 'package:fittrack/services/SQLDatabase.dart';
-import 'package:fittrack/models/exercises/ExerciseFilter.dart';
-import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
-import 'package:fittrack/shared/Globals.dart' as globals;
 
 void main() async {
   timeDilation = 1.25;

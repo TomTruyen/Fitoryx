@@ -1,20 +1,18 @@
-import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/functions/Functions.dart';
+import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/models/exercises/ExerciseFilter.dart';
+import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
+import 'package:fittrack/screens/exercises/ExerciseAddPage.dart';
+import 'package:fittrack/screens/exercises/ExerciseFilterPage.dart';
+import 'package:fittrack/screens/exercises/popups/DeleteExercisePopup.dart';
 import 'package:fittrack/shared/ExerciseList.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientFloatingActionButton.dart';
 import 'package:fittrack/shared/GradientText.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:provider/provider.dart';
-
-import 'package:fittrack/models/exercises/Exercise.dart';
-import 'package:fittrack/screens/exercises/ExerciseAddPage.dart';
-import 'package:fittrack/screens/exercises/popups/DeleteExercisePopup.dart';
-import 'package:fittrack/screens/exercises/ExerciseFilterPage.dart';
-import 'package:fittrack/models/exercises/ExerciseFilter.dart';
-import 'package:fittrack/shared/Globals.dart' as globals;
 
 class ExercisesPage extends StatefulWidget {
   final bool isSelectActive;

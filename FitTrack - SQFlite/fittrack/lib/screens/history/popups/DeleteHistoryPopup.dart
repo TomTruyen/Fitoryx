@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-
-import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/functions/Functions.dart';
+import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:flutter/material.dart';
 
 Future<bool> showPopupDeleteHistory(
   BuildContext context,

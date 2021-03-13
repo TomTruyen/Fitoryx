@@ -1,10 +1,9 @@
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
-import 'package:fittrack/functions/Functions.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fittrack/shared/Globals.dart' as globals;
 
 Future<void> showWorkoutsPerWeekPopup(
   BuildContext context,

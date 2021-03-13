@@ -1,15 +1,14 @@
 import 'dart:math';
 
-import 'package:fittrack/shared/ExerciseWidget.dart';
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
-import 'package:fittrack/functions/Functions.dart';
+import 'package:fittrack/shared/ExerciseWidget.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientButton.dart';
 import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:intl/intl.dart';
 
 class HistoryPage extends StatefulWidget {

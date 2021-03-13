@@ -1,12 +1,11 @@
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/BodyFat.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
-import 'package:fittrack/functions/Functions.dart';
 
 int hasDataBeforeDate(List<dynamic> data, DateTime date) {
   if (data.isEmpty) return -1;
-
   data = sortByDate(data, false);
 
   int index = -1;

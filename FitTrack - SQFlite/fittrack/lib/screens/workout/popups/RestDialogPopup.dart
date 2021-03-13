@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
-import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 Future<void> showRestDialog(
   BuildContext context,

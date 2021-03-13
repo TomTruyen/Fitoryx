@@ -1,18 +1,17 @@
 import 'dart:math';
-import 'package:fittrack/models/exercises/ExerciseFilter.dart';
-import 'package:fittrack/services/InAppPurchases.dart';
-import 'package:fittrack/shared/GradientIcon.dart';
-import 'package:flutter/material.dart';
 
+import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/screens/exercises/ExercisesPage.dart';
 import 'package:fittrack/screens/food/FoodPage.dart';
 import 'package:fittrack/screens/history/HistoryPage.dart';
 import 'package:fittrack/screens/profile/ProfilePage.dart';
 import 'package:fittrack/screens/workout/WorkoutPage.dart';
+import 'package:fittrack/services/InAppPurchases.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:fittrack/shared/GradientIcon.dart';
+import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
-
-import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Wrapper extends StatefulWidget {

@@ -2,7 +2,6 @@
 
 import 'package:fittrack/functions/Functions.dart';
 import 'package:flutter/material.dart';
-
 // My Packages
 import 'package:permission_handler/permission_handler.dart';
 

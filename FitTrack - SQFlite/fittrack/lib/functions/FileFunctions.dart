@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:ext_storage/ext_storage.dart';
-import 'package:package_info/package_info.dart';
-
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:package_info/package_info.dart';
 
 Future<String> getDevicePath() async {
   final directory = await ExtStorage.getExternalStoragePublicDirectory(

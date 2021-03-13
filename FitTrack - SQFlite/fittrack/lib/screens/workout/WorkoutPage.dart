@@ -2,20 +2,19 @@ import 'dart:math';
 
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/settings/Settings.dart';
-import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
-import 'package:fittrack/screens/workout/popups/DeleteWorkoutPopup.dart';
-import 'package:fittrack/shared/GradientIcon.dart';
-import 'package:fittrack/shared/GradientText.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-
-import 'package:fittrack/shared/Globals.dart' as globals;
-import 'package:fittrack/shared/GradientButton.dart';
-import 'package:fittrack/shared/ExerciseWidget.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/models/workout/WorkoutChangeNotifier.dart';
 import 'package:fittrack/screens/workout/WorkoutBuildPage.dart';
+import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
+import 'package:fittrack/screens/workout/popups/DeleteWorkoutPopup.dart';
+import 'package:fittrack/shared/ExerciseWidget.dart';
+import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:fittrack/shared/GradientButton.dart';
+import 'package:fittrack/shared/GradientIcon.dart';
+import 'package:fittrack/shared/GradientText.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutPage extends StatefulWidget {
   @override

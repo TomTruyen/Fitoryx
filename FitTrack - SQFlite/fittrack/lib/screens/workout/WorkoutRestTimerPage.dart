@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:vibration/vibration.dart';
-
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class WorkoutRestTimerPage extends StatefulWidget {
   final int restSeconds;

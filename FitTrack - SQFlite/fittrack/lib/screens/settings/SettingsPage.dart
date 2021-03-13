@@ -1,22 +1,21 @@
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
-import 'package:fittrack/screens/settings/popups/data/AutoExportDataPopup.dart';
-import 'package:fittrack/screens/settings/popups/personal_info/BodyFatPopup.dart';
-import 'package:fittrack/screens/settings/popups/personal_info/WeightPopup.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:package_info/package_info.dart';
-
+import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/settings/Settings.dart';
+import 'package:fittrack/screens/settings/popups/data/AutoExportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ExportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ImportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/food/NutritionGoalsPopup.dart';
+import 'package:fittrack/screens/settings/popups/personal_info/BodyFatPopup.dart';
+import 'package:fittrack/screens/settings/popups/personal_info/WeightPopup.dart';
 import 'package:fittrack/screens/settings/popups/rest_timer/DefaultRestTimePopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
-import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {

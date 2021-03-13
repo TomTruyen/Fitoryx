@@ -1,16 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 import 'package:device_info/device_info.dart';
-
-import 'package:fittrack/models/food/Food.dart';
-import 'package:fittrack/models/food/FoodPerHour.dart';
-import 'package:fittrack/models/settings/GraphToShow.dart';
-import 'package:fittrack/models/settings/UserWeight.dart';
-import 'package:fittrack/models/exercises/Exercise.dart';
-import 'package:fittrack/models/exercises/ExerciseFilter.dart';
-
 // Function imports
 import 'package:fittrack/functions/ConvertFunctions.dart' as ConvertFunctions;
 import 'package:fittrack/functions/DateFunctions.dart' as DateFunctions;
@@ -19,6 +9,13 @@ import 'package:fittrack/functions/FilterFunctions.dart' as FilterFunctions;
 import 'package:fittrack/functions/GraphFunctions.dart' as GraphFunctions;
 import 'package:fittrack/functions/SortFunctions.dart' as SortFunctions;
 import 'package:fittrack/functions/UtilFunctions.dart' as UtilFunctions;
+import 'package:fittrack/models/exercises/Exercise.dart';
+import 'package:fittrack/models/exercises/ExerciseFilter.dart';
+import 'package:fittrack/models/food/Food.dart';
+import 'package:fittrack/models/food/FoodPerHour.dart';
+import 'package:fittrack/models/settings/GraphToShow.dart';
+import 'package:fittrack/models/settings/UserWeight.dart';
+import 'package:flutter/material.dart';
 
 // Convert Functions
 double convertToDecimalPlaces(double input, int amountOfDecimals, bool round) {

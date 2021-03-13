@@ -1,12 +1,10 @@
+import 'package:fittrack/functions/Functions.dart';
+import 'package:fittrack/screens/donation/popups/AboutMePopup.dart';
 import 'package:fittrack/services/InAppPurchases.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
-import 'package:flutter/material.dart';
-
-import 'package:fittrack/functions/Functions.dart';
-import 'package:fittrack/shared/GradientText.dart';
-import 'package:fittrack/screens/donation/popups/AboutMePopup.dart';
-
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:fittrack/shared/GradientText.dart';
+import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class DonationPage extends StatelessWidget {
