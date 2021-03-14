@@ -173,44 +173,6 @@ List<dynamic> getDataWithinTimespan(
   if (data == null) data = [];
 
   DateTime now = DateTime.now();
-  if (data is List<UserWeight>) {
-    data = [
-      UserWeight(
-        timeInMillisSinceEpoch: now.millisecondsSinceEpoch,
-        weight: 75,
-      ),
-      UserWeight(
-        timeInMillisSinceEpoch:
-            now.subtract(Duration(days: 1)).millisecondsSinceEpoch,
-        weight: 72,
-      ),
-      UserWeight(
-        timeInMillisSinceEpoch:
-            now.subtract(Duration(days: 2)).millisecondsSinceEpoch,
-        weight: 78,
-      ),
-      UserWeight(
-        timeInMillisSinceEpoch:
-            now.subtract(Duration(days: 3)).millisecondsSinceEpoch,
-        weight: 75,
-      ),
-      UserWeight(
-        timeInMillisSinceEpoch:
-            now.subtract(Duration(days: 4)).millisecondsSinceEpoch,
-        weight: 72,
-      ),
-      UserWeight(
-        timeInMillisSinceEpoch:
-            now.subtract(Duration(days: 5)).millisecondsSinceEpoch,
-        weight: 67,
-      ),
-      UserWeight(
-        timeInMillisSinceEpoch:
-            now.subtract(Duration(days: 6)).millisecondsSinceEpoch,
-        weight: 60,
-      ),
-    ];
-  }
 
   if (!hasSameDay(data, now)) {
     if (data.isNotEmpty && data is List<UserWeight> || data is List<BodyFat>) {

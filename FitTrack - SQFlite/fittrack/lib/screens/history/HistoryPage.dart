@@ -79,38 +79,12 @@ class _HistoryPageState extends State<HistoryPage> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  List<Workout> _w = [
-                    Workout(
-                        timeInMillisSinceEpoch:
-                            DateTime.now().millisecondsSinceEpoch),
-                    Workout(
-                        timeInMillisSinceEpoch: DateTime.now()
-                            .subtract(Duration(days: 1))
-                            .millisecondsSinceEpoch),
-                    Workout(
-                        timeInMillisSinceEpoch: DateTime.now()
-                            .subtract(Duration(days: 2))
-                            .millisecondsSinceEpoch),
-                    Workout(
-                        timeInMillisSinceEpoch: DateTime.now()
-                            .subtract(Duration(days: 3))
-                            .millisecondsSinceEpoch),
-                    Workout(
-                        timeInMillisSinceEpoch: DateTime.now()
-                            .subtract(Duration(days: 4))
-                            .millisecondsSinceEpoch),
-                    Workout(
-                        timeInMillisSinceEpoch: DateTime.now()
-                            .subtract(Duration(days: 4))
-                            .millisecondsSinceEpoch),
-                  ];
-
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
                       fullscreenDialog: true,
                       builder: (context) => HistoryCalendarPage(
-                        workoutsHistory: _w,
+                        workoutsHistory: workoutsHistory,
                       ),
                     ),
                   );
