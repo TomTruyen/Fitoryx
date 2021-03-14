@@ -10,7 +10,10 @@ class WorkoutsPerWeekChart extends StatelessWidget {
 
   final List<String> datesList = [];
 
-  WorkoutsPerWeekChart({this.workoutHistory, this.settings});
+  WorkoutsPerWeekChart({
+    this.workoutHistory,
+    this.settings,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,7 @@ class WorkoutsPerWeekChart extends StatelessWidget {
           workoutHistory,
           datesList,
           settings,
+          MediaQuery.of(context).size.shortestSide,
         ),
         barTouchData: BarTouchData(
           touchExtraThreshold: EdgeInsets.all(12.0),
@@ -78,8 +82,9 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
   List<Workout> _workoutHistory,
   List<String> _datesList,
   Settings settings,
+  double shortestSize,
 ) {
-  const TOTAL_WEEKS = 6;
+  final totalWeeks = shortestSize < 600 ? 6 : 12;
 
   void _insertData(
     DateTime startOfCurrentWeek,
@@ -94,7 +99,7 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
     workoutsPerWeekBarData.insert(
       0,
       BarChartGroupData(
-        x: TOTAL_WEEKS - workoutsPerWeekBarData.length,
+        x: totalWeeks - workoutsPerWeekBarData.length,
         barRods: [
           BarChartRodData(
             backDrawRodData: BackgroundBarChartRodData(
@@ -155,7 +160,7 @@ List<BarChartGroupData> _getWorkoutsPerWeekBarDataList(
   DateTime startOfNextWeek = now.add(Duration(days: 7 - now.weekday + 1));
   startOfNextWeek = convertDateTimeToDate(startOfNextWeek);
 
-  for (int i = 0; i < TOTAL_WEEKS; i++) {
+  for (int i = 0; i < totalWeeks; i++) {
     List<Workout> workoutsWithinTimespan = getWorkoutsWithinTimespan(
       _workoutHistory,
       startOfCurrentWeek,
