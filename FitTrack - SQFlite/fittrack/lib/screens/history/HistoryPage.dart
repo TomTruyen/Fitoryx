@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/workout/Workout.dart';
+import 'package:fittrack/screens/history/HistoryCalendarPage.dart';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
 import 'package:fittrack/shared/ExerciseWidget.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
@@ -72,6 +73,49 @@ class _HistoryPageState extends State<HistoryPage> {
             ),
             actions: <Widget>[
               globals.getDonationButton(context),
+              IconButton(
+                icon: Icon(
+                  Icons.calendar_today_outlined,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  List<Workout> _w = [
+                    Workout(
+                        timeInMillisSinceEpoch:
+                            DateTime.now().millisecondsSinceEpoch),
+                    Workout(
+                        timeInMillisSinceEpoch: DateTime.now()
+                            .subtract(Duration(days: 1))
+                            .millisecondsSinceEpoch),
+                    Workout(
+                        timeInMillisSinceEpoch: DateTime.now()
+                            .subtract(Duration(days: 2))
+                            .millisecondsSinceEpoch),
+                    Workout(
+                        timeInMillisSinceEpoch: DateTime.now()
+                            .subtract(Duration(days: 3))
+                            .millisecondsSinceEpoch),
+                    Workout(
+                        timeInMillisSinceEpoch: DateTime.now()
+                            .subtract(Duration(days: 4))
+                            .millisecondsSinceEpoch),
+                    Workout(
+                        timeInMillisSinceEpoch: DateTime.now()
+                            .subtract(Duration(days: 4))
+                            .millisecondsSinceEpoch),
+                  ];
+
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => HistoryCalendarPage(
+                        workoutsHistory: _w,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
           if (workoutsHistory.length <= 0)
