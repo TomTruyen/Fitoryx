@@ -85,69 +85,72 @@ class _WrapperState extends State<Wrapper> {
   Widget build(BuildContext context) {
     final ExerciseFilter filter = Provider.of<ExerciseFilter>(context) ?? null;
 
-    return Scaffold(
-      body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 250),
-        child: _pages[_selectedIndex],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        onTap: (int index) {
-          if (index == globals.PageEnum.exercises.index) {
-            filter?.clearAllFilters();
-          }
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: AnimatedSwitcher(
+          duration: Duration(milliseconds: 250),
+          child: _pages[_selectedIndex],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          onTap: (int index) {
+            if (index == globals.PageEnum.exercises.index) {
+              filter?.clearAllFilters();
+            }
 
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        currentIndex: _selectedIndex,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            activeIcon: GradientIcon(
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          currentIndex: _selectedIndex,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              activeIcon: GradientIcon(
+                icon: Icon(Icons.person_outline),
+              ),
               icon: Icon(Icons.person_outline),
+              label: 'Profile',
             ),
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: GradientIcon(
+            BottomNavigationBarItem(
+              activeIcon: GradientIcon(
+                icon: Icon(Icons.watch_later_outlined),
+              ),
               icon: Icon(Icons.watch_later_outlined),
+              label: 'History',
             ),
-            icon: Icon(Icons.watch_later_outlined),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: GradientIcon(
+            BottomNavigationBarItem(
+              activeIcon: GradientIcon(
+                icon: Icon(Icons.add_outlined),
+              ),
               icon: Icon(Icons.add_outlined),
+              label: 'Workout',
             ),
-            icon: Icon(Icons.add_outlined),
-            label: 'Workout',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: GradientIcon(
+            BottomNavigationBarItem(
+              activeIcon: GradientIcon(
+                icon: Transform.rotate(
+                  angle: -pi / 4,
+                  child: Icon(Icons.fitness_center_outlined),
+                ),
+              ),
               icon: Transform.rotate(
                 angle: -pi / 4,
                 child: Icon(Icons.fitness_center_outlined),
               ),
+              label: 'Exercises',
             ),
-            icon: Transform.rotate(
-              angle: -pi / 4,
-              child: Icon(Icons.fitness_center_outlined),
-            ),
-            label: 'Exercises',
-          ),
-          BottomNavigationBarItem(
-            activeIcon: GradientIcon(
+            BottomNavigationBarItem(
+              activeIcon: GradientIcon(
+                icon: Icon(Icons.restaurant_menu_outlined),
+              ),
               icon: Icon(Icons.restaurant_menu_outlined),
+              label: 'Nutrition',
             ),
-            icon: Icon(Icons.restaurant_menu_outlined),
-            label: 'Nutrition',
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
