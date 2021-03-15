@@ -98,6 +98,7 @@ class _HistoryCalendarPageState extends State<HistoryCalendarPage> {
                 fontSize: 20.0,
                 color: Colors.blue[700],
               ),
+              firstDayOfWeek: 1,
               todayBorderColor: Colors.transparent,
               todayButtonColor: Colors.transparent,
               todayTextStyle:
