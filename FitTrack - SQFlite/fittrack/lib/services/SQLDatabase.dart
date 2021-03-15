@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:ext_storage/ext_storage.dart';
 import 'package:fittrack/functions/FileFunctions.dart';
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
@@ -10,6 +12,7 @@ import 'package:fittrack/models/settings/BodyFat.dart';
 import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:fittrack/models/workout/Workout.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
 
 const SECRET_KEY =
@@ -33,11 +36,32 @@ class SQLDatabase {
   Settings settings;
   List<Food> food;
 
+  Future<String> getPersistentDBPath() async {
+    try {
+      if (await Permission.storage.request().isGranted) {
+        String externalDirectoryPath =
+            await ExtStorage.getExternalStorageDirectory();
+        String directoryPath = "$externalDirectoryPath/fittrack_persistent";
+        Directory directory = await (new Directory(directoryPath).create());
+        return "$directoryPath/fittrack.db";
+      }
+
+      return null;
+    } catch (e) {
+      print("Error getting PersistentPath: $e");
+      return null;
+    }
+  }
+
   Future<dynamic> setupDatabase() async {
     try {
-      String dbPath = await getDatabasesPath();
+      String path = await getPersistentDBPath();
 
-      String path = dbPath + "fittrack.db";
+      if (path == null) {
+        String dbPath = await getDatabasesPath();
+
+        path = dbPath + "fittrack.db";
+      }
 
       db = await openDatabase(
         path,
@@ -100,8 +124,13 @@ class SQLDatabase {
 
   Future<dynamic> resetDatabase() async {
     try {
-      String dbPath = await getDatabasesPath();
-      String path = dbPath + "fittrack.db";
+      String path = await getPersistentDBPath();
+
+      if (path == null) {
+        String dbPath = await getDatabasesPath();
+
+        path = dbPath + "fittrack.db";
+      }
 
       await deleteDatabase(path);
 
