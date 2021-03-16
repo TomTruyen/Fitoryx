@@ -8,5 +8,5 @@ FitTrack is an app that allows users to track their fitness progress. It allows 
 
 
 ## Releases (Google Play Store)
-/
+[FitTrack](https://play.google.com/store/apps/details?id=com.tomtruyen.fittrack)
 
