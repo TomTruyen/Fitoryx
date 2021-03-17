@@ -42,7 +42,7 @@ class SQLDatabase {
         String externalDirectoryPath =
             await ExtStorage.getExternalStorageDirectory();
         String directoryPath = "$externalDirectoryPath/fittrack_persistent";
-        Directory directory = await (new Directory(directoryPath).create());
+        await (new Directory(directoryPath).create());
         return "$directoryPath/fittrack.db";
       }
 

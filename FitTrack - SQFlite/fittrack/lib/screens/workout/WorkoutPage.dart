@@ -10,8 +10,6 @@ import 'package:fittrack/screens/workout/popups/DeleteWorkoutPopup.dart';
 import 'package:fittrack/shared/ExerciseWidget.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientButton.dart';
-import 'package:fittrack/shared/GradientIcon.dart';
-import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -188,8 +186,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                   child: Container(
                                     padding: EdgeInsets.fromLTRB(
                                         16.0, 0.0, 16.0, 12.0),
-                                    child: GradientText(
-                                      text: name,
+                                    child: Text(
+                                      name,
+                                      style: TextStyle(
+                                        color: Colors.blue[700],
+                                      ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -207,8 +208,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8.0)),
                                       ),
-                                      icon: GradientIcon(
-                                        icon: Icon(Icons.more_vert),
+                                      icon: Icon(
+                                        Icons.more_vert,
+                                        color: Colors.blue[700],
                                       ),
                                       onSelected: (selection) async {
                                         switch (selection) {

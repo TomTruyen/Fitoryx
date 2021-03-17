@@ -3,7 +3,6 @@ import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/shared/CategoryList.dart';
 import 'package:fittrack/shared/EquipmentList.dart';
 import 'package:fittrack/shared/GradientButton.dart';
-import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -52,6 +51,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                   children: <Widget>[
                     Text('Category'),
                     SizedBox(height: 20.0),
+
                     Wrap(
                       spacing: 10.0,
                       runSpacing: 10.0,
@@ -60,6 +60,7 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                     SizedBox(height: 20.0),
                     Text('Equipment'),
                     SizedBox(height: 20.0),
+
                     Wrap(
                       spacing: 10.0,
                       runSpacing: 10.0,
@@ -68,11 +69,34 @@ class _ExerciseFilterPageState extends State<ExerciseFilterPage> {
                     SizedBox(height: 20.0),
                     Text('User Created'),
                     SizedBox(height: 20.0),
+
                     Wrap(
                       spacing: 10.0,
                       runSpacing: 10.0,
-                      children: buildFilterWidgets(filter, 'userCreated'),
+                      children: [
+                        InkWell(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: FilterWidget(
+                            value: 'Equipment1',
+                            selected:
+                                filter.selectedEquipment.contains('Equipment1'),
+                          ),
+                          onTap: () {
+                            if (filter.selectedEquipment
+                                .contains('Equipment1')) {
+                              filter.removeCategory('Equipment1');
+                            } else {
+                              filter.addCategory('Equipment1');
+                            }
+                          },
+                        ),
+                      ],
                     ),
+                    // Wrap(
+                    //   spacing: 10.0,
+                    //   runSpacing: 10.0,
+                    //   children: buildFilterWidgets(filter, 'userCreated'),
+                    // ),
                   ],
                 ),
               ),
@@ -99,7 +123,7 @@ class FilterWidget extends StatelessWidget {
   final String value;
   final bool selected;
 
-  FilterWidget({this.value, this.selected});
+  FilterWidget({this.value, this.selected = false});
 
   @override
   Widget build(BuildContext context) {
@@ -126,20 +150,14 @@ class FilterWidget extends StatelessWidget {
           Radius.circular(12.0),
         ),
       ),
-      child: !selected
-          ? GradientText(
-              text: value,
-              fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
-              textAlign: TextAlign.center,
-            )
-          : Text(
-              value,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
-              ),
-              textAlign: TextAlign.center,
-            ),
+      child: Text(
+        value,
+        style: TextStyle(
+          color: !selected ? Colors.blue[700] : Colors.white,
+          fontSize: Theme.of(context).textTheme.bodyText2.fontSize * 0.8,
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

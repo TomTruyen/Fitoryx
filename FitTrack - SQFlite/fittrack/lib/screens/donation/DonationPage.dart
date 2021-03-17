@@ -3,7 +3,6 @@ import 'package:fittrack/screens/donation/popups/AboutMePopup.dart';
 import 'package:fittrack/services/InAppPurchases.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
-import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
@@ -71,10 +70,13 @@ class DonationPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
-                      child: GradientText(
-                        text: 'Want to know more about me?',
-                        fontSize:
-                            Theme.of(context).textTheme.bodyText2.fontSize,
+                      child: Text(
+                        'Want to know more about me?',
+                        style: TextStyle(
+                          color: Colors.blue[700],
+                          fontSize:
+                              Theme.of(context).textTheme.bodyText2.fontSize,
+                        ),
                       ),
                       onPressed: () async {
                         await showPopupAboutMe(context);
@@ -132,9 +134,12 @@ class DonationItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              GradientText(
-                text: 'Donation of € ${tryConvertDoubleToInt(price)}',
-                fontSize: Theme.of(context).textTheme.bodyText2.fontSize,
+              Text(
+                'Donation of € ${tryConvertDoubleToInt(price)}',
+                style: TextStyle(
+                  color: Colors.blue[700],
+                  fontSize: Theme.of(context).textTheme.bodyText2.fontSize,
+                ),
               ),
               Text(
                 'Donations can only be paid for through Google Pay',

@@ -9,8 +9,6 @@ import 'package:fittrack/screens/workout/popups/EndWorkoutWarningPopup.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientButton.dart';
-import 'package:fittrack/shared/GradientIcon.dart';
-import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -320,8 +318,11 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                               Flexible(
                                 child: Container(
                                   padding: EdgeInsets.all(16.0),
-                                  child: GradientText(
-                                    text: _exercise.name,
+                                  child: Text(
+                                    _exercise.name,
+                                    style: TextStyle(
+                                      color: Colors.blue[700],
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -331,15 +332,18 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                   padding: EdgeInsets.all(16.0),
                                   child: Row(
                                     children: <Widget>[
-                                      GradientIcon(
-                                        icon: Icon(Icons.schedule),
+                                      Icon(
+                                        Icons.schedule,
+                                        color: Colors.blue[700],
                                       ),
                                       SizedBox(
                                         width: 5.0,
                                       ),
-                                      GradientText(
-                                        text:
-                                            "${_exercise.restSeconds ~/ 60}:${(_exercise.restSeconds % 60).toString().padLeft(2, '0')}",
+                                      Text(
+                                        "${_exercise.restSeconds ~/ 60}:${(_exercise.restSeconds % 60).toString().padLeft(2, '0')}",
+                                        style: TextStyle(
+                                          color: Colors.blue[700],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -421,8 +425,11 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                 children: <Widget>[
                                   Expanded(
                                     flex: 1,
-                                    child: GradientText(
-                                      text: (i + 1).toString(),
+                                    child: Text(
+                                      (i + 1).toString(),
+                                      style: TextStyle(
+                                        color: Colors.blue[700],
+                                      ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -590,8 +597,11 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                               Flexible(
                                 child: Container(
                                   padding: EdgeInsets.all(16.0),
-                                  child: GradientText(
-                                    text: _exercise.name,
+                                  child: Text(
+                                    _exercise.name,
+                                    style: TextStyle(
+                                      color: Colors.blue[700],
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -601,15 +611,18 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                   padding: EdgeInsets.all(16.0),
                                   child: Row(
                                     children: <Widget>[
-                                      GradientIcon(
-                                        icon: Icon(Icons.schedule),
+                                      Icon(
+                                        Icons.schedule,
+                                        color: Colors.blue[700],
                                       ),
                                       SizedBox(
                                         width: 5.0,
                                       ),
-                                      GradientText(
-                                        text:
-                                            "${_exercise.restSeconds ~/ 60}:${(_exercise.restSeconds % 60).toString().padLeft(2, '0')}",
+                                      Text(
+                                        "${_exercise.restSeconds ~/ 60}:${(_exercise.restSeconds % 60).toString().padLeft(2, '0')}",
+                                        style: TextStyle(
+                                          color: Colors.blue[700],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -682,8 +695,11 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                                 children: <Widget>[
                                   Expanded(
                                     flex: 1,
-                                    child: GradientText(
-                                      text: (i + 1).toString(),
+                                    child: Text(
+                                      (i + 1).toString(),
+                                      style: TextStyle(
+                                        color: Colors.blue[700],
+                                      ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),

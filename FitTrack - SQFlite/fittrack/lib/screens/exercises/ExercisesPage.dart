@@ -8,7 +8,6 @@ import 'package:fittrack/screens/exercises/popups/DeleteExercisePopup.dart';
 import 'package:fittrack/shared/ExerciseList.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientFloatingActionButton.dart';
-import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -339,16 +338,16 @@ class _ExercisesPageState extends State<ExercisesPage> {
                   TextStyle style;
                   TextStyle subtitle = Theme.of(context).textTheme.subtitle2;
 
-                  bool isGradient = false;
+                  bool isSelected = false;
 
                   if (widget.isReplaceActive) {
                     if (_exercise.compare(exerciseToReplace)) {
-                      isGradient = true;
+                      isSelected = true;
                     }
                   } else if (workoutExercises.isNotEmpty) {
                     for (int j = 0; j < workoutExercises.length; j++) {
                       if (workoutExercises[j].compare(_exercise)) {
-                        isGradient = true;
+                        isSelected = true;
 
                         break;
                       }
@@ -356,27 +355,25 @@ class _ExercisesPageState extends State<ExercisesPage> {
                   }
 
                   return ListTile(
-                    title: isGradient
-                        ? GradientText(
-                            text: name,
-                            fontSize: 16.0,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        : Text(
-                            name,
-                            overflow: TextOverflow.ellipsis,
-                            style: style,
-                          ),
-                    subtitle: isGradient
-                        ? GradientText(
-                            text: category == "" ? "None" : category,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        : Text(
-                            category == "" ? "None" : category,
-                            overflow: TextOverflow.ellipsis,
-                            style: subtitle,
-                          ),
+                    title: Text(
+                      name,
+                      style: isSelected
+                          ? TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.blue[700],
+                            )
+                          : style,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      category == "" ? "None" : category,
+                      style: isSelected
+                          ? subtitle.copyWith(
+                              color: Colors.blue[700],
+                            )
+                          : subtitle,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     trailing: !widget.isSelectActive && isUserCreated
                         ? IconButton(
                             icon: Icon(Icons.delete, color: Colors.black),

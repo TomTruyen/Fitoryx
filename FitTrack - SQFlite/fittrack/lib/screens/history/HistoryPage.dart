@@ -7,7 +7,6 @@ import 'package:fittrack/screens/history/HistoryViewPage.dart';
 import 'package:fittrack/shared/ExerciseWidget.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientButton.dart';
-import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -233,8 +232,11 @@ class _HistoryPageState extends State<HistoryPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      GradientText(
-                                        text: "$name",
+                                      Text(
+                                        name,
+                                        style: TextStyle(
+                                          color: Colors.blue[700],
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ],

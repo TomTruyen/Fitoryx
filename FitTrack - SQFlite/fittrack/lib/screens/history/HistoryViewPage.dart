@@ -7,8 +7,6 @@ import 'package:fittrack/screens/history/popups/DeleteHistoryPopup.dart';
 import 'package:fittrack/screens/workout/WorkoutStartPage.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
-import 'package:fittrack/shared/GradientIcon.dart';
-import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -257,8 +255,11 @@ Card buildRepWeightExercise(BuildContext context, Exercise _exercise) {
                     16.0,
                     12.0,
                   ),
-                  child: GradientText(
-                    text: _exercise.name,
+                  child: Text(
+                    _exercise.name,
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -276,14 +277,17 @@ Card buildRepWeightExercise(BuildContext context, Exercise _exercise) {
                     children: <Widget>[
                       Transform.rotate(
                         angle: -pi / 4,
-                        child: GradientIcon(
-                          icon: Icon(Icons.fitness_center_outlined),
+                        child: Icon(
+                          Icons.fitness_center_outlined,
+                          color: Colors.blue[700],
                         ),
                       ),
                       SizedBox(width: 5.0),
-                      GradientText(
-                        text:
-                            "${tryConvertDoubleToInt(_exercise.getTotalVolume()).toString()} ${globals.sqlDatabase.settings.weightUnit}",
+                      Text(
+                        "${tryConvertDoubleToInt(_exercise.getTotalVolume()).toString()} ${globals.sqlDatabase.settings.weightUnit}",
+                        style: TextStyle(
+                          color: Colors.blue[700],
+                        ),
                       ),
                     ],
                   ),
@@ -329,8 +333,11 @@ Card buildRepWeightExercise(BuildContext context, Exercise _exercise) {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: GradientText(
-                      text: (i + 1).toString(),
+                    child: Text(
+                      (i + 1).toString(),
+                      style: TextStyle(
+                        color: Colors.blue[700],
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -444,8 +451,11 @@ Card buildTimeExercise(BuildContext context, Exercise _exercise) {
                     16.0,
                     12.0,
                   ),
-                  child: GradientText(
-                    text: _exercise.name,
+                  child: Text(
+                    _exercise.name,
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -461,12 +471,16 @@ Card buildTimeExercise(BuildContext context, Exercise _exercise) {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      GradientIcon(
-                        icon: Icon(Icons.schedule),
+                      Icon(
+                        Icons.schedule,
+                        color: Colors.blue[700],
                       ),
                       SizedBox(width: 5.0),
-                      GradientText(
-                        text: _exercise.getTotalTime(),
+                      Text(
+                        _exercise.getTotalTime(),
+                        style: TextStyle(
+                          color: Colors.blue[700],
+                        ),
                       ),
                     ],
                   ),
@@ -504,8 +518,11 @@ Card buildTimeExercise(BuildContext context, Exercise _exercise) {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: GradientText(
-                      text: (i + 1).toString(),
+                    child: Text(
+                      (i + 1).toString(),
+                      style: TextStyle(
+                        color: Colors.blue[700],
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),

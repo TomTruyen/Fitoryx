@@ -8,8 +8,6 @@ import 'package:fittrack/screens/workout/popups/TimePopup.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:fittrack/shared/GradientFloatingActionButton.dart';
-import 'package:fittrack/shared/GradientIcon.dart';
-import 'package:fittrack/shared/GradientText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -212,8 +210,11 @@ Card buildRepWeightExercise(
                     16.0,
                     12.0,
                   ),
-                  child: GradientText(
-                    text: _name,
+                  child: Text(
+                    _name,
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -229,7 +230,7 @@ Card buildRepWeightExercise(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
-                    icon: GradientIcon(),
+                    icon: Icon(Icons.more_vert, color: Colors.blue[700]),
                     onSelected: (selection) {
                       if (selection == 'remove') {
                         workout.removeExercise(index);
@@ -380,8 +381,11 @@ Card buildRepWeightExercise(
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: GradientText(
-                    text: (i + 1).toString(),
+                  child: Text(
+                    (i + 1).toString(),
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -482,9 +486,12 @@ Card buildRepWeightExercise(
               ],
             ),
           TextButton(
-            child: GradientText(
-              text: 'ADD SET',
-              fontWeight: FontWeight.w600,
+            child: Text(
+              'ADD SET',
+              style: TextStyle(
+                color: Colors.blue[700],
+                fontWeight: FontWeight.w600,
+              ),
             ),
             onPressed: () {
               workout.addExerciseSet(index);
@@ -534,8 +541,11 @@ Card buildTimeExercise(
                     16.0,
                     12.0,
                   ),
-                  child: GradientText(
-                    text: _name,
+                  child: Text(
+                    _name,
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -551,7 +561,7 @@ Card buildTimeExercise(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
-                    icon: GradientIcon(),
+                    icon: Icon(Icons.more_vert, color: Colors.blue[700]),
                     onSelected: (selection) {
                       if (selection == 'remove') {
                         workout.removeExercise(index);
@@ -694,8 +704,11 @@ Card buildTimeExercise(
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: GradientText(
-                    text: (i + 1).toString(),
+                  child: Text(
+                    (i + 1).toString(),
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -757,9 +770,12 @@ Card buildTimeExercise(
               ],
             ),
           TextButton(
-            child: GradientText(
-              text: 'ADD SET',
-              fontWeight: FontWeight.w600,
+            child: Text(
+              'ADD SET',
+              style: TextStyle(
+                color: Colors.blue[700],
+                fontWeight: FontWeight.w600,
+              ),
             ),
             onPressed: () {
               workout.addExerciseSet(index);

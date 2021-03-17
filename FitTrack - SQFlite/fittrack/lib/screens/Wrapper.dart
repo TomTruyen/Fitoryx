@@ -8,7 +8,6 @@ import 'package:fittrack/screens/profile/ProfilePage.dart';
 import 'package:fittrack/screens/workout/WorkoutPage.dart';
 import 'package:fittrack/services/InAppPurchases.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
-import 'package:fittrack/shared/GradientIcon.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
@@ -109,31 +108,27 @@ class _WrapperState extends State<Wrapper> {
           currentIndex: _selectedIndex,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              activeIcon: GradientIcon(
-                icon: Icon(Icons.person_outline),
-              ),
+              activeIcon: Icon(Icons.person_outline, color: Colors.blue[700]),
               icon: Icon(Icons.person_outline),
               label: 'Profile',
             ),
             BottomNavigationBarItem(
-              activeIcon: GradientIcon(
-                icon: Icon(Icons.watch_later_outlined),
-              ),
+              activeIcon:
+                  Icon(Icons.watch_later_outlined, color: Colors.blue[700]),
               icon: Icon(Icons.watch_later_outlined),
               label: 'History',
             ),
             BottomNavigationBarItem(
-              activeIcon: GradientIcon(
-                icon: Icon(Icons.add_outlined),
-              ),
+              activeIcon: Icon(Icons.add_outlined, color: Colors.blue[700]),
               icon: Icon(Icons.add_outlined),
               label: 'Workout',
             ),
             BottomNavigationBarItem(
-              activeIcon: GradientIcon(
-                icon: Transform.rotate(
-                  angle: -pi / 4,
-                  child: Icon(Icons.fitness_center_outlined),
+              activeIcon: Transform.rotate(
+                angle: -pi / 4,
+                child: Icon(
+                  Icons.fitness_center_outlined,
+                  color: Colors.blue[700],
                 ),
               ),
               icon: Transform.rotate(
@@ -143,9 +138,8 @@ class _WrapperState extends State<Wrapper> {
               label: 'Exercises',
             ),
             BottomNavigationBarItem(
-              activeIcon: GradientIcon(
-                icon: Icon(Icons.restaurant_menu_outlined),
-              ),
+              activeIcon:
+                  Icon(Icons.restaurant_menu_outlined, color: Colors.blue[700]),
               icon: Icon(Icons.restaurant_menu_outlined),
               label: 'Nutrition',
             ),
