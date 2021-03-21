@@ -10,6 +10,7 @@ import 'package:fittrack/screens/settings/popups/data/ExportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ImportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/food/NutritionGoalsPopup.dart';
 import 'package:fittrack/screens/settings/popups/rest_timer/DefaultRestTimePopup.dart';
+import 'package:fittrack/screens/settings/popups/units/HeightUnitPopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
@@ -136,6 +137,22 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   onTap: () async {
                     await showPopupWeightUnit(
+                      context,
+                      settings,
+                      updateSettings,
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text('Height Unit'),
+                  subtitle: Text(
+                    settings.heightUnit == 'cm'
+                        ? 'Metric (cm)'
+                        : 'Imperial (ft)',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  onTap: () async {
+                    await showPopupHeightUnit(
                       context,
                       settings,
                       updateSettings,
