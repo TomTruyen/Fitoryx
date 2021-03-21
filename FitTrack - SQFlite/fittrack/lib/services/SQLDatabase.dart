@@ -82,7 +82,7 @@ class SQLDatabase {
                 'CREATE TABLE food (id INTEGER PRIMARY KEY UNIQUE, foodPerHour TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, date TEXT UNIQUE)',
               ),
               db.execute(
-                'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, graphsToShow TEXT, workoutsPerWeekGoal INTEGER, isAutoExportEnabled INTEGER)',
+                'CREATE TABLE settings (id INTEGER PRIMARY KEY UNIQUE, weightUnit TEXT, heightUnit TEXT, height REAL, gender TEXT, dateOfBirth INTEGER, kcalGoal REAL, carbsGoal REAL, proteinGoal REAL, fatGoal REAL, defaultRestTime INTEGER, isRestTimerEnabled INTEGER, isVibrateUponFinishEnabled INTEGER, graphsToShow TEXT, workoutsPerWeekGoal INTEGER, isAutoExportEnabled INTEGER)',
               ),
               db.execute(
                 'CREATE TABLE userWeight (id INTEGER PRIMARY KEY UNIQUE, weight REAL, weightUnit TEXT, timeInMillisSinceEpoch INTEGER)',
@@ -94,7 +94,7 @@ class SQLDatabase {
           );
         },
         onUpgrade: (Database db, int oldVersion, int newVersion) async {
-          if (oldVersion < newVersion) {
+          if (oldVersion < 3) {
             await Future.wait(
               [
                 db.execute(
