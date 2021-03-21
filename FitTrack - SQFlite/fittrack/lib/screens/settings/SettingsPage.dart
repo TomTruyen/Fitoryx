@@ -3,16 +3,16 @@ import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/settings/Settings.dart';
+import 'package:fittrack/screens/settings/SettingsProfilePage.dart';
 import 'package:fittrack/screens/settings/popups/data/AutoExportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/DeleteDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ExportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/data/ImportDataPopup.dart';
 import 'package:fittrack/screens/settings/popups/food/NutritionGoalsPopup.dart';
-import 'package:fittrack/screens/settings/popups/personal_info/BodyFatPopup.dart';
-import 'package:fittrack/screens/settings/popups/personal_info/WeightPopup.dart';
 import 'package:fittrack/screens/settings/popups/rest_timer/DefaultRestTimePopup.dart';
 import 'package:fittrack/screens/settings/popups/units/WeightUnitPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
@@ -94,35 +94,26 @@ class _SettingsPageState extends State<SettingsPage> {
                   margin: EdgeInsets.only(top: 10.0),
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    'Personal Info',
+                    'Profile',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 ListTile(
-                  title: Text('Weight'),
+                  title: Text('Edit Profile'),
                   subtitle: Text(
-                    "${settings.userWeight[0].weight} ${settings.weightUnit}",
+                    'Edit your weight, height, body fat,...',
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  onTap: () async {
-                    await showPopupWeight(
+                  onTap: () {
+                    Navigator.push(
                       context,
-                      settings,
-                      updateSettings,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: Text('Body Fat Percentage'),
-                  subtitle: Text(
-                    "${settings.bodyFat[0].percentage} %",
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  onTap: () async {
-                    await showPopupBodyFat(
-                      context,
-                      settings,
-                      updateSettings,
+                      CupertinoPageRoute(
+                        fullscreenDialog: true,
+                        builder: (BuildContext context) => SettingsProfilePage(
+                          updateSettings: updateSettings,
+                          settings: settings,
+                        ),
+                      ),
                     );
                   },
                 ),
