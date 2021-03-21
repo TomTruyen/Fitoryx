@@ -65,7 +65,7 @@ class SQLDatabase {
 
       db = await openDatabase(
         path,
-        version: 1,
+        version: 3,
         onCreate: (Database db, int version) async {
           await Future.wait(
             [
@@ -92,6 +92,26 @@ class SQLDatabase {
               ),
             ],
           );
+        },
+        onUpgrade: (Database db, int oldVersion, int newVersion) async {
+          if (oldVersion < newVersion) {
+            await Future.wait(
+              [
+                db.execute(
+                  'ALTER TABLE settings ADD COLUMN heightUnit TEXT',
+                ),
+                db.execute(
+                  'ALTER TABLE settings ADD COLUMN height REAL',
+                ),
+                db.execute(
+                  'ALTER TABLE settings ADD COLUMN gender TEXT',
+                ),
+                db.execute(
+                  'ALTER TABLE settings ADD COLUMN dateOfBirth INTEGER',
+                ),
+              ],
+            );
+          }
         },
       );
 
@@ -309,9 +329,13 @@ class SQLDatabase {
       if (_settings.id == null) {
         // INSERT
         await db.rawInsert(
-          'INSERT INTO settings (weightUnit, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, graphsToShow, workoutsPerWeekGoal, isAutoExportEnabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO settings (weightUnit, heightUnit, height, gender, dateOfBirth, kcalGoal, carbsGoal, proteinGoal, fatGoal, defaultRestTime, isRestTimerEnabled, isVibrateUponFinishEnabled, graphsToShow, workoutsPerWeekGoal, isAutoExportEnabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [
             _settings.weightUnit,
+            _settings.heightUnit,
+            _settings.height,
+            _settings.gender,
+            _settings.dateOfBirth?.millisecondsSinceEpoch,
             _settings.kcalGoal,
             _settings.carbsGoal,
             _settings.proteinGoal,
@@ -329,9 +353,13 @@ class SQLDatabase {
       } else {
         // UPDATE
         await db.rawUpdate(
-          'UPDATE settings SET weightUnit = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, graphsToShow = ?, workoutsPerWeekGoal = ?, isAutoExportEnabled = ? WHERE id = ?',
+          'UPDATE settings SET weightUnit = ?, heightUnit = ?, height = ?, gender = ?, dateOfBirth = ?, kcalGoal = ?, carbsGoal = ?, proteinGoal = ?, fatGoal = ?, defaultRestTime = ?, isRestTimerEnabled = ?, isVibrateUponFinishEnabled = ?, graphsToShow = ?, workoutsPerWeekGoal = ?, isAutoExportEnabled = ? WHERE id = ?',
           [
             _settings.weightUnit,
+            _settings.heightUnit,
+            _settings.height,
+            _settings.gender,
+            _settings.dateOfBirth?.millisecondsSinceEpoch,
             _settings.kcalGoal,
             _settings.carbsGoal,
             _settings.proteinGoal,
