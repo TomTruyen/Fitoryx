@@ -10,8 +10,14 @@ class Settings {
   List<UserWeight> userWeight;
   List<BodyFat> bodyFat;
 
+  double height;
+
   // Units
+  String heightUnit;
   String weightUnit;
+
+  DateTime dateOfBirth;
+  String gender;
 
   // Food Goals
   double kcalGoal;
@@ -35,7 +41,11 @@ class Settings {
     this.id,
     this.userWeight,
     this.bodyFat,
+    this.height = 0,
+    this.heightUnit = 'cm',
     this.weightUnit = 'kg',
+    this.dateOfBirth,
+    this.gender = "male",
     this.kcalGoal,
     this.carbsGoal,
     this.proteinGoal,
@@ -74,7 +84,11 @@ class Settings {
       id: id,
       userWeight: userWeight ?? [],
       bodyFat: bodyFat ?? [],
+      height: height,
+      heightUnit: heightUnit ?? 'cm',
       weightUnit: weightUnit ?? 'kg',
+      dateOfBirth: dateOfBirth,
+      gender: gender ?? "male",
       kcalGoal: kcalGoal,
       carbsGoal: carbsGoal,
       proteinGoal: proteinGoal,
@@ -93,6 +107,12 @@ class Settings {
     List<BodyFat> _bodyFatList = getBodyFatListFromJson(settings);
     List<GraphToShow> _graphsToShowList = getGraphsToShowListFromJson(settings);
 
+    DateTime dob;
+
+    if (settings['dateOfBirth'] != null) {
+      dob = DateTime.fromMillisecondsSinceEpoch(settings['dateOfBirth']);
+    }
+
     return new Settings(
       id: settings['id'],
       userWeight: _userWeightList ??
@@ -108,7 +128,11 @@ class Settings {
               timeInMillisSinceEpoch: DateTime.now().millisecondsSinceEpoch,
             ),
           ],
+      height: settings['height'] ?? 0,
+      heightUnit: settings['heightUnit'] ?? 'cm',
       weightUnit: settings['weightUnit'] ?? 'kg',
+      dateOfBirth: dob,
+      gender: settings['gender'] ?? 'male',
       kcalGoal: settings['kcalGoal'],
       carbsGoal: settings['carbsGoal'],
       proteinGoal: settings['proteinGoal'],
@@ -206,6 +230,10 @@ class Settings {
     }
 
     return isInsert;
+  }
+
+  void updateUserHeight(String _heightUnit) {
+    height = recalculateHeight(height, _heightUnit);
   }
 
   void updateUserWeights(String _weightUnit) {
