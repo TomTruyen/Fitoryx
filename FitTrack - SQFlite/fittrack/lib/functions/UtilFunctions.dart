@@ -15,16 +15,27 @@ void clearFocus(BuildContext context) {
   }
 }
 
+double recalculateHeight(double height, String newUnit) {
+  const double FOOT_IN_CM = 30.48;
+
+  switch (newUnit.toLowerCase()) {
+    case 'cm':
+      return convertToDecimalPlaces(height * FOOT_IN_CM, 1, true);
+    case 'ft':
+      return convertToDecimalPlaces(height / FOOT_IN_CM, 1, true);
+    default:
+      return height;
+  }
+}
+
 double recalculateWeight(double weight, String newUnit) {
   const double LBS_IN_KG = 2.2046226218;
 
   switch (newUnit.toLowerCase()) {
     case 'kg':
       return convertToDecimalPlaces(weight / LBS_IN_KG, 1, true);
-      break;
     case 'lbs':
       return convertToDecimalPlaces(weight * LBS_IN_KG, 1, true);
-      break;
     default:
       return weight;
   }

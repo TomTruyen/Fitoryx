@@ -155,6 +155,10 @@ void clearFocus(BuildContext context) {
   UtilFunctions.clearFocus(context);
 }
 
+double recalculateHeight(double height, String newUnit) {
+  return UtilFunctions.recalculateHeight(height, newUnit);
+}
+
 double recalculateWeight(double weight, String newUnit) {
   return UtilFunctions.recalculateWeight(weight, newUnit);
 }
