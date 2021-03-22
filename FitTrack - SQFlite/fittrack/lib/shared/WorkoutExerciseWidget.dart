@@ -63,7 +63,9 @@ class WorkoutExerciseWidget extends StatelessWidget {
                     12.0,
                   ),
                   child: Text(
-                    exercise.name,
+                    exercise.equipment == ""
+                        ? exercise.name
+                        : "${exercise.name} (${exercise.equipment})",
                     style: TextStyle(
                       color: Colors.blue[700],
                     ),
