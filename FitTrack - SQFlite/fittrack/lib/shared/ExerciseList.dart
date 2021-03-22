@@ -18,8 +18,8 @@ List<Exercise> exercises = [
       equipment: 'Barbell'),
   Exercise(
       name: 'Bench Press - Wide Grip', category: 'Chest', equipment: 'Barbell'),
+  Exercise(name: 'Bent Over Row', category: 'Back', equipment: 'Barbell'),
   Exercise(name: 'Bent Over Row', category: 'Back', equipment: 'Dumbbell'),
-  Exercise(name: 'Bent Over Row', category: 'Back', equipment: 'Dumbell'),
   Exercise(name: 'Bent Over Row', category: 'Back', equipment: 'Band'),
   Exercise(
       name: 'Bent Over Row - Underhand',
