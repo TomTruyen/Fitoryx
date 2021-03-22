@@ -138,15 +138,22 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
                       ),
                     ),
                   ),
+                  if (heightUnit?.toLowerCase() == 'ft')
+                    Text(
+                      'Height in feet should be inputted as 5.11 instead of 5\'11',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12.0,
+                      ),
+                    ),
                   SizedBox(height: 12.0),
                   Flexible(
                     child: Row(
                       children: <Widget>[
                         Flexible(
                           child: TextFormField(
-                            initialValue: weight != null
-                                ? tryConvertDoubleToInt(weight).toString()
-                                : '0',
+                            initialValue:
+                                tryConvertDoubleToInt(weight ?? 0).toString(),
                             keyboardType: TextInputType.numberWithOptions(
                               decimal: true,
                             ),
@@ -175,9 +182,8 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
                         SizedBox(width: 12.0),
                         Flexible(
                           child: TextFormField(
-                            initialValue: height != null
-                                ? tryConvertDoubleToInt(height).toString()
-                                : '0',
+                            initialValue:
+                                tryConvertDoubleToInt(height ?? 0).toString(),
                             keyboardType: TextInputType.numberWithOptions(
                               decimal: true,
                             ),
@@ -206,9 +212,8 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
                         SizedBox(width: 12.0),
                         Flexible(
                           child: TextFormField(
-                            initialValue: bodyFat != null
-                                ? tryConvertDoubleToInt(bodyFat).toString()
-                                : '0',
+                            initialValue:
+                                tryConvertDoubleToInt(bodyFat ?? 0).toString(),
                             keyboardType: TextInputType.numberWithOptions(
                               decimal: true,
                             ),
@@ -260,7 +265,10 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
                       clearFocus(context);
 
                       await showPopupDateOfBirth(
-                          context, updateDateOfBirth, widget.settings);
+                        context,
+                        updateDateOfBirth,
+                        widget.settings,
+                      );
                     },
                   ),
                   SizedBox(height: 24.0),

@@ -210,7 +210,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 SwitchListTile(
                   activeColor: Colors.blueAccent[700],
                   title: Text('Rest timer enabled'),
-                  value: settings.isRestTimerEnabled == 1 ? true : false,
+                  value: settings.isRestTimerEnabled == 1,
                   onChanged: (bool value) async {
                     Settings newSettings = settings.clone();
                     newSettings.isRestTimerEnabled =
@@ -227,8 +227,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 SwitchListTile(
                   activeColor: Colors.blueAccent[700],
                   title: Text('Vibrate upon finish'),
-                  value:
-                      settings.isVibrateUponFinishEnabled == 1 ? true : false,
+                  value: settings.isVibrateUponFinishEnabled == 1,
                   onChanged: (bool value) async {
                     Settings newSettings = settings.clone();
                     newSettings.isVibrateUponFinishEnabled =
@@ -290,7 +289,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     'Automatically exports data to a file',
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  value: settings.isAutoExportEnabled == 1 ? true : false,
+                  value: settings.isAutoExportEnabled == 1,
                   onChanged: (bool value) async {
                     bool isConfirmed = false;
 

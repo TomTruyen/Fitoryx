@@ -20,9 +20,18 @@ double recalculateHeight(double height, String newUnit) {
 
   switch (newUnit.toLowerCase()) {
     case 'cm':
-      return convertToDecimalPlaces(height * FOOT_IN_CM, 1, true);
+      // required to fix ft not being correct:
+      String _heightString = height.toString();
+      if (_heightString.contains(".")) {
+        int number = int.tryParse(_heightString.split(".")[0]);
+        int decimals = int.tryParse(_heightString.split(".")[1]);
+        if (decimals == null || number == null) return height;
+
+        height = number + (decimals / 12);
+      }
+      return convertToDecimalPlaces(height * FOOT_IN_CM, 0, true);
     case 'ft':
-      return convertToDecimalPlaces(height / FOOT_IN_CM, 1, true);
+      return convertToDecimalPlaces(height / FOOT_IN_CM, 2, true);
     default:
       return height;
   }
