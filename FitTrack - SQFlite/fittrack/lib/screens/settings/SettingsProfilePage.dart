@@ -121,7 +121,7 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
           ),
           SliverFillRemaining(
             child: Container(
-              margin: EdgeInsets.all(16.0),
+              margin: EdgeInsets.all(4.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -139,107 +139,113 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
                     ),
                   ),
                   if (heightUnit?.toLowerCase() == 'ft')
-                    Text(
-                      'Height in feet should be inputted as 5.11 instead of 5\'11',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 12.0,
+                    Container(
+                      margin: EdgeInsets.only(left: 12.0),
+                      child: Text(
+                        'Height in feet should be inputted as 5.11 instead of 5\'11',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ),
                   SizedBox(height: 12.0),
                   Flexible(
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child: TextFormField(
-                            initialValue:
-                                tryConvertDoubleToInt(weight ?? 0).toString(),
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(12.0),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(8.0),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
+                            child: TextFormField(
+                              initialValue:
+                                  tryConvertDoubleToInt(weight ?? 0).toString(),
+                              keyboardType: TextInputType.numberWithOptions(
+                                decimal: true,
                               ),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              fillColor: Colors.grey[300],
-                              filled: true,
-                              hintText: '0',
-                              hintStyle: TextStyle(color: Colors.black54),
-                              suffixText: weightUnit.toUpperCase(),
-                            ),
-                            onChanged: (String value) {
-                              if (value == "") value = "0";
-
-                              weight = double.parse(value);
-                            },
-                          ),
-                        ),
-                        SizedBox(width: 12.0),
-                        Flexible(
-                          child: TextFormField(
-                            initialValue:
-                                tryConvertDoubleToInt(height ?? 0).toString(),
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(12.0),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(8.0),
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(12.0),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                fillColor: Colors.grey[300],
+                                filled: true,
+                                hintText: '0',
+                                hintStyle: TextStyle(color: Colors.black54),
+                                suffixText: weightUnit.toUpperCase(),
                               ),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              fillColor: Colors.grey[300],
-                              filled: true,
-                              hintText: '0',
-                              hintStyle: TextStyle(color: Colors.black54),
-                              suffixText: heightUnit.toUpperCase(),
-                            ),
-                            onChanged: (String value) {
-                              if (value == "") value = "0";
+                              onChanged: (String value) {
+                                if (value == "") value = "0";
 
-                              height = double.parse(value);
-                            },
-                          ),
-                        ),
-                        SizedBox(width: 12.0),
-                        Flexible(
-                          child: TextFormField(
-                            initialValue:
-                                tryConvertDoubleToInt(bodyFat ?? 0).toString(),
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: true,
+                                weight = double.parse(value);
+                              },
                             ),
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(12.0),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          SizedBox(width: 12.0),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue:
+                                  tryConvertDoubleToInt(height ?? 0).toString(),
+                              keyboardType: TextInputType.numberWithOptions(
+                                decimal: true,
                               ),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              fillColor: Colors.grey[300],
-                              filled: true,
-                              hintText: '0',
-                              hintStyle: TextStyle(color: Colors.black54),
-                              suffixText: "%",
-                            ),
-                            onChanged: (String value) {
-                              if (value == "") value = "0";
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(12.0),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                fillColor: Colors.grey[300],
+                                filled: true,
+                                hintText: '0',
+                                hintStyle: TextStyle(color: Colors.black54),
+                                suffixText: heightUnit.toUpperCase(),
+                              ),
+                              onChanged: (String value) {
+                                if (value == "") value = "0";
 
-                              bodyFat = double.parse(value);
-                            },
+                                height = double.parse(value);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 12.0),
+                          Flexible(
+                            child: TextFormField(
+                              initialValue: tryConvertDoubleToInt(bodyFat ?? 0)
+                                  .toString(),
+                              keyboardType: TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(12.0),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                fillColor: Colors.grey[300],
+                                filled: true,
+                                hintText: '0',
+                                hintStyle: TextStyle(color: Colors.black54),
+                                suffixText: "%",
+                              ),
+                              onChanged: (String value) {
+                                if (value == "") value = "0";
+
+                                bodyFat = double.parse(value);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 24.0),
