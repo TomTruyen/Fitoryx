@@ -12,6 +12,7 @@ import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 class WorkoutExerciseWidget extends StatelessWidget {
   final Exercise exercise;
@@ -468,6 +469,12 @@ class WorkoutExerciseWidget extends StatelessWidget {
                                           ?.toString() ??
                                       '0',
                               autofocus: false,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(5),
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'(^\d*\.?\d{0,2})'),
+                                )
+                              ],
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
                               decoration: InputDecoration(
@@ -513,6 +520,10 @@ class WorkoutExerciseWidget extends StatelessWidget {
                               autofocus: false,
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(3),
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               decoration: InputDecoration(
                                 hintText: '10',
                                 fillColor: Colors.grey[300],

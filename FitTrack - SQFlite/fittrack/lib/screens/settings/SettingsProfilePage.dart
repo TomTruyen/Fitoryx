@@ -5,6 +5,7 @@ import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SettingsProfilePage extends StatefulWidget {
   final Function updateSettings;
@@ -162,6 +163,12 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
                               keyboardType: TextInputType.numberWithOptions(
                                 decimal: true,
                               ),
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(4),
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'(^\d*\.?\d{0,2})'),
+                                )
+                              ],
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(12.0),
@@ -192,6 +199,16 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
                               keyboardType: TextInputType.numberWithOptions(
                                 decimal: true,
                               ),
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(
+                                  heightUnit == 'cm' ? 3 : 4,
+                                ),
+                                heightUnit == 'cm'
+                                    ? FilteringTextInputFormatter.digitsOnly
+                                    : FilteringTextInputFormatter.allow(
+                                        RegExp(r'(^\d*\.?\d{0,2})'),
+                                      )
+                              ],
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(12.0),
@@ -222,6 +239,12 @@ class _SettingsProfilePageState extends State<SettingsProfilePage> {
                               keyboardType: TextInputType.numberWithOptions(
                                 decimal: true,
                               ),
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(4),
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'(^\d*\.?\d{0,2})'),
+                                )
+                              ],
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(12.0),

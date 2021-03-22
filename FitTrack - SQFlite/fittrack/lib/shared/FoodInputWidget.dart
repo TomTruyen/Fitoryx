@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class FoodInputWidget extends StatelessWidget {
   final Function updateValue;
@@ -23,6 +24,14 @@ class FoodInputWidget extends StatelessWidget {
         initialValue: initialValue != null ? initialValue : '0',
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(4),
+          name == 'kcal'
+              ? FilteringTextInputFormatter.digitsOnly
+              : FilteringTextInputFormatter.allow(
+                  RegExp(r'(^\d*\.?\d{0,2})'),
+                )
+        ],
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(12.0),
           border: OutlineInputBorder(
