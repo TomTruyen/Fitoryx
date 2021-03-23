@@ -65,7 +65,7 @@ class SQLDatabase {
 
       db = await openDatabase(
         path,
-        version: 3,
+        version: 2,
         onCreate: (Database db, int version) async {
           await Future.wait(
             [
@@ -94,7 +94,7 @@ class SQLDatabase {
           );
         },
         onUpgrade: (Database db, int oldVersion, int newVersion) async {
-          if (oldVersion < 3) {
+          if (oldVersion < 1 && newVersion >= 1) {
             await Future.wait(
               [
                 db.execute(
