@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:fittrack/functions/Functions.dart';
 import 'package:fittrack/models/exercises/Exercise.dart';
 import 'package:fittrack/models/exercises/ExerciseSet.dart';
 import 'package:fittrack/models/workout/Workout.dart';
 import 'package:fittrack/screens/history/HistoryViewPage.dart';
+import 'package:fittrack/screens/workout/WorkoutTimer.dart';
 import 'package:fittrack/screens/workout/popups/EndWorkoutWarningPopup.dart';
 import 'package:fittrack/shared/ErrorPopup.dart';
 import 'package:fittrack/shared/Globals.dart' as globals;
@@ -28,8 +27,14 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
   String workoutNote = "";
 
   String timeToDisplay = "00:00";
-  Stopwatch stopwatch = Stopwatch();
-  final duration = const Duration(seconds: 1);
+  int durationMilliseconds = 0;
+
+  void updateTime(String newTimeToDisplay, int newDurationMilliseconds) {
+    timeToDisplay = newTimeToDisplay;
+    durationMilliseconds = newDurationMilliseconds;
+  }
+  // Stopwatch stopwatch = Stopwatch();
+  // final duration = const Duration(seconds: 1);
 
   bool getIsStarted() {
     return isStarted;
@@ -41,62 +46,58 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     });
   }
 
-  void startTimer() {
-    Timer(duration, keepRunning);
-
-    setState(() {
-      isStarted = true;
-    });
-  }
-
-  void stopTimer() {
-    setState(() {
-      isStarted = false;
-    });
-  }
-
-  void keepRunning() {
-    if (stopwatch.isRunning) {
-      startTimer();
-    }
-
-    setState(() {
-      if (stopwatch.elapsed.inHours < 1) {
-        timeToDisplay =
-            (stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, "0") +
-                ":" +
-                (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, "0");
-      } else {
-        timeToDisplay = stopwatch.elapsed.inHours.toString().padLeft(2, "0") +
-            ":" +
-            (stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, "0") +
-            ":" +
-            (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, "0");
-      }
-    });
-  }
-
   void startWorkout() {
-    stopwatch.start();
-    startTimer();
+    setState(() => isStarted = true);
   }
 
   void endWorkout() {
-    stopwatch.stop();
-    stopTimer();
+    setState(() => isStarted = false);
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    stopwatch.stop();
-
-    super.dispose();
-  }
+  // void startTimer() {
+  //   Timer(duration, keepRunning);
+  //
+  //   setState(() {
+  //     isStarted = true;
+  //   });
+  // }
+  //
+  // void stopTimer() {
+  //   setState(() {
+  //     isStarted = false;
+  //   });
+  // }
+  //
+  // void keepRunning() {
+  //   if (stopwatch.isRunning) {
+  //     startTimer();
+  //   }
+  //
+  //   setState(() {
+  //     if (stopwatch.elapsed.inHours < 1) {
+  //       timeToDisplay =
+  //           (stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, "0") +
+  //               ":" +
+  //               (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, "0");
+  //     } else {
+  //       timeToDisplay = stopwatch.elapsed.inHours.toString().padLeft(2, "0") +
+  //           ":" +
+  //           (stopwatch.elapsed.inMinutes % 60).toString().padLeft(2, "0") +
+  //           ":" +
+  //           (stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, "0");
+  //     }
+  //   });
+  // }
+  //
+  // void startWorkout() {
+  //   stopwatch.start();
+  //   startTimer();
+  // }
+  //
+  // void endWorkout() {
+  //   stopwatch.stop();
+  //   stopTimer();
+  // }
 
   @override
   void setState(fn) {
@@ -123,7 +124,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            actions: stopwatch.elapsed.inMilliseconds > 0
+            actions: isStarted
                 ? <Widget>[
                     InkWell(
                       child: Container(
@@ -141,7 +142,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                         ),
                       ),
                       onTap: () async {
-                        if (stopwatch.elapsed.inMilliseconds > 0) {
+                        if (isStarted) {
                           bool navigateToSummaryPage = false;
 
                           bool isCompleted =
@@ -165,7 +166,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                             dynamic result =
                                 await globals.sqlDatabase.saveWorkout(
                               widget.workout.clone(),
-                              stopwatch.elapsed.inMilliseconds,
+                              durationMilliseconds,
                               timeToDisplay,
                               workoutNote,
                             );
@@ -249,19 +250,23 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 4.0,
-                            vertical: 2.0,
-                          ),
-                          child: Text(
-                            timeToDisplay,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                        WorkoutTimer(
+                          getIsStarted: getIsStarted,
+                          updateTime: updateTime,
                         ),
+                        // Container(
+                        //   margin: EdgeInsets.symmetric(
+                        //     horizontal: 4.0,
+                        //     vertical: 2.0,
+                        //   ),
+                        //   child: Text(
+                        //     timeToDisplay,
+                        //     style: TextStyle(
+                        //       color: Colors.black,
+                        //       fontWeight: FontWeight.w600,
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(height: 10.0),
                         TextFormField(
                           autofocus: false,
