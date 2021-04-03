@@ -14,6 +14,7 @@ import 'package:fittrack/models/exercises/ExerciseFilter.dart';
 import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/food/FoodPerHour.dart';
 import 'package:fittrack/models/settings/GraphToShow.dart';
+import 'package:fittrack/models/settings/Settings.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
 import 'package:flutter/material.dart';
 
@@ -169,4 +170,8 @@ bool requiresDateDivider(DateTime date, int currentMonth, int currentYear) {
 
 String getFoodGoalString(double value, double goal, String measurement) {
   return UtilFunctions.getFoodGoalString(value, goal, measurement);
+}
+
+double calculateKCAL(Settings settings, double level) {
+  return UtilFunctions.calculateKCAL(settings, level);
 }

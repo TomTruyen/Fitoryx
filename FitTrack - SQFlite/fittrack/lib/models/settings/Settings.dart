@@ -1,4 +1,5 @@
 import 'package:fittrack/functions/Functions.dart';
+import 'package:fittrack/models/food/Food.dart';
 import 'package:fittrack/models/settings/BodyFat.dart';
 import 'package:fittrack/models/settings/GraphToShow.dart';
 import 'package:fittrack/models/settings/UserWeight.dart';
@@ -247,5 +248,42 @@ class Settings {
         userWeight[i].weightUnit = _weightUnit;
       }
     }
+  }
+
+  List<String> getCalculateMissingRequirements() {
+    List<String> missingRequirements = [];
+
+    if (dateOfBirth == null) missingRequirements.add('• Date of Birth');
+
+    if (gender == null) missingRequirements.add('• Gender');
+
+    if (userWeight.isEmpty || userWeight[0].weight == 0)
+      missingRequirements.add('• Weight');
+
+    if (height == null || height == 0) missingRequirements.add('• Height');
+
+    return missingRequirements;
+  }
+
+  Food calculateFoodRequirement(int level) {
+    List<double> activityLevel = [1.2, 1.375, 1.55, 1.725];
+    //0 = litle or no exercise
+    //1 = exercise 1 -3 x / week
+    //2 = exercise 3 -5 x / week
+    //3 = exercise 6 -7 x / week
+
+    double kcal = calculateKCAL(this, activityLevel[level]);
+    double carbs = (kcal * 0.5) / 4.0;
+    double protein = (kcal * 0.3) / 4.0;
+    double fat = (kcal * 0.2) / 4.0;
+
+    Food f = new Food();
+
+    f.kcal = kcal.roundToDouble();
+    f.carbs = carbs.roundToDouble();
+    f.protein = protein.roundToDouble();
+    f.fat = fat.roundToDouble();
+
+    return f;
   }
 }
