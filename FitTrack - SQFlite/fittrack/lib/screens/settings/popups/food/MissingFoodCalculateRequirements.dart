@@ -66,13 +66,23 @@ Future<void> showPopupMissingFoodCalculateRequirements(
                           child: SingleChildScrollView(
                             child: Column(
                               children: <Widget>[
-                                Text(
-                                  'Update your profile with the following requirements and try again.',
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 8.0),
+                                  padding: EdgeInsets.only(bottom: 16.0),
+                                  child: Text(
+                                    'Update your profile with the following requirements and try again.',
+                                  ),
                                 ),
                                 for (int i = 0;
                                     i < missingRequirements.length;
                                     i++)
-                                  Text(missingRequirements[i]),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                    ),
+                                    child: Text(missingRequirements[i]),
+                                  ),
                               ],
                             ),
                           ),
