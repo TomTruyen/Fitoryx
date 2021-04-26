@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "20520091913",
+    "firebase_url": "https://fitnessapp-709de.firebaseio.com",
+    "project_id": "fitnessapp-709de",
+    "storage_bucket": "fitnessapp-709de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20520091913:android:72cde849899904e24d93d8",
+        "android_client_info": {
+          "package_name": "com.tomtruyen.fittrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20520091913-51o692pnupufnj84ntsd4jcppueab0gr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tomtruyen.fittrack",
+            "certificate_hash": "d86812660248d3f21fde29728f8d608a5987e5a3"
+          }
+        },
+        {
+          "client_id": "20520091913-au46b96mfpsaunvsm5qddfdr3soea8ub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSrcqgSFWTiF30RUptOkQLV8RI7C_nVbs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20520091913-au46b96mfpsaunvsm5qddfdr3soea8ub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

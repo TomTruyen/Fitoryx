@@ -1,0 +1,1 @@
+enum ExerciseType { preset, custom }
