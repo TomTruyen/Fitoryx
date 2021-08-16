@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class InAppPurchases {
-  static String donationEuro1 = "Fitoryx_donation_1_euro";
-  static String donationEuro2 = "Fitoryx_donation_2_euro";
-  static String donationEuro5 = "Fitoryx_donation_5_euro";
-  static String donationEuro10 = "Fitoryx_donation_10_euro";
-  static String donationEuro25 = "Fitoryx_donation_25_euro";
+  static String donationEuro1 = "fitoryx_donation_1_euro";
+  static String donationEuro2 = "fitoryx_donation_2_euro";
+  static String donationEuro5 = "fitoryx_donation_5_euro";
+  static String donationEuro10 = "fitoryx_donation_10_euro";
+  static String donationEuro25 = "fitoryx_donation_25_euro";
 
   static List<String> purchaseIds = [
     donationEuro1,
