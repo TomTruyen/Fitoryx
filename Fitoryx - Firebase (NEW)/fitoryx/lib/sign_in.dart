@@ -12,6 +12,14 @@ class SignIn extends StatelessWidget {
     return Container();
   }
 
+  Future<void> _signInWithGoogle() async {
+    try {
+      await _authService.signInWithGoogle();
+    } catch (e) {
+      print("Sign in failed");
+    }
+  }
+
   Future<void> _signInWithEmailAndPassword(
     String email,
     String password,
