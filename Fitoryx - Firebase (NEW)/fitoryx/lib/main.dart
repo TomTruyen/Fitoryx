@@ -25,11 +25,47 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      title: 'Fitoryx',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'OpenSans',
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          unselectedItemColor: Colors.grey,
+          unselectedIconTheme: IconThemeData(
+            size: 24.0,
+          ),
+          selectedIconTheme: IconThemeData(
+            size: 26.0,
+          ),
         ),
-        home: _authService.getUser() == null ? const SignIn() : WorkoutPage());
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            primary: Colors.grey[900],
+          ),
+        ),
+        textTheme: TextTheme(
+          // Main Text
+          bodyText2: TextStyle(
+            color: Colors.grey[900],
+            fontSize: 16.0,
+          ),
+          // ListView Text
+          subtitle2: TextStyle(
+            color: Colors.grey[700],
+            fontSize: 14.0,
+          ),
+          // ListView Subtitle Text
+          caption: TextStyle(
+            color: Colors.grey[700],
+            fontSize: 13.0,
+          ),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          selectionHandleColor: Colors.blue[900],
+          selectionColor: Colors.blue[100],
+        ),
+      ),
+      home: _authService.getUser() == null ? const SignIn() : WorkoutPage(),
+    );
   }
 }
