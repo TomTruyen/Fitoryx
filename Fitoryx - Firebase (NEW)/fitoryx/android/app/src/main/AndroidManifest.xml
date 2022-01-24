@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fitoryx">
+    package="com.tomtruyen.fitoryx">
    <application
         android:label="fitoryx"
         android:icon="@mipmap/ic_launcher">
