@@ -47,10 +47,15 @@ class ExerciseFilter extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clear() {
+  void clear({includeSearch = false}) {
     categories = [];
     equipments = [];
     types = [];
+
+    if (includeSearch) {
+      search = "";
+    }
+
     notifyListeners();
   }
 }

@@ -1,11 +1,13 @@
 import 'dart:math';
 
+import 'package:fitoryx/models/exercise_filter.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/screens/history/history_page.dart';
 import 'package:fitoryx/screens/nutrition/nutrition_page.dart';
 import 'package:fitoryx/screens/profile/profile_page.dart';
 import 'package:fitoryx/screens/workout/workout_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({Key? key}) : super(key: key);
@@ -36,6 +38,8 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
+    final ExerciseFilter _filter = Provider.of<ExerciseFilter>(context);
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -51,6 +55,11 @@ class _WrapperState extends State<Wrapper> {
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
           onTap: (int index) {
+            // ExercisesPage
+            if (index == 2) {
+              _filter.clear(includeSearch: true);
+            }
+
             setState(() {
               _selectedIndex = index;
             });
