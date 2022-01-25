@@ -1,9 +1,7 @@
-import 'package:fitoryx/widgets/gradient_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WorkoutPage extends StatelessWidget {
-  const WorkoutPage({Key? key}) : super(key: key);
+class HistoryPage extends StatelessWidget {
+  const HistoryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +15,10 @@ class WorkoutPage extends StatelessWidget {
             floating: true,
             pinned: true,
             title: const Text(
-              'Workout',
+              'History',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: 8.0,
-              ),
-              child: GradientButton(
-                text: 'Create Workout',
-                onPressed: () {},
               ),
             ),
           ),

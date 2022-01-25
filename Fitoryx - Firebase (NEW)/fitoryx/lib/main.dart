@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitoryx/screens/sign_in.dart';
-import 'package:fitoryx/screens/workout/workout_page.dart';
+import 'package:fitoryx/screens/wrapper.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           selectionColor: Colors.blue[100],
         ),
       ),
-      home: _authService.getUser() == null ? const SignIn() : WorkoutPage(),
+      home: _authService.getUser() == null ? const SignIn() : const Wrapper(),
     );
   }
 }

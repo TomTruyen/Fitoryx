@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitoryx/screens/sign_up.dart';
-import 'package:fitoryx/screens/workout/workout_page.dart';
+import 'package:fitoryx/screens/wrapper.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
@@ -135,10 +135,10 @@ class _SignInState extends State<SignIn> {
 
   void _signIn() {
     if (_authService.getUser() != null) {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         CupertinoPageRoute(
-          builder: (context) => WorkoutPage(),
+          builder: (context) => const Wrapper(),
         ),
       );
     }

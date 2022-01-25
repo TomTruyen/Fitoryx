@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitoryx/screens/sign_in.dart';
+import 'package:fitoryx/screens/wrapper.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
@@ -143,7 +144,7 @@ class _SignUpState extends State<SignUp> {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => const SignIn(),
+              builder: (context) => const Wrapper(),
             ),
           );
         }

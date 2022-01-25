@@ -17,7 +17,7 @@ class GradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60.0,
+      height: 50,
       child: TextButton(
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
