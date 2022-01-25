@@ -7,6 +7,7 @@ import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/exercise_divider.dart';
 import 'package:fitoryx/widgets/exercise_item.dart';
+import 'package:fitoryx/widgets/loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   void initState() {
     super.initState();
     _exercises = List.of(default_exercises.exercises);
-    _init();
+    // _init();
   }
 
   @override
@@ -44,31 +45,42 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           hideSearch ? _defaultAppBar() : _searchAppBar(_filter),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int i) {
-                var item = _exercisesWithDividers[i];
+          FutureBuilder<bool>(
+            future: _init(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int i) {
+                      var item = _exercisesWithDividers[i];
 
-                return item is Exercise
-                    ? ExerciseItem(
-                        exercise: item,
-                        deleteExercise: _deleteExercise,
-                      )
-                    : ExerciseDivider(text: item);
-              },
-              childCount: _exercisesWithDividers.length,
-            ),
+                      return item is Exercise
+                          ? ExerciseItem(
+                              exercise: item,
+                              deleteExercise: _deleteExercise,
+                            )
+                          : ExerciseDivider(text: item);
+                    },
+                    childCount: _exercisesWithDividers.length,
+                  ),
+                );
+              }
+
+              return const SliverFillRemaining(child: Loader());
+            },
           ),
         ],
       ),
     );
   }
 
-  Future<void> _init() async {
+  Future<bool> _init() async {
     List<Exercise> userExercises = await _firestoreService.getExercises();
     _exercises.addAll(userExercises);
 
     _updateExercisesWithDividers();
+
+    return true;
   }
 
   void _addExercise(Exercise exercise) {
