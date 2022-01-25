@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fitoryx/models/exercise_filter.dart';
 import 'package:fitoryx/screens/sign_in.dart';
 import 'package:fitoryx/screens/wrapper.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // Firebase Options has to be generated (README.MD)
 import 'firebase_options.dart';
@@ -23,11 +25,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fitoryx',
-      debugShowCheckedModeBanner: false,
-      theme: _themeData(),
-      home: _authService.getUser() == null ? const SignIn() : const Wrapper(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ExerciseFilter>(
+          create: (_) => ExerciseFilter(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Fitoryx',
+        debugShowCheckedModeBanner: false,
+        theme: _themeData(),
+        home: _authService.getUser() == null ? const SignIn() : const Wrapper(),
+      ),
     );
   }
 
