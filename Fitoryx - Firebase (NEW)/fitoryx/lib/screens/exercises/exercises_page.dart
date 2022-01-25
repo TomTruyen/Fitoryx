@@ -20,6 +20,8 @@ class ExercisesPages extends StatefulWidget {
 
 class _ExercisesPagesState extends State<ExercisesPages> {
   final _firestoreService = FirestoreService();
+  bool hideSearch = true;
+  final TextEditingController _searchController = TextEditingController();
   List<Exercise> _filtered = [];
   List<Exercise> _exercises = [];
   List<dynamic> _exercisesWithDividers = [];
@@ -41,39 +43,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.grey[50],
-            floating: true,
-            pinned: true,
-            title: const Text(
-              'Exercises',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(
-                  Icons.filter_list_outlined,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    CupertinoPageRoute(
-                      fullscreenDialog: true,
-                      builder: (BuildContext context) => ExerciseFilterPage(),
-                    ),
-                  );
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.add, color: Colors.black),
-                onPressed: () => _navigateAddExercise(),
-              )
-            ],
-          ),
+          hideSearch ? _defaultAppBar() : _searchAppBar(_filter),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int i) {
@@ -131,6 +101,11 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         return false;
       }
 
+      if (filter.search != "" &&
+          !exercise.name.toLowerCase().contains(filter.search.toLowerCase())) {
+        return false;
+      }
+
       return true;
     }).toList();
 
@@ -147,13 +122,121 @@ class _ExercisesPagesState extends State<ExercisesPages> {
     });
   }
 
-  void _navigateAddExercise() {
-    Navigator.push(
-      context,
-      CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => AddExercisePage(addExercise: _addExercise),
+  SliverAppBar _defaultAppBar() {
+    return SliverAppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.grey[50],
+      floating: true,
+      pinned: true,
+      title: const Text(
+        'Exercises',
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+        ),
       ),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(
+            Icons.search_outlined,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            setState(() => hideSearch = false);
+          },
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.filter_list_outlined,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.of(context).push(
+              CupertinoPageRoute(
+                fullscreenDialog: true,
+                builder: (BuildContext context) => const ExerciseFilterPage(),
+              ),
+            );
+          },
+        ),
+        IconButton(
+            icon: const Icon(Icons.add, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) =>
+                      AddExercisePage(addExercise: _addExercise),
+                ),
+              );
+            })
+      ],
+    );
+  }
+
+  SliverAppBar _searchAppBar(ExerciseFilter filter) {
+    return SliverAppBar(
+      backgroundColor: Colors.grey[50],
+      floating: true,
+      pinned: true,
+      title: TextField(
+        controller: _searchController,
+        autofocus: true,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(12.0),
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          fillColor: Colors.grey[300],
+          filled: true,
+          hintText: 'Search exercises...',
+          hintStyle: const TextStyle(color: Colors.black54),
+          suffixIcon: GestureDetector(
+            child: const Icon(
+              Icons.close_outlined,
+              color: Colors.black,
+            ),
+            onTap: () {
+              _searchController.text = "";
+              filter.setSearch("");
+            },
+          ),
+        ),
+        onChanged: (query) {
+          filter.setSearch(query);
+        },
+      ),
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_outlined,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          setState(() {
+            hideSearch = true;
+          });
+        },
+      ),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(
+            Icons.filter_list_outlined,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            clearFocus(context);
+
+            Navigator.of(context).push(
+              CupertinoPageRoute(
+                fullscreenDialog: true,
+                builder: (BuildContext context) => const ExerciseFilterPage(),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

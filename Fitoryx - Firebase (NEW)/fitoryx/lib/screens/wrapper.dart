@@ -45,6 +45,8 @@ class _WrapperState extends State<Wrapper> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
+          unselectedFontSize: 0.0,
+          selectedFontSize: 0.0,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,

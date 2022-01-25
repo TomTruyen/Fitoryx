@@ -4,6 +4,7 @@ class ExerciseFilter extends ChangeNotifier {
   List<String> categories = [];
   List<String> equipments = [];
   List<String> types = [];
+  String search = "";
   int count = 0;
 
   void addCategory(String category) {
@@ -38,6 +39,11 @@ class ExerciseFilter extends ChangeNotifier {
 
   void setCount(int count) {
     this.count = count;
+    notifyListeners();
+  }
+
+  void setSearch(String value) {
+    search = value;
     notifyListeners();
   }
 
