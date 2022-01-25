@@ -166,7 +166,7 @@ class _SignUpState extends State<SignUp> {
             break;
         }
 
-        showAlert(context, title: "Error", content: error);
+        showAlert(context, content: error);
       }
 
       setState(() => _isBusy = false);

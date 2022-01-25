@@ -10,12 +10,16 @@ void clearFocus(BuildContext context) {
 }
 
 List<dynamic> addListDividers(List<Exercise> exercises) {
+  // Sort
+  exercises
+      .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
   List<dynamic> listWithDividers = [];
   String letter = "";
 
   for (var exercise in exercises) {
-    if (exercise.name.characters.first != letter) {
-      letter = exercise.name.characters.first;
+    if (exercise.name.characters.first.toUpperCase() != letter.toUpperCase()) {
+      letter = exercise.name.characters.first.toUpperCase();
 
       listWithDividers.add(letter);
     }

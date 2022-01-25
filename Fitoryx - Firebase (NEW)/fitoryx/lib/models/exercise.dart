@@ -1,7 +1,7 @@
 import 'package:fitoryx/models/exercise_set.dart';
 
 class Exercise {
-  int? id;
+  String? id;
   String name;
   String category;
   String equipment;
@@ -12,9 +12,28 @@ class Exercise {
   List<ExerciseSet> sets = [ExerciseSet()];
   String type;
 
-  Exercise(
-      {this.name = "",
-      this.category = "",
-      this.equipment = "",
-      this.type = "weight"});
+  Exercise({
+    this.name = "",
+    this.category = "",
+    this.equipment = "",
+    this.type = "Weight",
+  });
+
+  Map<String, dynamic> toExerciseJson() {
+    return {
+      "name": name,
+      "category": category,
+      "equipment": equipment,
+      "type": type,
+    };
+  }
+
+  static Exercise fromExerciseJson(Map<String, dynamic> json) {
+    return Exercise(
+      name: json['name'],
+      category: json['category'],
+      equipment: json['equipment'],
+      type: json['type'],
+    );
+  }
 }

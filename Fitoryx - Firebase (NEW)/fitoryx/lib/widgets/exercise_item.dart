@@ -27,7 +27,7 @@ class ExerciseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        exercise.name,
+        _title(),
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
@@ -48,5 +48,16 @@ class ExerciseItem extends StatelessWidget {
           : null,
       onTap: () => {},
     );
+  }
+
+  _title() {
+    String title = exercise.name;
+
+    if (exercise.equipment != "" &&
+        exercise.equipment.toLowerCase() != "none") {
+      title = "$title (${exercise.equipment})";
+    }
+
+    return title;
   }
 }

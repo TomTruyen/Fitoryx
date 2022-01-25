@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Future<void> showAlert(
   BuildContext context, {
-  String title = "",
+  String title = "Error",
   String content = "",
 }) async {
   await showDialog(

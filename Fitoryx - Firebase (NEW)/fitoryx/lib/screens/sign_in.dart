@@ -151,7 +151,6 @@ class _SignInState extends State<SignIn> {
     } catch (e) {
       showAlert(
         context,
-        title: "Error",
         content: "Google sign in failed. Please try again.",
       );
     }
@@ -190,7 +189,7 @@ class _SignInState extends State<SignIn> {
             break;
         }
 
-        showAlert(context, title: "Error", content: error);
+        showAlert(context, content: error);
       }
 
       setState(() => _isBusy = false);
