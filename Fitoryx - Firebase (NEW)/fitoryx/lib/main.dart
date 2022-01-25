@@ -21,51 +21,54 @@ class MyApp extends StatelessWidget {
 
   MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Fitoryx',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'OpenSans',
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          unselectedItemColor: Colors.grey,
-          unselectedIconTheme: IconThemeData(
-            size: 24.0,
-          ),
-          selectedIconTheme: IconThemeData(
-            size: 26.0,
-          ),
+      theme: _themeData(),
+      home: _authService.getUser() == null ? const SignIn() : const Wrapper(),
+    );
+  }
+
+  ThemeData _themeData() {
+    return ThemeData(
+      fontFamily: 'OpenSans',
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        unselectedItemColor: Colors.grey,
+        unselectedIconTheme: IconThemeData(
+          size: 24.0,
         ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            primary: Colors.grey[900],
-          ),
-        ),
-        textTheme: TextTheme(
-          // Main Text
-          bodyText2: TextStyle(
-            color: Colors.grey[900],
-            fontSize: 16.0,
-          ),
-          // ListView Text
-          subtitle2: TextStyle(
-            color: Colors.grey[700],
-            fontSize: 14.0,
-          ),
-          // ListView Subtitle Text
-          caption: TextStyle(
-            color: Colors.grey[700],
-            fontSize: 13.0,
-          ),
-        ),
-        textSelectionTheme: TextSelectionThemeData(
-          selectionHandleColor: Colors.blue[900],
-          selectionColor: Colors.blue[100],
+        selectedIconTheme: IconThemeData(
+          size: 26.0,
         ),
       ),
-      home: _authService.getUser() == null ? const SignIn() : const Wrapper(),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: Colors.grey[900],
+        ),
+      ),
+      textTheme: TextTheme(
+        // Main Text
+        bodyText2: TextStyle(
+          color: Colors.grey[900],
+          fontSize: 16.0,
+        ),
+        // ListView Text
+        subtitle2: TextStyle(
+          color: Colors.grey[700],
+          fontSize: 14.0,
+        ),
+        // ListView Subtitle Text
+        caption: TextStyle(
+          color: Colors.grey[700],
+          fontSize: 13.0,
+        ),
+      ),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionHandleColor: Colors.blue[900],
+        selectionColor: Colors.blue[100],
+      ),
     );
   }
 }

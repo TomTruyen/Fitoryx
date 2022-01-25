@@ -25,7 +25,7 @@ class _WrapperState extends State<Wrapper> {
 
     setState(() {
       _pages = [
-        const ProfilePage(),
+        ProfilePage(),
         const HistoryPage(),
         const WorkoutPage(),
         const ExercisesPages(),
