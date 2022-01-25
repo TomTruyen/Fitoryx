@@ -1,5 +1,8 @@
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/widgets/alert.dart';
+import 'package:fitoryx/widgets/confirm_alert.dart';
 import 'package:flutter/material.dart';
 
 // Selected TextStyle (Name):
@@ -19,9 +22,12 @@ import 'package:flutter/material.dart';
              */
 
 class ExerciseItem extends StatelessWidget {
+  final _firestoreService = FirestoreService();
   final Exercise exercise;
+  final Function(String?) deleteExercise;
 
-  const ExerciseItem({Key? key, required this.exercise}) : super(key: key);
+  ExerciseItem({Key? key, required this.exercise, required this.deleteExercise})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +47,22 @@ class ExerciseItem extends StatelessWidget {
               onPressed: () async {
                 clearFocus(context);
 
-                // SHOW CONFIRM DELETE POPUP
-                print("DELETE POPUP HERE");
+                showConfirmAlert(context,
+                    content:
+                        "You will be deleting \"${exercise.name}\". This action can't be reversed!",
+                    onConfirm: () async {
+                  try {
+                    await _firestoreService.deleteExercise(exercise.id);
+
+                    deleteExercise(exercise.id);
+
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  } catch (e) {
+                    showAlert(context, content: "Failed to delete exercise");
+                  }
+                });
               },
             )
           : null,

@@ -58,7 +58,10 @@ class _ExercisesPagesState extends State<ExercisesPages> {
                 var item = _exercisesWithDividers[i];
 
                 return item is Exercise
-                    ? ExerciseItem(exercise: item)
+                    ? ExerciseItem(
+                        exercise: item,
+                        deleteExercise: _deleteExercise,
+                      )
                     : ExerciseDivider(text: item);
               },
               childCount: _exercisesWithDividers.length,
@@ -79,6 +82,13 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   void _addExercise(Exercise exercise) {
     _exercises.add(exercise);
     _updateExercisesWithDividers();
+  }
+
+  void _deleteExercise(String? id) {
+    if (id != null) {
+      _exercises.removeWhere((exercise) => exercise.id == id);
+      _updateExercisesWithDividers();
+    }
   }
 
   void _updateExercisesWithDividers() {
