@@ -56,6 +56,8 @@ class _AddExercisePageState extends State<AddExercisePage> {
                         _exercise.id =
                             await _firestoreService.createExercise(_exercise);
 
+                        _exercise.userCreated = true;
+
                         widget.addExercise(_exercise);
 
                         if (Navigator.canPop(context)) {
