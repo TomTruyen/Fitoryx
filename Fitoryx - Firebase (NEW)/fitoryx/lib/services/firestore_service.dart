@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/services/auth_service.dart';
 
 class FirestoreService {
@@ -18,11 +19,15 @@ class FirestoreService {
   final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
 
+  final String exerciseCollection = "exercises";
+  final String workoutCollection = "workouts";
+
+  // Exercises
   Future<String> createExercise(Exercise exercise) async {
     DocumentReference<Map<String, dynamic>> docReference =
         await _usersCollection
             .doc(_authService.getUser()?.uid)
-            .collection('exercises')
+            .collection(exerciseCollection)
             .add(exercise.toExerciseJson());
 
     return docReference.id;
@@ -31,7 +36,7 @@ class FirestoreService {
   Future<void> deleteExercise(String? id) async {
     await _usersCollection
         .doc(_authService.getUser()?.uid)
-        .collection('exercises')
+        .collection(exerciseCollection)
         .doc(id)
         .delete();
   }
@@ -39,7 +44,7 @@ class FirestoreService {
   Future<List<Exercise>> getExercises() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)
-        .collection('exercises')
+        .collection(exerciseCollection)
         .get();
 
     if (querySnapshot.docs.isEmpty) {
@@ -56,5 +61,16 @@ class FirestoreService {
     }
 
     return exercises;
+  }
+
+  // Workouts
+  Future createWorkout(Workout workout) async {
+    DocumentReference<Map<String, dynamic>> docReference =
+        await _usersCollection
+            .doc(_authService.getUser()?.uid)
+            .collection(workoutCollection)
+            .add(workout.toJson());
+
+    return docReference.id;
   }
 }

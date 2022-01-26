@@ -1,37 +1,70 @@
 import 'package:fitoryx/data/exercise_list.dart' as default_exercises;
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_filter.dart';
+import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/exercise_divider.dart';
 import 'package:fitoryx/widgets/exercise_item.dart';
+import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
 import 'package:fitoryx/widgets/loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ExercisesPages extends StatefulWidget {
-  const ExercisesPages({Key? key}) : super(key: key);
+  final WorkoutChangeNotifier? workout;
+  final bool isSelectable;
+  final bool isReplace;
+
+  const ExercisesPages({
+    Key? key,
+    this.workout,
+    this.isSelectable = false,
+    this.isReplace = false,
+  }) : super(key: key);
 
   @override
   State<ExercisesPages> createState() => _ExercisesPagesState();
 }
 
 class _ExercisesPagesState extends State<ExercisesPages> {
+  bool loading = true;
+
   final _firestoreService = FirestoreService();
+
+  // Search
   bool hideSearch = true;
   final TextEditingController _searchController = TextEditingController();
+
+  // Exercises
   List<Exercise> _filtered = [];
   List<Exercise> _exercises = [];
   List<dynamic> _exercisesWithDividers = [];
+
+  // Workout (Exercises)
+  List<Exercise> _workoutExercises = [];
+
+  // Replace
+  Exercise? _replaceExercise;
 
   @override
   void initState() {
     super.initState();
     _exercises = List.of(default_exercises.exercises);
-    // _init();
+
+    if (widget.workout != null) {
+      _workoutExercises = List.of(widget.workout!.exercises);
+
+      if (widget.isReplace) {
+        _replaceExercise =
+            widget.workout!.exercises[widget.workout!.replaceIndex!];
+      }
+    }
+
+    _init();
   }
 
   @override
@@ -45,48 +78,83 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           hideSearch ? _defaultAppBar() : _searchAppBar(_filter),
-          FutureBuilder<bool>(
-            future: _init(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SliverList(
+          loading
+              ? const SliverFillRemaining(child: Loader())
+              : SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int i) {
                       var item = _exercisesWithDividers[i];
 
-                      return item is Exercise
-                          ? ExerciseItem(
-                              exercise: item,
-                              deleteExercise: _deleteExercise,
-                            )
-                          : ExerciseDivider(text: item);
+                      if (item is Exercise) {
+                        bool selected = false;
+                        int selectedIndex = -1;
+
+                        if (widget.isReplace) {
+                          selected = item.equals(_replaceExercise!);
+                        } else if (widget.isSelectable) {
+                          selectedIndex = _workoutExercises.indexWhere(
+                            (exercise) => exercise.equals(item),
+                          );
+
+                          selected = selectedIndex > -1;
+                        }
+
+                        return ExerciseItem(
+                          exercise: item,
+                          deleteExercise: _deleteExercise,
+                          selected: selected,
+                          onTap: widget.isSelectable
+                              ? () {
+                                  if (widget.isReplace) {
+                                    setState(() {
+                                      _replaceExercise = item.clone();
+                                    });
+                                  } else {
+                                    if (selected) {
+                                      _workoutExercises.removeAt(selectedIndex);
+                                    } else {
+                                      _workoutExercises.add(item.clone());
+                                    }
+
+                                    setState(() {
+                                      _workoutExercises =
+                                          List.of(_workoutExercises);
+                                    });
+                                  }
+                                }
+                              : null,
+                        );
+                      }
+
+                      return ExerciseDivider(text: item);
                     },
                     childCount: _exercisesWithDividers.length,
                   ),
-                );
-              }
-
-              return const SliverFillRemaining(child: Loader());
-            },
-          ),
+                ),
         ],
       ),
+      floatingActionButton: _floatingActionButton(),
     );
   }
 
-  Future<bool> _init() async {
+  Future<void> _init() async {
     List<Exercise> userExercises = await _firestoreService.getExercises();
+
     _exercises.addAll(userExercises);
 
     _updateExercisesWithDividers();
 
-    return true;
+    setState(() {
+      loading = false;
+    });
   }
 
   void _addExercise(Exercise exercise) {
-    setState(() {
-      _exercises.add(exercise);
-    });
+    if (!_exercises.contains(exercise)) {
+      setState(() {
+        _exercises.add(exercise);
+      });
+    }
   }
 
   void _deleteExercise(String? id) {
@@ -118,6 +186,13 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         return false;
       }
 
+      // hide all from workout list excepti
+      if (widget.isReplace &&
+          _workoutExercises.contains(exercise) &&
+          !exercise.equals(_replaceExercise!)) {
+        return false;
+      }
+
       return true;
     }).toList();
 
@@ -140,6 +215,19 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       backgroundColor: Colors.grey[50],
       floating: true,
       pinned: true,
+      leading: widget.isSelectable
+          ? IconButton(
+              icon: const Icon(
+                Icons.close,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+              },
+            )
+          : null,
       title: const Text(
         'Exercises',
         style: TextStyle(
@@ -171,18 +259,19 @@ class _ExercisesPagesState extends State<ExercisesPages> {
             );
           },
         ),
-        IconButton(
-            icon: const Icon(Icons.add, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  fullscreenDialog: true,
-                  builder: (context) =>
-                      AddExercisePage(addExercise: _addExercise),
-                ),
-              );
-            })
+        if (!widget.isSelectable)
+          IconButton(
+              icon: const Icon(Icons.add, color: Colors.black),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    fullscreenDialog: true,
+                    builder: (context) =>
+                        AddExercisePage(addExercise: _addExercise),
+                  ),
+                );
+              })
       ],
     );
   }
@@ -250,5 +339,41 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         ),
       ],
     );
+  }
+
+  GradientFloatingActionButton? _floatingActionButton() {
+    if (widget.isReplace) {
+      if (_replaceExercise!
+          .equals(widget.workout!.exercises[widget.workout!.replaceIndex!])) {
+        return null;
+      }
+
+      return GradientFloatingActionButton(
+        icon: const Icon(Icons.check),
+        onPressed: () {
+          widget.workout?.replaceExercise(_replaceExercise!);
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+        },
+      );
+    }
+
+    if (widget.isSelectable) {
+      return GradientFloatingActionButton(
+        icon: const Icon(Icons.check),
+        onPressed: () {
+          if (widget.workout != null) {
+            widget.workout!.updateExercises(_workoutExercises);
+          }
+
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+        },
+      );
+    }
+
+    return null;
   }
 }

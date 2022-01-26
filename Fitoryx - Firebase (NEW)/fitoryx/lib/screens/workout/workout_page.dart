@@ -1,9 +1,18 @@
+import 'package:fitoryx/models/workout.dart';
+import 'package:fitoryx/screens/workout/build_workout_page.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WorkoutPage extends StatelessWidget {
+class WorkoutPage extends StatefulWidget {
   const WorkoutPage({Key? key}) : super(key: key);
+
+  @override
+  State<WorkoutPage> createState() => _WorkoutPageState();
+}
+
+class _WorkoutPageState extends State<WorkoutPage> {
+  final List<Workout> _workouts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +41,27 @@ class WorkoutPage extends StatelessWidget {
               ),
               child: GradientButton(
                 text: 'Create Workout',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) =>
+                          BuildWorkoutPage(addWorkout: _addWorkout),
+                    ),
+                  );
+                },
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _addWorkout(Workout workout) {
+    setState(() {
+      _workouts.add(workout);
+    });
   }
 }

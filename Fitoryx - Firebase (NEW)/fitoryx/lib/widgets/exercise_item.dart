@@ -5,40 +5,41 @@ import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/confirm_alert.dart';
 import 'package:flutter/material.dart';
 
-// Selected TextStyle (Name):
-/**
-             * TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.blue[700],
-                            )
-             */
-
-// Selected textStyle category
-/**
-             * subtitle.copyWith(
-                              color: Colors.blue[700],
-                            )
-             * 
-             */
-
 class ExerciseItem extends StatelessWidget {
   final _firestoreService = FirestoreService();
   final Exercise exercise;
+  final bool selected;
+  final Function()? onTap;
   final Function(String?) deleteExercise;
 
-  ExerciseItem({Key? key, required this.exercise, required this.deleteExercise})
-      : super(key: key);
+  ExerciseItem({
+    Key? key,
+    required this.exercise,
+    this.selected = false,
+    this.onTap,
+    required this.deleteExercise,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        _title(),
+        exercise.getTitle(),
+        style: selected
+            ? TextStyle(
+                fontSize: 16.0,
+                color: Colors.blue[700],
+              )
+            : null,
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
         exercise.category == "" ? "None" : exercise.category,
-        style: Theme.of(context).textTheme.subtitle2,
+        style: selected
+            ? Theme.of(context).textTheme.subtitle2?.copyWith(
+                  color: Colors.blue[700],
+                )
+            : Theme.of(context).textTheme.subtitle2,
         overflow: TextOverflow.ellipsis,
       ),
       trailing: exercise.userCreated
@@ -66,18 +67,7 @@ class ExerciseItem extends StatelessWidget {
               },
             )
           : null,
-      onTap: () => {},
+      onTap: onTap,
     );
-  }
-
-  _title() {
-    String title = exercise.name;
-
-    if (exercise.equipment != "" &&
-        exercise.equipment.toLowerCase() != "none") {
-      title = "$title (${exercise.equipment})";
-    }
-
-    return title;
   }
 }

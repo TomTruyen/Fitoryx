@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitoryx/models/exercise_filter.dart';
+import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/sign_in.dart';
 import 'package:fitoryx/screens/wrapper.dart';
 import 'package:fitoryx/services/auth_service.dart';
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<ExerciseFilter>(
           create: (_) => ExerciseFilter(),
+        ),
+        ChangeNotifierProvider<WorkoutChangeNotifier>(
+          create: (_) => WorkoutChangeNotifier(),
         ),
       ],
       child: MaterialApp(

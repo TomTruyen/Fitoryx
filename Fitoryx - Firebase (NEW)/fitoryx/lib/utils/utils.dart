@@ -29,3 +29,11 @@ List<dynamic> addListDividers(List<Exercise> exercises) {
 
   return listWithDividers;
 }
+
+String? convertDoubleToIntString(double? value) {
+  if (value == null || value % 1 != 0) {
+    return value?.toString();
+  }
+
+  return value.toInt().toString();
+}
