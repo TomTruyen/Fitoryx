@@ -10,7 +10,7 @@ class GradientButton extends StatelessWidget {
     Key? key,
     this.text = "",
     this.isBusy = false,
-    this.radius = 30,
+    this.radius = 24,
     required this.onPressed,
   }) : super(key: key);
 
