@@ -2,6 +2,7 @@ import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
+import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
 import 'package:fitoryx/widgets/workout_exercise_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,6 +62,16 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
                   color: Colors.black,
                 ),
                 onPressed: () async {
+                  if (_workout.exercises.isEmpty) {
+                    await showAlert(
+                      context,
+                      content:
+                          "At least 1 exercise should be added to a workout!",
+                    );
+
+                    return;
+                  }
+
                   Workout workout = _workout.toWorkout();
 
                   workout.id = await _firestoreService.createWorkout(workout);
