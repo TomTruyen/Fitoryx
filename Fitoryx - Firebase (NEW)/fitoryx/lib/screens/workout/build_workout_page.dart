@@ -48,9 +48,8 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
                 color: Colors.black,
               ),
               onPressed: () {
-                _workout.reset();
-
                 if (Navigator.canPop(context)) {
+                  _workout.reset();
                   Navigator.pop(context);
                 }
               },
@@ -69,6 +68,7 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
                   widget.addWorkout(workout);
 
                   if (Navigator.canPop(context)) {
+                    _workout.reset();
                     Navigator.pop(context);
                   }
                 },
