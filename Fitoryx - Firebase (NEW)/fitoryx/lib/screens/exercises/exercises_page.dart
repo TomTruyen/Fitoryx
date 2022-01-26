@@ -103,6 +103,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
                           exercise: item,
                           deleteExercise: _deleteExercise,
                           selected: selected,
+                          isSelectable: widget.isSelectable,
                           onTap: widget.isSelectable
                               ? () {
                                   if (widget.isReplace) {

@@ -9,6 +9,7 @@ class ExerciseItem extends StatelessWidget {
   final _firestoreService = FirestoreService();
   final Exercise exercise;
   final bool selected;
+  final bool isSelectable;
   final Function()? onTap;
   final Function(String?) deleteExercise;
 
@@ -16,6 +17,7 @@ class ExerciseItem extends StatelessWidget {
     Key? key,
     required this.exercise,
     this.selected = false,
+    this.isSelectable = false,
     this.onTap,
     required this.deleteExercise,
   }) : super(key: key);
@@ -42,7 +44,7 @@ class ExerciseItem extends StatelessWidget {
             : Theme.of(context).textTheme.subtitle2,
         overflow: TextOverflow.ellipsis,
       ),
-      trailing: exercise.userCreated
+      trailing: exercise.userCreated && !isSelectable
           ? IconButton(
               icon: const Icon(Icons.delete, color: Colors.black),
               onPressed: () async {
