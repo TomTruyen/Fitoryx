@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tomtruyen.fitoryx">
+  <uses-permission android:name="android.permission.VIBRATE"/>
+
+
    <application
         android:label="fitoryx"
         android:icon="@mipmap/ic_launcher">

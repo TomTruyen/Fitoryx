@@ -99,7 +99,7 @@ class _SignUpState extends State<SignUp> {
                   GradientButton(
                     radius: 16,
                     isBusy: _isBusy,
-                    text: 'SIGN UP',
+                    text: 'Sign Up',
                     onPressed: () {
                       _signUp(_email, _password);
                     },
