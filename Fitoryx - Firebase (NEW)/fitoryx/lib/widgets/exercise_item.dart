@@ -50,22 +50,24 @@ class ExerciseItem extends StatelessWidget {
               onPressed: () async {
                 clearFocus(context);
 
-                showConfirmAlert(context,
-                    content:
-                        "You will be deleting \"${exercise.name}\". This action can't be reversed!",
-                    onConfirm: () async {
-                  try {
-                    await _firestoreService.deleteExercise(exercise.id);
+                showConfirmAlert(
+                  context,
+                  content:
+                      "You will be deleting \"${exercise.name}\". This action can't be reversed!",
+                  onConfirm: () async {
+                    try {
+                      await _firestoreService.deleteExercise(exercise.id);
 
-                    deleteExercise(exercise.id);
+                      deleteExercise(exercise.id);
 
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    } catch (e) {
+                      showAlert(context, content: "Failed to delete exercise");
                     }
-                  } catch (e) {
-                    showAlert(context, content: "Failed to delete exercise");
-                  }
-                });
+                  },
+                );
               },
             )
           : null,

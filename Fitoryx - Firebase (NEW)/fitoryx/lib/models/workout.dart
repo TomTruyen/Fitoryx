@@ -12,6 +12,13 @@ class Workout {
     this.unit = "kg",
   });
 
+  Workout clone() {
+    var workout = Workout(id: id, name: name, unit: unit);
+    workout.exercises = exercises;
+
+    return workout;
+  }
+
   static Workout fromJson(Map<String, dynamic> json) {
     var workout = Workout(
       id: json["id"],

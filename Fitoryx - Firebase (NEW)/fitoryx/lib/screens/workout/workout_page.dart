@@ -3,6 +3,8 @@ import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/screens/workout/build_workout_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
+import 'package:fitoryx/widgets/alert.dart';
+import 'package:fitoryx/widgets/confirm_alert.dart';
 import 'package:fitoryx/widgets/exercise_row.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/loader.dart';
@@ -161,10 +163,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                         // Open edit page
                                         break;
                                       case 'duplicate':
-                                        // Duplicate call to firebase + add to hte list & refresh
+                                        _duplicateWorkout(workout.clone());
                                         break;
                                       case 'delete':
-                                        // Delete popup (like exercises)
+                                        _deleteWorkout(workout);
                                         break;
                                     }
                                   },
@@ -209,6 +211,48 @@ class _WorkoutPageState extends State<WorkoutPage> {
     setState(() {
       _workouts.add(workout);
     });
+  }
+
+  void _deleteWorkout(Workout workout) {
+    showConfirmAlert(
+      context,
+      content:
+          "You will be deleting \"${workout.name}\". This action can't be reversed!",
+      onConfirm: () async {
+        try {
+          await _firestoreService.deleteWorkout(workout.id);
+
+          _workouts.removeWhere((w) => w.id == workout.id);
+
+          setState(() {
+            _workouts = _workouts;
+          });
+
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+        } catch (e) {
+          showAlert(
+            context,
+            content: "Failed to delete workout",
+          );
+        }
+      },
+    );
+  }
+
+  void _duplicateWorkout(Workout workout) async {
+    try {
+      workout.id = await _firestoreService.createWorkout(workout);
+
+      _addWorkout(workout);
+
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      showAlert(context, content: "Failed to duplicate workout");
+    }
   }
 
   void _sortWorkouts() {

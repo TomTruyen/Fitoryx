@@ -74,6 +74,14 @@ class FirestoreService {
     return docReference.id;
   }
 
+  Future<void> deleteWorkout(String? id) async {
+    await _usersCollection
+        .doc(_authService.getUser()?.uid)
+        .collection(workoutCollection)
+        .doc(id)
+        .delete();
+  }
+
   Future<List<Workout>> getWorkouts() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)
