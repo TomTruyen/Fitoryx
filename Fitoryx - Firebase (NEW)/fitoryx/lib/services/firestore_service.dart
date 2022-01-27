@@ -64,7 +64,7 @@ class FirestoreService {
   }
 
   // Workouts
-  Future createWorkout(Workout workout) async {
+  Future<String> createWorkout(Workout workout) async {
     DocumentReference<Map<String, dynamic>> docReference =
         await _usersCollection
             .doc(_authService.getUser()?.uid)
@@ -72,5 +72,28 @@ class FirestoreService {
             .add(workout.toJson());
 
     return docReference.id;
+  }
+
+  Future<List<Workout>> getWorkouts() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
+        .doc(_authService.getUser()?.uid)
+        .collection(workoutCollection)
+        .orderBy("name")
+        .get();
+
+    if (querySnapshot.docs.isEmpty) {
+      return [];
+    }
+
+    List<Workout> workouts = [];
+
+    for (var workout in querySnapshot.docs) {
+      Workout w = Workout.fromJson(workout.data());
+      w.id = workout.id;
+
+      workouts.add(w);
+    }
+
+    return workouts;
   }
 }
