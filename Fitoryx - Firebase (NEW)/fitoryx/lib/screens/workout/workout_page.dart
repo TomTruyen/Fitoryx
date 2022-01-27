@@ -29,7 +29,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   final FirestoreService _firestoreService = FirestoreService();
 
   List<Workout> _workouts = [];
-  bool isAscending = false;
+  bool isAscending = true;
 
   final List<PopupOption> _popupOptions = [
     PopupOption(text: 'Edit workout', value: 'edit'),
@@ -74,6 +74,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: GradientButton(
                 text: 'Create Workout',
                 onPressed: () {
+                  _workout.reset();
+
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
@@ -123,7 +125,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   Workout workout = _workouts[index];
 
                   return Card(
-                    key: UniqueKey(),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
@@ -226,6 +227,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   Future<void> _init() async {
     try {
       _workouts = await _firestoreService.getWorkouts();
+      _sortWorkouts(noToggle: true);
     } catch (e) {
       showAlert(context, content: "Failed to load workouts");
     }
@@ -236,9 +238,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   void _addWorkout(Workout workout) {
-    setState(() {
-      _workouts.add(workout);
-    });
+    _workouts.add(workout);
+    _sortWorkouts(noToggle: true);
   }
 
   void _editWorkout(Workout workout) {
@@ -246,9 +247,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
     if (index > -1) {
       _workouts[index] = workout;
-      setState(() {
-        _workouts = _workouts;
-      });
+
+      _sortWorkouts(noToggle: true);
     }
   }
 
@@ -263,9 +263,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
           _workouts.removeWhere((w) => w.id == workout.id);
 
-          setState(() {
-            _workouts = _workouts;
-          });
+          _sortWorkouts(noToggle: true);
 
           if (Navigator.canPop(context)) {
             Navigator.pop(context);
@@ -294,7 +292,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
     }
   }
 
-  void _sortWorkouts() {
+  void _sortWorkouts({bool noToggle = false}) {
+    if (!noToggle) {
+      isAscending = !isAscending;
+    }
+
     _workouts.sort(
       (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
     );
@@ -304,7 +306,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     }
 
     setState(() {
-      isAscending = !isAscending;
+      _workouts = _workouts;
     });
   }
 

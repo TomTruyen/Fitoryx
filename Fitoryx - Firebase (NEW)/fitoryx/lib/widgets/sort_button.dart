@@ -34,7 +34,7 @@ class _SortButtonState extends State<SortButton> {
         children: <Widget>[
           Transform(
             alignment: Alignment.center,
-            transform: widget.isAscending
+            transform: !widget.isAscending
                 ? Matrix4.rotationX(pi)
                 : Matrix4.rotationX(0),
             child: const Icon(Icons.sort),

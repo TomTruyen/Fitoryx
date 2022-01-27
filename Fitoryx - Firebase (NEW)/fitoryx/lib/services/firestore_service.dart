@@ -96,7 +96,6 @@ class FirestoreService {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)
         .collection(workoutCollection)
-        .orderBy("name")
         .get();
 
     if (querySnapshot.docs.isEmpty) {
