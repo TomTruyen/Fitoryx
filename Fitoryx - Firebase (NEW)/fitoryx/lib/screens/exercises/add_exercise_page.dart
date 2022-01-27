@@ -53,8 +53,9 @@ class _AddExercisePageState extends State<AddExercisePage> {
                     if (_addExerciseFormKey.currentState != null &&
                         _addExerciseFormKey.currentState!.validate()) {
                       try {
-                        _exercise.id =
-                            await _firestoreService.createExercise(_exercise);
+                        _exercise.id = await _firestoreService.createExercise(
+                          _exercise,
+                        );
 
                         _exercise.userCreated = true;
 

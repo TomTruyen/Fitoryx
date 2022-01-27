@@ -1,6 +1,7 @@
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_set.dart';
 import 'package:fitoryx/models/workout.dart';
+import 'package:fitoryx/models/workout_history.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutChangeNotifier extends ChangeNotifier {
@@ -8,7 +9,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   String name;
   String unit;
   List<Exercise> exercises = [];
-  int duration;
+  String duration;
   String note;
 
   // Replace Index ==> Used to know what exercise to replace
@@ -18,7 +19,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.id,
     this.name = "Workout",
     this.unit = "kg",
-    this.duration = 0,
+    this.duration = "00:00",
     this.note = "",
   });
 
@@ -62,6 +63,25 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     }
   }
 
+  void toggleSet(int exerciseIndex, int setIndex) {
+    exercises[exerciseIndex].sets[setIndex].completed =
+        !exercises[exerciseIndex].sets[setIndex].completed;
+
+    notifyListeners();
+  }
+
+  bool isWorkoutCompleted() {
+    for (var exercise in exercises) {
+      for (var set in exercise.sets) {
+        if (!set.completed) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
   void updateWeight(int exerciseIndex, int setIndex, String value) {
     if (value == "") value = "0";
 
@@ -85,7 +105,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     name = "Workout";
     unit = "kg";
     exercises = [];
-    duration = 0;
+    duration = "00:00";
     note = "";
 
     notifyListeners();
@@ -96,6 +116,8 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     name = workout.name;
     unit = workout.unit;
     exercises = workout.exercises;
+
+    notifyListeners();
   }
 
   Workout toWorkout() {
@@ -108,5 +130,9 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     workout.exercises = exercises;
 
     return workout;
+  }
+
+  WorkoutHistory toWorkoutHistory() {
+    return WorkoutHistory(workout: toWorkout(), note: note, duration: duration);
   }
 }

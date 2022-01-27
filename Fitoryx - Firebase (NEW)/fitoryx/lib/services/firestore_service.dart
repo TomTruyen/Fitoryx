@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/workout.dart';
+import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/services/auth_service.dart';
 
 class FirestoreService {
@@ -21,6 +22,7 @@ class FirestoreService {
 
   final String exerciseCollection = "exercises";
   final String workoutCollection = "workouts";
+  final String historyCollection = "history";
 
   // Exercises
   Future<String> createExercise(Exercise exercise) async {
@@ -111,5 +113,16 @@ class FirestoreService {
     }
 
     return workouts;
+  }
+
+  // History
+  Future<String> createWorkoutHistory(WorkoutHistory history) async {
+    DocumentReference<Map<String, dynamic>> docReference =
+        await _usersCollection
+            .doc(_authService.getUser()?.uid)
+            .collection(historyCollection)
+            .add(history.toJson());
+
+    return docReference.id;
   }
 }

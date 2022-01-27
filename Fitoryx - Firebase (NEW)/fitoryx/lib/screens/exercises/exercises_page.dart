@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitoryx/data/exercise_list.dart' as default_exercises;
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_filter.dart';
@@ -6,6 +7,7 @@ import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/exercise_divider.dart';
 import 'package:fitoryx/widgets/exercise_item.dart';
 import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
@@ -139,9 +141,13 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   }
 
   Future<void> _init() async {
-    List<Exercise> userExercises = await _firestoreService.getExercises();
+    try {
+      List<Exercise> userExercises = await _firestoreService.getExercises();
 
-    _exercises.addAll(userExercises);
+      _exercises.addAll(userExercises);
+    } catch (e) {
+      showAlert(context, content: "Failed to load custom exercises");
+    }
 
     _updateExercisesWithDividers();
 
@@ -167,6 +173,8 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   }
 
   void _filterExercises(ExerciseFilter filter) {
+    List<Exercise> _oldFiltered = List.of(_filtered);
+
     _filtered = _exercises.where((exercise) {
       if (filter.categories.isNotEmpty &&
           !filter.categories.contains(exercise.category)) {
@@ -188,20 +196,24 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       }
 
       // hide all from workout list excepti
-      if (widget.isReplace &&
-          _workoutExercises.contains(exercise) &&
-          !exercise.equals(_replaceExercise!)) {
-        return false;
+      if (widget.isReplace) {
+        if (_workoutExercises.indexWhere((e) => e.equals(exercise)) > -1 &&
+            !exercise.equals(_replaceExercise!)) {
+          return false;
+        }
       }
 
       return true;
     }).toList();
 
-    _updateExercisesWithDividers();
+    Function eq = const ListEquality().equals;
+    if (!eq(_oldFiltered, _filtered)) {
+      _updateExercisesWithDividers();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      filter.setCount(_filtered.length);
-    });
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        filter.setCount(_filtered.length);
+      });
+    }
   }
 
   void _updateExercisesWithDividers() {

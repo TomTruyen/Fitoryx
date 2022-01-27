@@ -16,4 +16,20 @@ class ExerciseSet {
 
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "reps": reps ?? 0,
+      "weight": weight ?? 0,
+      "time": time ?? 0,
+    };
+  }
+
+  static ExerciseSet fromJson(Map<String, dynamic> json) {
+    return ExerciseSet(
+      reps: json['reps']?.toInt(),
+      weight: json['weight']?.toDouble(),
+      time: json['time']?.toInt(),
+    );
+  }
 }

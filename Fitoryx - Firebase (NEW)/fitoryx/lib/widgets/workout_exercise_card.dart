@@ -2,6 +2,7 @@ import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
+import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/form_input.dart';
 import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:fitoryx/widgets/rest_dialog.dart';
@@ -16,6 +17,7 @@ import 'package:provider/provider.dart';
 class WorkoutExerciseCard extends StatelessWidget {
   final int index;
   final Exercise exercise;
+  final bool started;
 
   final List<PopupOption> _popupOptions = [
     PopupOption(text: 'Rest timer', value: 'rest'),
@@ -23,8 +25,12 @@ class WorkoutExerciseCard extends StatelessWidget {
     PopupOption(text: 'Remove exercise', value: 'remove'),
   ];
 
-  WorkoutExerciseCard({Key? key, required this.index, required this.exercise})
-      : super(key: key);
+  WorkoutExerciseCard({
+    Key? key,
+    required this.index,
+    required this.exercise,
+    this.started = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +38,6 @@ class WorkoutExerciseCard extends StatelessWidget {
         Provider.of<WorkoutChangeNotifier>(context);
 
     return Card(
-      key: UniqueKey(),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
@@ -48,12 +53,7 @@ class WorkoutExerciseCard extends StatelessWidget {
             children: <Widget>[
               Flexible(
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(
-                    16.0,
-                    0.0,
-                    16.0,
-                    12.0,
-                  ),
+                  padding: const EdgeInsets.all(16),
                   child: Text(
                     exercise.getTitle(),
                     style: TextStyle(color: Colors.blue[700]),
@@ -61,39 +61,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                   ),
                 ),
               ),
-              PopupMenu(
-                items: _popupOptions,
-                onSelected: (selected) {
-                  switch (selected) {
-                    case 'rest':
-                      showRestDialog(
-                        context,
-                        _workout,
-                        exercise,
-                      );
-                      break;
-                    case 'replace':
-                      _workout.replaceIndex = index;
-
-                      Navigator.of(context).push(
-                        CupertinoPageRoute(
-                          fullscreenDialog: true,
-                          builder: (BuildContext context) => ExercisesPages(
-                            isSelectable: true,
-                            isReplace: true,
-                            workout: _workout,
-                          ),
-                        ),
-                      );
-                      break;
-                    case 'remove':
-                      _workout.removeExercise(index);
-                      break;
-                    default:
-                      break;
-                  }
-                },
-              ),
+              _cardOption(context, _workout),
             ],
           ),
           Container(
@@ -116,8 +84,16 @@ class WorkoutExerciseCard extends StatelessWidget {
               padding: EdgeInsets.zero,
               margin: const EdgeInsets.symmetric(vertical: 4.0),
               child: exercise.type == 'time'
-                  ? TimeSetRow(exerciseIndex: index, setIndex: i)
-                  : WeightSetRow(exerciseIndex: index, setIndex: i),
+                  ? TimeSetRow(
+                      exerciseIndex: index,
+                      setIndex: i,
+                      started: started,
+                    )
+                  : WeightSetRow(
+                      exerciseIndex: index,
+                      setIndex: i,
+                      started: started,
+                    ),
             ),
           TextButton(
             child: Text(
@@ -133,6 +109,65 @@ class WorkoutExerciseCard extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Widget _cardOption(BuildContext context, WorkoutChangeNotifier workout) {
+    if (started) {
+      return exercise.restEnabled
+          ? Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.schedule,
+                    color: Colors.blue[700],
+                  ),
+                  const SizedBox(width: 5.0),
+                  Text(
+                    "${addZeroPadding(exercise.restSeconds ~/ 60)}:${addZeroPadding(exercise.restSeconds % 60)}",
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : Container();
+    }
+
+    return PopupMenu(
+      items: _popupOptions,
+      onSelected: (selected) {
+        switch (selected) {
+          case 'rest':
+            showRestDialog(
+              context,
+              workout,
+              exercise,
+            );
+            break;
+          case 'replace':
+            workout.replaceIndex = index;
+
+            Navigator.of(context).push(
+              CupertinoPageRoute(
+                fullscreenDialog: true,
+                builder: (BuildContext context) => ExercisesPages(
+                  isSelectable: true,
+                  isReplace: true,
+                  workout: workout,
+                ),
+              ),
+            );
+            break;
+          case 'remove':
+            workout.removeExercise(index);
+            break;
+          default:
+            break;
+        }
+      },
     );
   }
 }

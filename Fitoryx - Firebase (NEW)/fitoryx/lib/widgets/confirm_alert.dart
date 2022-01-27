@@ -19,7 +19,7 @@ Future<void> showConfirmAlert(
             minHeight: MediaQuery.of(context).size.width * 0.2,
             maxHeight: MediaQuery.of(context).size.width * 0.6,
           ),
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: MediaQuery.of(context).size.width * 0.6,
           margin: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ Future<void> showConfirmAlert(
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),

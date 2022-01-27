@@ -38,19 +38,13 @@ class Exercise {
         type: type,
       );
 
-  Map<String, dynamic> toExerciseJson({bool withId = false}) {
-    var json = {
+  Map<String, dynamic> toExerciseJson() {
+    return {
       "name": name,
       "category": category,
       "equipment": equipment,
       "type": type,
     };
-
-    if (withId && id != null) {
-      json["id"] = id!;
-    }
-
-    return json;
   }
 
   static Exercise fromExerciseJson(Map<String, dynamic> json) {
@@ -61,6 +55,41 @@ class Exercise {
       equipment: json['equipment'],
       type: json['type'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "category": category,
+      "equipment": equipment,
+      "type": type,
+      "notes": notes,
+      "restEnabled": restEnabled,
+      "restSeconds": restSeconds,
+      "sets": sets.map((set) => set.toJson()).toList()
+    };
+  }
+
+  static Exercise fromJson(Map<String, dynamic> json) {
+    var exercise = Exercise(
+      id: json['id'],
+      name: json['name'],
+      category: json['category'],
+      equipment: json['equipment'],
+      type: json['type'],
+    );
+
+    exercise.notes = json['notes'];
+    exercise.restEnabled = json['restEnabled'];
+    exercise.restSeconds = json['restSeconds'];
+    exercise.sets = json['sets']
+        .map<ExerciseSet>(
+          (set) => ExerciseSet.fromJson(set),
+        )
+        .toList();
+
+    return exercise;
   }
 
   bool equals(Exercise exercise) {

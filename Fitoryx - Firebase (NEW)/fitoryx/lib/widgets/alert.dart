@@ -14,8 +14,11 @@ Future<void> showAlert(
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.4,
-          width: MediaQuery.of(context).size.width * 0.8,
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.width * 0.2,
+            maxHeight: MediaQuery.of(context).size.width * 0.6,
+          ),
+          width: MediaQuery.of(context).size.width * 0.6,
           margin: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +26,7 @@ Future<void> showAlert(
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),

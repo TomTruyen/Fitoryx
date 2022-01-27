@@ -28,7 +28,7 @@ class Workout {
 
     workout.exercises = json["exercises"]
         .map<Exercise>(
-          (exercise) => Exercise.fromExerciseJson(exercise),
+          (exercise) => Exercise.fromJson(exercise),
         )
         .toList();
 
@@ -41,7 +41,7 @@ class Workout {
       "unit": unit,
       "exercises": exercises
           .map(
-            (exercise) => exercise.toExerciseJson(withId: true),
+            (exercise) => exercise.toJson(),
           )
           .toList(),
     };

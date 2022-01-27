@@ -37,3 +37,7 @@ String? convertDoubleToIntString(double? value) {
 
   return value.toInt().toString();
 }
+
+String addZeroPadding(int value, {int amount = 2}) {
+  return value.toString().padLeft(amount, "0");
+}

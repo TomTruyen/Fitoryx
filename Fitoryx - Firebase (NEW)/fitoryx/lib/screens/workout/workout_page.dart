@@ -3,6 +3,7 @@ import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/workout/build_workout_page.dart';
+import 'package:fitoryx/screens/workout/start_workout_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/confirm_alert.dart';
@@ -133,8 +134,15 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
                       onTap: () {
-                        // Open workout start page
-                        print("WORKOUT START PAGE");
+                        _workout.withWorkout(workout);
+
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => const StartWorkoutPage(),
+                          ),
+                        );
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -216,7 +224,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
   }
 
   Future<void> _init() async {
-    _workouts = await _firestoreService.getWorkouts();
+    try {
+      _workouts = await _firestoreService.getWorkouts();
+    } catch (e) {
+      showAlert(context, content: "Failed to load workouts");
+    }
 
     setState(() {
       loading = false;

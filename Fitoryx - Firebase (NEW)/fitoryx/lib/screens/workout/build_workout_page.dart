@@ -31,6 +31,8 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
     final WorkoutChangeNotifier _workout =
         Provider.of<WorkoutChangeNotifier>(context);
 
+    print("update build page");
+
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -75,19 +77,25 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
                     return;
                   }
 
-                  Workout workout = _workout.toWorkout();
+                  try {
+                    Workout workout = _workout.toWorkout();
 
-                  if (!widget.isEdit) {
-                    workout.id = await _firestoreService.createWorkout(workout);
-                  } else {
-                    await _firestoreService.updateWorkout(workout);
-                  }
+                    if (!widget.isEdit) {
+                      workout.id = await _firestoreService.createWorkout(
+                        workout,
+                      );
+                    } else {
+                      await _firestoreService.updateWorkout(workout);
+                    }
 
-                  widget.updateWorkout(workout);
+                    widget.updateWorkout(workout);
 
-                  if (Navigator.canPop(context)) {
-                    _workout.reset();
-                    Navigator.pop(context);
+                    if (Navigator.canPop(context)) {
+                      _workout.reset();
+                      Navigator.pop(context);
+                    }
+                  } catch (e) {
+                    showAlert(context, content: "Failed to save workout");
                   }
                 },
               ),
@@ -120,6 +128,7 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
                 return WorkoutExerciseCard(
                   index: index,
                   exercise: _workout.exercises[index],
+                  // started: false,
                 );
               },
               childCount: _workout.exercises.length,

@@ -1,4 +1,6 @@
 import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/widgets/complete_button.dart';
+import 'package:fitoryx/widgets/delete_button.dart';
 import 'package:fitoryx/widgets/form_input.dart';
 import 'package:fitoryx/widgets/time_dialog.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +9,14 @@ import 'package:provider/provider.dart';
 class TimeSetRow extends StatelessWidget {
   final int exerciseIndex;
   final int setIndex;
+  final bool started;
 
-  const TimeSetRow(
-      {Key? key, required this.exerciseIndex, required this.setIndex})
-      : super(key: key);
+  const TimeSetRow({
+    Key? key,
+    required this.exerciseIndex,
+    required this.setIndex,
+    this.started = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +60,17 @@ class TimeSetRow extends StatelessWidget {
         ),
         Expanded(
           flex: 1,
-          child: GestureDetector(
-            child: const Icon(
-              Icons.delete,
-              color: Colors.black,
-            ),
-            onTap: () {
-              _workout.removeSet(exerciseIndex, setIndex);
-            },
-          ),
+          child: started
+              ? CompleteButton(
+                  started: started,
+                  exerciseIndex: exerciseIndex,
+                  setIndex: setIndex,
+                  workout: _workout)
+              : DeleteButton(
+                  onTap: () {
+                    _workout.removeSet(exerciseIndex, setIndex);
+                  },
+                ),
         ),
       ],
     );
