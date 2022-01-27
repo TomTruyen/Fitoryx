@@ -1,6 +1,7 @@
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/workout.dart';
+import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/workout/build_workout_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
@@ -12,6 +13,7 @@ import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:fitoryx/widgets/sort_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({Key? key}) : super(key: key);
@@ -42,6 +44,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    final WorkoutChangeNotifier _workout =
+        Provider.of<WorkoutChangeNotifier>(context, listen: false);
+
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -72,8 +77,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     context,
                     CupertinoPageRoute(
                       fullscreenDialog: true,
-                      builder: (context) =>
-                          BuildWorkoutPage(addWorkout: _addWorkout),
+                      builder: (context) => BuildWorkoutPage(
+                        updateWorkout: _addWorkout,
+                      ),
                     ),
                   );
                 },
@@ -130,63 +136,73 @@ class _WorkoutPageState extends State<WorkoutPage> {
                         // Open workout start page
                         print("WORKOUT START PAGE");
                       },
-                      child: Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Flexible(
-                                  child: Container(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      16.0,
-                                      0.0,
-                                      16.0,
-                                      12.0,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Flexible(
+                                child: Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    16.0,
+                                    0.0,
+                                    16.0,
+                                    12.0,
+                                  ),
+                                  child: Text(
+                                    workout.name,
+                                    style: TextStyle(
+                                      color: Colors.blue[700],
                                     ),
-                                    child: Text(
-                                      workout.name,
-                                      style: TextStyle(
-                                        color: Colors.blue[700],
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                PopupMenu(
-                                  items: _popupOptions,
-                                  onSelected: (selection) async {
-                                    switch (selection) {
-                                      case 'edit':
-                                        // Open edit page
-                                        break;
-                                      case 'duplicate':
-                                        _duplicateWorkout(workout.clone());
-                                        break;
-                                      case 'delete':
-                                        _deleteWorkout(workout);
-                                        break;
-                                    }
-                                  },
-                                )
-                              ],
-                            ),
-                            _buildExerciseRow(workout.exercises),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                                vertical: 4.0,
                               ),
-                              child: Text(
-                                workout.exercises.length > 3 ? 'More...' : '',
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.caption,
-                              ),
+                              PopupMenu(
+                                items: _popupOptions,
+                                onSelected: (selection) async {
+                                  switch (selection) {
+                                    case 'edit':
+                                      _workout.withWorkout(workout);
+
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          fullscreenDialog: true,
+                                          builder: (context) =>
+                                              BuildWorkoutPage(
+                                            updateWorkout: _editWorkout,
+                                            isEdit: true,
+                                          ),
+                                        ),
+                                      );
+                                      break;
+                                    case 'duplicate':
+                                      _duplicateWorkout(workout.clone());
+                                      break;
+                                    case 'delete':
+                                      _deleteWorkout(workout);
+                                      break;
+                                  }
+                                },
+                              )
+                            ],
+                          ),
+                          _buildExerciseRow(workout.exercises),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 4.0,
                             ),
-                          ],
-                        ),
+                            child: Text(
+                              workout.exercises.length > 3 ? 'More...' : '',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.caption,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -211,6 +227,17 @@ class _WorkoutPageState extends State<WorkoutPage> {
     setState(() {
       _workouts.add(workout);
     });
+  }
+
+  void _editWorkout(Workout workout) {
+    int index = _workouts.indexWhere((w) => w.id == workout.id);
+
+    if (index > -1) {
+      _workouts[index] = workout;
+      setState(() {
+        _workouts = _workouts;
+      });
+    }
   }
 
   void _deleteWorkout(Workout workout) {

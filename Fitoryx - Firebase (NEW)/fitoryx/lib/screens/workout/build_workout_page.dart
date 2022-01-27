@@ -2,6 +2,7 @@ import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
+import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
 import 'package:fitoryx/widgets/workout_exercise_card.dart';
@@ -11,9 +12,11 @@ import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
 
 class BuildWorkoutPage extends StatefulWidget {
-  final Function(Workout) addWorkout;
+  final bool isEdit;
+  final Function(Workout) updateWorkout;
 
-  const BuildWorkoutPage({Key? key, required this.addWorkout})
+  const BuildWorkoutPage(
+      {Key? key, this.isEdit = false, required this.updateWorkout})
       : super(key: key);
 
   @override
@@ -36,9 +39,9 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            title: const Text(
-              'Create Workout',
-              style: TextStyle(
+            title: Text(
+              !widget.isEdit ? 'Create Workout' : 'Edit Workout',
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
               ),
@@ -74,9 +77,13 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
 
                   Workout workout = _workout.toWorkout();
 
-                  workout.id = await _firestoreService.createWorkout(workout);
+                  if (!widget.isEdit) {
+                    workout.id = await _firestoreService.createWorkout(workout);
+                  } else {
+                    await _firestoreService.updateWorkout(workout);
+                  }
 
-                  widget.addWorkout(workout);
+                  widget.updateWorkout(workout);
 
                   if (Navigator.canPop(context)) {
                     _workout.reset();
@@ -131,6 +138,8 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
       floatingActionButton: GradientFloatingActionButton(
         icon: const Icon(Icons.add_outlined),
         onPressed: () {
+          clearFocus(context);
+
           Navigator.of(context).push(
             CupertinoPageRoute(
               fullscreenDialog: true,

@@ -91,6 +91,13 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void withWorkout(Workout workout) {
+    id = workout.id;
+    name = workout.name;
+    unit = workout.unit;
+    exercises = workout.exercises;
+  }
+
   Workout toWorkout() {
     var workout = Workout(
       id: id,

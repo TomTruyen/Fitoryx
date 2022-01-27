@@ -74,6 +74,14 @@ class FirestoreService {
     return docReference.id;
   }
 
+  Future<void> updateWorkout(Workout workout) async {
+    await _usersCollection
+        .doc(_authService.getUser()?.uid)
+        .collection(workoutCollection)
+        .doc(workout.id)
+        .update(workout.toJson());
+  }
+
   Future<void> deleteWorkout(String? id) async {
     await _usersCollection
         .doc(_authService.getUser()?.uid)
