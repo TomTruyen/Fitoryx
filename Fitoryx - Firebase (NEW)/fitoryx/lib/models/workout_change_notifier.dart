@@ -96,8 +96,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
 
   void updateTime(int exerciseIndex, int setIndex, int value) {
     exercises[exerciseIndex].sets[setIndex].time = value;
-
-    notifyListeners();
   }
 
   void reset() {

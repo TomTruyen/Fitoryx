@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
 class FormInput extends StatelessWidget {
+  final TextEditingController? controller;
   final String hintText;
-  final String initialValue;
+  final String? initialValue;
   final double radius;
   final int? maxLines;
   EdgeInsetsGeometry? contentPadding;
@@ -21,8 +22,9 @@ class FormInput extends StatelessWidget {
 
   FormInput({
     Key? key,
+    this.controller,
     this.hintText = "",
-    this.initialValue = "",
+    this.initialValue,
     this.radius = 8,
     this.maxLines = 1,
     this.contentPadding,
@@ -45,6 +47,7 @@ class FormInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       textInputAction: inputAction,
       inputFormatters: inputFormatters,
       textAlign: centerText ? TextAlign.center : TextAlign.start,

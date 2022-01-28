@@ -4,9 +4,9 @@ import 'package:fitoryx/widgets/delete_button.dart';
 import 'package:fitoryx/widgets/form_input.dart';
 import 'package:fitoryx/widgets/time_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class TimeSetRow extends StatelessWidget {
+class TimeSetRow extends StatefulWidget {
+  final WorkoutChangeNotifier workout;
   final int exerciseIndex;
   final int setIndex;
   final bool started;
@@ -14,6 +14,7 @@ class TimeSetRow extends StatelessWidget {
 
   const TimeSetRow({
     Key? key,
+    required this.workout,
     required this.exerciseIndex,
     required this.setIndex,
     this.started = false,
@@ -21,16 +22,34 @@ class TimeSetRow extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final WorkoutChangeNotifier _workout =
-        Provider.of<WorkoutChangeNotifier>(context);
+  State<TimeSetRow> createState() => _TimeSetRowState();
+}
 
+class _TimeSetRowState extends State<TimeSetRow> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _updateTime();
+  }
+
+  void _updateTime() {
+    setState(() {
+      _controller.text = widget
+          .workout.exercises[widget.exerciseIndex].sets[widget.setIndex]
+          .getTime();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         Expanded(
           flex: 1,
           child: Text(
-            (setIndex + 1).toString(),
+            (widget.setIndex + 1).toString(),
             style: TextStyle(
               fontSize: 14.0,
               color: Colors.blue[700],
@@ -44,36 +63,46 @@ class TimeSetRow extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: FormInput(
               hintText: '0',
-              initialValue:
-                  _workout.exercises[exerciseIndex].sets[setIndex].getTime(),
+              controller: _controller,
               readOnly: true,
               isDense: true,
               centerText: true,
-              onTap: readonly
+              onTap: widget.readonly
                   ? null
                   : () async {
                       int time = await showTimeDialog(
                         context,
-                        _workout.exercises[exerciseIndex].sets[setIndex].time,
+                        widget.workout.exercises[widget.exerciseIndex]
+                            .sets[widget.setIndex].time,
                       );
 
-                      _workout.updateTime(exerciseIndex, setIndex, time);
+                      widget.workout.updateTime(
+                        widget.exerciseIndex,
+                        widget.setIndex,
+                        time,
+                      );
+
+                      _updateTime();
                     },
             ),
           ),
         ),
-        if (!readonly)
+        if (!widget.readonly)
           Expanded(
             flex: 1,
-            child: started
+            child: widget.started
                 ? CompleteButton(
-                    started: started,
-                    exerciseIndex: exerciseIndex,
-                    setIndex: setIndex,
-                    workout: _workout)
+                    started: widget.started,
+                    exerciseIndex: widget.exerciseIndex,
+                    setIndex: widget.setIndex,
+                    workout: widget.workout,
+                  )
                 : DeleteButton(
                     onTap: () {
-                      _workout.removeSet(exerciseIndex, setIndex);
+                      widget.workout.removeSet(
+                        widget.exerciseIndex,
+                        widget.setIndex,
+                      );
                     },
                   ),
           ),
