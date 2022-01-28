@@ -8,9 +8,9 @@ import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
-import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/exercise_item.dart';
 import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
+import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +50,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   List<Exercise> _workoutExercises = [];
 
   // Replace
+  Exercise? _initialReplaceExercise;
   Exercise? _replaceExercise;
 
   @override
@@ -62,6 +63,8 @@ class _ExercisesPagesState extends State<ExercisesPages> {
 
       if (widget.isReplace) {
         _replaceExercise =
+            widget.workout!.exercises[widget.workout!.replaceIndex!];
+        _initialReplaceExercise =
             widget.workout!.exercises[widget.workout!.replaceIndex!];
       }
     }
@@ -198,7 +201,8 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       // hide all from workout list excepti
       if (widget.isReplace) {
         if (_workoutExercises.indexWhere((e) => e.equals(exercise)) > -1 &&
-            !exercise.equals(_replaceExercise!)) {
+            !exercise.equals(_replaceExercise!) &&
+            !exercise.equals(_initialReplaceExercise!)) {
           return false;
         }
       }
