@@ -21,6 +21,7 @@ class WorkoutExerciseCard extends StatelessWidget {
   final Exercise exercise;
   final bool readonly;
   final bool started;
+  final bool hideEmptyNotes;
 
   final List<PopupOption> _popupOptions = [
     PopupOption(text: 'Rest timer', value: 'rest'),
@@ -28,13 +29,14 @@ class WorkoutExerciseCard extends StatelessWidget {
     PopupOption(text: 'Remove exercise', value: 'remove'),
   ];
 
-  WorkoutExerciseCard({
-    Key? key,
-    required this.index,
-    required this.exercise,
-    this.readonly = false,
-    this.started = false,
-  }) : super(key: key);
+  WorkoutExerciseCard(
+      {Key? key,
+      required this.index,
+      required this.exercise,
+      this.readonly = false,
+      this.started = false,
+      this.hideEmptyNotes = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,19 +69,20 @@ class WorkoutExerciseCard extends StatelessWidget {
                   : _cardOption(context, _workout),
             ],
           ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 12.0),
-            child: FormInput(
-              readOnly: readonly,
-              hintText: 'Exercise notes',
-              maxLines: null,
-              isDense: true,
-              initialValue: exercise.notes,
-              onChanged: (String value) {
-                exercise.notes = value.trim();
-              },
+          if (!hideEmptyNotes || exercise.notes != "")
+            Container(
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 12.0),
+              child: FormInput(
+                readOnly: readonly,
+                hintText: 'Exercise notes',
+                maxLines: null,
+                isDense: true,
+                initialValue: exercise.notes,
+                onChanged: (String value) {
+                  exercise.notes = value.trim();
+                },
+              ),
             ),
-          ),
           exercise.type == 'time'
               ? const TimeHeaderRow()
               : WeightHeaderRow(unit: _workout.unit),

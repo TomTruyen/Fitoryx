@@ -129,6 +129,7 @@ class HistoryDetailPage extends StatelessWidget {
                   exercise: history.workout.exercises[index],
                   index: index,
                   readonly: true,
+                  hideEmptyNotes: true
                 );
               },
               childCount: history.workout.exercises.length,
