@@ -24,7 +24,7 @@ class _HistoryPageState extends State<HistoryPage> {
   final FirestoreService _firestoreService = FirestoreService();
 
   List<WorkoutHistory> _history = [];
-  bool isAscending = true;
+  bool _ascending = true;
 
   String _divider = "";
 
@@ -92,7 +92,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   vertical: 4.0,
                 ),
                 child: SortButton(
-                  isAscending: isAscending,
+                  isAscending: _ascending,
                   text: 'Sort by date',
                   onPressed: _sortHistory,
                 ),
@@ -203,14 +203,14 @@ class _HistoryPageState extends State<HistoryPage> {
 
   void _sortHistory({noToggle = false}) {
     if (!noToggle) {
-      isAscending = !isAscending;
+      _ascending = !_ascending;
     }
 
     _history.sort(
       (a, b) => a.date.compareTo(b.date),
     );
 
-    if (!isAscending) {
+    if (!_ascending) {
       _history = _history.reversed.toList();
     }
 
