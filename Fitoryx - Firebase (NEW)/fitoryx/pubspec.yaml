@@ -41,6 +41,7 @@ dependencies:
   reorderables: ^0.4.2
   vibration: ^1.7.4-nullsafety.0
   intl: ^0.17.0
+  flutter_calendar_carousel: ^2.1.0
 
 dev_dependencies:
   flutter_test:

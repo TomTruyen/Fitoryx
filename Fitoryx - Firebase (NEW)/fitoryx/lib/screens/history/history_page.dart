@@ -1,11 +1,13 @@
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/workout_history.dart';
+import 'package:fitoryx/screens/history/history_calendar_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/exercise_row.dart';
 import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/loader.dart';
 import 'package:fitoryx/widgets/sort_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -24,7 +26,7 @@ class _HistoryPageState extends State<HistoryPage> {
   List<WorkoutHistory> _history = [];
   bool isAscending = true;
 
-  String divider = "";
+  String _divider = "";
 
   @override
   void initState() {
@@ -50,6 +52,25 @@ class _HistoryPageState extends State<HistoryPage> {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(
+                  Icons.calendar_today_outlined,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => HistoryCalendarPage(
+                        history: _history,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           if (_history.isEmpty)
             SliverFillRemaining(
@@ -88,16 +109,16 @@ class _HistoryPageState extends State<HistoryPage> {
                     history.date,
                   );
 
-                  if (newDivider != divider) {
+                  if (newDivider != _divider) {
                     addDivider = true;
-                    divider = newDivider;
+                    _divider = newDivider;
                   }
 
                   return Column(
                     children: <Widget>[
                       if (addDivider)
                         ListDivider(
-                          text: divider,
+                          text: _divider,
                           style: const TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.bold,
@@ -194,6 +215,7 @@ class _HistoryPageState extends State<HistoryPage> {
     }
 
     setState(() {
+      _divider = "";
       _history = _history;
     });
   }
