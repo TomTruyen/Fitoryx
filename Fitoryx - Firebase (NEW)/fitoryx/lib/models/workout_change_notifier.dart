@@ -133,6 +133,11 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   }
 
   WorkoutHistory toWorkoutHistory() {
-    return WorkoutHistory(workout: toWorkout(), note: note, duration: duration);
+    return WorkoutHistory(
+      workout: toWorkout(),
+      note: note,
+      duration: duration,
+      date: DateTime.now(),
+    );
   }
 }

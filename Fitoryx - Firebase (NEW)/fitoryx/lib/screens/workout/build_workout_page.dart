@@ -31,8 +31,6 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
     final WorkoutChangeNotifier _workout =
         Provider.of<WorkoutChangeNotifier>(context);
 
-    print("update build page");
-
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),

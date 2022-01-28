@@ -8,7 +8,7 @@ import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
-import 'package:fitoryx/widgets/exercise_divider.dart';
+import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/exercise_item.dart';
 import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
 import 'package:fitoryx/widgets/loader.dart';
@@ -33,7 +33,7 @@ class ExercisesPages extends StatefulWidget {
 }
 
 class _ExercisesPagesState extends State<ExercisesPages> {
-  bool loading = true;
+  bool _loading = true;
 
   final _firestoreService = FirestoreService();
 
@@ -80,7 +80,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           hideSearch ? _defaultAppBar() : _searchAppBar(_filter),
-          loading
+          _loading
               ? const SliverFillRemaining(child: Loader())
               : SliverList(
                   delegate: SliverChildBuilderDelegate(
@@ -129,7 +129,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
                         );
                       }
 
-                      return ExerciseDivider(text: item);
+                      return ListDivider(text: item);
                     },
                     childCount: _exercisesWithDividers.length,
                   ),
@@ -152,7 +152,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
     _updateExercisesWithDividers();
 
     setState(() {
-      loading = false;
+      _loading = false;
     });
   }
 

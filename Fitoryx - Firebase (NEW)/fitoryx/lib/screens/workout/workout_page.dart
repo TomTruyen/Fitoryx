@@ -24,7 +24,7 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
-  bool loading = true;
+  bool _loading = true;
 
   final FirestoreService _firestoreService = FirestoreService();
 
@@ -97,7 +97,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                   margin: const EdgeInsets.only(
                     bottom: 76.0,
                   ), // move it up a little (height + padding of button) so it aligns with history page
-                  child: loading
+                  child: _loading
                       ? const Loader()
                       : const Text('No workouts created.'),
                 ),
@@ -199,7 +199,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                               )
                             ],
                           ),
-                          _buildExerciseRow(workout.exercises),
+                          _buildExerciseRows(workout.exercises),
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16.0,
@@ -233,7 +233,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     }
 
     setState(() {
-      loading = false;
+      _loading = false;
     });
   }
 
@@ -310,7 +310,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     });
   }
 
-  Column _buildExerciseRow(List<Exercise> exercises) {
+  Column _buildExerciseRows(List<Exercise> exercises) {
     List<ExerciseRow> rows = [];
 
     for (int i = 0; i < 3; i++) {
