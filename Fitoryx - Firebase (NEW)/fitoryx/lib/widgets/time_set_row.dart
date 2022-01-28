@@ -10,12 +10,14 @@ class TimeSetRow extends StatelessWidget {
   final int exerciseIndex;
   final int setIndex;
   final bool started;
+  final bool readonly;
 
   const TimeSetRow({
     Key? key,
     required this.exerciseIndex,
     required this.setIndex,
     this.started = false,
+    this.readonly = false,
   }) : super(key: key);
 
   @override
@@ -47,31 +49,34 @@ class TimeSetRow extends StatelessWidget {
               readOnly: true,
               isDense: true,
               centerText: true,
-              onTap: () async {
-                int time = await showTimeDialog(
-                  context,
-                  _workout.exercises[exerciseIndex].sets[setIndex].time,
-                );
+              onTap: readonly
+                  ? null
+                  : () async {
+                      int time = await showTimeDialog(
+                        context,
+                        _workout.exercises[exerciseIndex].sets[setIndex].time,
+                      );
 
-                _workout.updateTime(exerciseIndex, setIndex, time);
-              },
+                      _workout.updateTime(exerciseIndex, setIndex, time);
+                    },
             ),
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: started
-              ? CompleteButton(
-                  started: started,
-                  exerciseIndex: exerciseIndex,
-                  setIndex: setIndex,
-                  workout: _workout)
-              : DeleteButton(
-                  onTap: () {
-                    _workout.removeSet(exerciseIndex, setIndex);
-                  },
-                ),
-        ),
+        if (!readonly)
+          Expanded(
+            flex: 1,
+            child: started
+                ? CompleteButton(
+                    started: started,
+                    exerciseIndex: exerciseIndex,
+                    setIndex: setIndex,
+                    workout: _workout)
+                : DeleteButton(
+                    onTap: () {
+                      _workout.removeSet(exerciseIndex, setIndex);
+                    },
+                  ),
+          ),
       ],
     );
   }

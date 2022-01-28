@@ -1,8 +1,10 @@
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/history/history_calendar_page.dart';
+import 'package:fitoryx/screens/history/history_detail_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
+import 'package:fitoryx/widgets/confirm_alert.dart';
 import 'package:fitoryx/widgets/exercise_row.dart';
 import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/loader.dart';
@@ -24,7 +26,7 @@ class _HistoryPageState extends State<HistoryPage> {
   final FirestoreService _firestoreService = FirestoreService();
 
   List<WorkoutHistory> _history = [];
-  bool _ascending = true;
+  bool _ascending = false;
 
   String _divider = "";
 
@@ -92,7 +94,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   vertical: 4.0,
                 ),
                 child: SortButton(
-                  isAscending: _ascending,
+                  isAscending: !_ascending,
                   text: 'Sort by date',
                   onPressed: _sortHistory,
                 ),
@@ -135,7 +137,16 @@ class _HistoryPageState extends State<HistoryPage> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(8.0),
                           onTap: () {
-                            // Navigate to history detail page (pass history obj as param)
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                fullscreenDialog: true,
+                                builder: (context) => HistoryDetailPage(
+                                  history: history,
+                                  deleteHistory: _deleteHistory,
+                                ),
+                              ),
+                            );
                           },
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -199,6 +210,33 @@ class _HistoryPageState extends State<HistoryPage> {
     setState(() {
       _loading = false;
     });
+  }
+
+  void _deleteHistory(WorkoutHistory history) {
+    showConfirmAlert(
+      context,
+      content:
+          "You will be deleting the history of ${history.workout.name}. This action can't be reversed!",
+      onConfirm: () async {
+        try {
+          await _firestoreService.deleteHistory(history.id);
+
+          _history.removeWhere((h) => h.id == history.id);
+
+          _sortHistory(noToggle: true);
+
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+        } catch (e) {
+          showAlert(
+            context,
+            content: "Failed to delete history",
+          );
+        }
+      },
+    );
   }
 
   void _sortHistory({noToggle = false}) {

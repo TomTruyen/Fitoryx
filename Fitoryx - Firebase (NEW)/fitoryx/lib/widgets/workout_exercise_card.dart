@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 class WorkoutExerciseCard extends StatelessWidget {
   final int index;
   final Exercise exercise;
+  final bool readonly;
   final bool started;
 
   final List<PopupOption> _popupOptions = [
@@ -29,6 +30,7 @@ class WorkoutExerciseCard extends StatelessWidget {
     Key? key,
     required this.index,
     required this.exercise,
+    this.readonly = false,
     this.started = false,
   }) : super(key: key);
 
@@ -41,10 +43,7 @@ class WorkoutExerciseCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
-      margin: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-        vertical: 4.0,
-      ),
+      margin: const EdgeInsets.all(8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -61,12 +60,13 @@ class WorkoutExerciseCard extends StatelessWidget {
                   ),
                 ),
               ),
-              _cardOption(context, _workout),
+              if (!readonly) _cardOption(context, _workout),
             ],
           ),
           Container(
             padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 12.0),
             child: FormInput(
+              readOnly: readonly,
               hintText: 'Exercise notes',
               maxLines: null,
               isDense: true,
@@ -88,25 +88,27 @@ class WorkoutExerciseCard extends StatelessWidget {
                       exerciseIndex: index,
                       setIndex: i,
                       started: started,
-                    )
+                      readonly: readonly)
                   : WeightSetRow(
                       exerciseIndex: index,
                       setIndex: i,
                       started: started,
+                      readonly: readonly),
+            ),
+          readonly
+              ? const SizedBox(height: 16.0)
+              : TextButton(
+                  child: Text(
+                    'ADD SET',
+                    style: TextStyle(
+                      color: Colors.blue[700],
+                      fontWeight: FontWeight.w600,
                     ),
-            ),
-          TextButton(
-            child: Text(
-              'ADD SET',
-              style: TextStyle(
-                color: Colors.blue[700],
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            onPressed: () {
-              _workout.addSet(index);
-            },
-          )
+                  ),
+                  onPressed: () {
+                    _workout.addSet(index);
+                  },
+                )
         ],
       ),
     );

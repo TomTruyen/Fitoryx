@@ -125,6 +125,14 @@ class FirestoreService {
     return docReference.id;
   }
 
+  Future<void> deleteHistory(String? id) async {
+    await _usersCollection
+        .doc(_authService.getUser()?.uid)
+        .collection(historyCollection)
+        .doc(id)
+        .delete();
+  }
+
   Future<List<WorkoutHistory>> getWorkoutHistory() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)

@@ -11,12 +11,14 @@ class WeightSetRow extends StatelessWidget {
   final int exerciseIndex;
   final int setIndex;
   final bool started;
+  final bool readonly;
 
   const WeightSetRow({
     Key? key,
     required this.exerciseIndex,
     required this.setIndex,
     this.started = false,
+    this.readonly = false,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class WeightSetRow extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: FormInput(
+              readOnly: readonly,
               hintText: '0',
               initialValue: convertDoubleToIntString(_workout
                       .exercises[exerciseIndex].sets[setIndex].weight) ??
@@ -67,6 +70,7 @@ class WeightSetRow extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: FormInput(
+              readOnly: readonly,
               hintText: '0',
               initialValue: _workout
                       .exercises[exerciseIndex].sets[setIndex].reps
@@ -86,20 +90,22 @@ class WeightSetRow extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: started
-              ? CompleteButton(
-                  started: started,
-                  exerciseIndex: exerciseIndex,
-                  setIndex: setIndex,
-                  workout: _workout)
-              : DeleteButton(
-                  onTap: () {
-                    _workout.removeSet(exerciseIndex, setIndex);
-                  },
-                ),
-        ),
+        readonly
+            ? const SizedBox(width: 12)
+            : Expanded(
+                flex: 1,
+                child: started
+                    ? CompleteButton(
+                        started: started,
+                        exerciseIndex: exerciseIndex,
+                        setIndex: setIndex,
+                        workout: _workout)
+                    : DeleteButton(
+                        onTap: () {
+                          _workout.removeSet(exerciseIndex, setIndex);
+                        },
+                      ),
+              ),
       ],
     );
   }

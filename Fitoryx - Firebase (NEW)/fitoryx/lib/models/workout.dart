@@ -19,6 +19,20 @@ class Workout {
     return workout;
   }
 
+  double getTotalVolume() {
+    double volume = 0;
+
+    for (var exercise in exercises) {
+      if (exercise.type == 'Weight') {
+        for (var set in exercise.sets) {
+          volume += (set.reps ?? 0) * (set.weight ?? 0);
+        }
+      }
+    }
+
+    return volume;
+  }
+
   static Workout fromJson(Map<String, dynamic> json) {
     var workout = Workout(
       id: json["id"],

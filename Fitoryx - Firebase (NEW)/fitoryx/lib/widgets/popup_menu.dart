@@ -3,11 +3,16 @@ import 'package:fitoryx/widgets/popup_menu_option.dart';
 import 'package:flutter/material.dart';
 
 class PopupMenu extends StatelessWidget {
+  final bool isHeader;
   final List<PopupOption> items;
-  final Function(dynamic) onSelected;
+  final void Function(dynamic) onSelected;
 
-  const PopupMenu({Key? key, required this.items, required this.onSelected})
-      : super(key: key);
+  const PopupMenu({
+    Key? key,
+    this.isHeader = false,
+    required this.items,
+    required this.onSelected,
+  }) : super(key: key);
 
   List<PopupMenuEntry> _buildItems(BuildContext context) {
     List<PopupMenuEntry> entries = [];
@@ -28,7 +33,7 @@ class PopupMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 12.0),
+      padding: isHeader ? null : const EdgeInsets.only(bottom: 12),
       child: Theme(
         data: Theme.of(context).copyWith(
           cardColor: const Color.fromRGBO(35, 35, 35, 1),
@@ -39,7 +44,10 @@ class PopupMenu extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
-          icon: Icon(Icons.more_vert, color: Colors.blue[700]),
+          icon: Icon(
+            Icons.more_vert,
+            color: isHeader ? Colors.black : Colors.blue[700],
+          ),
           onSelected: onSelected,
           itemBuilder: (BuildContext context) => _buildItems(context),
         ),

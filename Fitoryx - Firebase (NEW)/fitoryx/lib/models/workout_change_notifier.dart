@@ -117,7 +117,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     unit = workout.unit;
     exercises = workout.exercises;
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   Workout toWorkout() {
