@@ -1,4 +1,5 @@
 import 'package:fitoryx/models/exercise_set.dart';
+import 'package:fitoryx/utils/utils.dart';
 
 class Exercise {
   String? id;
@@ -28,6 +29,36 @@ class Exercise {
     }
 
     return title;
+  }
+
+  double getTotalWeight() {
+    double weight = 0;
+
+    for (var set in sets) {
+      weight += (set.reps ?? 0) * (set.weight ?? 0);
+    }
+
+    return weight;
+  }
+
+  String getTotalTime() {
+    int time = 0;
+
+    for (int i = 0; i < sets.length; i++) {
+      time += sets[i].time ?? 0;
+    }
+
+    if (time == 0) return '0:00';
+
+    int hours = (time ~/ 3600);
+    int minutes = (time % 3600) ~/ 60;
+    int seconds = time % 60;
+
+    if (hours > 0) {
+      return '${addZeroPadding(hours)}:${addZeroPadding(minutes)}:${addZeroPadding(seconds)}';
+    }
+
+    return '${addZeroPadding(minutes)}:${addZeroPadding(seconds)}';
   }
 
   Exercise clone() => Exercise(

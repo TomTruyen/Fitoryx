@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
@@ -60,7 +62,9 @@ class WorkoutExerciseCard extends StatelessWidget {
                   ),
                 ),
               ),
-              if (!readonly) _cardOption(context, _workout),
+              readonly
+                  ? _historyOption(_workout)
+                  : _cardOption(context, _workout),
             ],
           ),
           Container(
@@ -88,7 +92,9 @@ class WorkoutExerciseCard extends StatelessWidget {
                       exerciseIndex: index,
                       setIndex: i,
                       started: started,
-                      readonly: readonly)
+                      readonly: readonly,
+                      workout: _workout,
+                    )
                   : WeightSetRow(
                       exerciseIndex: index,
                       setIndex: i,
@@ -110,6 +116,43 @@ class WorkoutExerciseCard extends StatelessWidget {
                   },
                 )
         ],
+      ),
+    );
+  }
+
+  Widget _historyOption(WorkoutChangeNotifier workout) {
+    return Flexible(
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: exercise.type == "Weight"
+              ? <Widget>[
+                  Transform.rotate(
+                    angle: -pi / 4,
+                    child: Icon(
+                      Icons.fitness_center_outlined,
+                      color: Colors.blue[700],
+                    ),
+                  ),
+                  const SizedBox(width: 5.0),
+                  Text(
+                    "${convertDoubleToIntString(exercise.getTotalWeight())} ${workout.unit}",
+                    style: TextStyle(color: Colors.blue[700]),
+                  ),
+                ]
+              : <Widget>[
+                  Icon(
+                    Icons.schedule,
+                    color: Colors.blue[700],
+                  ),
+                  const SizedBox(width: 5.0),
+                  Text(
+                    exercise.getTotalTime(),
+                    style: TextStyle(color: Colors.blue[700]),
+                  ),
+                ],
+        ),
       ),
     );
   }
