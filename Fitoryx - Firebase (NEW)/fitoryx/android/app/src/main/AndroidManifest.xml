@@ -4,8 +4,10 @@
 
 
    <application
-        android:label="fitoryx"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Fitoryx"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_circle"
+        >
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
