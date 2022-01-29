@@ -16,6 +16,11 @@ class NutritionPage extends StatelessWidget {
             pinned: true,
             title: const Text('Nutrition'),
           ),
+          const SliverFillRemaining(
+            child: Center(
+              child: Text('Nutrition page'),
+            ),
+          ),
         ],
       ),
     );

@@ -145,7 +145,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
     );
   }
 
-  Future<void> _init() async {
+  void _init() async {
     try {
       List<Exercise> userExercises = await _firestoreService.getExercises();
 

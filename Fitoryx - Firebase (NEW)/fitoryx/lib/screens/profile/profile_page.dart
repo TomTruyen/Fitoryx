@@ -1,12 +1,9 @@
-import 'package:fitoryx/screens/sign_in.dart';
-import 'package:fitoryx/services/auth_service.dart';
+import 'package:fitoryx/screens/settings/settings_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
-  final _authService = AuthService();
-
-  ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,22 +17,26 @@ class ProfilePage extends StatelessWidget {
             floating: true,
             pinned: true,
             title: const Text('Profile'),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.settings_outlined),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => const SettingsPage(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-          SliverFillRemaining(
-            child: TextButton(
-              child: const Text('Logout'),
-              onPressed: () {
-                _authService.signOut();
-
-                Navigator.pushReplacement(
-                  context,
-                  CupertinoPageRoute(
-                    builder: (context) => const SignIn(),
-                  ),
-                );
-              },
+          const SliverFillRemaining(
+            child: Center(
+              child: Text('Profile page'),
             ),
-          )
+          ),
         ],
       ),
     );

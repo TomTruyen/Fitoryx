@@ -204,7 +204,7 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  Future<void> _init() async {
+  void _init() async {
     try {
       if (widget.day != null) {
         _history = await _firestoreService.getWorkoutHistoryByDay(widget.day!);

@@ -1,0 +1,4 @@
+enum SettingsType {
+  listTile,
+  switchTile,
+}

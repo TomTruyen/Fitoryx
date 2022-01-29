@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 class GradientButton extends StatelessWidget {
   final String text;
   final bool isBusy;
-  final double radius;
   final Function() onPressed;
 
   const GradientButton({
     Key? key,
     this.text = "",
     this.isBusy = false,
-    this.radius = 24,
     required this.onPressed,
   }) : super(key: key);
 
@@ -21,7 +19,7 @@ class GradientButton extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius),
+            borderRadius: BorderRadius.circular(16),
           ),
           padding: const EdgeInsets.all(0.0),
         ),
@@ -38,7 +36,7 @@ class GradientButton extends StatelessWidget {
               ],
               tileMode: TileMode.repeated,
             ),
-            borderRadius: BorderRadius.circular(radius),
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Container(
             alignment: Alignment.center,

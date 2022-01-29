@@ -220,7 +220,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
     );
   }
 
-  Future<void> _init() async {
+  void _init() async {
     try {
       _workouts = await _firestoreService.getWorkouts();
       _sortWorkouts(noToggle: true);

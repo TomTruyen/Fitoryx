@@ -98,7 +98,6 @@ class _SignInState extends State<SignIn> {
                   ),
                   const SizedBox(height: 20.0),
                   GradientButton(
-                    radius: 16,
                     isBusy: _isBusy,
                     text: 'Sign In',
                     onPressed: () {
