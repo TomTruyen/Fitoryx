@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tomtruyen.fitoryx">
+    
   <uses-permission android:name="android.permission.VIBRATE"/>
 
 
