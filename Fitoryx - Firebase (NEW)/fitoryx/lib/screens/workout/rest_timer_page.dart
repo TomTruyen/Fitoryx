@@ -81,13 +81,7 @@ class _RestTimerPageState extends State<RestTimerPage>
             floating: true,
             pinned: true,
             automaticallyImplyLeading: false,
-            title: const Text(
-              'Rest Timer',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            title: const Text('Rest Timer'),
           ),
           SliverFillRemaining(
             hasScrollBody: false,

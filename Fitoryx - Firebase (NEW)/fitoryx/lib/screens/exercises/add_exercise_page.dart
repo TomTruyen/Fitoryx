@@ -35,20 +35,10 @@ class _AddExercisePageState extends State<AddExercisePage> {
               backgroundColor: Colors.grey[50],
               floating: true,
               pinned: true,
-              leading: IconButton(
-                icon: const Icon(Icons.close, color: Colors.black),
-                onPressed: () {
-                  if (Navigator.canPop(context)) {
-                    Navigator.pop(context);
-                  }
-                },
-              ),
+              leading: const CloseButton(),
               actions: <Widget>[
                 IconButton(
-                  icon: const Icon(
-                    Icons.check,
-                    color: Colors.black,
-                  ),
+                  icon: const Icon(Icons.check),
                   onPressed: () async {
                     if (_addExerciseFormKey.currentState != null &&
                         _addExerciseFormKey.currentState!.validate()) {
@@ -74,13 +64,7 @@ class _AddExercisePageState extends State<AddExercisePage> {
                   },
                 ),
               ],
-              title: const Text(
-                'New Exercise',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              title: const Text('New Exercise'),
             ),
             SliverFillRemaining(
               child: Container(

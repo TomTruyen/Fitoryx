@@ -232,41 +232,17 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       backgroundColor: Colors.grey[50],
       floating: true,
       pinned: true,
-      leading: widget.isSelectable
-          ? IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              },
-            )
-          : null,
-      title: const Text(
-        'Exercises',
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      leading: widget.isSelectable ? const CloseButton() : null,
+      title: const Text('Exercises'),
       actions: <Widget>[
         IconButton(
-          icon: const Icon(
-            Icons.search_outlined,
-            color: Colors.black,
-          ),
+          icon: const Icon(Icons.search_outlined),
           onPressed: () {
             setState(() => hideSearch = false);
           },
         ),
         IconButton(
-          icon: const Icon(
-            Icons.filter_list_outlined,
-            color: Colors.black,
-          ),
+          icon: const Icon(Icons.filter_list_outlined),
           onPressed: () {
             Navigator.of(context).push(
               CupertinoPageRoute(
@@ -278,7 +254,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         ),
         if (!widget.isSelectable)
           IconButton(
-              icon: const Icon(Icons.add, color: Colors.black),
+              icon: const Icon(Icons.add),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -312,10 +288,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
           hintText: 'Search exercises...',
           hintStyle: const TextStyle(color: Colors.black54),
           suffixIcon: GestureDetector(
-            child: const Icon(
-              Icons.close_outlined,
-              color: Colors.black,
-            ),
+            child: const Icon(Icons.close_outlined, color: Colors.black),
             onTap: () {
               _searchController.text = "";
               filter.setSearch("");
@@ -327,10 +300,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         },
       ),
       leading: IconButton(
-        icon: const Icon(
-          Icons.arrow_back_outlined,
-          color: Colors.black,
-        ),
+        icon: const Icon(Icons.arrow_back_outlined),
         onPressed: () {
           setState(() {
             hideSearch = true;
@@ -339,10 +309,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       ),
       actions: <Widget>[
         IconButton(
-          icon: const Icon(
-            Icons.filter_list_outlined,
-            color: Colors.black,
-          ),
+          icon: const Icon(Icons.filter_list_outlined),
           onPressed: () {
             clearFocus(context);
 

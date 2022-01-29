@@ -46,19 +46,7 @@ class _HistoryPageState extends State<HistoryPage> {
         slivers: <Widget>[
           SliverAppBar(
             automaticallyImplyLeading: false,
-            leading: widget.day == null
-                ? null
-                : IconButton(
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
+            leading: widget.day == null ? null : const CloseButton(),
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
@@ -66,18 +54,11 @@ class _HistoryPageState extends State<HistoryPage> {
               widget.day == null
                   ? 'History'
                   : "History of ${DateFormat("dd MMMM yyyy").format(widget.day!)}",
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
             ),
             actions: widget.day == null
                 ? <Widget>[
                     IconButton(
-                      icon: const Icon(
-                        Icons.calendar_today_outlined,
-                        color: Colors.black,
-                      ),
+                      icon: const Icon(Icons.calendar_today_outlined),
                       onPressed: () {
                         Navigator.push(
                           context,

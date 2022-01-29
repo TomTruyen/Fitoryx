@@ -39,18 +39,8 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            title: Text(
-              !widget.isEdit ? 'Create Workout' : 'Edit Workout',
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.black,
-              ),
+            title: Text(!widget.isEdit ? 'Create Workout' : 'Edit Workout'),
+            leading: CloseButton(
               onPressed: () {
                 if (Navigator.canPop(context)) {
                   _workout.reset();
@@ -60,10 +50,7 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
             ),
             actions: <Widget>[
               IconButton(
-                icon: const Icon(
-                  Icons.check,
-                  color: Colors.black,
-                ),
+                icon: const Icon(Icons.check),
                 onPressed: () async {
                   if (_workout.exercises.isEmpty) {
                     await showAlert(

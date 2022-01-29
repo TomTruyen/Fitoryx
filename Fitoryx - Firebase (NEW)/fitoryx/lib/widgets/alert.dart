@@ -49,7 +49,10 @@ Future<void> showAlert(
                   TextButton(
                     child: const Text(
                       'OK',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();

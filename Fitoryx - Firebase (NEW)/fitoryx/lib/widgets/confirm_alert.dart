@@ -50,7 +50,7 @@ Future<void> showConfirmAlert(
                   TextButton(
                     child: const Text(
                       'CANCEL',
-                      style: TextStyle(color: Colors.black54),
+                      style: TextStyle(color: Colors.black),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -59,7 +59,10 @@ Future<void> showConfirmAlert(
                   TextButton(
                     child: const Text(
                       'OK',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     onPressed: onConfirm,
                   ),

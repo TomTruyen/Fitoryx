@@ -19,13 +19,7 @@ class ProfilePage extends StatelessWidget {
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            title: const Text(
-              'Profile',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            title: const Text('Profile'),
           ),
           SliverFillRemaining(
             child: TextButton(

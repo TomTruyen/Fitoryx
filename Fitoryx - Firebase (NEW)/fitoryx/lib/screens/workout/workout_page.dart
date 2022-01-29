@@ -57,13 +57,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            title: const Text(
-              'Workout',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            title: const Text('Workout'),
           ),
           SliverToBoxAdapter(
             child: Container(

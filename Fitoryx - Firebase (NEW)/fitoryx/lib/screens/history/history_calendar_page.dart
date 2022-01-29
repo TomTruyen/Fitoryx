@@ -51,24 +51,8 @@ class _HistoryCalendarPageState extends State<HistoryCalendarPage> {
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              },
-            ),
-            title: const Text(
-              'Calendar',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            leading: const CloseButton(),
+            title: const Text('Calendar'),
           ),
           SliverFillRemaining(
             hasScrollBody: false,

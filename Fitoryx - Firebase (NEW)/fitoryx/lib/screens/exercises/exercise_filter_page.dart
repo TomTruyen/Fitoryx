@@ -24,24 +24,8 @@ class ExerciseFilterPage extends StatelessWidget {
               backgroundColor: Colors.grey[50],
               floating: false,
               pinned: true,
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.close,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  if (Navigator.canPop(context)) {
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              title: Text(
-                'Filter (${_filter.count})',
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              leading: const CloseButton(),
+              title: Text('Filter (${_filter.count})'),
             ),
             SliverFillRemaining(
               child: Container(

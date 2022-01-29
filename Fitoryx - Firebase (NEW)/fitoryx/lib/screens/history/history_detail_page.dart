@@ -37,24 +37,8 @@ class HistoryDetailPage extends StatelessWidget {
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              },
-            ),
-            title: Text(
-              history.workout.name,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            leading: const CloseButton(),
+            title: Text(history.workout.name),
             actions: <Widget>[
               PopupMenu(
                 isHeader: true,
@@ -126,11 +110,10 @@ class HistoryDetailPage extends StatelessWidget {
                 _workout.withWorkout(history.workout);
 
                 return WorkoutExerciseCard(
-                  exercise: history.workout.exercises[index],
-                  index: index,
-                  readonly: true,
-                  hideEmptyNotes: true
-                );
+                    exercise: history.workout.exercises[index],
+                    index: index,
+                    readonly: true,
+                    hideEmptyNotes: true);
               },
               childCount: history.workout.exercises.length,
             ),

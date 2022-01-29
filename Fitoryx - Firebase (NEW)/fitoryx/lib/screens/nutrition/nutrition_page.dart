@@ -14,13 +14,7 @@ class NutritionPage extends StatelessWidget {
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            title: const Text(
-              'Nutrition',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            title: const Text('Nutrition'),
           ),
         ],
       ),

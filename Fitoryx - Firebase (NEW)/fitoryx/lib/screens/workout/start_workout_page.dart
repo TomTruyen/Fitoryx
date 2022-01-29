@@ -42,10 +42,6 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
             title: Text(
               _workout.name,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
             ),
             actions: _started
                 ? <Widget>[
@@ -58,10 +54,7 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: const Text(
                           'FINISH',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                       onTap: () async {
@@ -87,11 +80,7 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
                     ),
                   ]
                 : [],
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.black,
-              ),
+            leading: CloseButton(
               onPressed: () async {
                 if (_started) {
                   showConfirmAlert(
