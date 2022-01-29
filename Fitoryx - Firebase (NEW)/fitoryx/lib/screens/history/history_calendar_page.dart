@@ -1,4 +1,6 @@
 import 'package:fitoryx/models/workout_history.dart';
+import 'package:fitoryx/screens/history/history_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
@@ -112,8 +114,14 @@ class _HistoryCalendarPageState extends State<HistoryCalendarPage> {
                 );
               },
               daysHaveCircularBorder: true,
-              disableDayPressed: true,
               onDayPressed: (date, list) {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    fullscreenDialog: true,
+                    builder: (context) => HistoryPage(day: date),
+                  ),
+                );
                 // show all workouts from that specific day
               },
               onDayLongPressed: (date) {},

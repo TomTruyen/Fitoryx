@@ -133,6 +133,33 @@ class FirestoreService {
         .delete();
   }
 
+  Future<List<WorkoutHistory>> getWorkoutHistoryByDay(DateTime date) async {
+    DateTime startDate = DateTime(date.year, date.month, date.day);
+    DateTime endDate = DateTime(date.year, date.month, date.day + 1);
+
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
+        .doc(_authService.getUser()?.uid)
+        .collection(historyCollection)
+        .where('date', isGreaterThanOrEqualTo: startDate)
+        .where('date', isLessThan: endDate)
+        .get();
+
+    if (querySnapshot.docs.isEmpty) {
+      return [];
+    }
+
+    List<WorkoutHistory> workoutHistory = [];
+
+    for (var history in querySnapshot.docs) {
+      WorkoutHistory w = WorkoutHistory.fromJson(history.data());
+      w.id = history.id;
+
+      workoutHistory.add(w);
+    }
+
+    return workoutHistory;
+  }
+
   Future<List<WorkoutHistory>> getWorkoutHistory() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)

@@ -14,7 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HistoryPage extends StatefulWidget {
-  const HistoryPage({Key? key}) : super(key: key);
+  final DateTime? day;
+
+  const HistoryPage({Key? key, this.day}) : super(key: key);
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();
@@ -44,35 +46,52 @@ class _HistoryPageState extends State<HistoryPage> {
         slivers: <Widget>[
           SliverAppBar(
             automaticallyImplyLeading: false,
+            leading: widget.day == null
+                ? null
+                : IconButton(
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
             backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            title: const Text(
-              'History',
-              style: TextStyle(
+            title: Text(
+              widget.day == null
+                  ? 'History'
+                  : "History of ${DateFormat("dd MMMM yyyy").format(widget.day!)}",
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(
-                  Icons.calendar_today_outlined,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => HistoryCalendarPage(
-                        history: _history,
+            actions: widget.day == null
+                ? <Widget>[
+                    IconButton(
+                      icon: const Icon(
+                        Icons.calendar_today_outlined,
+                        color: Colors.black,
                       ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => HistoryCalendarPage(
+                              history: _history,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ],
+                  ]
+                : const [],
           ),
           if (_history.isEmpty)
             SliverFillRemaining(
@@ -85,7 +104,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
               ),
             ),
-          if (_history.isNotEmpty)
+          if (_history.isNotEmpty && widget.day == null)
             SliverToBoxAdapter(
               child: Container(
                 alignment: Alignment.centerRight,
@@ -107,13 +126,16 @@ class _HistoryPageState extends State<HistoryPage> {
                   WorkoutHistory history = _history[index];
 
                   bool addDivider = false;
-                  String newDivider = DateFormat("MMMM yyyy").format(
-                    history.date,
-                  );
 
-                  if (newDivider != _divider) {
-                    addDivider = true;
-                    _divider = newDivider;
+                  if (widget.day == null) {
+                    String newDivider = DateFormat("MMMM yyyy").format(
+                      history.date,
+                    );
+
+                    if (newDivider != _divider) {
+                      addDivider = true;
+                      _divider = newDivider;
+                    }
                   }
 
                   return Column(
@@ -201,7 +223,11 @@ class _HistoryPageState extends State<HistoryPage> {
 
   Future<void> _init() async {
     try {
-      _history = await _firestoreService.getWorkoutHistory();
+      if (widget.day != null) {
+        _history = await _firestoreService.getWorkoutHistoryByDay(widget.day!);
+      } else {
+        _history = await _firestoreService.getWorkoutHistory();
+      }
       _sortHistory(noToggle: true);
     } catch (e) {
       showAlert(context, content: "Failed to load workout history");
