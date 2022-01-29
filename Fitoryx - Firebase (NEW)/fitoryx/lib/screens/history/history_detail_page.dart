@@ -11,7 +11,8 @@ import 'package:provider/provider.dart';
 
 class HistoryDetailPage extends StatelessWidget {
   final WorkoutHistory history;
-  final void Function(WorkoutHistory) deleteHistory;
+  final void Function(WorkoutHistory)? deleteHistory;
+  final bool readonly;
 
   final List<PopupOption> _popupOptions = [
     PopupOption(text: 'Save as workout', value: 'save'),
@@ -20,9 +21,12 @@ class HistoryDetailPage extends StatelessWidget {
 
   final FirestoreService _firestoreService = FirestoreService();
 
-  HistoryDetailPage(
-      {Key? key, required this.history, required this.deleteHistory})
-      : super(key: key);
+  HistoryDetailPage({
+    Key? key,
+    required this.history,
+    this.deleteHistory,
+    this.readonly = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,33 +44,36 @@ class HistoryDetailPage extends StatelessWidget {
             leading: const CloseButton(),
             title: Text(history.workout.name),
             actions: <Widget>[
-              PopupMenu(
-                isHeader: true,
-                items: _popupOptions,
-                onSelected: (selected) async {
-                  switch (selected) {
-                    case 'save':
-                      // save the "workout" part to the workouts and dispaly message "workout saved"
-                      try {
-                        await _firestoreService.createWorkout(history.workout);
+              if (!readonly)
+                PopupMenu(
+                  isHeader: true,
+                  items: _popupOptions,
+                  onSelected: (selected) async {
+                    switch (selected) {
+                      case 'save':
+                        try {
+                          await _firestoreService
+                              .createWorkout(history.workout);
 
-                        showAlert(
-                          context,
-                          title: "Info",
-                          content: "Workout has been saved",
-                        );
-                      } catch (e) {
-                        showAlert(context, content: "Failed to save workout");
-                      }
-                      break;
-                    case 'delete':
-                      deleteHistory(history);
-                      break;
-                    default:
-                      break;
-                  }
-                },
-              ),
+                          showAlert(
+                            context,
+                            title: "Info",
+                            content: "Workout has been saved",
+                          );
+                        } catch (e) {
+                          showAlert(context, content: "Failed to save workout");
+                        }
+                        break;
+                      case 'delete':
+                        if (deleteHistory != null) {
+                          deleteHistory!(history);
+                        }
+                        break;
+                      default:
+                        break;
+                    }
+                  },
+                ),
             ],
           ),
           SliverToBoxAdapter(

@@ -1,6 +1,7 @@
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
+import 'package:fitoryx/screens/history/history_detail_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
@@ -211,10 +212,16 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
         workoutHistory,
       );
 
-      if (Navigator.canPop(context)) {
-        Navigator.pop(context);
-      }
-      // Navigate to WorkoutHistory page (show the history)
+      Navigator.pushReplacement(
+        context,
+        CupertinoPageRoute(
+          fullscreenDialog: true,
+          builder: (context) => HistoryDetailPage(
+            history: workoutHistory,
+            readonly: true,
+          ),
+        ),
+      );
     } catch (e) {
       showAlert(context, content: "Failed to save workout");
     }
