@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/equality.dart';
 import 'package:fitoryx/data/exercise_list.dart' as default_exercises;
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_filter.dart';
@@ -216,7 +216,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       return true;
     }).toList();
 
-    Function eq = const ListEquality().equals;
+    Function eq = const DeepCollectionEquality.unordered().equals;
     if (!eq(_oldFiltered, _filtered)) {
       _updateExercisesWithDividers();
 
