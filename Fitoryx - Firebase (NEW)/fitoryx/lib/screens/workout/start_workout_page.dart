@@ -2,6 +2,7 @@ import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/screens/history/history_detail_page.dart';
+import 'package:fitoryx/services/cache_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
@@ -24,6 +25,7 @@ class StartWorkoutPage extends StatefulWidget {
 
 class _StartWorkoutPageState extends State<StartWorkoutPage> {
   final FirestoreService _firestoreService = FirestoreService();
+  final CacheService _cacheService = CacheService();
 
   bool _started = false;
 
@@ -211,6 +213,10 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
       workoutHistory.id = await _firestoreService.createWorkoutHistory(
         workoutHistory,
       );
+
+      List<WorkoutHistory> cachedHistory = _cacheService.getHistory();
+      cachedHistory.add(workoutHistory);
+      _cacheService.setHistory(cachedHistory);
 
       Navigator.pushReplacement(
         context,

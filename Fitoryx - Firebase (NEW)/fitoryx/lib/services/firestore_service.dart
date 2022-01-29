@@ -3,6 +3,7 @@ import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/services/auth_service.dart';
+import 'package:fitoryx/services/cache_service.dart';
 
 class FirestoreService {
   // Singleton Setup
@@ -16,6 +17,7 @@ class FirestoreService {
 
   // Properties
   final AuthService _authService = AuthService();
+  final CacheService _cacheService = CacheService();
 
   final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
@@ -44,6 +46,10 @@ class FirestoreService {
   }
 
   Future<List<Exercise>> getExercises() async {
+    if (_cacheService.hasExercises()) {
+      return _cacheService.getExercises();
+    }
+
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)
         .collection(exerciseCollection)
@@ -61,6 +67,8 @@ class FirestoreService {
       e.userCreated = true;
       exercises.add(e);
     }
+
+    _cacheService.setExercises(exercises);
 
     return exercises;
   }
@@ -93,6 +101,10 @@ class FirestoreService {
   }
 
   Future<List<Workout>> getWorkouts() async {
+    if (_cacheService.hasWorkouts()) {
+      return _cacheService.getWorkouts();
+    }
+
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)
         .collection(workoutCollection)
@@ -110,6 +122,8 @@ class FirestoreService {
 
       workouts.add(w);
     }
+
+    _cacheService.setWorkouts(workouts);
 
     return workouts;
   }
@@ -133,15 +147,14 @@ class FirestoreService {
         .delete();
   }
 
-  Future<List<WorkoutHistory>> getWorkoutHistoryByDay(DateTime date) async {
-    DateTime startDate = DateTime(date.year, date.month, date.day);
-    DateTime endDate = DateTime(date.year, date.month, date.day + 1);
+  Future<List<WorkoutHistory>> getWorkoutHistory() async {
+    if (_cacheService.hasHistory()) {
+      return _cacheService.getHistory();
+    }
 
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)
         .collection(historyCollection)
-        .where('date', isGreaterThanOrEqualTo: startDate)
-        .where('date', isLessThan: endDate)
         .get();
 
     if (querySnapshot.docs.isEmpty) {
@@ -157,13 +170,28 @@ class FirestoreService {
       workoutHistory.add(w);
     }
 
+    _cacheService.setHistory(workoutHistory);
+
     return workoutHistory;
   }
 
-  Future<List<WorkoutHistory>> getWorkoutHistory() async {
+  Future<List<WorkoutHistory>> getWorkoutHistoryByDay(DateTime date) async {
+    DateTime startDate = DateTime(date.year, date.month, date.day);
+    DateTime endDate = DateTime(date.year, date.month, date.day + 1);
+
+    if (_cacheService.hasHistory()) {
+      return _cacheService
+          .getHistory()
+          .where((history) =>
+              history.date.isAfter(startDate) && history.date.isBefore(endDate))
+          .toList();
+    }
+
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
         .doc(_authService.getUser()?.uid)
         .collection(historyCollection)
+        .where('date', isGreaterThanOrEqualTo: startDate)
+        .where('date', isLessThan: endDate)
         .get();
 
     if (querySnapshot.docs.isEmpty) {

@@ -5,6 +5,7 @@ import 'package:fitoryx/models/exercise_filter.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
+import 'package:fitoryx/services/cache_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
@@ -35,7 +36,8 @@ class ExercisesPages extends StatefulWidget {
 class _ExercisesPagesState extends State<ExercisesPages> {
   bool _loading = true;
 
-  final _firestoreService = FirestoreService();
+  final FirestoreService _firestoreService = FirestoreService();
+  final CacheService _cacheService = CacheService();
 
   // Search
   bool hideSearch = true;
@@ -164,6 +166,8 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       setState(() {
         _exercises.add(exercise);
       });
+
+      _cacheService.setExercises(_exercises);
     }
   }
 
@@ -172,6 +176,8 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       setState(() {
         _exercises.removeWhere((exercise) => exercise.id == id);
       });
+
+      _cacheService.setExercises(_exercises);
     }
   }
 

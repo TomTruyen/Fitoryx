@@ -2,6 +2,7 @@ import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/history/history_calendar_page.dart';
 import 'package:fitoryx/screens/history/history_detail_page.dart';
+import 'package:fitoryx/services/cache_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/confirm_alert.dart';
@@ -26,6 +27,7 @@ class _HistoryPageState extends State<HistoryPage> {
   bool _loading = true;
 
   final FirestoreService _firestoreService = FirestoreService();
+  final CacheService _cacheService = CacheService();
 
   List<WorkoutHistory> _history = [];
   bool _ascending = false;
@@ -254,6 +256,8 @@ class _HistoryPageState extends State<HistoryPage> {
     _history.sort(
       (a, b) => a.date.compareTo(b.date),
     );
+
+    _cacheService.setHistory(_history);
 
     if (!_ascending) {
       _history = _history.reversed.toList();
