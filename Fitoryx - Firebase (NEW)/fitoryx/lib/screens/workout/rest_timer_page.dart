@@ -6,8 +6,11 @@ import 'package:vibration/vibration.dart';
 
 class RestTimerPage extends StatefulWidget {
   final int restSeconds;
+  final bool vibrateEnabled;
 
-  const RestTimerPage({Key? key, required this.restSeconds}) : super(key: key);
+  const RestTimerPage(
+      {Key? key, required this.restSeconds, required this.vibrateEnabled})
+      : super(key: key);
 
   @override
   State<RestTimerPage> createState() => _RestTimerPageState();
@@ -19,10 +22,12 @@ class _RestTimerPageState extends State<RestTimerPage>
   late Timer _timer;
 
   void _vibrate() async {
-    bool? hasVibrate = await Vibration.hasVibrator();
+    if (widget.vibrateEnabled) {
+      bool? hasVibrate = await Vibration.hasVibrator();
 
-    if (hasVibrate != null && hasVibrate) {
-      Vibration.vibrate(duration: 1000);
+      if (hasVibrate != null && hasVibrate) {
+        Vibration.vibrate(duration: 1000);
+      }
     }
   }
 

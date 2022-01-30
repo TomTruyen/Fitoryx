@@ -79,6 +79,7 @@ class _CompleteButtonState extends State<CompleteButton> {
                   builder: (context) => RestTimerPage(
                     restSeconds: widget
                         .workout.exercises[widget.exerciseIndex].restSeconds,
+                    vibrateEnabled: _settings.vibrateEnabled,
                   ),
                 ),
               );
