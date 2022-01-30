@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 Future<int> showTimeDialog(
   BuildContext context,
-  int? time,
-) async {
+  int? time, {
+  int interval = 10,
+  int max = 3590,
+}) async {
   int timeInSeconds = time ?? 5;
 
   await showDialog(
@@ -70,21 +72,21 @@ Future<int> showTimeDialog(
                                 ),
                               ),
                               scrollController: FixedExtentScrollController(
-                                initialItem: (timeInSeconds ~/ 10),
+                                initialItem: (timeInSeconds ~/ interval),
                               ),
                               squeeze: 1.0,
                               looping: true,
                               diameterRatio: 100.0,
                               itemExtent: 40.0,
                               onSelectedItemChanged: (int index) {
-                                int seconds = 0 + (index * 10);
+                                int seconds = 0 + (index * interval);
 
                                 timeInSeconds = seconds;
                               },
                               useMagnifier: true,
                               magnification: 1.5,
                               children: <Widget>[
-                                for (int i = 0; i <= 3590; i += 10)
+                                for (int i = 0; i <= max; i += interval)
                                   Center(
                                     child: Text(
                                       '${(i / 60).floor()}:${addZeroPadding(i % 60)}',

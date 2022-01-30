@@ -1,4 +1,4 @@
-import 'package:collection/equality.dart';
+import 'package:collection/collection.dart';
 import 'package:fitoryx/data/exercise_list.dart' as default_exercises;
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_filter.dart';

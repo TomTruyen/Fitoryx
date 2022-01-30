@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/settings_item.dart';
 import 'package:fitoryx/models/settings_type.dart';
 import 'package:fitoryx/screens/sign_in.dart';
 import 'package:fitoryx/services/auth_service.dart';
+import 'package:fitoryx/services/settings_service.dart';
+import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/settings_group.dart';
+import 'package:fitoryx/widgets/time_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -20,6 +24,9 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final SettingsService _settingsService = SettingsService();
+  Settings _settings = Settings();
+
   final String toMail = "tom.truyen@gmail.com";
   final AuthService _authService = AuthService();
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
@@ -92,20 +99,36 @@ class _SettingsPageState extends State<SettingsPage> {
                   items: <SettingsItem>[
                     SettingsItem(
                       title: 'Default rest time',
-                      subtitle: '60s',
-                      onTap: () {},
+                      subtitle: convertIntToMinutesAndSeconds(_settings.rest),
+                      onTap: () async {
+                        int rest = await showTimeDialog(
+                          context,
+                          _settings.rest,
+                          interval: 5,
+                          max: 300,
+                        );
+
+                        _settingsService.setRest(rest);
+                        _updateSettings();
+                      },
                     ),
                     SettingsItem(
                       title: 'Rest timer enabled',
-                      enabled: true,
+                      enabled: _settings.restEnabled,
                       type: SettingsType.switchTile,
-                      onChanged: (bool value) {},
+                      onChanged: (bool value) async {
+                        await _settingsService.setRestEnabled(value);
+                        _updateSettings();
+                      },
                     ),
                     SettingsItem(
                       title: 'Vibrate upon finish',
-                      enabled: true,
+                      enabled: _settings.vibrateEnabled,
                       type: SettingsType.switchTile,
-                      onChanged: (bool value) {},
+                      onChanged: (bool value) async {
+                        await _settingsService.setVibrateEnabled(value);
+                        _updateSettings();
+                      },
                     ),
                   ],
                 ),
@@ -164,6 +187,16 @@ class _SettingsPageState extends State<SettingsPage> {
     var packageInfo = await PackageInfo.fromPlatform();
     setState(() {
       _packageInfo = packageInfo;
+    });
+
+    _updateSettings();
+  }
+
+  void _updateSettings() async {
+    var settings = await _settingsService.getSettings();
+
+    setState(() {
+      _settings = settings;
     });
   }
 
