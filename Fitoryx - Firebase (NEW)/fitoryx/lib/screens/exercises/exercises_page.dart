@@ -2,11 +2,13 @@ import 'package:collection/collection.dart';
 import 'package:fitoryx/data/exercise_list.dart' as default_exercises;
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_filter.dart';
+import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
 import 'package:fitoryx/services/cache_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
+import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/exercise_item.dart';
@@ -38,6 +40,10 @@ class _ExercisesPagesState extends State<ExercisesPages> {
 
   final FirestoreService _firestoreService = FirestoreService();
   final CacheService _cacheService = CacheService();
+  final SettingsService _settingsService = SettingsService();
+
+  // Settings
+  Settings _settings = Settings();
 
   // Search
   bool hideSearch = true;
@@ -114,19 +120,24 @@ class _ExercisesPagesState extends State<ExercisesPages> {
                           onTap: widget.isSelectable
                               ? () {
                                   if (widget.isReplace) {
+                                    var clone = item.clone();
+                                    clone.restSeconds = _settings.rest;
                                     setState(() {
-                                      _replaceExercise = item.clone();
+                                      _replaceExercise = clone;
                                     });
                                   } else {
                                     if (selected) {
                                       _workoutExercises.removeAt(selectedIndex);
                                     } else {
-                                      _workoutExercises.add(item.clone());
+                                      var clone = item.clone();
+                                      clone.restSeconds = _settings.rest;
+                                      _workoutExercises.add(clone);
                                     }
 
                                     setState(() {
-                                      _workoutExercises =
-                                          List.of(_workoutExercises);
+                                      _workoutExercises = List.of(
+                                        _workoutExercises,
+                                      );
                                     });
                                   }
                                 }
@@ -156,7 +167,10 @@ class _ExercisesPagesState extends State<ExercisesPages> {
 
     _updateExercisesWithDividers();
 
+    var settings = await _settingsService.getSettings();
+
     setState(() {
+      _settings = settings;
       _loading = false;
     });
   }

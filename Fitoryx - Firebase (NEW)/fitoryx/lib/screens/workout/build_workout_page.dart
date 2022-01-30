@@ -88,8 +88,10 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
           ),
           SliverToBoxAdapter(
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
               child: TextFormField(
                 autofocus: false,
                 initialValue: _workout.name,
