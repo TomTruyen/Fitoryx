@@ -106,7 +106,7 @@ class _RestTimerPageState extends State<RestTimerPage>
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
         width: MediaQuery.of(context).size.width,
         child: GradientButton(
-          text: 'Skip Rest',
+          text: 'Skip',
           onPressed: () {
             if (Navigator.canPop(context)) {
               Navigator.pop(context);

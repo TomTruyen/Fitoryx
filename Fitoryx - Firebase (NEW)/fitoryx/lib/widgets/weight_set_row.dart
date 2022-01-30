@@ -99,7 +99,8 @@ class WeightSetRow extends StatelessWidget {
                         started: started,
                         exerciseIndex: exerciseIndex,
                         setIndex: setIndex,
-                        workout: _workout)
+                        workout: _workout,
+                      )
                     : DeleteButton(
                         onTap: () {
                           _workout.removeSet(exerciseIndex, setIndex);
