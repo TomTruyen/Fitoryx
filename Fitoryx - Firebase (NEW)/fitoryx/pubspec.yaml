@@ -47,6 +47,7 @@ dependencies:
   device_info_plus: ^3.2.1
   collection: ^1.15.0
   shared_preferences: ^2.0.12
+  connectivity_plus: ^2.2.0
 
 dev_dependencies:
   flutter_test:
