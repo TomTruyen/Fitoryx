@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
@@ -83,14 +84,14 @@ class WorkoutExerciseCard extends StatelessWidget {
                 },
               ),
             ),
-          exercise.type == 'time'
+          exercise.type == ExerciseType.time
               ? const TimeHeaderRow()
               : WeightHeaderRow(unit: _workout.unit),
           for (int i = 0; i < exercise.sets.length; i++)
             Container(
               padding: EdgeInsets.zero,
               margin: const EdgeInsets.symmetric(vertical: 4.0),
-              child: exercise.type == 'time'
+              child: exercise.type == ExerciseType.time
                   ? TimeSetRow(
                       exerciseIndex: index,
                       setIndex: i,
@@ -129,7 +130,7 @@ class WorkoutExerciseCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: exercise.type == "Weight"
+          children: exercise.type == ExerciseType.weight
               ? <Widget>[
                   Transform.rotate(
                     angle: -pi / 4,

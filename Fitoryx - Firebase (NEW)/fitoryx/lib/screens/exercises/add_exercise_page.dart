@@ -2,6 +2,7 @@ import 'package:fitoryx/data/category_list.dart' as default_categories;
 import 'package:fitoryx/data/equipment_list.dart' as default_equipment;
 import 'package:fitoryx/data/type_list.dart' as default_types;
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/dropdown.dart';
@@ -107,10 +108,14 @@ class _AddExercisePageState extends State<AddExercisePage> {
                       const SizedBox(height: 20.0),
                       Dropdown(
                         title: 'Type',
-                        selectedValue: _exercise.type,
+                        selectedValue:
+                            ExerciseTypeHelper.toValue(_exercise.type),
                         options: default_types.types,
                         onSelect: (String type) {
-                          setState(() => _exercise.type = type);
+                          setState(
+                            () => _exercise.type =
+                                ExerciseTypeHelper.fromValue(type),
+                          );
                         },
                       ),
                     ],

@@ -1,4 +1,5 @@
 import 'package:fitoryx/models/exercise_set.dart';
+import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/utils/utils.dart';
 
 class Exercise {
@@ -11,14 +12,14 @@ class Exercise {
   bool restEnabled = true;
   int restSeconds = 60;
   List<ExerciseSet> sets = [ExerciseSet()];
-  String type;
+  ExerciseType type;
 
   Exercise({
     this.id,
     this.name = "",
     this.category = "",
     this.equipment = "",
-    this.type = "Weight",
+    this.type = ExerciseType.weight,
   });
 
   String getTitle() {
@@ -74,7 +75,7 @@ class Exercise {
       "name": name,
       "category": category,
       "equipment": equipment,
-      "type": type,
+      "type": ExerciseTypeHelper.toValue(type),
     };
   }
 
@@ -84,7 +85,7 @@ class Exercise {
       name: json['name'],
       category: json['category'],
       equipment: json['equipment'],
-      type: json['type'],
+      type: ExerciseTypeHelper.fromValue(json['type']),
     );
   }
 
@@ -94,7 +95,7 @@ class Exercise {
       "name": name,
       "category": category,
       "equipment": equipment,
-      "type": type,
+      "type": ExerciseTypeHelper.toValue(type),
       "notes": notes,
       "restEnabled": restEnabled,
       "restSeconds": restSeconds,
@@ -108,7 +109,7 @@ class Exercise {
       name: json['name'],
       category: json['category'],
       equipment: json['equipment'],
-      type: json['type'],
+      type: ExerciseTypeHelper.fromValue(json['type']),
     );
 
     exercise.notes = json['notes'];

@@ -1,9 +1,11 @@
+import 'package:fitoryx/models/unit_type.dart';
 import 'package:flutter/material.dart';
 
 class WeightHeaderRow extends StatelessWidget {
-  final String unit;
+  final UnitType unit;
 
-  const WeightHeaderRow({Key? key, this.unit = "kg"}) : super(key: key);
+  const WeightHeaderRow({Key? key, this.unit = UnitType.metric})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class WeightHeaderRow extends StatelessWidget {
         Expanded(
           flex: 3,
           child: Text(
-            unit.toUpperCase(),
+            UnitTypeHelper.toValue(unit).toUpperCase(),
             style: const TextStyle(fontSize: 11.0),
             textAlign: TextAlign.center,
           ),

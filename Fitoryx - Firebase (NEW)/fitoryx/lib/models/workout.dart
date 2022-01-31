@@ -1,15 +1,17 @@
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/exercise_type.dart';
+import 'package:fitoryx/models/unit_type.dart';
 
 class Workout {
   String? id;
   String name;
-  String unit;
+  UnitType unit;
   List<Exercise> exercises = [];
 
   Workout({
     this.id,
     this.name = "Workout",
-    this.unit = "kg",
+    this.unit = UnitType.metric,
   });
 
   Workout clone() {
@@ -23,7 +25,7 @@ class Workout {
     double volume = 0;
 
     for (var exercise in exercises) {
-      if (exercise.type == 'Weight') {
+      if (exercise.type == ExerciseType.weight) {
         for (var set in exercise.sets) {
           volume += (set.reps ?? 0) * (set.weight ?? 0);
         }
@@ -37,7 +39,7 @@ class Workout {
     var workout = Workout(
       id: json["id"],
       name: json["name"],
-      unit: json["unit"],
+      unit: UnitTypeHelper.fromValue(json["unit"]),
     );
 
     workout.exercises = json["exercises"]
@@ -52,7 +54,7 @@ class Workout {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
-      "unit": unit,
+      "unit": UnitTypeHelper.toValue(unit),
       "exercises": exercises
           .map(
             (exercise) => exercise.toJson(),

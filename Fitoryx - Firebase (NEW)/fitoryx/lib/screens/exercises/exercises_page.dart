@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:fitoryx/data/exercise_list.dart' as default_exercises;
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_filter.dart';
+import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
@@ -209,7 +210,8 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         return false;
       }
 
-      if (filter.types.isNotEmpty && !filter.types.contains(exercise.type)) {
+      if (filter.types.isNotEmpty &&
+          !filter.types.contains(ExerciseTypeHelper.toValue(exercise.type))) {
         return false;
       }
 

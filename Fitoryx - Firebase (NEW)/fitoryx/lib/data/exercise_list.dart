@@ -1,4 +1,5 @@
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/exercise_type.dart';
 
 List<Exercise> exercises = [
   Exercise(name: 'Ab Wheel', category: 'Core'),
@@ -7,7 +8,8 @@ List<Exercise> exercises = [
   Exercise(name: 'Back Extension', category: 'Back'),
   Exercise(name: 'Back Extension', category: 'Back', equipment: 'Machine'),
   Exercise(name: 'Ball Slams', category: 'Full Body'),
-  Exercise(name: 'Battle Ropes', category: 'Full Body', type: 'time'),
+  Exercise(
+      name: 'Battle Ropes', category: 'Full Body', type: ExerciseType.time),
   Exercise(name: 'Bench Dip', category: 'Triceps'),
   Exercise(name: 'Bench Press', category: 'Chest', equipment: 'Barbell'),
   Exercise(name: 'Bench Press', category: 'Chest', equipment: 'Dumbbell'),
@@ -67,7 +69,7 @@ List<Exercise> exercises = [
   Exercise(name: 'Crunch', category: 'Core', equipment: 'Machine'),
   Exercise(name: 'Crunch', category: 'Core'),
   Exercise(name: 'Crunch (Stability Ball)', category: 'Core'),
-  Exercise(name: 'Cycling', category: 'Cardio', type: 'time'),
+  Exercise(name: 'Cycling', category: 'Cardio', type: ExerciseType.time),
   Exercise(name: 'Deadlift', category: 'Back', equipment: 'Band'),
   Exercise(name: 'Deadlift', category: 'Back', equipment: 'Barbell'),
   Exercise(name: 'Deadlift', category: 'Back', equipment: 'Dumbbell'),
@@ -80,7 +82,8 @@ List<Exercise> exercises = [
   Exercise(name: 'Decline Crunch', category: 'Core'),
   Exercise(name: 'Deficit Deadlift', category: 'Legs', equipment: 'Barbell'),
   Exercise(name: 'Diamond Push Up', category: 'Triceps'),
-  Exercise(name: 'Elliptical Machine', category: 'Cardio', type: 'time'),
+  Exercise(
+      name: 'Elliptical Machine', category: 'Cardio', type: ExerciseType.time),
   Exercise(name: 'Face Pull', category: 'Back', equipment: 'Cable'),
   Exercise(name: 'Flat Knee Raise', category: 'Core'),
   Exercise(name: 'Flat Leg Raise', category: 'Core'),
@@ -120,7 +123,7 @@ List<Exercise> exercises = [
       name: 'Iso-Lateral Chest Press', category: 'Chest', equipment: 'Machine'),
   Exercise(name: 'Iso-Lateral Row', category: 'Back', equipment: 'Machine'),
   Exercise(name: 'Jackknife Sit Up', category: 'Core'),
-  Exercise(name: 'Jump Rope', category: 'Cardio', type: 'time'),
+  Exercise(name: 'Jump Rope', category: 'Cardio', type: ExerciseType.time),
   Exercise(name: 'Jump Squat', category: 'Legs'),
   Exercise(name: 'Jumping Jack', category: 'Full Body'),
   Exercise(
@@ -196,8 +199,8 @@ List<Exercise> exercises = [
   Exercise(name: 'Reverse Plank', category: 'Core'),
   Exercise(name: 'Romanian Deadlift', category: 'Back', equipment: 'Barbell'),
   Exercise(name: 'Romanian Deadlift', category: 'Back', equipment: 'Dumbbell'),
-  Exercise(name: 'Rowing', category: 'Cardio', type: 'time'),
-  Exercise(name: 'Running', category: 'Cardio', type: 'time'),
+  Exercise(name: 'Rowing', category: 'Cardio', type: ExerciseType.time),
+  Exercise(name: 'Running', category: 'Cardio', type: ExerciseType.time),
   Exercise(name: 'Russian Twist', category: 'Core'),
   Exercise(name: 'Seated Calf Raise', category: 'Calves', equipment: 'Machine'),
   Exercise(
@@ -293,7 +296,7 @@ List<Exercise> exercises = [
   Exercise(name: 'Upright Row', category: 'Shoulders', equipment: 'Cable'),
   Exercise(name: 'Upright Row', category: 'Shoulders', equipment: 'Dumbbell'),
   Exercise(name: 'V Up', category: 'Core'),
-  Exercise(name: 'Walking', category: 'Cardio', type: 'time'),
+  Exercise(name: 'Walking', category: 'Cardio', type: ExerciseType.time),
   Exercise(name: 'Wrist Wroller', category: 'Forearms'),
   Exercise(name: 'Zercher Squat', category: 'Legs', equipment: 'Barbell'),
 ];

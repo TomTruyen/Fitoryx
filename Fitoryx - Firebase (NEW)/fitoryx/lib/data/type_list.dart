@@ -1,4 +1,6 @@
+import 'package:fitoryx/models/exercise_type.dart';
+
 List<String> types = [
-  'Weight',
-  'Time',
+  ExerciseTypeHelper.toValue(ExerciseType.weight),
+  ExerciseTypeHelper.toValue(ExerciseType.time),
 ];

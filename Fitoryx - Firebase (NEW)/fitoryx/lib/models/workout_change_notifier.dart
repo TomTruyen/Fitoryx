@@ -1,5 +1,6 @@
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_set.dart';
+import 'package:fitoryx/models/unit_type.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 class WorkoutChangeNotifier extends ChangeNotifier {
   String? id;
   String name;
-  String unit;
+  UnitType unit;
   List<Exercise> exercises = [];
   String duration;
   String note;
@@ -18,7 +19,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   WorkoutChangeNotifier({
     this.id,
     this.name = "Workout",
-    this.unit = "kg",
+    this.unit = UnitType.metric,
     this.duration = "00:00",
     this.note = "",
   });
@@ -101,7 +102,7 @@ class WorkoutChangeNotifier extends ChangeNotifier {
   void reset() {
     id = null;
     name = "Workout";
-    unit = "kg";
+    unit = UnitType.metric;
     exercises = [];
     duration = "00:00";
     note = "";
