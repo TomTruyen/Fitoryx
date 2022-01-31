@@ -56,17 +56,6 @@ class _SettingsPageState extends State<SettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                // Profile
-                SettingsGroup(
-                  title: 'Profile',
-                  items: <SettingsItem>[
-                    SettingsItem(
-                      title: 'Edit Profile',
-                      subtitle: 'Edit your weight, height, body fat,...',
-                      onTap: () {},
-                    )
-                  ],
-                ),
                 // Units
                 SettingsGroup(
                   title: 'Units',
@@ -74,11 +63,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     SettingsItem(
                       title: 'Weight Unit',
                       subtitle: 'Metric (kg)',
-                      onTap: () {},
-                    ),
-                    SettingsItem(
-                      title: 'Height Unit',
-                      subtitle: 'Metric (cm)',
                       onTap: () {},
                     ),
                   ],
