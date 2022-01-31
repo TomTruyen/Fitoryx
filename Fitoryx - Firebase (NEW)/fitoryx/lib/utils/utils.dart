@@ -38,6 +38,14 @@ String? convertDoubleToIntString(double? value) {
   return value.toInt().toString();
 }
 
+int? convertStringToInt(String value) {
+  try {
+    return int.parse(value);
+  } catch (e) {
+    return null;
+  }
+}
+
 String addZeroPadding(int value, {int amount = 2}) {
   return value.toString().padLeft(amount, "0");
 }

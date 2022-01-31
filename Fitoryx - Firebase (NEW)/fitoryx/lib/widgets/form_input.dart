@@ -15,6 +15,8 @@ class FormInput extends StatelessWidget {
   final bool isDense;
   final bool isPassword;
   final bool centerText;
+  final Widget? prefix;
+  final Widget? suffix;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
@@ -34,6 +36,8 @@ class FormInput extends StatelessWidget {
     this.isDense = false,
     this.isPassword = false,
     this.centerText = false,
+    this.prefix,
+    this.suffix,
     this.inputFormatters,
     this.validator,
     this.onChanged,
@@ -67,6 +71,9 @@ class FormInput extends StatelessWidget {
         filled: true,
         hintText: hintText,
         hintStyle: const TextStyle(color: Colors.black54),
+        prefixIcon: prefix,
+        suffixIcon: suffix,
+        
       ),
       validator: validator,
       onChanged: onChanged,

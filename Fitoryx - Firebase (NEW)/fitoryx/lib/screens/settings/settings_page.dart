@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/settings_item.dart';
 import 'package:fitoryx/models/settings_type.dart';
+import 'package:fitoryx/screens/settings/nutrition_goals_page.dart';
 import 'package:fitoryx/screens/sign_in.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
@@ -89,7 +90,18 @@ class _SettingsPageState extends State<SettingsPage> {
                     SettingsItem(
                       title: 'Nutrition Goals',
                       subtitle: 'Set your nutrition goals',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => NutritionGoalsPage(
+                              settings: _settings,
+                              updateSettings: _updateSettings,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
