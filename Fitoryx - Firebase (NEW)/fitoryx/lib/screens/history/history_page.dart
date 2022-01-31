@@ -1,9 +1,11 @@
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/history/history_calendar_page.dart';
 import 'package:fitoryx/screens/history/history_detail_page.dart';
 import 'package:fitoryx/services/cache_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
+import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/confirm_alert.dart';
 import 'package:fitoryx/widgets/exercise_row.dart';
@@ -28,6 +30,8 @@ class _HistoryPageState extends State<HistoryPage> {
 
   final FirestoreService _firestoreService = FirestoreService();
   final CacheService _cacheService = CacheService();
+  final SettingsService _settingsService = SettingsService();
+  Settings _settings = Settings();
 
   List<WorkoutHistory> _history = [];
   bool _ascending = false;
@@ -147,7 +151,11 @@ class _HistoryPageState extends State<HistoryPage> {
                               CupertinoPageRoute(
                                 fullscreenDialog: true,
                                 builder: (context) => HistoryDetailPage(
-                                  history: history,
+                                  history: history.workout.unit !=
+                                          _settings.weightUnit
+                                      ? history.clone(
+                                          newUnit: _settings.weightUnit)
+                                      : history.clone(),
                                   deleteHistory: _deleteHistory,
                                 ),
                               ),
@@ -216,7 +224,10 @@ class _HistoryPageState extends State<HistoryPage> {
       showAlert(context, content: "Failed to load workout history");
     }
 
+    var settings = await _settingsService.getSettings();
+
     setState(() {
+      _settings = settings;
       _loading = false;
     });
   }

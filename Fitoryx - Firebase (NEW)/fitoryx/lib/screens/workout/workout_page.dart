@@ -1,11 +1,13 @@
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/popup_option.dart';
+import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/workout/build_workout_page.dart';
 import 'package:fitoryx/screens/workout/start_workout_page.dart';
 import 'package:fitoryx/services/cache_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
+import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/confirm_alert.dart';
 import 'package:fitoryx/widgets/exercise_row.dart';
@@ -29,6 +31,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   final FirestoreService _firestoreService = FirestoreService();
   final CacheService _cacheService = CacheService();
+  final SettingsService _settingsService = SettingsService();
+  Settings _settings = Settings();
 
   List<Workout> _workouts = [];
   bool isAscending = true;
@@ -47,8 +51,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    final WorkoutChangeNotifier _workout =
-        Provider.of<WorkoutChangeNotifier>(context, listen: false);
+    final WorkoutChangeNotifier _workout = Provider.of<WorkoutChangeNotifier>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       body: CustomScrollView(
@@ -69,8 +75,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
               ),
               child: GradientButton(
                 text: 'Create Workout',
-                onPressed: () {
+                onPressed: () async {
                   _workout.reset();
+                  _workout.setUnit(_settings.weightUnit);
 
                   Navigator.push(
                     context,
@@ -131,7 +138,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),
                       onTap: () {
-                        _workout.withWorkout(workout);
+                        if (workout.unit != _settings.weightUnit) {
+                          _workout.withWorkout(
+                            workout.clone(fullClone: true),
+                            newUnit: _settings.weightUnit,
+                          );
+                        } else {
+                          _workout.withWorkout(
+                            workout.clone(fullClone: true),
+                          );
+                        }
 
                         Navigator.push(
                           context,
@@ -170,7 +186,19 @@ class _WorkoutPageState extends State<WorkoutPage> {
                                 onSelected: (selection) async {
                                   switch (selection) {
                                     case 'edit':
-                                      _workout.withWorkout(workout);
+                                      _workout.reset();
+
+                                      if (workout.unit !=
+                                          _settings.weightUnit) {
+                                        _workout.withWorkout(
+                                          workout.clone(fullClone: true),
+                                          newUnit: _settings.weightUnit,
+                                        );
+                                      } else {
+                                        _workout.withWorkout(
+                                          workout.clone(fullClone: true),
+                                        );
+                                      }
 
                                       Navigator.push(
                                         context,
@@ -228,7 +256,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
       showAlert(context, content: "Failed to load workouts");
     }
 
+    var settings = await _settingsService.getSettings();
+
     setState(() {
+      _settings = settings;
       _loading = false;
     });
   }

@@ -1,6 +1,7 @@
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/unit_type.dart';
+import 'package:fitoryx/utils/utils.dart';
 
 class Workout {
   String? id;
@@ -14,9 +15,20 @@ class Workout {
     this.unit = UnitType.metric,
   });
 
-  Workout clone() {
+  void changeUnit(UnitType newUnit) {
+    exercises = convertUnitType(List.of(exercises), newUnit);
+
+    unit = newUnit;
+  }
+
+  Workout clone({bool fullClone = false}) {
     var workout = Workout(id: id, name: name, unit: unit);
-    workout.exercises = exercises;
+
+    List<Exercise> exerciseList = [];
+    for (var exercise in exercises) {
+      exerciseList.add(fullClone ? exercise.fullClone() : exercise.clone());
+    }
+    workout.exercises = exerciseList;
 
     return workout;
   }

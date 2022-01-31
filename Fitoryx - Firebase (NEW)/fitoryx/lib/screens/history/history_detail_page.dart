@@ -1,4 +1,5 @@
 import 'package:fitoryx/models/popup_option.dart';
+import 'package:fitoryx/models/unit_type.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/services/firestore_service.dart';
@@ -98,7 +99,7 @@ class HistoryDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Total Volume: ${history.workout.getTotalVolume()} ${history.workout.unit}",
+                    "Total Volume: ${history.workout.getTotalVolume()} ${UnitTypeHelper.toValue(history.workout.unit)}",
                     style: const TextStyle(color: Colors.black),
                   ),
                   const SizedBox(height: 10.0),
@@ -114,7 +115,7 @@ class HistoryDetailPage extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                _workout.withWorkout(history.workout);
+                _workout.withWorkout(history.workout.clone(fullClone: true));
 
                 return WorkoutExerciseCard(
                     exercise: history.workout.exercises[index],

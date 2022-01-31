@@ -70,6 +70,28 @@ class Exercise {
         type: type,
       );
 
+  Exercise fullClone() {
+    var exercise = Exercise(
+      id: id,
+      name: name,
+      category: category,
+      equipment: equipment,
+      type: type,
+    );
+
+    exercise.notes = notes;
+    exercise.restEnabled = restEnabled;
+    exercise.restSeconds = restSeconds;
+
+    List<ExerciseSet> setList = [];
+    for (var set in sets) {
+      setList.add(set.clone());
+    }
+    exercise.sets = setList;
+
+    return exercise;
+  }
+
   Map<String, dynamic> toExerciseJson() {
     return {
       "name": name,

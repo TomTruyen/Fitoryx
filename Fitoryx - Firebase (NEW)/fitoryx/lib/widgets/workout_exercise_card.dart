@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/popup_option.dart';
+import 'package:fitoryx/models/unit_type.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/utils/double_extension.dart';
@@ -142,7 +143,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 5.0),
                   Text(
-                    "${exercise.getTotalWeight().toIntString()} ${workout.unit}",
+                    "${exercise.getTotalWeight().toIntString()} ${UnitTypeHelper.toValue(workout.unit)}",
                     style: TextStyle(color: Colors.blue[700]),
                   ),
                 ]

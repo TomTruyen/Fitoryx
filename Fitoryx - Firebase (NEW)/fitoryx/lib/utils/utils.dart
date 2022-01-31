@@ -1,4 +1,6 @@
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/unit_type.dart';
+import 'package:fitoryx/utils/double_extension.dart';
 import 'package:flutter/material.dart';
 
 void clearFocus(BuildContext context) {
@@ -28,4 +30,27 @@ List<dynamic> addListDividers(List<Exercise> exercises) {
   }
 
   return listWithDividers;
+}
+
+List<Exercise> convertUnitType(List<Exercise> exercises, UnitType newUnit) {
+  switch (newUnit) {
+    case UnitType.metric:
+      // Convert lbs to kg (x / 2.205)
+      for (var exercise in exercises) {
+        for (var set in exercise.sets) {
+          set.weight = ((set.weight ?? 0) / 2.205).toDecimalPlaces(2);
+        }
+      }
+      break;
+    case UnitType.imperial:
+      // Convert kg to lbs (x * 2.205)
+      for (var exercise in exercises) {
+        for (var set in exercise.sets) {
+          set.weight = ((set.weight ?? 0) * 2.205).toDecimalPlaces(2);
+        }
+      }
+      break;
+  }
+
+  return exercises;
 }

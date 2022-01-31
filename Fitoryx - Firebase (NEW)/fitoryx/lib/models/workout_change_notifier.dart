@@ -3,6 +3,7 @@ import 'package:fitoryx/models/exercise_set.dart';
 import 'package:fitoryx/models/unit_type.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
+import 'package:fitoryx/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutChangeNotifier extends ChangeNotifier {
@@ -23,6 +24,10 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     this.duration = "00:00",
     this.note = "",
   });
+
+  void setUnit(UnitType unit) {
+    this.unit = unit;
+  }
 
   void setName(String name) {
     this.name = name;
@@ -110,13 +115,17 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void withWorkout(Workout workout) {
+  void withWorkout(Workout workout, {UnitType? newUnit}) {
     id = workout.id;
     name = workout.name;
     unit = workout.unit;
-    exercises = workout.exercises;
+    exercises = [...workout.exercises];
 
-    // notifyListeners();
+    if (newUnit != null) {
+      exercises = convertUnitType(exercises, newUnit);
+
+      unit = newUnit;
+    }
   }
 
   Workout toWorkout() {

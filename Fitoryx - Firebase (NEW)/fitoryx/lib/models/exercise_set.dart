@@ -17,6 +17,13 @@ class ExerciseSet {
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 
+  ExerciseSet clone() => ExerciseSet(
+        reps: reps,
+        weight: weight,
+        time: time,
+        completed: completed,
+      );
+
   Map<String, dynamic> toJson() {
     return {
       "reps": reps ?? 0,
