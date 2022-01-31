@@ -5,7 +5,8 @@ import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
-import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/utils/double_extension.dart';
+import 'package:fitoryx/utils/int_extension.dart';
 import 'package:fitoryx/widgets/form_input.dart';
 import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:fitoryx/widgets/rest_dialog.dart';
@@ -141,7 +142,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 5.0),
                   Text(
-                    "${convertDoubleToIntString(exercise.getTotalWeight())} ${workout.unit}",
+                    "${exercise.getTotalWeight().toIntString()} ${workout.unit}",
                     style: TextStyle(color: Colors.blue[700]),
                   ),
                 ]
@@ -174,7 +175,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 5.0),
                   Text(
-                    "${addZeroPadding(exercise.restSeconds ~/ 60)}:${addZeroPadding(exercise.restSeconds % 60)}",
+                    "${(exercise.restSeconds ~/ 60).withZeroPadding()}:${(exercise.restSeconds % 60).withZeroPadding()}",
                     style: TextStyle(
                       color: Colors.blue[700],
                     ),

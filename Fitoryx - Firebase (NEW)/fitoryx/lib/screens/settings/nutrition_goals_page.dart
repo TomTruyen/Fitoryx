@@ -1,6 +1,6 @@
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/services/settings_service.dart';
-import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/utils/string_extension.dart';
 import 'package:fitoryx/widgets/form_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -82,7 +82,7 @@ class _NutritionGoalsPageState extends State<NutritionGoalsPage> {
                         child: Text('KCAL'),
                       ),
                       onChanged: (String value) {
-                        _settings.kcal = convertStringToInt(value);
+                        _settings.kcal = value.toInt();
                       },
                     ),
                     const SizedBox(height: 20),
@@ -97,7 +97,7 @@ class _NutritionGoalsPageState extends State<NutritionGoalsPage> {
                         child: Text('CARBS'),
                       ),
                       onChanged: (String value) {
-                        _settings.carbs = convertStringToInt(value);
+                        _settings.carbs = value.toInt();
                       },
                     ),
                     const SizedBox(height: 20),
@@ -112,7 +112,7 @@ class _NutritionGoalsPageState extends State<NutritionGoalsPage> {
                         child: Text('PROTEIN'),
                       ),
                       onChanged: (String value) {
-                        _settings.protein = convertStringToInt(value);
+                        _settings.protein = value.toInt();
                       },
                     ),
                     const SizedBox(height: 20),
@@ -127,7 +127,7 @@ class _NutritionGoalsPageState extends State<NutritionGoalsPage> {
                         child: Text('FAT'),
                       ),
                       onChanged: (String value) {
-                        _settings.fat = convertStringToInt(value);
+                        _settings.fat = value.toInt();
                       },
                     ),
                   ],

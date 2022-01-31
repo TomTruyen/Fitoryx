@@ -9,7 +9,7 @@ import 'package:fitoryx/screens/settings/nutrition_goals_page.dart';
 import 'package:fitoryx/screens/sign_in.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
-import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/utils/int_extension.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/settings_group.dart';
 import 'package:fitoryx/widgets/time_dialog.dart';
@@ -106,7 +106,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   items: <SettingsItem>[
                     SettingsItem(
                       title: 'Default rest time',
-                      subtitle: convertIntToMinutesAndSeconds(_settings.rest),
+                      subtitle: _settings.rest.toMinutesAndSeconds(),
                       onTap: () async {
                         int rest = await showTimeDialog(
                           context,

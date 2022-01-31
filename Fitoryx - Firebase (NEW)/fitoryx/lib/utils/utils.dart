@@ -29,38 +29,3 @@ List<dynamic> addListDividers(List<Exercise> exercises) {
 
   return listWithDividers;
 }
-
-String? convertDoubleToIntString(double? value) {
-  if (value == null || value % 1 != 0) {
-    return value?.toString();
-  }
-
-  return value.toInt().toString();
-}
-
-int? convertStringToInt(String value) {
-  try {
-    return int.parse(value);
-  } catch (e) {
-    return null;
-  }
-}
-
-String addZeroPadding(int value, {int amount = 2}) {
-  return value.toString().padLeft(amount, "0");
-}
-
-String convertIntToMinutesAndSeconds(int time) {
-  int minutes = (time % 3600) ~/ 60;
-  int seconds = time % 60;
-
-  if (minutes >= 1) {
-    if (seconds > 0) {
-      return '${minutes}m ${seconds}s';
-    } else {
-      return '${minutes}m';
-    }
-  }
-
-  return "${seconds}s";
-}

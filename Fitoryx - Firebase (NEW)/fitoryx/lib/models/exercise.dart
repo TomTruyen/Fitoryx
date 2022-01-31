@@ -1,6 +1,6 @@
 import 'package:fitoryx/models/exercise_set.dart';
 import 'package:fitoryx/models/exercise_type.dart';
-import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/utils/int_extension.dart';
 
 class Exercise {
   String? id;
@@ -56,10 +56,10 @@ class Exercise {
     int seconds = time % 60;
 
     if (hours > 0) {
-      return '${addZeroPadding(hours)}:${addZeroPadding(minutes)}:${addZeroPadding(seconds)}';
+      return '${hours.withZeroPadding()}:${minutes.withZeroPadding()}:${seconds.withZeroPadding()}';
     }
 
-    return '${addZeroPadding(minutes)}:${addZeroPadding(seconds)}';
+    return '${minutes.withZeroPadding()}:${seconds.withZeroPadding()}';
   }
 
   Exercise clone() => Exercise(

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:fitoryx/models/workout_change_notifier.dart';
-import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/utils/int_extension.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutTimer extends StatefulWidget {
@@ -49,10 +49,11 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     }
 
     String newTime =
-        "${addZeroPadding(_stopwatch.elapsed.inMinutes % 60)}:${addZeroPadding(_stopwatch.elapsed.inSeconds % 60)}";
+        "${(_stopwatch.elapsed.inMinutes % 60).withZeroPadding()}:${(_stopwatch.elapsed.inSeconds % 60).withZeroPadding()}";
 
     if (_stopwatch.elapsed.inHours >= 1) {
-      newTime = "${addZeroPadding(_stopwatch.elapsed.inHours % 60)}:$newTime";
+      newTime =
+          "${(_stopwatch.elapsed.inHours % 60).withZeroPadding()}:$newTime";
     }
 
     widget.workout.duration = newTime;

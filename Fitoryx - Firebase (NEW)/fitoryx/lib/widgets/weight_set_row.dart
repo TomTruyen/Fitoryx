@@ -1,5 +1,5 @@
 import 'package:fitoryx/models/workout_change_notifier.dart';
-import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/utils/double_extension.dart';
 import 'package:fitoryx/widgets/complete_button.dart';
 import 'package:fitoryx/widgets/delete_button.dart';
 import 'package:fitoryx/widgets/form_input.dart';
@@ -46,8 +46,9 @@ class WeightSetRow extends StatelessWidget {
             child: FormInput(
               readOnly: readonly,
               hintText: '0',
-              initialValue: convertDoubleToIntString(_workout
-                      .exercises[exerciseIndex].sets[setIndex].weight) ??
+              initialValue: _workout
+                      .exercises[exerciseIndex].sets[setIndex].weight
+                      .toIntString() ??
                   "",
               inputFormatters: [
                 LengthLimitingTextInputFormatter(6),

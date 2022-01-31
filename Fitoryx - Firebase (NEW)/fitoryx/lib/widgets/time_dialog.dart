@@ -1,4 +1,4 @@
-import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/utils/int_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -81,7 +81,7 @@ Future<int> showTimeDialog(
                             for (int i = 0; i <= max; i += interval)
                               Center(
                                 child: Text(
-                                  '${(i / 60).floor()}:${addZeroPadding(i % 60)}',
+                                  '${(i / 60).floor()}:${(i % 60).withZeroPadding()}',
                                   style: const TextStyle(
                                     fontSize: 16.0,
                                   ),
