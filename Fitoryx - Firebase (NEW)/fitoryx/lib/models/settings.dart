@@ -1,4 +1,9 @@
+import 'package:fitoryx/models/unit_type.dart';
+
 class Settings {
+  // Units
+  UnitType weightUnit;
+
   // Nutrition Goals
   int? kcal;
   int? carbs;
@@ -11,6 +16,7 @@ class Settings {
   bool vibrateEnabled;
 
   Settings({
+    this.weightUnit = UnitType.metric,
     this.kcal,
     this.carbs,
     this.protein,

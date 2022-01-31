@@ -1,15 +1,13 @@
-import 'package:fitoryx/utils/utils.dart';
+import 'package:fitoryx/models/unit_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<int> showTimeDialog(
+Future<UnitType> showUnitDialog(
   BuildContext context,
-  int? time, {
-  int interval = 10,
-  int max = 3590,
-}) async {
+  UnitType? unit,
+) async {
   bool shouldUpdate = false;
-  int newTime = time ?? 5;
+  UnitType newUnit = unit ?? UnitType.metric;
 
   await showDialog(
     context: context,
@@ -35,7 +33,7 @@ Future<int> showTimeDialog(
                   Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: const Text(
-                      'Time',
+                      'Weight unit',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -45,50 +43,24 @@ Future<int> showTimeDialog(
                   Expanded(
                     flex: 3,
                     child: SingleChildScrollView(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 16.0),
-                        height: 100.0,
-                        child: CupertinoPicker(
-                          selectionOverlay: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  color: Colors.grey[200]!,
-                                  width: 1,
-                                ),
-                                bottom: BorderSide(
-                                  color: Colors.grey[200]!,
-                                  width: 1,
-                                ),
+                      child: Column(
+                        children: <Widget>[
+                          for (var unitType in UnitType.values)
+                            RadioListTile(
+                              activeColor: Colors.blue[700],
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(
+                                UnitTypeHelper.toSubtitle(unitType),
                               ),
+                              value: unitType,
+                              groupValue: newUnit,
+                              onChanged: (value) {
+                                if (value != null) {
+                                  setState(() => newUnit = unitType);
+                                }
+                              },
                             ),
-                          ),
-                          scrollController: FixedExtentScrollController(
-                            initialItem: (newTime ~/ interval),
-                          ),
-                          squeeze: 1.0,
-                          looping: true,
-                          diameterRatio: 100.0,
-                          itemExtent: 40.0,
-                          onSelectedItemChanged: (int index) {
-                            int seconds = 0 + (index * interval);
-
-                            newTime = seconds;
-                          },
-                          useMagnifier: true,
-                          magnification: 1.5,
-                          children: <Widget>[
-                            for (int i = 0; i <= max; i += interval)
-                              Center(
-                                child: Text(
-                                  '${(i / 60).floor()}:${addZeroPadding(i % 60)}',
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -121,7 +93,7 @@ Future<int> showTimeDialog(
     },
   );
 
-  if (shouldUpdate) return newTime;
+  if (shouldUpdate) return newUnit;
 
-  return time!;
+  return unit!;
 }

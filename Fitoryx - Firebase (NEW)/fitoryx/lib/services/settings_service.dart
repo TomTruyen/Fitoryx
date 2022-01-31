@@ -1,4 +1,5 @@
 import 'package:fitoryx/models/settings.dart';
+import 'package:fitoryx/models/unit_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsService {
@@ -11,6 +12,7 @@ class SettingsService {
 
   SettingsService._internal();
 
+  final String weightUnitKey = 'weightUnit';
   final String kcalKey = 'kcal';
   final String carbsKey = 'carbs';
   final String proteinKey = 'protein';
@@ -21,6 +23,12 @@ class SettingsService {
 
   Future<SharedPreferences> _getPrefs() async {
     return await SharedPreferences.getInstance();
+  }
+
+  Future<void> setWeightUnit(UnitType weightUnit) async {
+    var prefs = await _getPrefs();
+
+    await prefs.setString(weightUnitKey, UnitTypeHelper.toValue(weightUnit));
   }
 
   Future<void> setKcal(int? kcal) async {
@@ -73,6 +81,7 @@ class SettingsService {
     var prefs = await _getPrefs();
 
     return Settings(
+      weightUnit: UnitTypeHelper.fromValue(prefs.getString(weightUnitKey)),
       kcal: prefs.getInt(kcalKey),
       carbs: prefs.getInt(carbsKey),
       protein: prefs.getInt(proteinKey),

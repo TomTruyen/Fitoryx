@@ -10,7 +10,7 @@ class ExerciseTypeHelper {
     }
   }
 
-  static ExerciseType fromValue(String value) {
+  static ExerciseType fromValue(String? value) {
     if (value == "Time") return ExerciseType.time;
 
     return ExerciseType.weight;

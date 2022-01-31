@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/settings_item.dart';
 import 'package:fitoryx/models/settings_type.dart';
+import 'package:fitoryx/models/unit_type.dart';
 import 'package:fitoryx/screens/settings/nutrition_goals_page.dart';
 import 'package:fitoryx/screens/sign_in.dart';
 import 'package:fitoryx/services/auth_service.dart';
@@ -12,6 +13,7 @@ import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/settings_group.dart';
 import 'package:fitoryx/widgets/time_dialog.dart';
+import 'package:fitoryx/widgets/unit_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -62,8 +64,17 @@ class _SettingsPageState extends State<SettingsPage> {
                   items: <SettingsItem>[
                     SettingsItem(
                       title: 'Weight Unit',
-                      subtitle: 'Metric (kg)',
-                      onTap: () {},
+                      subtitle: UnitTypeHelper.toSubtitle(_settings.weightUnit),
+                      onTap: () async {
+                        var unit = await showUnitDialog(
+                          context,
+                          _settings.weightUnit,
+                        );
+
+                        _settingsService.setWeightUnit(unit);
+
+                        _updateSettings();
+                      },
                     ),
                   ],
                 ),

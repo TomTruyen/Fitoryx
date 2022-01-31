@@ -10,9 +10,19 @@ class UnitTypeHelper {
     }
   }
 
-  static UnitType fromValue(String value) {
+  static UnitType fromValue(String? value) {
     if (value == "lbs") return UnitType.imperial;
 
     return UnitType.metric;
+  }
+
+  // Used by settings
+  static String toSubtitle(UnitType type) {
+    switch (type) {
+      case UnitType.metric:
+        return "Metric (kg)";
+      case UnitType.imperial:
+        return "Imperial (lbs)";
+    }
   }
 }
