@@ -1,4 +1,5 @@
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 
@@ -15,6 +16,7 @@ class CacheService {
   List<WorkoutHistory>? _cachedHistory;
   List<Workout>? _cachedWorkouts;
   List<Exercise>? _cachedExercises;
+  List<Nutrition>? _cachedNutrition;
 
   bool hasHistory() {
     return _cachedHistory != null;
@@ -25,7 +27,7 @@ class CacheService {
   }
 
   List<WorkoutHistory> getHistory() {
-    return _cachedHistory ?? [];
+    return List.of(_cachedHistory ?? []);
   }
 
   bool hasWorkouts() {
@@ -37,7 +39,7 @@ class CacheService {
   }
 
   List<Workout> getWorkouts() {
-    return _cachedWorkouts ?? [];
+    return List.of(_cachedWorkouts ?? []);
   }
 
   bool hasExercises() {
@@ -49,6 +51,18 @@ class CacheService {
   }
 
   List<Exercise> getExercises() {
-    return _cachedExercises ?? [];
+    return List.of(_cachedExercises ?? []);
+  }
+
+  bool hasNutrition() {
+    return _cachedNutrition != null;
+  }
+
+  void setNutrition(List<Nutrition> nutrition) {
+    _cachedNutrition = List.of(nutrition);
+  }
+
+  List<Nutrition> getNutrition() {
+    return List.of(_cachedNutrition ?? []);
   }
 }

@@ -307,7 +307,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
   void _duplicateWorkout(Workout workout) async {
     try {
-      workout.id = await _firestoreService.createWorkout(workout);
+      workout = await _firestoreService.saveWorkout(workout, duplicate: true);
 
       _addWorkout(workout);
 

@@ -191,10 +191,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _init() async {
-    var packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = packageInfo;
-    });
+    _packageInfo = await PackageInfo.fromPlatform();
 
     _updateSettings();
   }

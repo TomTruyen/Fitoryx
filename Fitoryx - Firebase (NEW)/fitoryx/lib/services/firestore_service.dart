@@ -4,6 +4,7 @@ import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/services/cache_service.dart';
+import 'package:uuid/uuid.dart';
 
 class FirestoreService {
   // Singleton Setup
@@ -16,197 +17,466 @@ class FirestoreService {
   FirestoreService._internal();
 
   // Properties
+  final Uuid _uuid = const Uuid();
   final AuthService _authService = AuthService();
   final CacheService _cacheService = CacheService();
 
   final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  final String exerciseCollection = "exercises";
-  final String workoutCollection = "workouts";
-  final String historyCollection = "history";
+  final String exerciseField = "exercises";
+  final String workoutField = "workouts";
+  final String historyField = "history";
+  final String nutritionField = "nutrition";
 
-  // Exercises
-  Future<String> createExercise(Exercise exercise) async {
-    DocumentReference<Map<String, dynamic>> docReference =
-        await _usersCollection
-            .doc(_authService.getUser()?.uid)
-            .collection(exerciseCollection)
-            .add(exercise.toExerciseJson());
+  // "Ugly" version,
+  // Advantage: 1 read per app launch :)
 
-    return docReference.id;
+  String _generateUuid() {
+    return _uuid.v4();
   }
 
-  Future<void> deleteExercise(String? id) async {
-    await _usersCollection
-        .doc(_authService.getUser()?.uid)
-        .collection(exerciseCollection)
-        .doc(id)
-        .delete();
+  Future<bool> fetchAll() async {
+    var doc = await _usersCollection.doc(_authService.getUser()?.uid).get();
+
+    if (doc.exists) {
+      _cacheService.setExercises(_toExercises(doc));
+      _cacheService.setWorkouts(_toWorkouts(doc));
+      _cacheService.setHistory(_toHistory(doc));
+      // Map<String, dynamic> nutrition = doc.get(nutritionField);
+    }
+
+    return true;
+  }
+
+  // Exercises
+  List<Exercise> _toExercises(DocumentSnapshot<Object?> doc) {
+    try {
+      List<dynamic> data = doc.get(exerciseField);
+
+      List<Exercise> exercises = [];
+
+      for (var exercise in data) {
+        exercises.add(Exercise.fromExerciseJson(exercise));
+      }
+
+      return exercises;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  List<Map<String, dynamic>> _fromExercises(List<Exercise> exercises) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var exercise in exercises) {
+      data.add(exercise.toExerciseJson());
+    }
+
+    return data;
   }
 
   Future<List<Exercise>> getExercises() async {
-    if (_cacheService.hasExercises()) {
-      return _cacheService.getExercises();
+    if (!_cacheService.hasExercises()) {
+      await fetchAll();
     }
 
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-        .doc(_authService.getUser()?.uid)
-        .collection(exerciseCollection)
-        .get();
+    return _cacheService.getExercises();
+  }
 
-    if (querySnapshot.docs.isEmpty) {
-      return [];
-    }
+  Future<Exercise> saveExercise(Exercise exercise) async {
+    exercise.id = _generateUuid();
+    exercise.userCreated = true;
 
-    List<Exercise> exercises = [];
+    List<Exercise> exercises = _cacheService.getExercises();
+    exercises.add(exercise);
 
-    for (var exercise in querySnapshot.docs) {
-      Exercise e = Exercise.fromExerciseJson(exercise.data());
-      e.id = exercise.id;
-      e.userCreated = true;
-      exercises.add(e);
-    }
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {exerciseField: _fromExercises(exercises)},
+      SetOptions(merge: true),
+    );
 
     _cacheService.setExercises(exercises);
 
-    return exercises;
+    return exercise;
+  }
+
+  Future<void> deleteExercise(String? id) async {
+    List<Exercise> exercises = _cacheService.getExercises();
+    exercises.removeWhere((exercise) => exercise.id == id);
+
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {exerciseField: _fromExercises(exercises)},
+      SetOptions(merge: true),
+    );
+
+    _cacheService.setExercises(exercises);
   }
 
   // Workouts
-  Future<String> createWorkout(Workout workout) async {
-    DocumentReference<Map<String, dynamic>> docReference =
-        await _usersCollection
-            .doc(_authService.getUser()?.uid)
-            .collection(workoutCollection)
-            .add(workout.toJson());
+  List<Workout> _toWorkouts(DocumentSnapshot<Object?> doc) {
+    try {
+      List<dynamic> data = doc.get(workoutField);
 
-    return docReference.id;
+      List<Workout> workouts = [];
+
+      for (var workout in data) {
+        workouts.add(Workout.fromJson(workout));
+      }
+
+      return workouts;
+    } catch (e) {
+      return [];
+    }
   }
 
-  Future<void> updateWorkout(Workout workout) async {
-    await _usersCollection
-        .doc(_authService.getUser()?.uid)
-        .collection(workoutCollection)
-        .doc(workout.id)
-        .update(workout.toJson());
-  }
+  List<Map<String, dynamic>> _fromWorkouts(List<Workout> workouts) {
+    List<Map<String, dynamic>> data = [];
 
-  Future<void> deleteWorkout(String? id) async {
-    await _usersCollection
-        .doc(_authService.getUser()?.uid)
-        .collection(workoutCollection)
-        .doc(id)
-        .delete();
+    for (var workout in workouts) {
+      data.add(workout.toJson());
+    }
+
+    return data;
   }
 
   Future<List<Workout>> getWorkouts() async {
-    if (_cacheService.hasWorkouts()) {
-      return _cacheService.getWorkouts();
+    if (!_cacheService.hasWorkouts()) {
+      await fetchAll();
     }
 
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-        .doc(_authService.getUser()?.uid)
-        .collection(workoutCollection)
-        .get();
+    return _cacheService.getWorkouts();
+  }
 
-    if (querySnapshot.docs.isEmpty) {
-      return [];
+  Future<Workout> saveWorkout(Workout workout, {bool duplicate = false}) async {
+    List<Workout> workouts = _cacheService.getWorkouts();
+
+    if (workout.id == null || duplicate) {
+      workout.id = _generateUuid();
+      workouts.add(workout);
+    } else {
+      int index = workouts.indexWhere((w) => w.id == workout.id);
+      workouts[index] = workout;
     }
 
-    List<Workout> workouts = [];
-
-    for (var workout in querySnapshot.docs) {
-      Workout w = Workout.fromJson(workout.data());
-      w.id = workout.id;
-
-      workouts.add(w);
-    }
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {workoutField: _fromWorkouts(workouts)},
+      SetOptions(merge: true),
+    );
 
     _cacheService.setWorkouts(workouts);
 
-    return workouts;
+    return workout;
+  }
+
+  Future<void> deleteWorkout(String? id) async {
+    List<Workout> workouts = _cacheService.getWorkouts();
+    workouts.removeWhere((workout) => workout.id == id);
+
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {workoutField: _fromWorkouts(workouts)},
+      SetOptions(merge: true),
+    );
+
+    _cacheService.setWorkouts(workouts);
   }
 
   // History
-  Future<String> createWorkoutHistory(WorkoutHistory history) async {
-    DocumentReference<Map<String, dynamic>> docReference =
-        await _usersCollection
-            .doc(_authService.getUser()?.uid)
-            .collection(historyCollection)
-            .add(history.toJson());
+  List<WorkoutHistory> _toHistory(DocumentSnapshot<Object?> doc) {
+    try {
+      List<dynamic> data = doc.get(historyField);
 
-    return docReference.id;
+      List<WorkoutHistory> history = [];
+
+      for (var workout in data) {
+        history.add(WorkoutHistory.fromJson(workout));
+      }
+
+      return history;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  List<Map<String, dynamic>> _fromHistory(List<WorkoutHistory> history) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var workout in history) {
+      data.add(workout.toJson());
+    }
+
+    return data;
+  }
+
+  Future<List<WorkoutHistory>> getHistory() async {
+    if (!_cacheService.hasHistory()) {
+      await fetchAll();
+    }
+
+    return _cacheService.getHistory();
+  }
+
+  Future<List<WorkoutHistory>> getHistoryByDay(DateTime date) async {
+    if (!_cacheService.hasHistory()) {
+      await fetchAll();
+    }
+
+    DateTime start = DateTime(date.year, date.month, date.day);
+    DateTime end = DateTime(date.year, date.month, date.day + 1);
+
+    return _cacheService
+        .getHistory()
+        .where((history) =>
+            history.date.isAfter(start) && history.date.isBefore(end))
+        .toList();
+  }
+
+  Future<WorkoutHistory> saveHistory(WorkoutHistory history) async {
+    List<WorkoutHistory> historyList = _cacheService.getHistory();
+
+    history.id = _generateUuid();
+    historyList.add(history);
+
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {historyField: _fromHistory(historyList)},
+      SetOptions(merge: true),
+    );
+
+    _cacheService.setHistory(historyList);
+
+    return history;
   }
 
   Future<void> deleteHistory(String? id) async {
-    await _usersCollection
-        .doc(_authService.getUser()?.uid)
-        .collection(historyCollection)
-        .doc(id)
-        .delete();
+    List<WorkoutHistory> history = _cacheService.getHistory();
+    history.removeWhere((workout) => workout.id == id);
+
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {historyField: _fromHistory(history)},
+      SetOptions(merge: true),
+    );
+
+    _cacheService.setHistory(history);
   }
 
-  Future<List<WorkoutHistory>> getWorkoutHistory() async {
-    if (_cacheService.hasHistory()) {
-      return _cacheService.getHistory();
-    }
+  // Clean, split up into collections ==> Issue: a lot of reads.
+  // My Goal: Stay within free quota for as long as possible
+  // Solution: Move all data (exercises, workouts, history etc...) into 1 single collection
+  // Reason: Firebase counts per document read/write. With collections we get a lot of documents. Without it, we only have 1 document and that document we even cache to make it so it only gets fetched once
 
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-        .doc(_authService.getUser()?.uid)
-        .collection(historyCollection)
-        .get();
+  // final String exerciseCollection = "exercises";
+  // final String workoutCollection = "workouts";
+  // final String historyCollection = "history";
+  // final String nutritionCollection = "nutrition";
 
-    if (querySnapshot.docs.isEmpty) {
-      return [];
-    }
+  // // Exercises
+  // Future<String> createExercise(Exercise exercise) async {
+  //   DocumentReference<Map<String, dynamic>> docReference =
+  //       await _usersCollection
+  //           .doc(_authService.getUser()?.uid)
+  //           .collection(exerciseCollection)
+  //           .add(exercise.toExerciseJson());
 
-    List<WorkoutHistory> workoutHistory = [];
+  //   return docReference.id;
+  // }
 
-    for (var history in querySnapshot.docs) {
-      WorkoutHistory w = WorkoutHistory.fromJson(history.data());
-      w.id = history.id;
+  // Future<void> deleteExercise(String? id) async {
+  //   await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(exerciseCollection)
+  //       .doc(id)
+  //       .delete();
+  // }
 
-      workoutHistory.add(w);
-    }
+  // Future<List<Exercise>> getExercises() async {
+  //   if (_cacheService.hasExercises()) {
+  //     return _cacheService.getExercises();
+  //   }
 
-    _cacheService.setHistory(workoutHistory);
+  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(exerciseCollection)
+  //       .get();
 
-    return workoutHistory;
-  }
+  //   if (querySnapshot.docs.isEmpty) {
+  //     return [];
+  //   }
 
-  Future<List<WorkoutHistory>> getWorkoutHistoryByDay(DateTime date) async {
-    DateTime startDate = DateTime(date.year, date.month, date.day);
-    DateTime endDate = DateTime(date.year, date.month, date.day + 1);
+  //   List<Exercise> exercises = [];
 
-    if (_cacheService.hasHistory()) {
-      return _cacheService
-          .getHistory()
-          .where((history) =>
-              history.date.isAfter(startDate) && history.date.isBefore(endDate))
-          .toList();
-    }
+  //   for (var exercise in querySnapshot.docs) {
+  //     Exercise e = Exercise.fromExerciseJson(exercise.data());
+  //     e.id = exercise.id;
+  //     e.userCreated = true;
+  //     exercises.add(e);
+  //   }
 
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-        .doc(_authService.getUser()?.uid)
-        .collection(historyCollection)
-        .where('date', isGreaterThanOrEqualTo: startDate)
-        .where('date', isLessThan: endDate)
-        .get();
+  //   _cacheService.setExercises(exercises);
 
-    if (querySnapshot.docs.isEmpty) {
-      return [];
-    }
+  //   return exercises;
+  // }
 
-    List<WorkoutHistory> workoutHistory = [];
+  // // Workouts
+  // Future<String> createWorkout(Workout workout) async {
+  //   DocumentReference<Map<String, dynamic>> docReference =
+  //       await _usersCollection
+  //           .doc(_authService.getUser()?.uid)
+  //           .collection(workoutCollection)
+  //           .add(workout.toJson());
 
-    for (var history in querySnapshot.docs) {
-      WorkoutHistory w = WorkoutHistory.fromJson(history.data());
-      w.id = history.id;
+  //   return docReference.id;
+  // }
 
-      workoutHistory.add(w);
-    }
+  // Future<void> updateWorkout(Workout workout) async {
+  //   await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(workoutCollection)
+  //       .doc(workout.id)
+  //       .update(workout.toJson());
+  // }
 
-    return workoutHistory;
-  }
+  // Future<void> deleteWorkout(String? id) async {
+  //   await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(workoutCollection)
+  //       .doc(id)
+  //       .delete();
+  // }
+
+  // Future<List<Workout>> getWorkouts() async {
+  //   if (_cacheService.hasWorkouts()) {
+  //     return _cacheService.getWorkouts();
+  //   }
+
+  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(workoutCollection)
+  //       .get();
+
+  //   if (querySnapshot.docs.isEmpty) {
+  //     return [];
+  //   }
+
+  //   List<Workout> workouts = [];
+
+  //   for (var workout in querySnapshot.docs) {
+  //     Workout w = Workout.fromJson(workout.data());
+  //     w.id = workout.id;
+
+  //     workouts.add(w);
+  //   }
+
+  //   _cacheService.setWorkouts(workouts);
+
+  //   return workouts;
+  // }
+
+  // // History
+  // Future<String> createWorkoutHistory(WorkoutHistory history) async {
+  //   DocumentReference<Map<String, dynamic>> docReference =
+  //       await _usersCollection
+  //           .doc(_authService.getUser()?.uid)
+  //           .collection(historyCollection)
+  //           .add(history.toJson());
+
+  //   return docReference.id;
+  // }
+
+  // Future<void> deleteHistory(String? id) async {
+  //   await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(historyCollection)
+  //       .doc(id)
+  //       .delete();
+  // }
+
+  // Future<List<WorkoutHistory>> getWorkoutHistory() async {
+  //   if (_cacheService.hasHistory()) {
+  //     return _cacheService.getHistory();
+  //   }
+
+  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(historyCollection)
+  //       .get();
+
+  //   if (querySnapshot.docs.isEmpty) {
+  //     return [];
+  //   }
+
+  //   List<WorkoutHistory> workoutHistory = [];
+
+  //   for (var history in querySnapshot.docs) {
+  //     WorkoutHistory w = WorkoutHistory.fromJson(history.data());
+  //     w.id = history.id;
+
+  //     workoutHistory.add(w);
+  //   }
+
+  //   _cacheService.setHistory(workoutHistory);
+
+  //   return workoutHistory;
+  // }
+
+  // Future<List<WorkoutHistory>> getWorkoutHistoryByDay(DateTime date) async {
+  //   DateTime startDate = DateTime(date.year, date.month, date.day);
+  //   DateTime endDate = DateTime(date.year, date.month, date.day + 1);
+
+  //   if (_cacheService.hasHistory()) {
+  //     return _cacheService
+  //         .getHistory()
+  //         .where((history) =>
+  //             history.date.isAfter(startDate) && history.date.isBefore(endDate))
+  //         .toList();
+  //   }
+
+  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(historyCollection)
+  //       .where('date', isGreaterThanOrEqualTo: startDate)
+  //       .where('date', isLessThan: endDate)
+  //       .get();
+
+  //   if (querySnapshot.docs.isEmpty) {
+  //     return [];
+  //   }
+
+  //   List<WorkoutHistory> workoutHistory = [];
+
+  //   for (var history in querySnapshot.docs) {
+  //     WorkoutHistory w = WorkoutHistory.fromJson(history.data());
+  //     w.id = history.id;
+
+  //     workoutHistory.add(w);
+  //   }
+
+  //   return workoutHistory;
+  // }
+
+  // // Nutrition
+  // Future<List<Nutrition>> getNutrition() async {
+  //   if (_cacheService.hasNutrition()) {
+  //     return _cacheService.getNutrition();
+  //   }
+
+  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
+  //       .doc(_authService.getUser()?.uid)
+  //       .collection(nutritionCollection)
+  //       .get();
+
+  //   if (querySnapshot.docs.isEmpty) {
+  //     return [];
+  //   }
+
+  //   List<Nutrition> nutritionList = [];
+
+  //   for (var nutrition in querySnapshot.docs) {
+  //     Nutrition n = Nutrition.fromJson(nutrition.data());
+  //     n.id = nutrition.id;
+
+  //     nutritionList.add(n);
+  //   }
+
+  //   return nutritionList;
+  // }
 }

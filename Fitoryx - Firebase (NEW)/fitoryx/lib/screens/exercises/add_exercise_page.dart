@@ -44,13 +44,12 @@ class _AddExercisePageState extends State<AddExercisePage> {
                     if (_addExerciseFormKey.currentState != null &&
                         _addExerciseFormKey.currentState!.validate()) {
                       try {
-                        _exercise.id = await _firestoreService.createExercise(
+                        Exercise exercise =
+                            await _firestoreService.saveExercise(
                           _exercise,
                         );
 
-                        _exercise.userCreated = true;
-
-                        widget.addExercise(_exercise);
+                        widget.addExercise(exercise);
 
                         if (Navigator.canPop(context)) {
                           Navigator.pop(context);

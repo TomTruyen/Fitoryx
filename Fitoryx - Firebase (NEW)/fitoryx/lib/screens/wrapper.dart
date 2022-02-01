@@ -6,6 +6,7 @@ import 'package:fitoryx/screens/history/history_page.dart';
 import 'package:fitoryx/screens/nutrition/nutrition_page.dart';
 import 'package:fitoryx/screens/profile/profile_page.dart';
 import 'package:fitoryx/screens/workout/workout_page.dart';
+import 'package:fitoryx/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,12 +18,18 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  final FirestoreService _firestoreService = FirestoreService();
+
+  late Future<bool> _isLoaded;
+
   int _selectedIndex = 2;
 
   List<Widget> _pages = [];
 
   @override
   void initState() {
+    _isLoaded = _firestoreService.fetchAll();
+
     super.initState();
 
     setState(() {
@@ -43,9 +50,14 @@ class _WrapperState extends State<Wrapper> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        body: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
-          child: _pages[_selectedIndex],
+        body: FutureBuilder(
+          future: _isLoaded,
+          builder: (context, snapshot) {
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: _pages[_selectedIndex],
+            );
+          },
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,

@@ -65,13 +65,7 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
                   try {
                     Workout workout = _workout.toWorkout();
 
-                    if (!widget.isEdit) {
-                      workout.id = await _firestoreService.createWorkout(
-                        workout,
-                      );
-                    } else {
-                      await _firestoreService.updateWorkout(workout);
-                    }
+                    workout = await _firestoreService.saveWorkout(workout);
 
                     widget.updateWorkout(workout);
 

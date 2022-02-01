@@ -65,6 +65,7 @@ class Workout {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "unit": UnitTypeHelper.toValue(unit),
       "exercises": exercises

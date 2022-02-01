@@ -53,8 +53,10 @@ class HistoryDetailPage extends StatelessWidget {
                     switch (selected) {
                       case 'save':
                         try {
-                          await _firestoreService
-                              .createWorkout(history.workout);
+                          var workout = history.workout.clone(fullClone: true);
+                          workout.id = null;
+
+                          await _firestoreService.saveWorkout(workout);
 
                           showAlert(
                             context,

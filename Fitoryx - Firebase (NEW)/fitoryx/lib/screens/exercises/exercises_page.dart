@@ -7,7 +7,6 @@ import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
-import 'package:fitoryx/services/cache_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/utils/utils.dart';
@@ -40,7 +39,6 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   bool _loading = true;
 
   final FirestoreService _firestoreService = FirestoreService();
-  final CacheService _cacheService = CacheService();
   final SettingsService _settingsService = SettingsService();
 
   // Settings
@@ -65,18 +63,6 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   @override
   void initState() {
     super.initState();
-    _exercises = List.of(default_exercises.exercises);
-
-    if (widget.workout != null) {
-      _workoutExercises = List.of(widget.workout!.exercises);
-
-      if (widget.isReplace) {
-        _replaceExercise =
-            widget.workout!.exercises[widget.workout!.replaceIndex!];
-        _initialReplaceExercise =
-            widget.workout!.exercises[widget.workout!.replaceIndex!];
-      }
-    }
 
     _init();
   }
@@ -158,6 +144,19 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   }
 
   void _init() async {
+    _exercises = List.of(default_exercises.exercises);
+
+    if (widget.workout != null) {
+      _workoutExercises = List.of(widget.workout!.exercises);
+
+      if (widget.isReplace) {
+        _replaceExercise =
+            widget.workout!.exercises[widget.workout!.replaceIndex!];
+        _initialReplaceExercise =
+            widget.workout!.exercises[widget.workout!.replaceIndex!];
+      }
+    }
+
     try {
       List<Exercise> userExercises = await _firestoreService.getExercises();
 
@@ -181,8 +180,6 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       setState(() {
         _exercises.add(exercise);
       });
-
-      _cacheService.setExercises(_exercises);
     }
   }
 
@@ -191,8 +188,6 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       setState(() {
         _exercises.removeWhere((exercise) => exercise.id == id);
       });
-
-      _cacheService.setExercises(_exercises);
     }
   }
 

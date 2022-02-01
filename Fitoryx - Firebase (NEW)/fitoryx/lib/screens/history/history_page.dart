@@ -215,9 +215,9 @@ class _HistoryPageState extends State<HistoryPage> {
   void _init() async {
     try {
       if (widget.day != null) {
-        _history = await _firestoreService.getWorkoutHistoryByDay(widget.day!);
+        _history = await _firestoreService.getHistoryByDay(widget.day!);
       } else {
-        _history = await _firestoreService.getWorkoutHistory();
+        _history = await _firestoreService.getHistory();
       }
       _sortHistory(noToggle: true);
     } catch (e) {

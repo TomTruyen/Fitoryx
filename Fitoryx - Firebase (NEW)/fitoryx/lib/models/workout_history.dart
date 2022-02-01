@@ -34,6 +34,7 @@ class WorkoutHistory {
 
   static WorkoutHistory fromJson(Map<String, dynamic> json) {
     return WorkoutHistory(
+      id: json['id'],
       workout: Workout.fromJson(json['workout']),
       duration: json['duration'],
       note: json['note'],
@@ -43,6 +44,7 @@ class WorkoutHistory {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "workout": workout.toJson(),
       "duration": duration,
       "note": note,

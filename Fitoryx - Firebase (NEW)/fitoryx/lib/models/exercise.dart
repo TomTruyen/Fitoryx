@@ -7,7 +7,7 @@ class Exercise {
   String name;
   String category;
   String equipment;
-  bool userCreated = false;
+  bool userCreated;
   String notes = "";
   bool restEnabled = true;
   int restSeconds = 60;
@@ -20,6 +20,7 @@ class Exercise {
     this.category = "",
     this.equipment = "",
     this.type = ExerciseType.weight,
+    this.userCreated = false,
   });
 
   String getTitle() {
@@ -94,10 +95,12 @@ class Exercise {
 
   Map<String, dynamic> toExerciseJson() {
     return {
+      "id": id,
       "name": name,
       "category": category,
       "equipment": equipment,
       "type": ExerciseTypeHelper.toValue(type),
+      "userCreated": userCreated
     };
   }
 
@@ -108,6 +111,7 @@ class Exercise {
       category: json['category'],
       equipment: json['equipment'],
       type: ExerciseTypeHelper.fromValue(json['type']),
+      userCreated: json['userCreated'],
     );
   }
 
