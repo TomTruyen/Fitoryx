@@ -22,39 +22,47 @@ class FoodCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(
-            _title(),
-            style: TextStyle(
-              fontSize: macro
-                  ? Theme.of(context).textTheme.bodyText2?.fontSize
-                  : Theme.of(context).textTheme.bodyText2!.fontSize! * 1.5,
+          Flexible(
+            child: RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
+                  TextSpan(
+                    text: value?.toString(),
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.bodyText2!.fontSize! *
+                              (macro ? 1.2 : 1.5),
+                    ),
+                  ),
+                  const TextSpan(text: ''),
+                  TextSpan(
+                    text: macro ? "/${goal}g" : "/$goal",
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: macro
+                          ? Theme.of(context).textTheme.bodyText2!.fontSize! *
+                              0.8
+                          : Theme.of(context).textTheme.bodyText2?.fontSize,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 5),
           Flexible(
             child: Text(
-              _goal(),
-              style: TextStyle(color: Colors.grey[600]),
+              text.toUpperCase(),
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize:
+                    Theme.of(context).textTheme.bodyText2!.fontSize! * 0.8,
+              ),
             ),
           ),
         ],
       ),
     );
-  }
-
-  String _title() {
-    if (macro) {
-      return "${value}g";
-    }
-
-    return value.toString();
-  }
-
-  String _goal() {
-    if (goal == null || goal == 0) {
-      return text.toUpperCase();
-    }
-
-    return "of $goal $text".toUpperCase();
   }
 }

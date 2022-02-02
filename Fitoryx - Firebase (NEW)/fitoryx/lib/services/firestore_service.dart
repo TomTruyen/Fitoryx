@@ -295,6 +295,21 @@ class FirestoreService {
     return _cacheService.getNutrition();
   }
 
+  Future<Nutrition> getNutritionByDay(DateTime date) async {
+    DateTime start = DateTime(date.year, date.month, date.day);
+    DateTime end = DateTime(date.year, date.month, date.day + 1);
+
+    var nutrition = _cacheService
+        .getNutrition()
+        .where((nutrition) =>
+            nutrition.date.isAfter(start) && nutrition.date.isBefore(end))
+        .toList();
+
+    if (nutrition.isEmpty) return Nutrition();
+
+    return nutrition.first;
+  }
+
   Future<Nutrition> saveNutrition(Nutrition nutrition) async {
     nutrition.id = _generateUuid();
 
@@ -322,9 +337,7 @@ class FirestoreService {
 
     _cacheService.setNutrition(nutritionList);
   }
- 
- 
- 
+
   // Clean, split up into collections ==> Issue: a lot of reads.
   // My Goal: Stay within free quota for as long as possible
   // Solution: Move all data (exercises, workouts, history etc...) into 1 single collection

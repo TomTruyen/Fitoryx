@@ -6,8 +6,13 @@ class Nutrition {
   int fat;
   DateTime date = DateTime.now();
 
-  Nutrition(
-      {this.id, this.kcal = 0, this.carbs = 0, this.protein = 0, this.fat = 0});
+  Nutrition({
+    this.id,
+    this.kcal = 0,
+    this.carbs = 0,
+    this.protein = 0,
+    this.fat = 0,
+  });
 
   Map<String, dynamic> toJson() {
     return {
