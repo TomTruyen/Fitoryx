@@ -149,6 +149,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           );
                         }
 
+                        _workout.fillEmpty();
+
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
