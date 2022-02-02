@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/services/auth_service.dart';
@@ -43,7 +44,7 @@ class FirestoreService {
       _cacheService.setExercises(_toExercises(doc));
       _cacheService.setWorkouts(_toWorkouts(doc));
       _cacheService.setHistory(_toHistory(doc));
-      // Map<String, dynamic> nutrition = doc.get(nutritionField);
+      _cacheService.setNutrition(_toNutrition(doc));
     }
 
     return true;
@@ -259,6 +260,71 @@ class FirestoreService {
     _cacheService.setHistory(history);
   }
 
+  // Nutrition
+  List<Nutrition> _toNutrition(DocumentSnapshot<Object?> doc) {
+    try {
+      List<dynamic> data = doc.get(nutritionField);
+
+      List<Nutrition> nutritionList = [];
+
+      for (var nutrition in data) {
+        nutritionList.add(Nutrition.fromJson(nutrition));
+      }
+
+      return nutritionList;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  List<Map<String, dynamic>> _fromNutrition(List<Nutrition> nutritionList) {
+    List<Map<String, dynamic>> data = [];
+
+    for (var nutrition in nutritionList) {
+      data.add(nutrition.toJson());
+    }
+
+    return data;
+  }
+
+  Future<List<Nutrition>> getNutrition() async {
+    if (!_cacheService.hasNutrition()) {
+      await fetchAll();
+    }
+
+    return _cacheService.getNutrition();
+  }
+
+  Future<Nutrition> saveNutrition(Nutrition nutrition) async {
+    nutrition.id = _generateUuid();
+
+    List<Nutrition> nutritionList = _cacheService.getNutrition();
+    nutritionList.add(nutrition);
+
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {nutritionField: _fromNutrition(nutritionList)},
+      SetOptions(merge: true),
+    );
+
+    _cacheService.setNutrition(nutritionList);
+
+    return nutrition;
+  }
+
+  Future<void> deleteNutrition(String? id) async {
+    List<Nutrition> nutritionList = _cacheService.getNutrition();
+    nutritionList.removeWhere((nutrition) => nutrition.id == id);
+
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {nutritionField: _fromNutrition(nutritionList)},
+      SetOptions(merge: true),
+    );
+
+    _cacheService.setNutrition(nutritionList);
+  }
+ 
+ 
+ 
   // Clean, split up into collections ==> Issue: a lot of reads.
   // My Goal: Stay within free quota for as long as possible
   // Solution: Move all data (exercises, workouts, history etc...) into 1 single collection
