@@ -296,13 +296,11 @@ class FirestoreService {
   }
 
   Future<Nutrition> getNutritionByDay(DateTime date) async {
-    DateTime start = DateTime(date.year, date.month, date.day);
-    DateTime end = DateTime(date.year, date.month, date.day + 1);
+    date = DateTime(date.year, date.month, date.day);
 
     var nutrition = _cacheService
         .getNutrition()
-        .where((nutrition) =>
-            nutrition.date.isAfter(start) && nutrition.date.isBefore(end))
+        .where((nutrition) => nutrition.date.isAtSameMomentAs(date))
         .toList();
 
     if (nutrition.isEmpty) return Nutrition();
@@ -311,10 +309,29 @@ class FirestoreService {
   }
 
   Future<Nutrition> saveNutrition(Nutrition nutrition) async {
-    nutrition.id = _generateUuid();
+    nutrition.id ??= _generateUuid();
+
+    nutrition.date = DateTime(
+      nutrition.date.year,
+      nutrition.date.month,
+      nutrition.date.day,
+    );
 
     List<Nutrition> nutritionList = _cacheService.getNutrition();
-    nutritionList.add(nutrition);
+
+    int index = nutritionList.indexWhere(
+      (n) => n.date.isAtSameMomentAs(nutrition.date),
+    );
+
+    if (index > -1) {
+      nutrition.kcal += nutritionList[index].kcal;
+      nutrition.carbs += nutritionList[index].carbs;
+      nutrition.protein += nutritionList[index].protein;
+      nutrition.fat += nutritionList[index].fat;
+      nutritionList[index] = nutrition;
+    } else {
+      nutritionList.add(nutrition);
+    }
 
     await _usersCollection.doc(_authService.getUser()?.uid).set(
       {nutritionField: _fromNutrition(nutritionList)},

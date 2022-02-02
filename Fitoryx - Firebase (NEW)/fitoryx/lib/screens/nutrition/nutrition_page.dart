@@ -1,5 +1,6 @@
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/settings.dart';
+import 'package:fitoryx/screens/nutrition/add_nutrition_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/widgets/food_card.dart';
@@ -46,13 +47,16 @@ class _NutritionPageState extends State<NutritionPage> {
               IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   CupertinoPageRoute(
-                  //     fullscreenDialog: true,
-                  //     builder: (context) => FoodAddPage(updateFood: updateFood),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => AddNutritionPage(
+                        nutrition: _nutrition,
+                        updateNutrition: _updateNutrition,
+                      ),
+                    ),
+                  );
                 },
               ),
             ],
@@ -126,6 +130,12 @@ class _NutritionPageState extends State<NutritionPage> {
       _nutrition = nutrition;
       _settings = settings;
       _loading = false;
+    });
+  }
+
+  void _updateNutrition(Nutrition nutrition) {
+    setState(() {
+      _nutrition = nutrition;
     });
   }
 }
