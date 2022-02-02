@@ -58,6 +58,7 @@ class _NutritionPageState extends State<NutritionPage> {
             ],
           ),
           SliverFillRemaining(
+            hasScrollBody: false,
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 8.0),
               child: _loading
