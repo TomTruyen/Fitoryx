@@ -1,10 +1,11 @@
+import 'package:fitoryx/graphs/nutrition_graph.dart';
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/screens/nutrition/add_nutrition_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
-import 'package:fitoryx/widgets/food_card.dart';
 import 'package:fitoryx/widgets/loader.dart';
+import 'package:fitoryx/widgets/nutrition_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,7 @@ class _NutritionPageState extends State<NutritionPage> {
   final SettingsService _settingsService = SettingsService();
   final FirestoreService _firestoreService = FirestoreService();
 
+  List<Nutrition> _nutritions = [];
   Nutrition _nutrition = Nutrition();
   Settings _settings = Settings();
 
@@ -72,8 +74,49 @@ class _NutritionPageState extends State<NutritionPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Expanded(
+                          flex: 4,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 4.0,
+                            ),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 3.0,
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      margin: const EdgeInsets.only(left: 16),
+                                      child: const Text(
+                                        'Last week (calories)',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 5,
+                                    child: Container(
+                                      margin: const EdgeInsets.only(top: 16),
+                                      child: NutritionGraph(
+                                        nutritions: _nutritions,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
                           flex: 3,
-                          child: FoodCard(
+                          child: NutritionCard(
                             value: _nutrition.kcal,
                             goal: _settings.kcal,
                             text: 'kcal',
@@ -84,7 +127,7 @@ class _NutritionPageState extends State<NutritionPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.width / 3.0,
                               width: MediaQuery.of(context).size.width / 3.0,
-                              child: FoodCard(
+                              child: NutritionCard(
                                 value: _nutrition.carbs,
                                 goal: _settings.carbs,
                                 text: 'carbs',
@@ -94,7 +137,7 @@ class _NutritionPageState extends State<NutritionPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.width / 3.0,
                               width: MediaQuery.of(context).size.width / 3.0,
-                              child: FoodCard(
+                              child: NutritionCard(
                                 value: _nutrition.protein,
                                 goal: _settings.protein,
                                 text: 'protein',
@@ -104,7 +147,7 @@ class _NutritionPageState extends State<NutritionPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.width / 3.0,
                               width: MediaQuery.of(context).size.width / 3.0,
-                              child: FoodCard(
+                              child: NutritionCard(
                                 value: _nutrition.fat,
                                 goal: _settings.fat,
                                 text: 'fat',
@@ -123,10 +166,12 @@ class _NutritionPageState extends State<NutritionPage> {
   }
 
   void _init() async {
+    var nutritions = await _firestoreService.getNutrition();
     var nutrition = await _firestoreService.getNutritionByDay(DateTime.now());
     var settings = await _settingsService.getSettings();
 
     setState(() {
+      _nutritions = nutritions;
       _nutrition = nutrition;
       _settings = settings;
       _loading = false;
@@ -134,6 +179,14 @@ class _NutritionPageState extends State<NutritionPage> {
   }
 
   void _updateNutrition(Nutrition nutrition) {
+    int index = _nutritions.indexWhere(
+      (n) => n.date.isAtSameMomentAs(nutrition.date),
+    );
+
+    if (index > -1) {
+      _nutritions[index] = nutrition;
+    }
+
     setState(() {
       _nutrition = nutrition;
     });

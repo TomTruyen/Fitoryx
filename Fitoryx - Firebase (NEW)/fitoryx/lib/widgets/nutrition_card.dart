@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class FoodCard extends StatelessWidget {
+class NutritionCard extends StatelessWidget {
   final int? value;
   final int? goal;
   final String text;
   final bool macro;
 
-  const FoodCard(
+  const NutritionCard(
       {Key? key, this.value, this.goal, required this.text, this.macro = false})
       : super(key: key);
 
