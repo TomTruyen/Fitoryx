@@ -2,6 +2,7 @@ import 'package:fitoryx/graphs/nutrition_graph.dart';
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/screens/nutrition/add_nutrition_page.dart';
+import 'package:fitoryx/screens/nutrition/nutrition_history_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/widgets/loader.dart';
@@ -46,6 +47,20 @@ class _NutritionPageState extends State<NutritionPage> {
             pinned: true,
             title: const Text('Nutrition'),
             actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.watch_later_outlined),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => NutritionHistoryPage(
+                        nutritions: _nutritions,
+                      ),
+                    ),
+                  );
+                },
+              ),
               IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
@@ -185,6 +200,8 @@ class _NutritionPageState extends State<NutritionPage> {
 
     if (index > -1) {
       _nutritions[index] = nutrition;
+    } else {
+      _nutritions.add(nutrition);
     }
 
     setState(() {
