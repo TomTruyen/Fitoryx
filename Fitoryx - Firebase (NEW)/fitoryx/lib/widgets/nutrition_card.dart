@@ -36,16 +36,17 @@ class NutritionCard extends StatelessWidget {
                     ),
                   ),
                   const TextSpan(text: ''),
-                  TextSpan(
-                    text: macro ? "/${goal}g" : "/$goal",
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: macro
-                          ? Theme.of(context).textTheme.bodyText2!.fontSize! *
-                              0.8
-                          : Theme.of(context).textTheme.bodyText2?.fontSize,
-                    ),
-                  )
+                  if (goal != null)
+                    TextSpan(
+                      text: macro ? "/${goal}g" : "/$goal",
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: macro
+                            ? Theme.of(context).textTheme.bodyText2!.fontSize! *
+                                0.8
+                            : Theme.of(context).textTheme.bodyText2?.fontSize,
+                      ),
+                    )
                 ],
               ),
             ),
