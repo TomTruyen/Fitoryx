@@ -50,12 +50,15 @@ class _NutritionPageState extends State<NutritionPage> {
               IconButton(
                 icon: const Icon(Icons.watch_later_outlined),
                 onPressed: () {
+                  var historyList = List.of(_nutritions);
+                  historyList.removeLast();
+
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
                       fullscreenDialog: true,
                       builder: (context) => NutritionHistoryPage(
-                        nutritions: _nutritions,
+                        nutritions: historyList,
                       ),
                     ),
                   );
