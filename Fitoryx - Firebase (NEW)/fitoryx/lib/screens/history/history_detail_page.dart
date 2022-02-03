@@ -86,7 +86,7 @@ class HistoryDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    DateFormat('EEEE, d MMMM y, H:mm').format(history.date),
+                    DateFormat('EEEE, dd MMMM y, H:mm').format(history.date),
                     style: TextStyle(
                       color: Colors.grey[800],
                       fontSize:

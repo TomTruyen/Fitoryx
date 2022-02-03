@@ -8,7 +8,6 @@ import 'package:fitoryx/widgets/form_input.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
