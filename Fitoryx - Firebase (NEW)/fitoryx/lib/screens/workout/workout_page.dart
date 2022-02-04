@@ -5,7 +5,6 @@ import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/workout/build_workout_page.dart';
 import 'package:fitoryx/screens/workout/start_workout_page.dart';
-import 'package:fitoryx/services/cache_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/widgets/alert.dart';
@@ -30,7 +29,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
   bool _loading = true;
 
   final FirestoreService _firestoreService = FirestoreService();
-  final CacheService _cacheService = CacheService();
   final SettingsService _settingsService = SettingsService();
   Settings _settings = Settings();
 
@@ -329,8 +327,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
     _workouts.sort(
       (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
     );
-
-    _cacheService.setWorkouts(_workouts);
 
     if (!isAscending) {
       _workouts = _workouts.reversed.toList();
