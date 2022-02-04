@@ -98,7 +98,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: Center(
                 child: Container(
                   margin: const EdgeInsets.only(
-                    bottom: 76.0,
+                    bottom: 66,
                   ), // move it up a little (height + padding of button) so it aligns with history page
                   child: _loading
                       ? const Loader()

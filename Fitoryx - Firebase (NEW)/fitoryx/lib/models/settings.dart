@@ -1,3 +1,4 @@
+import 'package:fitoryx/models/graph_type.dart';
 import 'package:fitoryx/models/unit_type.dart';
 
 class Settings {
@@ -14,6 +15,9 @@ class Settings {
   int rest;
   bool restEnabled;
   bool vibrateEnabled;
+
+  // Graphs
+  List<GraphType> graphs = [];
 
   Settings({
     this.weightUnit = UnitType.metric,

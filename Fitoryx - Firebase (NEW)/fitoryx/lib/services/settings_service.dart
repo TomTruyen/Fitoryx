@@ -1,3 +1,4 @@
+import 'package:fitoryx/models/graph_type.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/unit_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,7 @@ class SettingsService {
   final String restKey = 'rest';
   final String restEnabledKey = 'restEnabled';
   final String vibrateEnabledKey = 'vibrateEnabled';
+  final String graphsKey = "graphs";
 
   Future<SharedPreferences> _getPrefs() async {
     return await SharedPreferences.getInstance();
@@ -77,10 +79,19 @@ class SettingsService {
     await prefs.setBool(vibrateEnabledKey, value);
   }
 
+  Future<void> setGraphs(List<GraphType> graphs) async {
+    List<String> graphList =
+        graphs.map((graph) => GraphTypeHelper.toValue(graph)).toList();
+
+    var prefs = await _getPrefs();
+
+    await prefs.setStringList(graphsKey, graphList);
+  }
+
   Future<Settings> getSettings() async {
     var prefs = await _getPrefs();
 
-    return Settings(
+    var settings = Settings(
       weightUnit: UnitTypeHelper.fromValue(prefs.getString(weightUnitKey)),
       kcal: prefs.getInt(kcalKey),
       carbs: prefs.getInt(carbsKey),
@@ -90,5 +101,13 @@ class SettingsService {
       restEnabled: prefs.getBool(restEnabledKey) ?? true,
       vibrateEnabled: prefs.getBool(vibrateEnabledKey) ?? true,
     );
+
+    settings.graphs = prefs
+            .getStringList(graphsKey)
+            ?.map((graph) => GraphTypeHelper.fromValue(graph))
+            .toList() ??
+        [];
+
+    return settings;
   }
 }
