@@ -4,17 +4,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class NutritionGraph extends StatefulWidget {
+class NutritionGraph extends StatelessWidget {
+  final int total = 7;
   final List<Nutrition> nutritions;
 
   const NutritionGraph({Key? key, required this.nutritions}) : super(key: key);
-
-  @override
-  State<NutritionGraph> createState() => _NutritionGraphState();
-}
-
-class _NutritionGraphState extends State<NutritionGraph> {
-  final int total = 7;
 
   @override
   Widget build(BuildContext context) {
@@ -92,14 +86,13 @@ class _NutritionGraphState extends State<NutritionGraph> {
 
                 var date = now.add(Duration(days: x.toInt()));
 
-                int index = widget.nutritions.indexWhere(
+                int index = nutritions.indexWhere(
                   (nutrition) => nutrition.date == date,
                 );
 
                 var tooltip = NutritionTooltip();
                 if (index > -1) {
-                  tooltip =
-                      NutritionTooltip.fromNutrition(widget.nutritions[index]);
+                  tooltip = NutritionTooltip.fromNutrition(nutritions[index]);
                 }
 
                 return [
@@ -125,13 +118,13 @@ class _NutritionGraphState extends State<NutritionGraph> {
     for (int i = 1; i < total + 1; i++) {
       var date = now.add(Duration(days: i));
 
-      int index = widget.nutritions.indexWhere(
+      int index = nutritions.indexWhere(
         (nutrition) => nutrition.date.isAtSameMomentAs(date),
       );
 
       if (index > -1) {
         spots.add(
-          FlSpot(i.toDouble(), widget.nutritions[index].kcal.toDouble()),
+          FlSpot(i.toDouble(), nutritions[index].kcal.toDouble()),
         );
       } else {
         spots.add(FlSpot(i.toDouble(), 0));
