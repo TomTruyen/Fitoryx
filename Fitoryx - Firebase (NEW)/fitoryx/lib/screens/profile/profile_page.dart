@@ -1,7 +1,16 @@
+import 'package:fitoryx/graphs/workouts_per_week_graph.dart';
+import 'package:fitoryx/models/graph_type.dart';
+import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/settings.dart';
+import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/settings/settings_page.dart';
+import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
+import 'package:fitoryx/utils/graph_type_extension.dart';
+import 'package:fitoryx/widgets/amount_picker_dialog.dart';
+import 'package:fitoryx/widgets/graph_card.dart';
 import 'package:fitoryx/widgets/graphs_dialog.dart';
+import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +22,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final FirestoreService _firestoreService = FirestoreService();
   final SettingsService _settingsService = SettingsService();
+
   Settings _settings = Settings();
+  List<WorkoutHistory> _history = [];
 
   @override
   void initState() {
@@ -91,6 +103,41 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+          if (_settings.graphs.isNotEmpty)
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  if (_settings.graphs.has(GraphType.workouts))
+                    GraphCard(
+                      title: 'Workouts per week',
+                      graph: WorkoutsPerWeekGraph(
+                        history: _history,
+                        goal: _settings.goals.workoutGoal,
+                      ),
+                      popup: PopupMenu(
+                        isHeader: true,
+                        items: <PopupOption>[
+                          PopupOption(text: 'Edit goal', value: 'goal')
+                        ],
+                        onSelected: (selection) async {
+                          switch (selection) {
+                            case 'goal':
+                              _settings.goals.workoutGoal =
+                                  await showAmountPicker(
+                                context,
+                                title: 'Edit goal',
+                                goal: _settings.goals.workoutGoal,
+                                amount: 7,
+                              );
+
+                              _updateGoals();
+                          }
+                        },
+                      ),
+                    ),
+                ],
+              ),
+            ),
         ],
       ),
     );
@@ -98,10 +145,17 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _init() async {
     var settings = await _settingsService.getSettings();
+    var history = await _firestoreService.getHistory();
 
     setState(() {
       _settings = settings;
+      _history = history;
     });
+  }
+
+  void _updateGoals() async {
+    await _settingsService.setGraphGoals(_settings.goals);
+    _updateSettings();
   }
 
   void _updateSettings() async {

@@ -1,3 +1,4 @@
+import 'package:fitoryx/models/graph_goal.dart';
 import 'package:fitoryx/models/graph_type.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/unit_type.dart';
@@ -22,6 +23,7 @@ class SettingsService {
   final String restEnabledKey = 'restEnabled';
   final String vibrateEnabledKey = 'vibrateEnabled';
   final String graphsKey = "graphs";
+  final String graphGoalsKey = "graphGoals";
 
   Future<SharedPreferences> _getPrefs() async {
     return await SharedPreferences.getInstance();
@@ -88,6 +90,14 @@ class SettingsService {
     await prefs.setStringList(graphsKey, graphList);
   }
 
+  Future<void> setGraphGoals(GraphGoal graphGoal) async {
+    String goals = graphGoal.toString();
+
+    var prefs = await _getPrefs();
+
+    await prefs.setString(graphGoalsKey, goals);
+  }
+
   Future<Settings> getSettings() async {
     var prefs = await _getPrefs();
 
@@ -107,6 +117,8 @@ class SettingsService {
             ?.map((graph) => GraphTypeHelper.fromValue(graph))
             .toList() ??
         [];
+
+    settings.goals = GraphGoal.fromString(prefs.getString(graphGoalsKey));
 
     return settings;
   }

@@ -1,3 +1,4 @@
+import 'package:fitoryx/models/graph_goal.dart';
 import 'package:fitoryx/models/graph_type.dart';
 import 'package:fitoryx/models/unit_type.dart';
 
@@ -17,6 +18,7 @@ class Settings {
   bool vibrateEnabled;
 
   // Graphs
+  GraphGoal goals = GraphGoal();
   List<GraphType> graphs = [];
 
   Settings({
