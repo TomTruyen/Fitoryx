@@ -5,6 +5,7 @@ import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/services/cache_service.dart';
+import 'package:fitoryx/utils/datetime_extension.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreService {
@@ -222,8 +223,8 @@ class FirestoreService {
       await fetchAll();
     }
 
-    DateTime start = DateTime(date.year, date.month, date.day);
-    DateTime end = DateTime(date.year, date.month, date.day + 1);
+    DateTime start = date.today();
+    DateTime end = date.today().add(const Duration(days: 1));
 
     return _cacheService
         .getHistory()

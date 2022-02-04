@@ -1,5 +1,6 @@
 import 'package:fitoryx/graphs/models/nutrition_tooltip.dart';
 import 'package:fitoryx/models/nutrition.dart';
+import 'package:fitoryx/utils/datetime_extension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,8 +28,8 @@ class NutritionGraph extends StatelessWidget {
               ),
               reservedSize: 22,
               getTitles: (value) {
-                DateTime now = DateTime.now().subtract(Duration(days: total));
-                now = DateTime(now.year, now.month, now.day);
+                DateTime now =
+                    DateTime.now().today().subtract(Duration(days: total));
 
                 var date = now.add(Duration(days: value.toInt()));
 
@@ -113,8 +114,7 @@ class NutritionGraph extends StatelessWidget {
   List<LineChartBarData> _getLineBars() {
     List<FlSpot> spots = [];
 
-    DateTime now = DateTime.now().subtract(Duration(days: total));
-    now = DateTime(now.year, now.month, now.day);
+    DateTime now = DateTime.now().subtract(Duration(days: total)).today();
     for (int i = 1; i < total + 1; i++) {
       var date = now.add(Duration(days: i));
 
@@ -135,7 +135,7 @@ class NutritionGraph extends StatelessWidget {
       LineChartBarData(
         spots: spots,
         isCurved: true,
-        curveSmoothness: 0.5,
+        curveSmoothness: 0.25,
         preventCurveOverShooting: true,
         colors: [
           Colors.blueAccent[700]!,
