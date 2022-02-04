@@ -1,4 +1,5 @@
 import 'package:fitoryx/models/graph_type.dart';
+import 'package:fitoryx/utils/graph_type_extension.dart';
 import 'package:flutter/material.dart';
 
 Future<List<GraphType>> showGraphsDialog(
@@ -52,14 +53,10 @@ Future<List<GraphType>> showGraphsDialog(
                               title: Text(
                                 GraphTypeHelper.toValue(graphType),
                               ),
-                              value: newGraphs.indexWhere(
-                                      (e) => e.name == graphType.name) >
-                                  -1,
+                              value: newGraphs.has(graphType),
                               onChanged: (value) {
                                 if (value != null) {
-                                  if (newGraphs.indexWhere(
-                                          (e) => e.name == graphType.name) >
-                                      -1) {
+                                  if (newGraphs.has(graphType)) {
                                     setState(() {
                                       newGraphs.remove(graphType);
                                     });
