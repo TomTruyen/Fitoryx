@@ -13,98 +13,95 @@ class NutritionGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: LineChart(
-        LineChartData(
-          gridData: FlGridData(show: false),
-          titlesData: FlTitlesData(
-            show: true,
-            bottomTitles: SideTitles(
-              showTitles: true,
-              interval: 1,
-              getTextStyles: (context, value) => const TextStyle(
-                color: Colors.blueAccent,
-                fontSize: 10,
-              ),
-              reservedSize: 22,
-              getTitles: (value) {
-                DateTime now =
-                    DateTime.now().today().subtract(Duration(days: total));
-
-                var date = now.add(Duration(days: value.toInt()));
-
-                return DateFormat('dd-MM').format(date);
-              },
+    return LineChart(
+      LineChartData(
+        gridData: FlGridData(show: false),
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: SideTitles(
+            showTitles: true,
+            interval: 1,
+            getTextStyles: (context, value) => const TextStyle(
+              color: Colors.blueAccent,
+              fontSize: 10,
             ),
-            topTitles: SideTitles(showTitles: false),
-            leftTitles: SideTitles(showTitles: false),
-            rightTitles: SideTitles(showTitles: false),
-          ),
-          borderData: FlBorderData(
-            show: true,
-            border: Border(
-              bottom: BorderSide(color: Colors.blue[50]!, width: 1),
-            ),
-          ),
-          minX: 1,
-          maxX: total.toDouble(),
-          lineBarsData: _getLineBars(),
-          showingTooltipIndicators: [],
-          lineTouchData: LineTouchData(
-            enabled: true,
-            getTouchedSpotIndicator:
-                (LineChartBarData data, List<int> touchSpots) {
-              return touchSpots.map((touchSpot) {
-                return TouchedSpotIndicatorData(
-                  FlLine(strokeWidth: 0, color: Colors.transparent),
-                  FlDotData(
-                    show: true,
-                    getDotPainter: (
-                      FlSpot spot,
-                      double percent,
-                      LineChartBarData bar,
-                      int index,
-                    ) {
-                      return FlDotCirclePainter(
-                        color: Colors.blueAccent[700],
-                        radius: 5.0,
-                        strokeWidth: 0,
-                      );
-                    },
-                  ),
-                );
-              }).toList();
+            reservedSize: 22,
+            getTitles: (value) {
+              DateTime now =
+                  DateTime.now().today().subtract(Duration(days: total));
+
+              var date = now.add(Duration(days: value.toInt()));
+
+              return DateFormat('dd-MM').format(date);
             },
-            touchTooltipData: LineTouchTooltipData(
-              fitInsideVertically: true,
-              fitInsideHorizontally: true,
-              tooltipPadding: const EdgeInsets.all(8),
-              getTooltipItems: (List<LineBarSpot> spots) {
-                var x = spots[0].x;
+          ),
+          topTitles: SideTitles(showTitles: false),
+          leftTitles: SideTitles(showTitles: false),
+          rightTitles: SideTitles(showTitles: false),
+        ),
+        borderData: FlBorderData(
+          show: true,
+          border: Border(
+            bottom: BorderSide(color: Colors.blue[50]!, width: 1),
+          ),
+        ),
+        minX: 1,
+        maxX: total.toDouble(),
+        lineBarsData: _getLineBars(),
+        showingTooltipIndicators: [],
+        lineTouchData: LineTouchData(
+          enabled: true,
+          getTouchedSpotIndicator:
+              (LineChartBarData data, List<int> touchSpots) {
+            return touchSpots.map((touchSpot) {
+              return TouchedSpotIndicatorData(
+                FlLine(strokeWidth: 0, color: Colors.transparent),
+                FlDotData(
+                  show: true,
+                  getDotPainter: (
+                    FlSpot spot,
+                    double percent,
+                    LineChartBarData bar,
+                    int index,
+                  ) {
+                    return FlDotCirclePainter(
+                      color: Colors.blueAccent[700],
+                      radius: 5.0,
+                      strokeWidth: 0,
+                    );
+                  },
+                ),
+              );
+            }).toList();
+          },
+          touchTooltipData: LineTouchTooltipData(
+            fitInsideVertically: true,
+            fitInsideHorizontally: true,
+            tooltipPadding: const EdgeInsets.all(8),
+            getTooltipItems: (List<LineBarSpot> spots) {
+              var x = spots[0].x;
 
-                DateTime now = DateTime.now().subtract(Duration(days: total));
-                now = DateTime(now.year, now.month, now.day);
+              DateTime now = DateTime.now().subtract(Duration(days: total));
+              now = DateTime(now.year, now.month, now.day);
 
-                var date = now.add(Duration(days: x.toInt()));
+              var date = now.add(Duration(days: x.toInt()));
 
-                int index = nutritions.indexWhere(
-                  (nutrition) => nutrition.date == date,
-                );
+              int index = nutritions.indexWhere(
+                (nutrition) => nutrition.date == date,
+              );
 
-                var tooltip = NutritionTooltip();
-                if (index > -1) {
-                  tooltip = NutritionTooltip.fromNutrition(nutritions[index]);
-                }
+              var tooltip = NutritionTooltip();
+              if (index > -1) {
+                tooltip = NutritionTooltip.fromNutrition(nutritions[index]);
+              }
 
-                return [
-                  LineTooltipItem(
-                    tooltip.toString(),
-                    TextStyle(color: Colors.blue[50]),
-                  )
-                ];
-              },
-            ),
-            // touchCallback: (LineTouchResponse touchResponse) {},
+              return [
+                LineTooltipItem(
+                  tooltip.toString(),
+                  TextStyle(color: Colors.blue[50]),
+                )
+              ];
+            },
           ),
         ),
       ),
@@ -134,9 +131,6 @@ class NutritionGraph extends StatelessWidget {
     return [
       LineChartBarData(
         spots: spots,
-        isCurved: true,
-        curveSmoothness: 0.25,
-        preventCurveOverShooting: true,
         colors: [
           Colors.blueAccent[700]!,
           Colors.blueAccent[400]!,
@@ -145,7 +139,7 @@ class NutritionGraph extends StatelessWidget {
         barWidth: 2.0,
         isStrokeCapRound: true,
         dotData: FlDotData(
-          show: false,
+          show: true,
         ),
         belowBarData: BarAreaData(
           show: true,

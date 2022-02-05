@@ -1,5 +1,7 @@
+import 'package:fitoryx/graphs/nutrition_graph.dart';
 import 'package:fitoryx/graphs/workouts_per_week_graph.dart';
 import 'package:fitoryx/models/graph_type.dart';
+import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout_history.dart';
@@ -30,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Settings _settings = Settings();
   List<WorkoutHistory> _history = [];
+  List<Nutrition> _nutrition = [];
 
   @override
   void initState() {
@@ -181,6 +184,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                       ),
                     ),
+                  if (_settings.graphs.has(GraphType.calories))
+                    GraphCard(
+                      title: 'Calories this week',
+                      graph: Container(
+                        padding: const EdgeInsets.all(8),
+                        child: NutritionGraph(
+                          nutritions: _nutrition,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -192,10 +205,12 @@ class _ProfilePageState extends State<ProfilePage> {
   void _init() async {
     var settings = await _settingsService.getSettings();
     var history = await _firestoreService.getHistory();
+    var nutrition = await _firestoreService.getNutrition();
 
     setState(() {
       _settings = settings;
       _history = history;
+      _nutrition = nutrition;
     });
   }
 

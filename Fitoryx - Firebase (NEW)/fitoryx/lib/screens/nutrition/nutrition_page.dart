@@ -1,10 +1,12 @@
-import 'package:fitoryx/graphs/nutrition_graph.dart';
+import 'package:fitoryx/graphs/nutrition_calories_graph.dart';
+import 'package:fitoryx/graphs/nutrition_macro_graph.dart';
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/screens/nutrition/add_nutrition_page.dart';
 import 'package:fitoryx/screens/nutrition/nutrition_history_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
+import 'package:fitoryx/widgets/graph_card.dart';
 import 'package:fitoryx/widgets/loader.dart';
 import 'package:fitoryx/widgets/nutrition_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -88,47 +90,32 @@ class _NutritionPageState extends State<NutritionPage> {
               child: _loading
                   ? const Loader()
                   : Column(
-                      mainAxisSize: MainAxisSize.max,
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Expanded(
-                          flex: 4,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 4.0,
-                            ),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height / 3.0,
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      margin: const EdgeInsets.only(left: 16),
-                                      child: const Text(
-                                        'Last week (calories)',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
+                          flex: 3,
+                          child: GraphCard(
+                            title: "Daily nutrition",
+                            height: null,
+                            graph: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 3,
+                                  child: NutritionCaloriesGraph(
+                                    nutrition: _nutrition,
+                                    settings: _settings,
                                   ),
-                                  Expanded(
-                                    flex: 5,
-                                    child: Container(
-                                      margin: const EdgeInsets.only(top: 16),
-                                      child: NutritionGraph(
-                                        nutritions: _nutritions,
-                                      ),
-                                    ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: NutritionMacroGraph(
+                                    nutrition: _nutrition,
+                                    settings: _settings,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

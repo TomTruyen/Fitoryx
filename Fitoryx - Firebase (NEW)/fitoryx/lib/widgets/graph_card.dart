@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 class GraphCard extends StatelessWidget {
   final String title;
   final Widget graph;
-  final PopupMenu popup;
+  final PopupMenu? popup;
+  final double? height;
 
-  const GraphCard(
-      {Key? key, required this.title, required this.graph, required this.popup})
-      : super(key: key);
+  const GraphCard({
+    Key? key,
+    required this.title,
+    required this.graph,
+    this.popup,
+    this.height = 250,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +26,12 @@ class GraphCard extends StatelessWidget {
         vertical: 4.0,
       ),
       child: Container(
-        height: MediaQuery.of(context).size.height / 3.0,
+        height: height,
         padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -38,16 +42,14 @@ class GraphCard extends StatelessWidget {
                       style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
-                  popup,
+                  popup ?? Container(),
                 ],
               ),
             ),
-            Expanded(
-              flex: 4,
-              child: Container(
-                margin: const EdgeInsets.only(top: 16.0),
-                child: graph,
-              ),
+            Container(
+              height: 175,
+              padding: const EdgeInsets.only(top: 8),
+              child: graph,
             ),
           ],
         ),
