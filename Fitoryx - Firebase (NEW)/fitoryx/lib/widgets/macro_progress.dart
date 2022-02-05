@@ -14,11 +14,11 @@ class MacroProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 2),
-          child: Row(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      child: Column(
+        children: <Widget>[
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
@@ -49,20 +49,20 @@ class MacroProgress extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 5),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: SizedBox(
-            height: 10,
-            child: LinearProgressIndicator(
-              value: goal != null ? (value / goal!).abs() : 1, // percent filled
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[700]!),
-              backgroundColor: Colors.blue[200],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: SizedBox(
+              height: 10,
+              child: LinearProgressIndicator(
+                value:
+                    goal != null ? (value / goal!).abs() : 1, // percent filled
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[700]!),
+                backgroundColor: Colors.blue[200],
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
