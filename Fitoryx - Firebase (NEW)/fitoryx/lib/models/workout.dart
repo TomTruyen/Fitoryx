@@ -47,6 +47,50 @@ class Workout {
     return volume;
   }
 
+  double getExerciseVolume(Exercise exercise) {
+    double volume = 0;
+
+    exercises.where((e) => e.equals(exercise)).forEach((e) {
+      for (var set in e.sets) {
+        volume += (set.reps ?? 0) * (set.weight ?? 0);
+      }
+    });
+
+    return volume;
+  }
+
+  int getExerciseMaxReps(Exercise exercise) {
+    int maxReps = 0;
+
+    exercises.where((e) => e.equals(exercise)).forEach((e) {
+      for (var set in e.sets) {
+        int reps = set.reps ?? 0;
+
+        if (maxReps < reps) {
+          maxReps = reps;
+        }
+      }
+    });
+
+    return maxReps;
+  }
+
+  double getExerciseMaxWeight(Exercise exercise) {
+    double maxWeight = 0;
+
+    exercises.where((e) => e.equals(exercise)).forEach((e) {
+      for (var set in e.sets) {
+        double weight = set.weight ?? 0;
+
+        if (maxWeight < weight) {
+          maxWeight = weight;
+        }
+      }
+    });
+
+    return maxWeight;
+  }
+
   static Workout fromJson(Map<String, dynamic> json) {
     var workout = Workout(
       id: json["id"],

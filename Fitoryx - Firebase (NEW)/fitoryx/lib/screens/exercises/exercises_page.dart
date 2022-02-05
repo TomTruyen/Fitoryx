@@ -5,6 +5,7 @@ import 'package:fitoryx/models/exercise_filter.dart';
 import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_detail_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
@@ -41,6 +42,9 @@ class _ExercisesPagesState extends State<ExercisesPages> {
 
   final FirestoreService _firestoreService = FirestoreService();
   final SettingsService _settingsService = SettingsService();
+
+  // History (used in details)
+  List<WorkoutHistory> _history = [];
 
   // Settings
   Settings _settings = Settings();
@@ -134,8 +138,11 @@ class _ExercisesPagesState extends State<ExercisesPages> {
                                     context,
                                     CupertinoPageRoute(
                                       fullscreenDialog: true,
-                                      builder: (context) =>
-                                          ExerciseDetailPage(exercise: item),
+                                      builder: (context) => ExerciseDetailPage(
+                                        exercise: item,
+                                        history: _history,
+                                        settings: _settings,
+                                      ),
                                     ),
                                   );
                                 },
@@ -177,9 +184,17 @@ class _ExercisesPagesState extends State<ExercisesPages> {
 
     _updateExercisesWithDividers();
 
+    var history = await _firestoreService.getHistory();
     var settings = await _settingsService.getSettings();
 
+    for (int i = 0; i < history.length; i++) {
+      if (history[i].workout.unit != _settings.weightUnit) {
+        history[i].workout.changeUnit(_settings.weightUnit);
+      }
+    }
+
     setState(() {
+      _history = history;
       _settings = settings;
       _loading = false;
     });

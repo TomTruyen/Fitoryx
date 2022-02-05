@@ -151,7 +151,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                   history: history.workout.unit !=
                                           _settings.weightUnit
                                       ? history.clone(
-                                          newUnit: _settings.weightUnit)
+                                          newUnit: _settings.weightUnit,
+                                        )
                                       : history.clone(),
                                   deleteHistory: _deleteHistory,
                                 ),
