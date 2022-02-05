@@ -4,12 +4,14 @@ import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/settings/settings_page.dart';
+import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/utils/graph_type_extension.dart';
 import 'package:fitoryx/widgets/amount_picker_dialog.dart';
 import 'package:fitoryx/widgets/graph_card.dart';
 import 'package:fitoryx/widgets/graphs_dialog.dart';
+import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final AuthService _authService = AuthService();
   final FirestoreService _firestoreService = FirestoreService();
   final SettingsService _settingsService = SettingsService();
 
@@ -63,31 +66,74 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           SliverToBoxAdapter(
             child: Container(
-              alignment: Alignment.centerRight,
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const Icon(
+                    Icons.account_circle,
+                    size: 50,
                   ),
-                  primary: Theme.of(context).textTheme.bodyText2?.color,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const <Widget>[
-                    Icon(Icons.remove_red_eye),
-                    SizedBox(width: 5.0),
-                    Text('Toggle graphs'),
-                  ],
-                ),
-                onPressed: () async {
-                  _settings.graphs =
-                      await showGraphsDialog(context, _settings.graphs);
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          _authService.getUser()?.email ?? "",
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          "${_history.length} workouts",
+                          style: const TextStyle(fontSize: 14),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const ListDivider(
+                    text: 'Dashboard',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      primary: Theme.of(context).textTheme.bodyText2?.color,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const <Widget>[
+                        Icon(Icons.remove_red_eye),
+                        SizedBox(width: 5.0),
+                        Text('Toggle graphs'),
+                      ],
+                    ),
+                    onPressed: () async {
+                      _settings.graphs =
+                          await showGraphsDialog(context, _settings.graphs);
 
-                  await _settingsService.setGraphs(_settings.graphs);
+                      await _settingsService.setGraphs(_settings.graphs);
 
-                  _updateSettings();
-                },
+                      _updateSettings();
+                    },
+                  ),
+                ],
               ),
             ),
           ),
