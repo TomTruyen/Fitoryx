@@ -43,6 +43,8 @@ class NutritionCaloriesGraph extends StatelessWidget {
               ),
               PieChart(
                 PieChartData(
+                  startDegreeOffset: -90,
+                  sectionsSpace: 0,
                   centerSpaceRadius: 50,
                   sections: _getSections(),
                   borderData: FlBorderData(

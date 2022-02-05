@@ -5,7 +5,7 @@ class GraphCard extends StatelessWidget {
   final String title;
   final Widget graph;
   final PopupMenu? popup;
-  final double? height;
+  final double height;
 
   const GraphCard({
     Key? key,

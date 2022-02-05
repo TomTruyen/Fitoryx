@@ -3,12 +3,12 @@ import 'package:fitoryx/graphs/nutrition_macro_graph.dart';
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/screens/nutrition/add_nutrition_page.dart';
-import 'package:fitoryx/screens/nutrition/nutrition_history_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/widgets/graph_card.dart';
+import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/loader.dart';
-import 'package:fitoryx/widgets/nutrition_card.dart';
+import 'package:fitoryx/widgets/nutrition_history_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class _NutritionPageState extends State<NutritionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
             automaticallyImplyLeading: false,
@@ -49,23 +49,6 @@ class _NutritionPageState extends State<NutritionPage> {
             pinned: true,
             title: const Text('Nutrition'),
             actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.watch_later_outlined),
-                onPressed: () {
-                  var historyList = List.of(_nutritions);
-                  historyList.removeLast();
-
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => NutritionHistoryPage(
-                        nutritions: historyList,
-                      ),
-                    ),
-                  );
-                },
-              ),
               IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
@@ -84,86 +67,59 @@ class _NutritionPageState extends State<NutritionPage> {
             ],
           ),
           SliverFillRemaining(
-            hasScrollBody: false,
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
-              child: _loading
-                  ? const Loader()
-                  : Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 3,
-                          child: GraphCard(
-                            title: "Daily nutrition",
-                            height: null,
-                            graph: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 3,
-                                  child: NutritionCaloriesGraph(
-                                    nutrition: _nutrition,
-                                    settings: _settings,
-                                  ),
+            hasScrollBody: true,
+            child: _loading
+                ? const Loader()
+                : Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 225,
+                        child: GraphCard(
+                          title: "Daily nutrition",
+                          height: 225,
+                          graph: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                flex: 3,
+                                child: NutritionCaloriesGraph(
+                                  nutrition: _nutrition,
+                                  settings: _settings,
                                 ),
-                                Expanded(
-                                  flex: 4,
-                                  child: NutritionMacroGraph(
-                                    nutrition: _nutrition,
-                                    settings: _settings,
-                                  ),
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: NutritionMacroGraph(
+                                  nutrition: _nutrition,
+                                  settings: _settings,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: NutritionCard(
-                            value: _nutrition.kcal,
-                            goal: _settings.kcal,
-                            text: 'kcal',
+                      ),
+                      const ListDivider(
+                        text: 'History',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              Nutrition nutrition = _nutritions[index];
+
+                              return NutritionHistoryCard(nutrition: nutrition);
+                            },
+                            itemCount: _nutritions.length,
                           ),
                         ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              height: MediaQuery.of(context).size.width / 3.0,
-                              width: MediaQuery.of(context).size.width / 3.0,
-                              child: NutritionCard(
-                                value: _nutrition.carbs,
-                                goal: _settings.carbs,
-                                text: 'carbs',
-                                macro: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.width / 3.0,
-                              width: MediaQuery.of(context).size.width / 3.0,
-                              child: NutritionCard(
-                                value: _nutrition.protein,
-                                goal: _settings.protein,
-                                text: 'protein',
-                                macro: true,
-                              ),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.width / 3.0,
-                              width: MediaQuery.of(context).size.width / 3.0,
-                              child: NutritionCard(
-                                value: _nutrition.fat,
-                                goal: _settings.fat,
-                                text: 'fat',
-                                macro: true,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-            ),
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),
@@ -176,7 +132,7 @@ class _NutritionPageState extends State<NutritionPage> {
     var settings = await _settingsService.getSettings();
 
     setState(() {
-      _nutritions = nutritions;
+      _nutritions = nutritions.reversed.toList();
       _nutrition = nutrition;
       _settings = settings;
       _loading = false;

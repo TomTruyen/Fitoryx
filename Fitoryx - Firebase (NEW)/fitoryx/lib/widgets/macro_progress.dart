@@ -41,9 +41,13 @@ class MacroProgress extends StatelessWidget {
                     ),
                     if (goal != null)
                       TextSpan(
-                        text: "/${goal}g",
+                        text: "/$goal",
                         style: const TextStyle(fontSize: 12),
                       ),
+                    const TextSpan(
+                      text: "g",
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ],
                 ),
               ),

@@ -14,7 +14,7 @@ class NutritionMacroGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 16),
+      margin: const EdgeInsets.only(right: 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
