@@ -37,7 +37,6 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
             title: Text(

@@ -36,7 +36,6 @@ class _BuildWorkoutPageState extends State<BuildWorkoutPage> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
             title: Text(!widget.isEdit ? 'Create Workout' : 'Edit Workout'),

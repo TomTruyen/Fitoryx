@@ -47,13 +47,12 @@ class _SettingsPageState extends State<SettingsPage> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
+          const SliverAppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            leading: const CloseButton(),
-            title: const Text('Settings'),
+            leading: CloseButton(),
+            title: Text('Settings'),
           ),
           SliverList(
             delegate: SliverChildListDelegate(

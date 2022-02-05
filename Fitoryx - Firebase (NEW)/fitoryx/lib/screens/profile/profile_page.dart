@@ -48,7 +48,6 @@ class _ProfilePageState extends State<ProfilePage> {
         slivers: <Widget>[
           SliverAppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
             title: const Text('Profile'),

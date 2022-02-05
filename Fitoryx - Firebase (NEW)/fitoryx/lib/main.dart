@@ -83,14 +83,15 @@ class _MyAppState extends State<MyApp> {
           primary: Colors.grey[900],
         ),
       ),
-      appBarTheme: const AppBarTheme(
-        titleTextStyle: TextStyle(
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.grey[50],
+        titleTextStyle: const TextStyle(
           fontSize: 20,
           color: Colors.black,
           fontWeight: FontWeight.w600,
         ),
-        iconTheme: IconThemeData(color: Colors.black),
-        actionsIconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
+        actionsIconTheme: const IconThemeData(color: Colors.black),
       ),
       textTheme: TextTheme(
         // Main Text

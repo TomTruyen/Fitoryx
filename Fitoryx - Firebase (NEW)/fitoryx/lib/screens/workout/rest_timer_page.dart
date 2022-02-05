@@ -81,12 +81,11 @@ class _RestTimerPageState extends State<RestTimerPage>
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
-            backgroundColor: Colors.grey[50],
+          const SliverAppBar(
             floating: true,
             pinned: true,
             automaticallyImplyLeading: false,
-            title: const Text('Rest Timer'),
+            title: Text('Rest Timer'),
           ),
           SliverFillRemaining(
             hasScrollBody: false,

@@ -47,12 +47,11 @@ class _HistoryCalendarPageState extends State<HistoryCalendarPage> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
-            backgroundColor: Colors.grey[50],
+          const SliverAppBar(
             floating: true,
             pinned: true,
-            leading: const CloseButton(),
-            title: const Text('Calendar'),
+            leading: CloseButton(),
+            title: Text('Calendar'),
           ),
           SliverFillRemaining(
             hasScrollBody: false,

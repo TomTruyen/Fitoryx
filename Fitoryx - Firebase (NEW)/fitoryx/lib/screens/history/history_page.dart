@@ -51,7 +51,6 @@ class _HistoryPageState extends State<HistoryPage> {
           SliverAppBar(
             automaticallyImplyLeading: false,
             leading: widget.day == null ? null : const CloseButton(),
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
             title: Text(

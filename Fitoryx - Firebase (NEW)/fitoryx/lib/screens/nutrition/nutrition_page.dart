@@ -44,7 +44,6 @@ class _NutritionPageState extends State<NutritionPage> {
         slivers: <Widget>[
           SliverAppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
             title: const Text('Nutrition'),

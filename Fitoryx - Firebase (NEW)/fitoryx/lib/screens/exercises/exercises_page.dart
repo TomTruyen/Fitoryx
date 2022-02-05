@@ -6,6 +6,7 @@ import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
+import 'package:fitoryx/screens/exercises/exercise_detail_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
@@ -128,7 +129,16 @@ class _ExercisesPagesState extends State<ExercisesPages> {
                                     });
                                   }
                                 }
-                              : null,
+                              : () {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (context) =>
+                                          ExerciseDetailPage(exercise: item),
+                                    ),
+                                  );
+                                },
                         );
                       }
 
@@ -246,7 +256,6 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   SliverAppBar _defaultAppBar() {
     return SliverAppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: Colors.grey[50],
       floating: true,
       pinned: true,
       leading: widget.isSelectable ? const CloseButton() : null,
@@ -288,7 +297,6 @@ class _ExercisesPagesState extends State<ExercisesPages> {
 
   SliverAppBar _searchAppBar(ExerciseFilter filter) {
     return SliverAppBar(
-      backgroundColor: Colors.grey[50],
       floating: true,
       pinned: true,
       title: TextField(

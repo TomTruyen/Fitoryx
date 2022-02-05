@@ -42,7 +42,6 @@ class _AddNutritionPageState extends State<AddNutritionPage> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
             title: const Text('Add Nutrition'),

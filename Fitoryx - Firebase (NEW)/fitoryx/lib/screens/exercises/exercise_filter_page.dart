@@ -21,7 +21,6 @@ class ExerciseFilterPage extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             SliverAppBar(
-              backgroundColor: Colors.grey[50],
               floating: false,
               pinned: true,
               leading: const CloseButton(),

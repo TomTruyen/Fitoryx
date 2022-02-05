@@ -33,7 +33,6 @@ class _AddExercisePageState extends State<AddExercisePage> {
           physics: const BouncingScrollPhysics(),
           slivers: <Widget>[
             SliverAppBar(
-              backgroundColor: Colors.grey[50],
               floating: true,
               pinned: true,
               leading: const CloseButton(),

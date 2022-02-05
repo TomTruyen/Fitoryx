@@ -58,12 +58,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
+          const SliverAppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
-            title: const Text('Workout'),
+            title: Text('Workout'),
           ),
           SliverToBoxAdapter(
             child: Container(

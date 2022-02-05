@@ -42,7 +42,6 @@ class _NutritionGoalsPageState extends State<NutritionGoalsPage> {
         slivers: <Widget>[
           SliverAppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.grey[50],
             floating: true,
             pinned: true,
             leading: const CloseButton(),
