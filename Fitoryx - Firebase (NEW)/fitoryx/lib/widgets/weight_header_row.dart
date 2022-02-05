@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 class WeightHeaderRow extends StatelessWidget {
   final UnitType unit;
+  final bool readonly;
 
-  const WeightHeaderRow({Key? key, this.unit = UnitType.metric})
+  const WeightHeaderRow(
+      {Key? key, this.unit = UnitType.metric, this.readonly = false})
       : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class WeightHeaderRow extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        const Spacer(flex: 1)
+        readonly ? const SizedBox(width: 12) : const Spacer(flex: 1)
       ],
     );
   }

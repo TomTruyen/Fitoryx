@@ -88,7 +88,7 @@ class WorkoutExerciseCard extends StatelessWidget {
             ),
           exercise.type == ExerciseType.time
               ? const TimeHeaderRow()
-              : WeightHeaderRow(unit: _workout.unit),
+              : WeightHeaderRow(unit: _workout.unit, readonly: readonly),
           for (int i = 0; i < exercise.sets.length; i++)
             Container(
               padding: EdgeInsets.zero,
