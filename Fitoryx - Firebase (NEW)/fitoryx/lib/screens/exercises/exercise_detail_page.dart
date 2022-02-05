@@ -40,11 +40,11 @@ class ExerciseDetailPage extends StatelessWidget {
                 tabs: const [
                   Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text("Graphs"),
+                    child: Text("Records"),
                   ),
                   Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text("Records"),
+                    child: Text("Graphs"),
                   ),
                 ],
               ),
@@ -52,8 +52,12 @@ class ExerciseDetailPage extends StatelessWidget {
             SliverFillRemaining(
               child: TabBarView(
                 children: [
-                  const ExerciseGraphsView(),
                   ExerciseRecordsView(
+                    exercise: exercise,
+                    history: history,
+                    settings: settings,
+                  ),
+                  ExerciseGraphsView(
                     exercise: exercise,
                     history: history,
                     settings: settings,

@@ -23,7 +23,7 @@ class GraphCard extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(
         horizontal: 12.0,
-        vertical: 4.0,
+        vertical: 6.0,
       ),
       child: Container(
         height: height,
