@@ -1,7 +1,7 @@
 import 'package:fitoryx/models/workout_change_notifier.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
-import 'package:fitoryx/screens/history/history_detail_page.dart';
+import 'package:fitoryx/screens/workout/complete_workout_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
@@ -25,7 +25,15 @@ class StartWorkoutPage extends StatefulWidget {
 class _StartWorkoutPageState extends State<StartWorkoutPage> {
   final FirestoreService _firestoreService = FirestoreService();
 
+  int _historyCount = 0;
+
   bool _started = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +201,12 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
     );
   }
 
+  void _init() async {
+    var historyCount = (await _firestoreService.getHistory()).length;
+
+    _historyCount = historyCount;
+  }
+
   void _startWorkout() {
     setState(() => _started = true);
   }
@@ -213,9 +227,9 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
         context,
         CupertinoPageRoute(
           fullscreenDialog: true,
-          builder: (context) => HistoryDetailPage(
+          builder: (context) => CompleteWorkoutPage(
             history: workoutHistory,
-            readonly: true,
+            historyCount: _historyCount + 1,
           ),
         ),
       );

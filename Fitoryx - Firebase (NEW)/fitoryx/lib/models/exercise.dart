@@ -33,6 +33,33 @@ class Exercise {
     return title;
   }
 
+  ExerciseSet getBestSet() {
+    ExerciseSet bestSet = ExerciseSet(reps: 0, weight: 0, time: 0);
+
+    for (var set in sets) {
+      double bestSetWeight = bestSet.weight ?? 0;
+      double setWeight = set.weight ?? 0;
+
+      int bestSetReps = bestSet.reps ?? 0;
+      int setReps = set.reps ?? 0;
+
+      int bestSetTime = bestSet.time ?? 0;
+      int setTime = set.time ?? 0;
+
+      if (type == ExerciseType.weight) {
+        if (bestSetWeight < setWeight || bestSetReps < setReps) {
+          bestSet = set;
+        }
+      } else if (type == ExerciseType.time) {
+        if (bestSetTime < setTime) {
+          bestSet = set;
+        }
+      }
+    }
+
+    return bestSet;
+  }
+
   double getTotalWeight() {
     double weight = 0;
 

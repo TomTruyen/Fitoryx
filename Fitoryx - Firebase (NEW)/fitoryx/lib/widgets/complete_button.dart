@@ -36,9 +36,11 @@ class _CompleteButtonState extends State<CompleteButton> {
   void _init() async {
     var settings = await _settingsService.getSettings();
 
-    setState(() {
-      _settings = settings;
-    });
+    if (mounted) {
+      setState(() {
+        _settings = settings;
+      });
+    }
   }
 
   @override

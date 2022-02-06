@@ -1,8 +1,6 @@
 import 'package:fitoryx/graphs/measurement_graph.dart';
 import 'package:fitoryx/models/fat_percentage.dart';
-import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/services/firestore_service.dart';
-import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/utils/double_extension.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/graph_card.dart';
@@ -20,8 +18,6 @@ class FatPercentagePage extends StatefulWidget {
 
 class _FatPercentagePageState extends State<FatPercentagePage> {
   final FirestoreService _firestoreService = FirestoreService();
-  final SettingsService _settingsService = SettingsService();
-  Settings _settings = Settings();
 
   List<FatPercentage> _percentage = [];
 
@@ -137,11 +133,9 @@ class _FatPercentagePageState extends State<FatPercentagePage> {
   }
 
   void _init() async {
-    var settings = await _settingsService.getSettings();
     var percentage = await _firestoreService.getFatPercentage();
 
     setState(() {
-      _settings = settings;
       _percentage = percentage;
     });
   }

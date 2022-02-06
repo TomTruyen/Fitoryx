@@ -33,6 +33,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
   Settings _settings = Settings();
 
   List<Workout> _workouts = [];
+
   bool isAscending = true;
 
   final List<PopupOption> _popupOptions = [
@@ -152,7 +153,8 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           context,
                           CupertinoPageRoute(
                             fullscreenDialog: true,
-                            builder: (context) => const StartWorkoutPage(),
+                            builder: (context) =>
+                                const StartWorkoutPage(),
                           ),
                         );
                       },
