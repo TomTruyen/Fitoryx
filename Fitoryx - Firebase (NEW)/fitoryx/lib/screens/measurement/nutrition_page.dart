@@ -107,15 +107,19 @@ class _NutritionPageState extends State<NutritionPage> {
                         child: MediaQuery.removePadding(
                           context: context,
                           removeTop: true,
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              Nutrition nutrition = _nutritions[index];
+                          child: _nutritions.isEmpty
+                              ? const Center(child: Text("No history"))
+                              : ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    Nutrition nutrition = _nutritions[index];
 
-                              return NutritionHistoryCard(nutrition: nutrition);
-                            },
-                            itemCount: _nutritions.length,
-                          ),
+                                    return NutritionHistoryCard(
+                                        nutrition: nutrition);
+                                  },
+                                  itemCount: _nutritions.length,
+                                ),
                         ),
                       ),
                     ],

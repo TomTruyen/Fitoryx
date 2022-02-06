@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fitoryx/models/body_weight.dart';
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/fat_percentage.dart';
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
@@ -30,6 +32,8 @@ class FirestoreService {
   final String workoutField = "workouts";
   final String historyField = "history";
   final String nutritionField = "nutrition";
+  final String bodyWeightField = "bodyWeight";
+  final String fatPercentageField = "fatPercentage";
 
   // "Ugly" version,
   // Advantage: 1 read per app launch :)
@@ -46,6 +50,8 @@ class FirestoreService {
       _cacheService.setWorkouts(_toWorkouts(doc));
       _cacheService.setHistory(_toHistory(doc));
       _cacheService.setNutrition(_toNutrition(doc));
+      _cacheService.setBodyWeight(_toBodyWeight(doc));
+      _cacheService.setFatPercentage(_toFatPercentage(doc));
     }
 
     return true;
@@ -356,224 +362,114 @@ class FirestoreService {
     _cacheService.setNutrition(nutritionList);
   }
 
-  // Clean, split up into collections ==> Issue: a lot of reads.
-  // My Goal: Stay within free quota for as long as possible
-  // Solution: Move all data (exercises, workouts, history etc...) into 1 single collection
-  // Reason: Firebase counts per document read/write. With collections we get a lot of documents. Without it, we only have 1 document and that document we even cache to make it so it only gets fetched once
+  // Bodyweight
+  List<BodyWeight> _toBodyWeight(DocumentSnapshot<Object?> doc) {
+    try {
+      List<dynamic> data = doc.get(bodyWeightField);
 
-  // final String exerciseCollection = "exercises";
-  // final String workoutCollection = "workouts";
-  // final String historyCollection = "history";
-  // final String nutritionCollection = "nutrition";
+      List<BodyWeight> bodyweight = [];
 
-  // // Exercises
-  // Future<String> createExercise(Exercise exercise) async {
-  //   DocumentReference<Map<String, dynamic>> docReference =
-  //       await _usersCollection
-  //           .doc(_authService.getUser()?.uid)
-  //           .collection(exerciseCollection)
-  //           .add(exercise.toExerciseJson());
+      for (var weight in data) {
+        bodyweight.add(BodyWeight.fromJson(weight));
+      }
 
-  //   return docReference.id;
-  // }
+      return bodyweight;
+    } catch (e) {
+      return [];
+    }
+  }
 
-  // Future<void> deleteExercise(String? id) async {
-  //   await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(exerciseCollection)
-  //       .doc(id)
-  //       .delete();
-  // }
+  List<Map<String, dynamic>> _fromBodyWeight(List<BodyWeight> bodyweight) {
+    List<Map<String, dynamic>> data = [];
 
-  // Future<List<Exercise>> getExercises() async {
-  //   if (_cacheService.hasExercises()) {
-  //     return _cacheService.getExercises();
-  //   }
+    for (var weight in bodyweight) {
+      data.add(weight.toJson());
+    }
 
-  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(exerciseCollection)
-  //       .get();
+    return data;
+  }
 
-  //   if (querySnapshot.docs.isEmpty) {
-  //     return [];
-  //   }
+  Future<List<BodyWeight>> getBodyWeight() async {
+    if (!_cacheService.hasBodyWeight()) {
+      await fetchAll();
+    }
 
-  //   List<Exercise> exercises = [];
+    var bodyWeight = _cacheService.getBodyWeight();
 
-  //   for (var exercise in querySnapshot.docs) {
-  //     Exercise e = Exercise.fromExerciseJson(exercise.data());
-  //     e.id = exercise.id;
-  //     e.userCreated = true;
-  //     exercises.add(e);
-  //   }
+    bodyWeight.sort((a, b) => a.date.compareTo(b.date));
 
-  //   _cacheService.setExercises(exercises);
+    return bodyWeight.reversed.toList();
+  }
 
-  //   return exercises;
-  // }
+  Future<BodyWeight> saveBodyWeight(BodyWeight bodyWeight) async {
+    List<BodyWeight> bodyWeightList = _cacheService.getBodyWeight();
 
-  // // Workouts
-  // Future<String> createWorkout(Workout workout) async {
-  //   DocumentReference<Map<String, dynamic>> docReference =
-  //       await _usersCollection
-  //           .doc(_authService.getUser()?.uid)
-  //           .collection(workoutCollection)
-  //           .add(workout.toJson());
+    bodyWeight.id = _generateUuid();
+    bodyWeightList.add(bodyWeight);
 
-  //   return docReference.id;
-  // }
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {bodyWeightField: _fromBodyWeight(bodyWeightList)},
+      SetOptions(merge: true),
+    );
 
-  // Future<void> updateWorkout(Workout workout) async {
-  //   await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(workoutCollection)
-  //       .doc(workout.id)
-  //       .update(workout.toJson());
-  // }
+    _cacheService.setBodyWeight(bodyWeightList);
 
-  // Future<void> deleteWorkout(String? id) async {
-  //   await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(workoutCollection)
-  //       .doc(id)
-  //       .delete();
-  // }
+    return bodyWeight;
+  }
 
-  // Future<List<Workout>> getWorkouts() async {
-  //   if (_cacheService.hasWorkouts()) {
-  //     return _cacheService.getWorkouts();
-  //   }
+  // FatPercentage
+  List<FatPercentage> _toFatPercentage(DocumentSnapshot<Object?> doc) {
+    try {
+      List<dynamic> data = doc.get(fatPercentageField);
 
-  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(workoutCollection)
-  //       .get();
+      List<FatPercentage> percentage = [];
 
-  //   if (querySnapshot.docs.isEmpty) {
-  //     return [];
-  //   }
+      for (var fat in data) {
+        percentage.add(FatPercentage.fromJson(fat));
+      }
 
-  //   List<Workout> workouts = [];
+      return percentage;
+    } catch (e) {
+      return [];
+    }
+  }
 
-  //   for (var workout in querySnapshot.docs) {
-  //     Workout w = Workout.fromJson(workout.data());
-  //     w.id = workout.id;
+  List<Map<String, dynamic>> _fromFatPercentage(
+      List<FatPercentage> percentage) {
+    List<Map<String, dynamic>> data = [];
 
-  //     workouts.add(w);
-  //   }
+    for (var fat in percentage) {
+      data.add(fat.toJson());
+    }
 
-  //   _cacheService.setWorkouts(workouts);
+    return data;
+  }
 
-  //   return workouts;
-  // }
+  Future<List<FatPercentage>> getFatPercentage() async {
+    if (!_cacheService.hasFatPercentage()) {
+      await fetchAll();
+    }
 
-  // // History
-  // Future<String> createWorkoutHistory(WorkoutHistory history) async {
-  //   DocumentReference<Map<String, dynamic>> docReference =
-  //       await _usersCollection
-  //           .doc(_authService.getUser()?.uid)
-  //           .collection(historyCollection)
-  //           .add(history.toJson());
+    var percentage = _cacheService.getFatPercentage();
 
-  //   return docReference.id;
-  // }
+    percentage.sort((a, b) => a.date.compareTo(b.date));
 
-  // Future<void> deleteHistory(String? id) async {
-  //   await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(historyCollection)
-  //       .doc(id)
-  //       .delete();
-  // }
+    return percentage.reversed.toList();
+  }
 
-  // Future<List<WorkoutHistory>> getWorkoutHistory() async {
-  //   if (_cacheService.hasHistory()) {
-  //     return _cacheService.getHistory();
-  //   }
+  Future<FatPercentage> saveFatPercentage(FatPercentage percentage) async {
+    List<FatPercentage> percentageList = _cacheService.getFatPercentage();
 
-  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(historyCollection)
-  //       .get();
+    percentage.id = _generateUuid();
+    percentageList.add(percentage);
 
-  //   if (querySnapshot.docs.isEmpty) {
-  //     return [];
-  //   }
+    await _usersCollection.doc(_authService.getUser()?.uid).set(
+      {fatPercentageField: _fromFatPercentage(percentageList)},
+      SetOptions(merge: true),
+    );
 
-  //   List<WorkoutHistory> workoutHistory = [];
+    _cacheService.setFatPercentage(percentageList);
 
-  //   for (var history in querySnapshot.docs) {
-  //     WorkoutHistory w = WorkoutHistory.fromJson(history.data());
-  //     w.id = history.id;
-
-  //     workoutHistory.add(w);
-  //   }
-
-  //   _cacheService.setHistory(workoutHistory);
-
-  //   return workoutHistory;
-  // }
-
-  // Future<List<WorkoutHistory>> getWorkoutHistoryByDay(DateTime date) async {
-  //   DateTime startDate = DateTime(date.year, date.month, date.day);
-  //   DateTime endDate = DateTime(date.year, date.month, date.day + 1);
-
-  //   if (_cacheService.hasHistory()) {
-  //     return _cacheService
-  //         .getHistory()
-  //         .where((history) =>
-  //             history.date.isAfter(startDate) && history.date.isBefore(endDate))
-  //         .toList();
-  //   }
-
-  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(historyCollection)
-  //       .where('date', isGreaterThanOrEqualTo: startDate)
-  //       .where('date', isLessThan: endDate)
-  //       .get();
-
-  //   if (querySnapshot.docs.isEmpty) {
-  //     return [];
-  //   }
-
-  //   List<WorkoutHistory> workoutHistory = [];
-
-  //   for (var history in querySnapshot.docs) {
-  //     WorkoutHistory w = WorkoutHistory.fromJson(history.data());
-  //     w.id = history.id;
-
-  //     workoutHistory.add(w);
-  //   }
-
-  //   return workoutHistory;
-  // }
-
-  // // Nutrition
-  // Future<List<Nutrition>> getNutrition() async {
-  //   if (_cacheService.hasNutrition()) {
-  //     return _cacheService.getNutrition();
-  //   }
-
-  //   QuerySnapshot<Map<String, dynamic>> querySnapshot = await _usersCollection
-  //       .doc(_authService.getUser()?.uid)
-  //       .collection(nutritionCollection)
-  //       .get();
-
-  //   if (querySnapshot.docs.isEmpty) {
-  //     return [];
-  //   }
-
-  //   List<Nutrition> nutritionList = [];
-
-  //   for (var nutrition in querySnapshot.docs) {
-  //     Nutrition n = Nutrition.fromJson(nutrition.data());
-  //     n.id = nutrition.id;
-
-  //     nutritionList.add(n);
-  //   }
-
-  //   return nutritionList;
-  // }
+    return percentage;
+  }
 }

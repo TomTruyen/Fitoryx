@@ -1,4 +1,6 @@
+import 'package:fitoryx/models/body_weight.dart';
 import 'package:fitoryx/models/exercise.dart';
+import 'package:fitoryx/models/fat_percentage.dart';
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
@@ -17,6 +19,8 @@ class CacheService {
   List<Workout>? _cachedWorkouts;
   List<Exercise>? _cachedExercises;
   List<Nutrition>? _cachedNutrition;
+  List<BodyWeight>? _cachedBodyweight;
+  List<FatPercentage>? _cachedFatPercentage;
 
   bool hasHistory() {
     return _cachedHistory != null;
@@ -64,5 +68,29 @@ class CacheService {
 
   List<Nutrition> getNutrition() {
     return List.of(_cachedNutrition ?? []);
+  }
+
+  bool hasBodyWeight() {
+    return _cachedBodyweight != null;
+  }
+
+  void setBodyWeight(List<BodyWeight> bodyWeight) {
+    _cachedBodyweight = List.of(bodyWeight);
+  }
+
+  List<BodyWeight> getBodyWeight() {
+    return List.of(_cachedBodyweight ?? []);
+  }
+
+  bool hasFatPercentage() {
+    return _cachedFatPercentage != null;
+  }
+
+  void setFatPercentage(List<FatPercentage> percentage) {
+    _cachedFatPercentage = List.of(percentage);
+  }
+
+  List<FatPercentage> getFatPercentage() {
+    return List.of(_cachedFatPercentage ?? []);
   }
 }

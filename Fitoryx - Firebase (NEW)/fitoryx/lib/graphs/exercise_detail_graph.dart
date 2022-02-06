@@ -121,12 +121,10 @@ class ExerciseDetailGraph extends StatelessWidget {
   List<LineChartBarData> _getLineBars() {
     List<FlSpot> spots = [];
 
-    for (int i = 0; i < history.length; i++) {
-      // Limit length to 25 to nut clutter the graph
-      if (history.length >= 25) {
-        history.removeAt(0);
-      }
+    var interval =
+        history.length > 10 ? history.length / (history.length / 10) : 1;
 
+    for (int i = 0; i < history.length; i += interval.toInt()) {
       double value = 0;
 
       switch (type) {
