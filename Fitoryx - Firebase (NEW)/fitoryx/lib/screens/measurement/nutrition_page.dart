@@ -2,7 +2,7 @@ import 'package:fitoryx/graphs/nutrition_calories_graph.dart';
 import 'package:fitoryx/graphs/nutrition_macro_graph.dart';
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/settings.dart';
-import 'package:fitoryx/screens/nutrition/add_nutrition_page.dart';
+import 'package:fitoryx/screens/measurement/add_nutrition_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/widgets/graph_card.dart';
@@ -47,6 +47,7 @@ class _NutritionPageState extends State<NutritionPage> {
             floating: true,
             pinned: true,
             title: const Text('Nutrition'),
+            leading: const CloseButton(),
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.add),

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:fitoryx/models/exercise_filter.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/screens/history/history_page.dart';
-import 'package:fitoryx/screens/nutrition/nutrition_page.dart';
+import 'package:fitoryx/screens/measurement/measurement_page.dart';
 import 'package:fitoryx/screens/profile/profile_page.dart';
 import 'package:fitoryx/screens/workout/workout_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
@@ -38,7 +38,7 @@ class _WrapperState extends State<Wrapper> {
         const HistoryPage(),
         const WorkoutPage(),
         const ExercisesPages(),
-        const NutritionPage()
+        const MeasurementPage()
       ];
     });
   }
