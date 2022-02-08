@@ -2,6 +2,7 @@ import 'package:fitoryx/models/body_weight.dart';
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/fat_percentage.dart';
 import 'package:fitoryx/models/nutrition.dart';
+import 'package:fitoryx/models/subscription.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 
@@ -15,12 +16,25 @@ class CacheService {
 
   CacheService._internal();
 
+  Subscription? _cachedSubscription;
   List<WorkoutHistory>? _cachedHistory;
   List<Workout>? _cachedWorkouts;
   List<Exercise>? _cachedExercises;
   List<Nutrition>? _cachedNutrition;
   List<BodyWeight>? _cachedBodyweight;
   List<FatPercentage>? _cachedFatPercentage;
+
+  bool hasSubscription() {
+    return _cachedSubscription != null;
+  }
+
+  void setSubscription(Subscription subscription) {
+    _cachedSubscription = subscription;
+  }
+
+  Subscription getSubscription() {
+    return _cachedSubscription ?? FreeSubscription();
+  }
 
   bool hasHistory() {
     return _cachedHistory != null;
