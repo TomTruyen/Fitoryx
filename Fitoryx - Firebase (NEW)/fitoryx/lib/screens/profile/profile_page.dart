@@ -1,4 +1,5 @@
 import 'package:fitoryx/graphs/nutrition_graph.dart';
+import 'package:fitoryx/graphs/volume_graph.dart';
 import 'package:fitoryx/graphs/workouts_per_week_graph.dart';
 import 'package:fitoryx/models/graph_type.dart';
 import 'package:fitoryx/models/nutrition.dart';
@@ -190,6 +191,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: const EdgeInsets.all(8),
                         child: NutritionGraph(
                           nutritions: _nutrition,
+                        ),
+                      ),
+                    ),
+                  if (_settings.graphs.has(GraphType.volume))
+                    GraphCard(
+                      title: 'Volume this week',
+                      graph: Container(
+                        padding: const EdgeInsets.all(8),
+                        child: VolumeGraph(
+                          workouts: _history,
+                          settings: _settings,
                         ),
                       ),
                     ),
