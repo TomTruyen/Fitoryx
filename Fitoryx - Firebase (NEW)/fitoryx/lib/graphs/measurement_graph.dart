@@ -1,5 +1,6 @@
 import 'package:fitoryx/models/body_weight.dart';
 import 'package:fitoryx/models/fat_percentage.dart';
+import 'package:fitoryx/models/unit_type.dart';
 import 'package:fitoryx/utils/double_extension.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,8 @@ class MeasurementGraph extends StatelessWidget {
 
               String tooltip = "";
               if (item is BodyWeight) {
-                tooltip = "${item.weight.toIntString()} ${item.unit}";
+                tooltip =
+                    "${item.weight.toIntString()} ${UnitTypeHelper.toValue(item.unit)}";
               } else if (item is FatPercentage) {
                 tooltip = "${item.percentage.toIntString()}%";
               }
