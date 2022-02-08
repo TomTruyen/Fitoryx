@@ -1,12 +1,13 @@
-# FitTrack
+# Fitoryx
 
 FitTrack is an app that allows users to track their fitness progress. It allows tracking of their nutrition and workouts. Furthermore the app contains graphs show a more visual representation of a user his progress. The app does have settings so users can modify the app to their personal preference.
 
-## FitTrack Versions
-There are 3 different versions in this repository. 
+## Fitoryx Versions
+There are 4 different versions in this repository. 
 - FitTrack (Firebase), an unfinished version of the app using Firebase (Cancelled due to read & write amount limitations)
 - FitTrack (MongoDB), an unfinished version of the app using MongoDB (Cancelled due to speed of receiving data, it was to slow)
-- FitTrack (SQFlite), the version of the app that is actually used and has been released on the Play Store
+- Fitoryx (SQFlite), the version of the app that was actually used and has been released on the Play Store (deprecated)
+- Fitoryx (Firebase), newest version of the app that can be downloaded from the app store
 
 ## Requirements
 
