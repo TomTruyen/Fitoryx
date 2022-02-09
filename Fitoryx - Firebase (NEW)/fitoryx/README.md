@@ -85,3 +85,12 @@ Add `multiDexEnabled true` to `defaultConfig` in `/android/app/build.gradle`
 - `sonar-scanner.bat`
 
 ---
+
+# Test Coverage
+
+Run `dart-coverage-helper.sh`
+
+- This file does the following:
+  - Create helper file (to make sure all files are included in the coverage)
+  - Runs `flutter test --coverage` (generated coverage reports)
+  - Runs `sonar-scanner.bat` (upload results to SonarQube)
