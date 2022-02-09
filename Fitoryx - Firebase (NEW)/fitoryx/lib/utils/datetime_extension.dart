@@ -7,3 +7,4 @@ extension DateTimeExtension on DateTime {
     return subtract(Duration(days: weekday - 1));
   }
 }
+
