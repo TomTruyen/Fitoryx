@@ -61,3 +61,23 @@ Add `apply plugin: 'com.google.gms.google-services'` underneath `apply plugin 'c
 ### `Error while merging dex archives: The number of method references in a .dex file cannot exceed 64K`
 
 Add `multiDexEnabled true` to `defaultConfig` in `/android/app/build.gradle`
+
+# SonarQube
+
+## Docker
+
+- Download Docker
+- `docker-compose up -d`
+
+## SonarQube setup
+
+- Manually add with projectKey & projectName "flutter"
+- Update `sonar-project.properties` with correct `sonar.login` value
+
+## SonarScanner
+
+- Install sonar-scanner on windows
+
+## Run
+
+- `sonar-scanner.bat`
