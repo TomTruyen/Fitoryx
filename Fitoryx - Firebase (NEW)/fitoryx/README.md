@@ -62,6 +62,8 @@ Add `apply plugin: 'com.google.gms.google-services'` underneath `apply plugin 'c
 
 Add `multiDexEnabled true` to `defaultConfig` in `/android/app/build.gradle`
 
+---
+
 # SonarQube
 
 ## Docker
@@ -81,3 +83,5 @@ Add `multiDexEnabled true` to `defaultConfig` in `/android/app/build.gradle`
 ## Run
 
 - `sonar-scanner.bat`
+
+---
