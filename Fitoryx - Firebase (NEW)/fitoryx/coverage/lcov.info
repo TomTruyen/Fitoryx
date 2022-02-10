@@ -172,7 +172,7 @@ LF:61
 LH:0
 end_of_record
 SF:lib\graphs\models\exercise_graph_type.dart
-DA:1,1
+DA:1,2
 LF:1
 LH:1
 end_of_record
@@ -453,7 +453,7 @@ DA:14,0
 DA:16,0
 DA:17,0
 DA:19,0
-DA:23,1
+DA:23,2
 DA:25,0
 DA:26,0
 DA:35,0
@@ -678,7 +678,7 @@ LF:21
 LH:0
 end_of_record
 SF:lib\models\exercise_type.dart
-DA:1,1
+DA:1,2
 DA:4,0
 DA:6,0
 DA:8,0
@@ -716,7 +716,7 @@ LF:9
 LH:0
 end_of_record
 SF:lib\models\graph_type.dart
-DA:1,1
+DA:1,2
 DA:4,0
 DA:6,0
 DA:8,0
@@ -765,7 +765,7 @@ LF:1
 LH:0
 end_of_record
 SF:lib\models\settings_type.dart
-DA:1,1
+DA:1,2
 LF:1
 LH:1
 end_of_record
@@ -789,7 +789,7 @@ LF:15
 LH:0
 end_of_record
 SF:lib\models\unit_type.dart
-DA:1,1
+DA:1,2
 DA:4,0
 DA:6,0
 DA:8,0
@@ -1010,7 +1010,7 @@ LF:49
 LH:0
 end_of_record
 SF:lib\screens\exercises\exercises_page.dart
-DA:29,1
+DA:29,2
 DA:34,0
 DA:36,0
 DA:37,0
@@ -1210,7 +1210,7 @@ LF:25
 LH:0
 end_of_record
 SF:lib\screens\exercises\exercise_filter_page.dart
-DA:11,1
+DA:11,2
 DA:13,0
 DA:15,0
 DA:17,0
@@ -1410,7 +1410,7 @@ LF:46
 LH:0
 end_of_record
 SF:lib\screens\history\history_page.dart
-DA:21,1
+DA:21,2
 DA:23,0
 DA:24,0
 DA:39,0
@@ -1581,7 +1581,7 @@ LF:42
 LH:0
 end_of_record
 SF:lib\screens\measurement\body_weight_page.dart
-DA:16,1
+DA:16,2
 DA:18,0
 DA:19,0
 DA:29,0
@@ -1643,7 +1643,7 @@ LF:58
 LH:1
 end_of_record
 SF:lib\screens\measurement\fat_percentage_page.dart
-DA:13,1
+DA:13,2
 DA:15,0
 DA:16,0
 DA:24,0
@@ -1699,7 +1699,7 @@ LF:52
 LH:1
 end_of_record
 SF:lib\screens\measurement\measurement_page.dart
-DA:8,1
+DA:8,2
 DA:10,0
 DA:12,0
 DA:13,0
@@ -1732,7 +1732,7 @@ LF:29
 LH:1
 end_of_record
 SF:lib\screens\measurement\nutrition_page.dart
-DA:16,1
+DA:16,2
 DA:18,0
 DA:19,0
 DA:32,0
@@ -1796,7 +1796,7 @@ LF:60
 LH:1
 end_of_record
 SF:lib\screens\profile\profile_page.dart
-DA:23,1
+DA:23,2
 DA:25,0
 DA:26,0
 DA:38,0
@@ -1942,7 +1942,7 @@ LF:48
 LH:0
 end_of_record
 SF:lib\screens\settings\settings_page.dart
-DA:23,1
+DA:23,2
 DA:25,0
 DA:26,0
 DA:38,0
@@ -2035,7 +2035,7 @@ LF:89
 LH:1
 end_of_record
 SF:lib\screens\sign_in.dart
-DA:14,3
+DA:14,6
 DA:16,0
 DA:17,0
 DA:28,0
@@ -2103,7 +2103,7 @@ LF:64
 LH:1
 end_of_record
 SF:lib\screens\sign_up.dart
-DA:13,1
+DA:13,2
 DA:15,0
 DA:16,0
 DA:27,0
@@ -2303,7 +2303,7 @@ LF:44
 LH:0
 end_of_record
 SF:lib\screens\workout\start_workout_page.dart
-DA:19,1
+DA:19,2
 DA:21,0
 DA:22,0
 DA:32,0
@@ -2392,7 +2392,7 @@ LF:85
 LH:1
 end_of_record
 SF:lib\screens\workout\workout_page.dart
-DA:22,1
+DA:22,2
 DA:24,0
 DA:25,0
 DA:45,0
@@ -2538,7 +2538,7 @@ LF:142
 LH:1
 end_of_record
 SF:lib\screens\wrapper.dart
-DA:14,3
+DA:14,6
 DA:16,0
 DA:17,0
 DA:29,0
@@ -2982,15 +2982,15 @@ LF:55
 LH:0
 end_of_record
 SF:lib\utils\double_extension.dart
-DA:4,0
-DA:5,0
-DA:6,0
-DA:9,0
-DA:10,0
-DA:11,0
-DA:14,0
+DA:4,1
+DA:5,1
+DA:6,4
+DA:9,1
+DA:10,2
+DA:11,1
+DA:14,2
 LF:7
-LH:0
+LH:7
 end_of_record
 SF:lib\utils\graph_type_extension.dart
 DA:4,0
@@ -3310,7 +3310,7 @@ LF:9
 LH:0
 end_of_record
 SF:lib\widgets\exercise_row.dart
-DA:8,2
+DA:8,4
 DA:13,0
 DA:15,0
 DA:17,0
@@ -3487,7 +3487,7 @@ LF:19
 LH:0
 end_of_record
 SF:lib\widgets\list_divider.dart
-DA:8,5
+DA:8,10
 DA:16,0
 DA:18,0
 DA:20,0
@@ -3497,7 +3497,7 @@ LF:6
 LH:1
 end_of_record
 SF:lib\widgets\loader.dart
-DA:4,4
+DA:4,8
 DA:6,0
 DA:8,0
 DA:9,0
@@ -3663,7 +3663,7 @@ LF:18
 LH:0
 end_of_record
 SF:lib\widgets\time_header_row.dart
-DA:4,1
+DA:4,2
 DA:6,0
 DA:8,0
 LF:3
