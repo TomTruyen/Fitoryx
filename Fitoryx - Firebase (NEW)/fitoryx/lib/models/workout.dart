@@ -59,6 +59,18 @@ class Workout {
     return volume;
   }
 
+  int getTotalReps(Exercise exercise) {
+    int reps = 0;
+
+    exercises.where((e) => e.equals(exercise)).forEach((e) {
+      for (var set in e.sets) {
+        reps += set.reps ?? 0;
+      }
+    });
+
+    return reps;
+  }
+
   int getExerciseMaxReps(Exercise exercise) {
     int maxReps = 0;
 

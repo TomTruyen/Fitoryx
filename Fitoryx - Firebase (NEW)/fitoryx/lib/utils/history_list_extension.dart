@@ -6,7 +6,7 @@ extension HistoryListExtension on List<WorkoutHistory> {
     int reps = 0;
 
     forEach((history) {
-      reps += history.workout.getExerciseMaxReps(exercise);
+      reps += history.workout.getTotalReps(exercise);
     });
 
     return reps;
