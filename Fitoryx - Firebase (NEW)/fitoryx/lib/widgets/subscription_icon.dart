@@ -8,7 +8,7 @@ class SubscriptionIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.favorite, color: Colors.red),
+      icon: const Icon(Icons.star, color: Colors.orange),
       onPressed: () {
         Navigator.push(
           context,
