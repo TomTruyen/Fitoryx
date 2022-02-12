@@ -22,50 +22,41 @@ class ExerciseDetailPage extends StatelessWidget {
     return Scaffold(
       body: DefaultTabController(
         length: 2,
-        child: CustomScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          slivers: <Widget>[
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              leading: const CloseButton(),
-              floating: true,
-              pinned: true,
-              title: Text(exercise.getTitle()),
-            ),
-            SliverToBoxAdapter(
-              child: TabBar(
-                indicatorColor: Colors.blue[700],
-                labelColor: Colors.blue[700],
-                unselectedLabelColor: Colors.blue[200],
-                tabs: const [
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text("Records"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text("Graphs"),
-                  ),
-                ],
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                leading: const CloseButton(),
+                floating: true,
+                pinned: true,
+                title: Text(exercise.getTitle()),
+                bottom: TabBar(
+                  indicatorColor: Colors.blue[700],
+                  labelColor: Colors.blue[700],
+                  unselectedLabelColor: Colors.blue[200],
+                  tabs: const [
+                    Tab(text: "Records"),
+                    Tab(text: "Graphs"),
+                  ],
+                ),
               ),
-            ),
-            SliverFillRemaining(
-              child: TabBarView(
-                children: [
-                  ExerciseRecordsView(
-                    exercise: exercise,
-                    history: history,
-                    settings: settings,
-                  ),
-                  ExerciseGraphsView(
-                    exercise: exercise,
-                    history: history,
-                    settings: settings,
-                  ),
-                ],
+            ];
+          },
+          body: TabBarView(
+            children: [
+              ExerciseRecordsView(
+                exercise: exercise,
+                history: history,
+                settings: settings,
               ),
-            )
-          ],
+              ExerciseGraphsView(
+                exercise: exercise,
+                history: history,
+                settings: settings,
+              ),
+            ],
+          ),
         ),
       ),
     );
