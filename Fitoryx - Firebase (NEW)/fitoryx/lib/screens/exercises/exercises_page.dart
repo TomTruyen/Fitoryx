@@ -17,6 +17,7 @@ import 'package:fitoryx/widgets/exercise_item.dart';
 import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
 import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/loader.dart';
+import 'package:fitoryx/widgets/subscription_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -293,6 +294,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
             );
           },
         ),
+        if (!widget.isSelectable) const SubscriptionIcon(),
         if (!widget.isSelectable)
           IconButton(
               icon: const Icon(Icons.add),

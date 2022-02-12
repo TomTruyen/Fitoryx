@@ -11,6 +11,7 @@ import 'package:fitoryx/widgets/exercise_row.dart';
 import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/loader.dart';
 import 'package:fitoryx/widgets/sort_button.dart';
+import 'package:fitoryx/widgets/subscription_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -49,34 +50,33 @@ class _HistoryPageState extends State<HistoryPage> {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-            automaticallyImplyLeading: false,
-            leading: widget.day == null ? null : const CloseButton(),
-            floating: true,
-            pinned: true,
-            title: Text(
-              widget.day == null
-                  ? 'History'
-                  : "History of ${DateFormat("dd MMMM yyyy").format(widget.day!)}",
-            ),
-            actions: widget.day == null
-                ? <Widget>[
-                    IconButton(
-                      icon: const Icon(Icons.calendar_today_outlined),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) => HistoryCalendarPage(
-                              history: _history,
-                            ),
+              automaticallyImplyLeading: false,
+              leading: widget.day == null ? null : const CloseButton(),
+              floating: true,
+              pinned: true,
+              title: Text(
+                widget.day == null
+                    ? 'History'
+                    : "History of ${DateFormat("dd MMMM yyyy").format(widget.day!)}",
+              ),
+              actions: <Widget>[
+                if (widget.day == null)
+                  IconButton(
+                    icon: const Icon(Icons.calendar_today_outlined),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => HistoryCalendarPage(
+                            history: _history,
                           ),
-                        );
-                      },
-                    ),
-                  ]
-                : const [],
-          ),
+                        ),
+                      );
+                    },
+                  ),
+                const SubscriptionIcon(),
+              ]),
           if (_history.isEmpty)
             SliverFillRemaining(
               hasScrollBody: false,

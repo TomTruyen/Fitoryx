@@ -16,6 +16,7 @@ import 'package:fitoryx/widgets/graph_card.dart';
 import 'package:fitoryx/widgets/graphs_dialog.dart';
 import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/popup_menu.dart';
+import 'package:fitoryx/widgets/subscription_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   );
                 },
               ),
+              const SubscriptionIcon(),
             ],
           ),
           SliverToBoxAdapter(

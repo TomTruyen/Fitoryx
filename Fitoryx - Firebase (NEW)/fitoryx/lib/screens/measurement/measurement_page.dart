@@ -1,6 +1,7 @@
 import 'package:fitoryx/screens/measurement/body_weight_page.dart';
 import 'package:fitoryx/screens/measurement/fat_percentage_page.dart';
 import 'package:fitoryx/screens/measurement/nutrition_page.dart';
+import 'package:fitoryx/widgets/subscription_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,9 @@ class MeasurementPage extends StatelessWidget {
             floating: true,
             pinned: true,
             title: Text('Measurements'),
+            actions: <Widget>[
+              SubscriptionIcon(),
+            ],
           ),
           SliverList(
             delegate: SliverChildListDelegate(

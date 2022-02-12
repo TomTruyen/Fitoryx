@@ -14,6 +14,7 @@ import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/loader.dart';
 import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:fitoryx/widgets/sort_button.dart';
+import 'package:fitoryx/widgets/subscription_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,6 +65,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
             floating: true,
             pinned: true,
             title: Text('Workout'),
+            actions: <Widget>[
+              SubscriptionIcon(),
+            ],
           ),
           SliverToBoxAdapter(
             child: Container(
@@ -153,8 +157,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           context,
                           CupertinoPageRoute(
                             fullscreenDialog: true,
-                            builder: (context) =>
-                                const StartWorkoutPage(),
+                            builder: (context) => const StartWorkoutPage(),
                           ),
                         );
                       },
