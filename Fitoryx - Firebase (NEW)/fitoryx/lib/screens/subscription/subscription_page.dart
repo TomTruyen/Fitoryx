@@ -1,12 +1,31 @@
+import 'package:fitoryx/services/purchase_service.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/subscription_card.dart';
 import 'package:flutter/material.dart';
+import 'package:purchases_flutter/models/package_wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SubscriptionPage extends StatelessWidget {
-  SubscriptionPage({Key? key}) : super(key: key);
+class SubscriptionPage extends StatefulWidget {
+  const SubscriptionPage({Key? key}) : super(key: key);
 
+  @override
+  State<SubscriptionPage> createState() => _SubscriptionPageState();
+}
+
+class _SubscriptionPageState extends State<SubscriptionPage> {
+  List<Package> _packages = [];
   final PageController _controller = PageController();
+
+  @override
+  void initState() {
+    _fetchProducts();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +44,7 @@ class SubscriptionPage extends StatelessWidget {
           scrollDirection: Axis.vertical,
           controller: _controller,
           children: <Widget>[
-            _overview(context),
+            _overview(),
             _pricing(),
           ],
         ),
@@ -33,57 +52,24 @@ class SubscriptionPage extends StatelessWidget {
     );
   }
 
-  Container _overview(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+  void _fetchProducts() async {
+    var products = await PurchaseService.fetchProducts();
 
+    if (mounted) {
+      setState(() {
+        _packages = products
+            .map((product) => product.availablePackages)
+            .expand((pair) => pair)
+            .toList();
+      });
+    }
+  }
+
+  Container _overview() {
     return Container(
       margin: const EdgeInsets.all(16),
       child: Column(
         children: <Widget>[
-          Expanded(
-            child: Center(
-              child: SizedBox(
-                width: width,
-                height: 150,
-                child: Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: <Widget>[
-                    Positioned(
-                      left: width / 10,
-                      bottom: 10,
-                      child: Transform.rotate(
-                        angle: 90,
-                        child: Image.asset(
-                          "assets/images/star.png",
-                          width: 75,
-                          height: 75,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      child: Image.asset(
-                        "assets/images/star.png",
-                        width: 100,
-                        height: 100,
-                      ),
-                    ),
-                    Positioned(
-                      right: width / 10,
-                      bottom: 10,
-                      child: Transform.rotate(
-                        angle: -90,
-                        child: Image.asset(
-                          "assets/images/star.png",
-                          width: 75,
-                          height: 75,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +78,7 @@ class SubscriptionPage extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 4),
                   child: Text(
-                    'Fitoryx Pro',
+                    'Fitoryx Pro ⭐',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -163,37 +149,27 @@ class SubscriptionPage extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          SubscriptionCard(
-            price: "€4.99",
-            measurement: "month",
-            description: "Start monthly subscription",
-            onTap: () {
-              print("MONTHLY");
-            },
-          ),
-          SubscriptionCard(
-            price: "€12.99",
-            measurement: "quarter",
-            description: "Start quarterly subscription",
-            onTap: () {
-              print("QUARTERLY");
-            },
-          ),
-          SubscriptionCard(
-            price: "€39.99",
-            measurement: "yearly",
-            description: "Start yearly subscription",
-            onTap: () {
-              print("YEARLY");
-            },
-          ),
+          if (_packages.isEmpty)
+            const Center(
+              child: Text("No plans found"),
+            ),
+          for (var package in _packages)
+            SubscriptionCard(
+              price: package.product.priceString,
+              title: package.product.title
+                  .replaceAll("(Fitoryx: Fitness & Nutrition Tracker)", ""),
+              description: package.product.description,
+              onTap: () async {
+                await PurchaseService.purchasePackage(package);
+              },
+            ),
           const SizedBox(height: 10),
           Center(
             child: TextButton(
               child: Text(
                 'MANAGE SUBSCRIPTIONS',
                 style: TextStyle(
-                  color: Colors.blue[600],
+                  color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w600,
                   fontSize: 12,
                 ),

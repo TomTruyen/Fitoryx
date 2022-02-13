@@ -18,7 +18,7 @@ class SubscriptionIcon extends StatelessWidget {
           context,
           CupertinoPageRoute(
             fullscreenDialog: true,
-            builder: (context) => SubscriptionPage(),
+            builder: (context) => const SubscriptionPage(),
           ),
         );
       },

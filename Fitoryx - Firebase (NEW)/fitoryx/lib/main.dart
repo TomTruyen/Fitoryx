@@ -5,6 +5,7 @@ import 'package:fitoryx/screens/sign_in.dart';
 import 'package:fitoryx/screens/wrapper.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/services/connection_service.dart';
+import 'package:fitoryx/services/purchase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ void main() async {
   // Firebase Setup
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await PurchaseService.init();
 
   runApp(const MyApp());
 }
@@ -69,6 +71,7 @@ class _MyAppState extends State<MyApp> {
   ThemeData _themeData() {
     return ThemeData(
       fontFamily: 'OpenSans',
+      primaryColor: Colors.blue[600],
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         unselectedItemColor: Colors.grey,
         unselectedIconTheme: IconThemeData(
