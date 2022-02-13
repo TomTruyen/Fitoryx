@@ -3,7 +3,6 @@ import 'package:fitoryx/models/body_weight.dart';
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/fat_percentage.dart';
 import 'package:fitoryx/models/nutrition.dart';
-import 'package:fitoryx/models/subscription.dart';
 import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/services/auth_service.dart';
@@ -55,7 +54,6 @@ class FirestoreService {
       _cacheService.setNutrition(_toNutrition(doc));
       _cacheService.setBodyWeight(_toBodyWeight(doc));
       _cacheService.setFatPercentage(_toFatPercentage(doc));
-      _cacheService.setSubscription(_toSubscription(doc));
     }
 
     return true;
@@ -475,40 +473,5 @@ class FirestoreService {
     _cacheService.setFatPercentage(percentageList);
 
     return percentage;
-  }
-
-  // Subscription
-  Subscription _toSubscription(DocumentSnapshot<Object?> doc) {
-    try {
-      dynamic data = doc.get(exerciseField);
-
-      Subscription subscription = FreeSubscription();
-      if (data['type'] == 'pro') {
-        subscription = ProSubscription();
-      }
-
-      subscription.expiration = data['expiration']?.toDate();
-
-      return subscription;
-    } catch (e) {
-      return FreeSubscription();
-    }
-  }
-
-  Future<Subscription> getSubscription() async {
-    if (!_cacheService.hasSubscription()) {
-      await fetchAll();
-    }
-
-    return _cacheService.getSubscription();
-  }
-
-  Future<void> saveSubscription(Subscription subscription) async {
-    await _usersCollection.doc(_authService.getUser()?.uid).set(
-      {subscriptionField: subscription.toJson()},
-      SetOptions(merge: true),
-    );
-
-    _cacheService.setSubscription(subscription);
   }
 }
