@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitoryx/services/cache_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -52,6 +53,7 @@ class AuthService {
 
   // Sign Out
   Future<void> signOut() async {
+    CacheService().clear();
     await _auth.signOut();
   }
 
@@ -59,9 +61,4 @@ class AuthService {
   User? getUser() {
     return _auth.currentUser;
   }
-
-  // AuthStateListener
-  // void listen(Function(User?) func) {
-  //   _auth.authStateChanges().listen(func);
-  // }
 }
