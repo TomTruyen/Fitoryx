@@ -9,6 +9,18 @@ class PurchaseService {
     await Purchases.setup(_apiKey);
   }
 
+  static Future<void> login(String? id) async {
+    if (id == null) {
+      throw Error();
+    }
+
+    await Purchases.logIn(id);
+  }
+
+  static Future<void> logout() async {
+    await Purchases.logOut();
+  }
+
   static Future<List<Offering>> fetchProducts() async {
     try {
       final products = await Purchases.getOfferings();
@@ -27,7 +39,6 @@ class PurchaseService {
 
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }
