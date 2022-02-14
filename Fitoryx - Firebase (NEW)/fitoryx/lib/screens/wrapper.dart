@@ -6,7 +6,10 @@ import 'package:fitoryx/screens/history/history_page.dart';
 import 'package:fitoryx/screens/measurement/measurement_page.dart';
 import 'package:fitoryx/screens/profile/profile_page.dart';
 import 'package:fitoryx/screens/workout/workout_page.dart';
+import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
+import 'package:fitoryx/services/purchase_service.dart';
+import 'package:fitoryx/widgets/alert.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +21,7 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  final AuthService _authService = AuthService();
   final FirestoreService _firestoreService = FirestoreService();
 
   late Future<bool> _isLoaded;
@@ -29,6 +33,12 @@ class _WrapperState extends State<Wrapper> {
   @override
   void initState() {
     _isLoaded = _firestoreService.fetchAll();
+
+    try {
+      PurchaseService.login(_authService.getUser()?.uid);
+    } catch (e) {
+      showAlert(context, content: "Failed to restore purchases");
+    }
 
     super.initState();
 
