@@ -1,7 +1,10 @@
+import 'package:fitoryx/models/subscription.dart';
+import 'package:fitoryx/providers/subscription_provider.dart';
 import 'package:fitoryx/services/purchase_service.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/subscription_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:purchases_flutter/models/package_wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,6 +32,9 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final subscription =
+        Provider.of<SubscriptionProvider>(context).subscription;
+
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -45,7 +51,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           controller: _controller,
           children: <Widget>[
             _overview(),
-            _pricing(),
+            _pricing(subscription),
           ],
         ),
       ),
@@ -121,71 +127,101 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     );
   }
 
-  Container _pricing() {
+  Container _pricing(Subscription subscription) {
     return Container(
       margin: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              'Subscribe',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              'Subscribe to Fitoryx Pro to get access to all premium features',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black54,
-              ),
-            ),
-          ),
-          const Spacer(),
-          if (_packages.isEmpty)
-            const Center(
-              child: Text("No plans found"),
-            ),
-          for (var package in _packages)
-            SubscriptionCard(
-              price: package.product.priceString,
-              title: package.product.title
-                  .replaceAll("(Fitoryx: Fitness & Nutrition Tracker)", ""),
-              description: package.product.description,
-              onTap: () async {
-                await PurchaseService.purchasePackage(package);
-              },
-            ),
-          const SizedBox(height: 10),
-          Center(
-            child: TextButton(
-              child: Text(
-                'MANAGE SUBSCRIPTIONS',
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12,
+        children: subscription is FreeSubscription
+            ? <Widget>[
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  child: Text(
+                    'Subscribe',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-              onPressed: () async {
-                const String subscriptions =
-                    "http://play.google.com/store/account/subscriptions";
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  child: Text(
+                    'Subscribe to Fitoryx Pro to get access to all premium features',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                if (_packages.isEmpty)
+                  const Center(
+                    child: Text("No plans found"),
+                  ),
+                for (var package in _packages)
+                  SubscriptionCard(
+                    price: package.product.priceString,
+                    title: package.product.title.replaceAll(
+                        "(Fitoryx: Fitness & Nutrition Tracker)", ""),
+                    description: package.product.description,
+                    onTap: () async {
+                      await PurchaseService.purchasePackage(package);
+                    },
+                  ),
+                const SizedBox(height: 10),
+                Center(
+                  child: TextButton(
+                    child: Text(
+                      'MANAGE SUBSCRIPTIONS',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                    onPressed: () async {
+                      const String subscriptions =
+                          "http://play.google.com/store/account/subscriptions";
 
-                if (await canLaunch(subscriptions)) {
-                  launch(subscriptions);
-                }
-              },
-            ),
-          ),
-          const Spacer(),
-        ],
+                      if (await canLaunch(subscriptions)) {
+                        launch(subscriptions);
+                      }
+                    },
+                  ),
+                ),
+                const Spacer(),
+              ]
+            : [
+                const Expanded(
+                  child: Center(
+                    child: Text(
+                      "You are already subscribed!",
+                    ),
+                  ),
+                ),
+                Center(
+                  child: TextButton(
+                    child: Text(
+                      'MANAGE SUBSCRIPTIONS',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                    onPressed: () async {
+                      const String subscriptions =
+                          "http://play.google.com/store/account/subscriptions";
+
+                      if (await canLaunch(subscriptions)) {
+                        launch(subscriptions);
+                      }
+                    },
+                  ),
+                ),
+              ],
       ),
     );
   }
