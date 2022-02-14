@@ -1,6 +1,6 @@
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/unit_type.dart';
-import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/widgets/alert.dart';

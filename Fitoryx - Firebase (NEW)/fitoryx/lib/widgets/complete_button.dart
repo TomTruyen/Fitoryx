@@ -1,5 +1,5 @@
 import 'package:fitoryx/models/settings.dart';
-import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/screens/workout/rest_timer_page.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:flutter/cupertino.dart';

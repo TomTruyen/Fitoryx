@@ -2,7 +2,7 @@ import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/settings.dart';
 import 'package:fitoryx/models/workout.dart';
-import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/screens/workout/build_workout_page.dart';
 import 'package:fitoryx/screens/workout/start_workout_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';

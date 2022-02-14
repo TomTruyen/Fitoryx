@@ -1,5 +1,5 @@
 import 'package:fitoryx/models/exercise.dart';
-import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

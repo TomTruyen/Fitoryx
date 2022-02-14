@@ -1,4 +1,4 @@
-import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/widgets/complete_button.dart';
 import 'package:fitoryx/widgets/delete_button.dart';
 import 'package:fitoryx/widgets/form_input.dart';

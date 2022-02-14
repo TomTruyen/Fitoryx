@@ -4,7 +4,7 @@ import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/unit_type.dart';
-import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/utils/double_extension.dart';
 import 'package:fitoryx/utils/int_extension.dart';

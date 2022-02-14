@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fitoryx/models/workout_change_notifier.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/utils/int_extension.dart';
 import 'package:flutter/material.dart';
 
