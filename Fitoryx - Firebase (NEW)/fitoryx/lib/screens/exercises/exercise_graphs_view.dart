@@ -1,11 +1,15 @@
 import 'package:fitoryx/graphs/exercise_detail_graph.dart';
 import 'package:fitoryx/graphs/models/exercise_graph_type.dart';
+import 'package:fitoryx/graphs/placeholder_graph.dart';
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/settings.dart';
+import 'package:fitoryx/models/subscription.dart';
 import 'package:fitoryx/models/unit_type.dart';
 import 'package:fitoryx/models/workout_history.dart';
+import 'package:fitoryx/providers/subscription_provider.dart';
 import 'package:fitoryx/widgets/graph_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExerciseGraphsView extends StatelessWidget {
   final Exercise exercise;
@@ -21,6 +25,9 @@ class ExerciseGraphsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _subscription =
+        Provider.of<SubscriptionProvider>(context).subscription;
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(2),
@@ -32,12 +39,14 @@ class ExerciseGraphsView extends StatelessWidget {
                   "Max volume (${UnitTypeHelper.toValue(settings.weightUnit)})",
               graph: Container(
                 padding: const EdgeInsets.all(8),
-                child: ExerciseDetailGraph(
-                  exercise: exercise,
-                  history: history,
-                  type: ExerciseGraphType.volume,
-                  settings: settings,
-                ),
+                child: _subscription is FreeSubscription
+                    ? const PlaceholderGraph()
+                    : ExerciseDetailGraph(
+                        exercise: exercise,
+                        history: history,
+                        type: ExerciseGraphType.volume,
+                        settings: settings,
+                      ),
               ),
             ),
             GraphCard(
@@ -45,12 +54,14 @@ class ExerciseGraphsView extends StatelessWidget {
               title: "Max reps",
               graph: Container(
                 padding: const EdgeInsets.all(8),
-                child: ExerciseDetailGraph(
-                  exercise: exercise,
-                  history: history,
-                  type: ExerciseGraphType.reps,
-                  settings: settings,
-                ),
+                child: _subscription is FreeSubscription
+                    ? const PlaceholderGraph()
+                    : ExerciseDetailGraph(
+                        exercise: exercise,
+                        history: history,
+                        type: ExerciseGraphType.reps,
+                        settings: settings,
+                      ),
               ),
             ),
             GraphCard(
@@ -58,12 +69,14 @@ class ExerciseGraphsView extends StatelessWidget {
               title: "Max weight",
               graph: Container(
                 padding: const EdgeInsets.all(8),
-                child: ExerciseDetailGraph(
-                  exercise: exercise,
-                  history: history,
-                  type: ExerciseGraphType.weight,
-                  settings: settings,
-                ),
+                child: _subscription is FreeSubscription
+                    ? const PlaceholderGraph()
+                    : ExerciseDetailGraph(
+                        exercise: exercise,
+                        history: history,
+                        type: ExerciseGraphType.weight,
+                        settings: settings,
+                      ),
               ),
             ),
           ],

@@ -1,7 +1,10 @@
 import 'package:fitoryx/graphs/measurement_graph.dart';
+import 'package:fitoryx/graphs/placeholder_graph.dart';
 import 'package:fitoryx/models/body_weight.dart';
 import 'package:fitoryx/models/settings.dart';
+import 'package:fitoryx/models/subscription.dart';
 import 'package:fitoryx/models/unit_type.dart';
+import 'package:fitoryx/providers/subscription_provider.dart';
 import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/utils/double_extension.dart';
@@ -11,6 +14,7 @@ import 'package:fitoryx/widgets/input_dialog.dart';
 import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class BodyWeightPage extends StatefulWidget {
   const BodyWeightPage({Key? key}) : super(key: key);
@@ -34,6 +38,9 @@ class _BodyWeightPageState extends State<BodyWeightPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _subscription =
+        Provider.of<SubscriptionProvider>(context).subscription;
+
     return Scaffold(
       body: CustomScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -82,9 +89,11 @@ class _BodyWeightPageState extends State<BodyWeightPage> {
                     height: 225,
                     graph: Container(
                       padding: const EdgeInsets.all(8),
-                      child: MeasurementGraph(
-                        data: _bodyweight.reversed.toList(),
-                      ),
+                      child: _subscription is FreeSubscription
+                          ? const PlaceholderGraph()
+                          : MeasurementGraph(
+                              data: _bodyweight.reversed.toList(),
+                            ),
                     ),
                   ),
                 ),

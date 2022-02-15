@@ -1,11 +1,14 @@
 import 'package:fitoryx/graphs/nutrition_graph.dart';
+import 'package:fitoryx/graphs/placeholder_graph.dart';
 import 'package:fitoryx/graphs/volume_graph.dart';
 import 'package:fitoryx/graphs/workouts_per_week_graph.dart';
 import 'package:fitoryx/models/graph_type.dart';
 import 'package:fitoryx/models/nutrition.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/settings.dart';
+import 'package:fitoryx/models/subscription.dart';
 import 'package:fitoryx/models/workout_history.dart';
+import 'package:fitoryx/providers/subscription_provider.dart';
 import 'package:fitoryx/screens/settings/settings_page.dart';
 import 'package:fitoryx/services/auth_service.dart';
 import 'package:fitoryx/services/firestore_service.dart';
@@ -19,6 +22,7 @@ import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:fitoryx/widgets/subscription_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -44,6 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _subscription =
+        Provider.of<SubscriptionProvider>(context).subscription;
+
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -191,9 +198,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       title: 'Calories this week',
                       graph: Container(
                         padding: const EdgeInsets.all(8),
-                        child: NutritionGraph(
-                          nutritions: _nutrition,
-                        ),
+                        child: _subscription is FreeSubscription
+                            ? const PlaceholderGraph()
+                            : NutritionGraph(
+                                nutritions: _nutrition,
+                              ),
                       ),
                     ),
                   if (_settings.graphs.has(GraphType.volume))
@@ -201,10 +210,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       title: 'Volume this week',
                       graph: Container(
                         padding: const EdgeInsets.all(8),
-                        child: VolumeGraph(
-                          workouts: _history,
-                          settings: _settings,
-                        ),
+                        child: _subscription is FreeSubscription
+                            ? const PlaceholderGraph()
+                            : VolumeGraph(
+                                workouts: _history,
+                                settings: _settings,
+                              ),
                       ),
                     ),
                 ],
