@@ -61,6 +61,10 @@ class _BodyWeightPageState extends State<BodyWeightPage> {
                       UnitTypeHelper.toValue(_settings.weightUnit),
                       0, (double value) async {
                     try {
+                      if (value <= 0) {
+                        return;
+                      }
+
                       var bodyweight =
                           BodyWeight(weight: value, unit: _settings.weightUnit);
 
