@@ -63,7 +63,7 @@ Future<void> showProDialog(
                   ),
                   TextButton(
                     child: const Text(
-                      'LEARN MORE',
+                      'Unlock',
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
