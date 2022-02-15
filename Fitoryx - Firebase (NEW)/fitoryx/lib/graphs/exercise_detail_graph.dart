@@ -27,6 +27,7 @@ class ExerciseDetailGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return LineChart(
       LineChartData(
+        minY: 0.toDouble(),
         gridData: FlGridData(show: false),
         titlesData: FlTitlesData(
           show: true,
