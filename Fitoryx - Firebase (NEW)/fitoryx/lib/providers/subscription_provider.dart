@@ -10,7 +10,11 @@ class SubscriptionProvider extends ChangeNotifier {
   Subscription _subscription = FreeSubscription();
   Subscription get subscription => _subscription;
 
+  DateTime? _expiration;
+  DateTime? get expiration => _expiration;
+
   Future init() async {
+    await updatePurchaseStatus();
     Purchases.addPurchaserInfoUpdateListener((purchaserInfo) async {
       updatePurchaseStatus();
     });
@@ -23,6 +27,11 @@ class SubscriptionProvider extends ChangeNotifier {
 
     _subscription =
         entitlements.isEmpty ? FreeSubscription() : ProSubscription();
+
+    _expiration =
+        entitlements.isEmpty || entitlements.last.expirationDate == null
+            ? null
+            : DateTime.parse(entitlements.last.expirationDate!);
 
     notifyListeners();
   }

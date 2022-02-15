@@ -4,6 +4,7 @@ import 'package:fitoryx/services/purchase_service.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/subscription_card.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/models/package_wrapper.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,8 +33,10 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final subscription =
-        Provider.of<SubscriptionProvider>(context).subscription;
+    final subscriptionProvider = Provider.of<SubscriptionProvider>(context);
+
+    final subscription = subscriptionProvider.subscription;
+    final expiration = subscriptionProvider.expiration;
 
     return Scaffold(
       body: NestedScrollView(
@@ -51,7 +54,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
           controller: _controller,
           children: <Widget>[
             _overview(),
-            _pricing(subscription),
+            _pricing(subscription, expiration),
           ],
         ),
       ),
@@ -127,7 +130,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     );
   }
 
-  Container _pricing(Subscription subscription) {
+  Container _pricing(Subscription subscription, DateTime? expiration) {
     return Container(
       margin: const EdgeInsets.all(16),
       child: Column(
@@ -158,7 +161,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 const Spacer(),
                 if (_packages.isEmpty)
                   const Center(
-                    child: Text("No plans found"),
+                    child: Text("No subscriptions found"),
                   ),
                 for (var package in _packages)
                   SubscriptionCard(
@@ -194,10 +197,23 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                 const Spacer(),
               ]
             : [
-                const Expanded(
+                Expanded(
                   child: Center(
-                    child: Text(
-                      "You are already subscribed!",
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          "You're already subscribed",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        if (expiration != null)
+                          Text(
+                            "Expiration: ${DateFormat("dd-MM-yyyy HH:mm").format(expiration)}",
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                      ],
                     ),
                   ),
                 ),
