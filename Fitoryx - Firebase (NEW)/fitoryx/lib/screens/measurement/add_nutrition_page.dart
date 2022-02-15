@@ -51,6 +51,13 @@ class _AddNutritionPageState extends State<AddNutritionPage> {
                 icon: const Icon(Icons.check),
                 onPressed: () async {
                   try {
+                    if (_nutrition.isEmpty()) {
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                      return;
+                    }
+
                     Nutrition nutrition = await _firestoreService.saveNutrition(
                       _nutrition,
                     );

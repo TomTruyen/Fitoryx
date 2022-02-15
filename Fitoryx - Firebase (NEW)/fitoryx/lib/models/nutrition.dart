@@ -14,6 +14,10 @@ class Nutrition {
     this.fat = 0,
   });
 
+  bool isEmpty() {
+    return kcal == 0 && carbs == 0 && protein == 0 && fat == 0;
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "id": id,
