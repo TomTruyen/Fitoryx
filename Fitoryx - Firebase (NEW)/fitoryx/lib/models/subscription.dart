@@ -31,7 +31,7 @@ class FreeSubscription extends Subscription {
   FreeSubscription()
       : super(
           workoutLimit: 2,
-          exerciseLimit: 5,
+          exerciseLimit: 3,
           allowMeasurementGraphs: false,
           allowedExerciseGraphs: [],
           allowedProfileGraphs: [GraphType.workouts],

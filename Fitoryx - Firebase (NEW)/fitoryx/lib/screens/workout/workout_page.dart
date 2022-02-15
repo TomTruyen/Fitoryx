@@ -1,7 +1,9 @@
 import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/settings.dart';
+import 'package:fitoryx/models/subscription.dart';
 import 'package:fitoryx/models/workout.dart';
+import 'package:fitoryx/providers/subscription_provider.dart';
 import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/screens/workout/build_workout_page.dart';
 import 'package:fitoryx/screens/workout/start_workout_page.dart';
@@ -13,6 +15,7 @@ import 'package:fitoryx/widgets/exercise_row.dart';
 import 'package:fitoryx/widgets/gradient_button.dart';
 import 'package:fitoryx/widgets/loader.dart';
 import 'package:fitoryx/widgets/popup_menu.dart';
+import 'package:fitoryx/widgets/pro_dialog.dart';
 import 'package:fitoryx/widgets/sort_button.dart';
 import 'package:fitoryx/widgets/subscription_icon.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,6 +59,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
       listen: false,
     );
 
+    final _subscription =
+        Provider.of<SubscriptionProvider>(context).subscription;
+
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -78,6 +84,16 @@ class _WorkoutPageState extends State<WorkoutPage> {
               child: GradientButton(
                 text: 'Create Workout',
                 onPressed: () async {
+                  if (_subscription is FreeSubscription &&
+                      _workouts.length >= _subscription.workoutLimit!) {
+                    await showProDialog(
+                      context,
+                      content:
+                          "You have reached your maximum amount of workouts (${_subscription.workoutLimit}). Upgrade to Pro to get unlimited workouts!",
+                    );
+                    return;
+                  }
+
                   _workout.reset();
                   _workout.setUnit(_settings.weightUnit);
 

@@ -4,8 +4,10 @@ import 'package:fitoryx/models/exercise.dart';
 import 'package:fitoryx/models/exercise_filter.dart';
 import 'package:fitoryx/models/exercise_type.dart';
 import 'package:fitoryx/models/settings.dart';
-import 'package:fitoryx/providers/workout_change_notifier.dart';
+import 'package:fitoryx/models/subscription.dart';
 import 'package:fitoryx/models/workout_history.dart';
+import 'package:fitoryx/providers/subscription_provider.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_detail_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_filter_page.dart';
@@ -17,6 +19,7 @@ import 'package:fitoryx/widgets/exercise_item.dart';
 import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
 import 'package:fitoryx/widgets/list_divider.dart';
 import 'package:fitoryx/widgets/loader.dart';
+import 'package:fitoryx/widgets/pro_dialog.dart';
 import 'package:fitoryx/widgets/subscription_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -76,6 +79,8 @@ class _ExercisesPagesState extends State<ExercisesPages> {
   @override
   Widget build(BuildContext context) {
     final ExerciseFilter _filter = Provider.of<ExerciseFilter>(context);
+    final _subscription =
+        Provider.of<SubscriptionProvider>(context).subscription;
 
     _filterExercises(_filter);
 
@@ -83,7 +88,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          hideSearch ? _defaultAppBar() : _searchAppBar(_filter),
+          hideSearch ? _defaultAppBar(_subscription) : _searchAppBar(_filter),
           _loading
               ? const SliverFillRemaining(child: Loader())
               : SliverList(
@@ -269,7 +274,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
     });
   }
 
-  SliverAppBar _defaultAppBar() {
+  SliverAppBar _defaultAppBar(Subscription subscription) {
     return SliverAppBar(
       automaticallyImplyLeading: false,
       floating: true,
@@ -298,7 +303,20 @@ class _ExercisesPagesState extends State<ExercisesPages> {
         if (!widget.isSelectable)
           IconButton(
               icon: const Icon(Icons.add),
-              onPressed: () {
+              onPressed: () async {
+                final userExerciseCount =
+                    _exercises.where((e) => e.userCreated).length;
+
+                if (subscription is FreeSubscription &&
+                    userExerciseCount >= subscription.exerciseLimit!) {
+                  await showProDialog(
+                    context,
+                    content:
+                        "You have reached your maximum amount of exercises (${subscription.exerciseLimit}). Upgrade to Pro to get unlimited exercises!",
+                  );
+                  return;
+                }
+
                 Navigator.push(
                   context,
                   CupertinoPageRoute(
