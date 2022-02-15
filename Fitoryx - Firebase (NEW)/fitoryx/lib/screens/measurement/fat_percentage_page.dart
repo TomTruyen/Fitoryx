@@ -53,6 +53,7 @@ class _FatPercentagePageState extends State<FatPercentagePage> {
                   await showInputDialog(context, "Fat percentage", "%", 0,
                       (double value) async {
                     try {
+                      if (value <= 0) return;
                       if (value > 100) value = 100;
 
                       var percentage = FatPercentage(percentage: value);
