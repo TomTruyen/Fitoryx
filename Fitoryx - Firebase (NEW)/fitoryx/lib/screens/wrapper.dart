@@ -37,7 +37,11 @@ class _WrapperState extends State<Wrapper> {
     try {
       PurchaseService.login(_authService.getUser()?.uid);
     } catch (e) {
-      showAlert(context, content: "Failed to restore purchases");
+      showAlert(
+        context,
+        content:
+            "Couldn't get subscriptions. If you have an active Fitoryx Pro subscription then please try to restart the app.",
+      );
     }
 
     super.initState();
