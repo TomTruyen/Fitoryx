@@ -93,20 +93,26 @@ class _WrapperState extends State<Wrapper> {
           currentIndex: _selectedIndex,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              activeIcon: Icon(Icons.person_outline, color: Colors.blue[700]),
+              activeIcon: Icon(
+                Icons.person_outline,
+                color: Theme.of(context).primaryColor,
+              ),
               icon: const Icon(Icons.person_outline),
               label: 'Profile',
             ),
             BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.watch_later_outlined,
-                color: Colors.blue[700],
+                color: Theme.of(context).primaryColor,
               ),
               icon: const Icon(Icons.watch_later_outlined),
               label: 'History',
             ),
             BottomNavigationBarItem(
-              activeIcon: Icon(Icons.add_outlined, color: Colors.blue[700]),
+              activeIcon: Icon(
+                Icons.add_outlined,
+                color: Theme.of(context).primaryColor,
+              ),
               icon: const Icon(Icons.add_outlined),
               label: 'Workout',
             ),
@@ -115,7 +121,7 @@ class _WrapperState extends State<Wrapper> {
                 angle: -pi / 4,
                 child: Icon(
                   Icons.fitness_center_outlined,
-                  color: Colors.blue[700],
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
               icon: Transform.rotate(
@@ -125,8 +131,10 @@ class _WrapperState extends State<Wrapper> {
               label: 'Exercises',
             ),
             BottomNavigationBarItem(
-              activeIcon:
-                  Icon(Icons.restaurant_menu_outlined, color: Colors.blue[700]),
+              activeIcon: Icon(
+                Icons.restaurant_menu_outlined,
+                color: Theme.of(context).primaryColor,
+              ),
               icon: const Icon(Icons.restaurant_menu_outlined),
               label: 'Nutrition',
             ),

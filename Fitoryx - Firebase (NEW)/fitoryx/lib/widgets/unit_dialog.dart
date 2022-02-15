@@ -46,7 +46,7 @@ Future<UnitType> showUnitDialog(
                         children: <Widget>[
                           for (var unitType in UnitType.values)
                             RadioListTile(
-                              activeColor: Colors.blue[700],
+                              activeColor: Theme.of(context).primaryColor,
                               contentPadding: EdgeInsets.zero,
                               title: Text(
                                 UnitTypeHelper.toSubtitle(unitType),

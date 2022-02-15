@@ -59,10 +59,10 @@ class _HistoryCalendarPageState extends State<HistoryCalendarPage> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               selectedDateTime: null,
-              iconColor: Colors.blue[700]!,
+              iconColor: Theme.of(context).primaryColor,
               headerTextStyle: TextStyle(
                 fontSize: 20.0,
-                color: Colors.blue[700],
+                color: Theme.of(context).primaryColor,
               ),
               firstDayOfWeek: 1,
               todayBorderColor: Colors.transparent,
@@ -76,7 +76,7 @@ class _HistoryCalendarPageState extends State<HistoryCalendarPage> {
                       : const TextStyle(color: Colors.black),
               weekdayTextStyle: TextStyle(
                 fontSize: 14.0,
-                color: Colors.blue[700],
+                color: Theme.of(context).primaryColor,
               ),
               weekendTextStyle: const TextStyle(
                 fontSize: 14.0,

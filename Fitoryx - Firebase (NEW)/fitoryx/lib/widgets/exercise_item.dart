@@ -30,7 +30,7 @@ class ExerciseItem extends StatelessWidget {
         style: selected
             ? TextStyle(
                 fontSize: 16.0,
-                color: Colors.blue[700],
+                color: Theme.of(context).primaryColor,
               )
             : null,
         overflow: TextOverflow.ellipsis,
@@ -39,7 +39,7 @@ class ExerciseItem extends StatelessWidget {
         exercise.category == "" ? "None" : exercise.category,
         style: selected
             ? Theme.of(context).textTheme.subtitle2?.copyWith(
-                  color: Colors.blue[700],
+                  color: Theme.of(context).primaryColor,
                 )
             : Theme.of(context).textTheme.subtitle2,
         overflow: TextOverflow.ellipsis,

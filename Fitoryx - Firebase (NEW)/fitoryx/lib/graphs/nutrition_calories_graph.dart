@@ -46,7 +46,7 @@ class NutritionCaloriesGraph extends StatelessWidget {
                   startDegreeOffset: -90,
                   sectionsSpace: 0,
                   centerSpaceRadius: 50,
-                  sections: _getSections(),
+                  sections: _getSections(context),
                   borderData: FlBorderData(
                     show: false,
                   ),
@@ -59,12 +59,14 @@ class NutritionCaloriesGraph extends StatelessWidget {
     );
   }
 
-  List<PieChartSectionData> _getSections() {
+  List<PieChartSectionData> _getSections(BuildContext context) {
     if (settings.kcal == null) {
       return [
         PieChartSectionData(
           value: nutrition.kcal > 0 ? nutrition.kcal.toDouble() : 1,
-          color: nutrition.kcal > 0 ? Colors.blue[700] : Colors.blue[200],
+          color: nutrition.kcal > 0
+              ? Theme.of(context).primaryColor
+              : Colors.blue[200],
           radius: 10,
           showTitle: false,
         ),
@@ -74,7 +76,7 @@ class NutritionCaloriesGraph extends StatelessWidget {
     return [
       PieChartSectionData(
         value: nutrition.kcal.toDouble(),
-        color: Colors.blue[700],
+        color: Theme.of(context).primaryColor,
         radius: 10,
         showTitle: false,
       ),

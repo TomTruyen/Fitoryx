@@ -33,7 +33,7 @@ class WeightSetRow extends StatelessWidget {
           child: Text(
             (setIndex + 1).toString(),
             style: TextStyle(
-              color: Colors.blue[700],
+              color: Theme.of(context).primaryColor,
               fontSize: 14.0,
             ),
             textAlign: TextAlign.center,

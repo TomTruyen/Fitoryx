@@ -46,7 +46,7 @@ class PopupMenu extends StatelessWidget {
           ),
           icon: Icon(
             Icons.more_vert,
-            color: isHeader ? Colors.black : Colors.blue[700],
+            color: isHeader ? Colors.black : Theme.of(context).primaryColor,
           ),
           onSelected: onSelected,
           itemBuilder: (BuildContext context) => _buildItems(context),

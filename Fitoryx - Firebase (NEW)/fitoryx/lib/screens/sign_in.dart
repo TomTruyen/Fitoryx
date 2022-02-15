@@ -117,7 +117,7 @@ class _SignInState extends State<SignIn> {
                     child: Text(
                       'Need an account?',
                       style: TextStyle(
-                        color: Colors.blue[600],
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),

@@ -115,7 +115,7 @@ class _SignUpState extends State<SignUp> {
                     child: Text(
                       'Already have an account?',
                       style: TextStyle(
-                        color: Colors.blue[600],
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   )

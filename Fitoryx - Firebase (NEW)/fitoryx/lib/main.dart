@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
   ThemeData _themeData() {
     return ThemeData(
       fontFamily: 'OpenSans',
-      primaryColor: Colors.blue[600],
+      primaryColor: Colors.blue[700],
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         unselectedItemColor: Colors.grey,
         unselectedIconTheme: IconThemeData(

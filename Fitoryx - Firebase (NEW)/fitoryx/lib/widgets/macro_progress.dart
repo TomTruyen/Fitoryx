@@ -60,7 +60,9 @@ class MacroProgress extends StatelessWidget {
               child: LinearProgressIndicator(
                 value:
                     goal != null ? (value / goal!).abs() : 1, // percent filled
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[700]!),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Theme.of(context).primaryColor,
+                ),
                 backgroundColor: Colors.blue[200],
               ),
             ),

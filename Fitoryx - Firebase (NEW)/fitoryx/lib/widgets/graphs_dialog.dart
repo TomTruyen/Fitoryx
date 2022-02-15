@@ -47,7 +47,7 @@ Future<List<GraphType>> showGraphsDialog(
                         children: <Widget>[
                           for (var graphType in GraphType.values)
                             CheckboxListTile(
-                              activeColor: Colors.blue[700],
+                              activeColor: Theme.of(context).primaryColor,
                               contentPadding: EdgeInsets.zero,
                               controlAffinity: ListTileControlAffinity.leading,
                               title: Text(

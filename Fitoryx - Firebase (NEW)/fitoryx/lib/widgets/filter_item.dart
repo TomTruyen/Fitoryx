@@ -22,7 +22,7 @@ class FilterItem extends StatelessWidget {
         child: Text(
           value,
           style: TextStyle(
-            color: !selected ? Colors.blue[700] : Colors.white,
+            color: !selected ? Theme.of(context).primaryColor : Colors.white,
             fontSize: Theme.of(context).textTheme.bodyText2!.fontSize! * 0.8,
           ),
           textAlign: TextAlign.center,

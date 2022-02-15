@@ -32,8 +32,8 @@ class ExerciseDetailPage extends StatelessWidget {
                 pinned: true,
                 title: Text(exercise.getTitle()),
                 bottom: TabBar(
-                  indicatorColor: Colors.blue[700],
-                  labelColor: Colors.blue[700],
+                  indicatorColor: Theme.of(context).primaryColor,
+                  labelColor: Theme.of(context).primaryColor,
                   unselectedLabelColor: Colors.blue[200],
                   tabs: const [
                     Tab(text: "Records"),

@@ -173,7 +173,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       child: Text(
                                         history.workout.name,
                                         style: TextStyle(
-                                          color: Colors.blue[700],
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                         overflow: TextOverflow.ellipsis,
                                       ),

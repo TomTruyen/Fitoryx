@@ -62,13 +62,13 @@ class WorkoutExerciseCard extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: Text(
                     exercise.getTitle(),
-                    style: TextStyle(color: Colors.blue[700]),
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
               readonly
-                  ? _historyOption(_workout)
+                  ? _historyOption(context, _workout)
                   : _cardOption(context, _workout),
             ],
           ),
@@ -113,7 +113,7 @@ class WorkoutExerciseCard extends StatelessWidget {
                   child: Text(
                     'ADD SET',
                     style: TextStyle(
-                      color: Colors.blue[700],
+                      color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -126,7 +126,7 @@ class WorkoutExerciseCard extends StatelessWidget {
     );
   }
 
-  Widget _historyOption(WorkoutChangeNotifier workout) {
+  Widget _historyOption(BuildContext context, WorkoutChangeNotifier workout) {
     return Flexible(
       child: Container(
         padding: const EdgeInsets.all(16.0),
@@ -138,24 +138,24 @@ class WorkoutExerciseCard extends StatelessWidget {
                     angle: -pi / 4,
                     child: Icon(
                       Icons.fitness_center_outlined,
-                      color: Colors.blue[700],
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   const SizedBox(width: 5.0),
                   Text(
                     "${exercise.getTotalWeight().toIntString()} ${UnitTypeHelper.toValue(workout.unit)}",
-                    style: TextStyle(color: Colors.blue[700]),
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ]
               : <Widget>[
                   Icon(
                     Icons.schedule,
-                    color: Colors.blue[700],
+                    color: Theme.of(context).primaryColor,
                   ),
                   const SizedBox(width: 5.0),
                   Text(
                     exercise.getTotalTime(),
-                    style: TextStyle(color: Colors.blue[700]),
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ],
         ),
@@ -172,13 +172,13 @@ class WorkoutExerciseCard extends StatelessWidget {
                 children: <Widget>[
                   Icon(
                     Icons.schedule,
-                    color: Colors.blue[700],
+                    color: Theme.of(context).primaryColor,
                   ),
                   const SizedBox(width: 5.0),
                   Text(
                     "${(exercise.restSeconds ~/ 60).withZeroPadding()}:${(exercise.restSeconds % 60).withZeroPadding()}",
                     style: TextStyle(
-                      color: Colors.blue[700],
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ],

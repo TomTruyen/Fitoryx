@@ -52,7 +52,7 @@ class _TimeSetRowState extends State<TimeSetRow> {
             (widget.setIndex + 1).toString(),
             style: TextStyle(
               fontSize: 14.0,
-              color: Colors.blue[700],
+              color: Theme.of(context).primaryColor,
             ),
             textAlign: TextAlign.center,
           ),

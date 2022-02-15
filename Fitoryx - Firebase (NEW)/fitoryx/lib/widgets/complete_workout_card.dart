@@ -30,7 +30,7 @@ class CompleteWorkoutCard extends StatelessWidget {
             Text(
               history.workout.name,
               style: TextStyle(
-                color: Colors.blue[700],
+                color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.w600,
                 fontSize: 18,
               ),
