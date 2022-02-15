@@ -1,5 +1,5 @@
-import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/models/workout_history.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/screens/workout/complete_workout_page.dart';
 import 'package:fitoryx/services/firestore_service.dart';
@@ -160,7 +160,16 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
                     ),
                     child: GradientButton(
                       text: 'Start Workout',
-                      onPressed: () {
+                      onPressed: () async {
+                        if (_workout.exercises.isEmpty) {
+                          await showAlert(
+                            context,
+                            content:
+                                "At least 1 exercise should be added to a workout!",
+                          );
+                          return;
+                        }
+
                         _startWorkout();
                       },
                     ),

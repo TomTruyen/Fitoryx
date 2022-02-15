@@ -32,14 +32,14 @@ class WorkoutExerciseCard extends StatelessWidget {
     PopupOption(text: 'Remove exercise', value: 'remove'),
   ];
 
-  WorkoutExerciseCard(
-      {Key? key,
-      required this.index,
-      required this.exercise,
-      this.readonly = false,
-      this.started = false,
-      this.hideEmptyNotes = false})
-      : super(key: key);
+  WorkoutExerciseCard({
+    Key? key,
+    required this.index,
+    required this.exercise,
+    this.readonly = false,
+    this.started = false,
+    this.hideEmptyNotes = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,8 @@ class WorkoutExerciseCard extends StatelessWidget {
                       exerciseIndex: index,
                       setIndex: i,
                       started: started,
-                      readonly: readonly),
+                      readonly: readonly,
+                    ),
             ),
           readonly
               ? const SizedBox(height: 16.0)
