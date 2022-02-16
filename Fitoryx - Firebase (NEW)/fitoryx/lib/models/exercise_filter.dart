@@ -13,8 +13,10 @@ class ExerciseFilter extends ChangeNotifier {
   }
 
   void removeCategory(String category) {
-    categories.remove(category);
-    notifyListeners();
+    if (categories.contains(category)) {
+      categories.remove(category);
+      notifyListeners();
+    }
   }
 
   void addEquipment(String equipment) {
@@ -23,8 +25,10 @@ class ExerciseFilter extends ChangeNotifier {
   }
 
   void removeEquipment(String equipment) {
-    equipments.remove(equipment);
-    notifyListeners();
+    if (equipments.contains(equipment)) {
+      equipments.remove(equipment);
+      notifyListeners();
+    }
   }
 
   void addType(String type) {
@@ -33,8 +37,10 @@ class ExerciseFilter extends ChangeNotifier {
   }
 
   void removeType(String type) {
-    types.remove(type);
-    notifyListeners();
+    if (types.contains(type)) {
+      types.remove(type);
+      notifyListeners();
+    }
   }
 
   void setCount(int count) {
