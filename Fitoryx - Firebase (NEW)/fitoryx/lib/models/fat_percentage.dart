@@ -16,7 +16,7 @@ class FatPercentage {
   static FatPercentage fromJson(Map<String, dynamic> json) {
     var percentage = FatPercentage(
       id: json['id'],
-      percentage: json['percentage'],
+      percentage: json['percentage']?.toDouble(),
     );
 
     percentage.date = json['date']?.toDate();
