@@ -22,7 +22,7 @@ void main() {
     });
 
     test('clone should return new WorkoutHistory with current values', () {
-      var result = workoutHistory.clone();
+      var result = workoutHistory.clone(newUnit: UnitType.metric);
 
       expect(result.id, workoutHistory.id);
       expect(result.workout.id, workoutHistory.workout.id);
