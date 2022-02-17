@@ -16,9 +16,11 @@ class Workout {
   });
 
   void changeUnit(UnitType newUnit) {
-    exercises = convertUnitType(List.of(exercises), newUnit);
+    if (newUnit != unit) {
+      exercises = convertUnitType(List.of(exercises), newUnit);
 
-    unit = newUnit;
+      unit = newUnit;
+    }
   }
 
   Workout clone({bool fullClone = false}) {
