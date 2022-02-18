@@ -53,9 +53,9 @@ dependencies:
   lottie: ^1.2.1
   material_design_icons_flutter: ^5.0.6595
   purchases_flutter: ^3.9.3
-  mockito: ^5.1.0
 
 dev_dependencies:
+  mockito: ^5.1.0
   flutter_test:
     sdk: flutter
 
