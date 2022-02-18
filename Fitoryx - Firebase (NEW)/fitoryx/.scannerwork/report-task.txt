@@ -2,5 +2,5 @@ projectKey=flutter
 serverUrl=http://localhost:9000
 serverVersion=9.2.1.49989
 dashboardUrl=http://localhost:9000/dashboard?id=flutter
-ceTaskId=AX8NXNuP3bGc3wkR-ODy
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AX8NXNuP3bGc3wkR-ODy
+ceTaskId=AX8NZOlK3bGc3wkR-ODz
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AX8NZOlK3bGc3wkR-ODz
