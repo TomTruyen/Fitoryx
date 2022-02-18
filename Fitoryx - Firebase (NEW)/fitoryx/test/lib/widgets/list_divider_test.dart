@@ -10,12 +10,18 @@ void main() {
         String dividerText = "Test Text";
         EdgeInsetsGeometry dividerPadding = const EdgeInsets.all(8);
 
-        await tester.pumpWidget(ListDivider(
-          text: dividerText,
-          padding: dividerPadding,
-        ));
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: ListDivider(
+                text: dividerText,
+                padding: dividerPadding,
+              ),
+            ),
+          ),
+        );
 
-        final textFinder = find.widgetWithText(Text, dividerText);
+        final textFinder = find.text(dividerText);
         final containerFinder = find.byType(Container);
 
         expect(textFinder, findsOneWidget);
