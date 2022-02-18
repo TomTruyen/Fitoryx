@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class GradientButton extends StatelessWidget {
   final String text;
   final bool isBusy;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   const GradientButton({
     Key? key,
     this.text = "",
     this.isBusy = false,
-    required this.onPressed,
+    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class GradientButton extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(0.0),
         ),
-        onPressed: !isBusy ? onPressed : () => {},
+        onPressed: onPressed,
         child: Ink(
           decoration: BoxDecoration(
             gradient: LinearGradient(
