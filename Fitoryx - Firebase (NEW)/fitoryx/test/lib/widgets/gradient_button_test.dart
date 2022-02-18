@@ -75,6 +75,10 @@ void main() {
 
         Ink ink = tester.firstWidget(inkFinder);
         expect((ink.decoration as BoxDecoration).gradient != null, true);
+        expect(
+          (ink.decoration as BoxDecoration).gradient is LinearGradient,
+          true,
+        );
       },
     );
   });
