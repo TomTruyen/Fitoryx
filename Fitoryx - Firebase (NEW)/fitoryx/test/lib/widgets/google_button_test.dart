@@ -16,8 +16,10 @@ void main() {
       );
 
       final elevatedButtonFinder = find.byType(ElevatedButton);
-
       expect(elevatedButtonFinder, findsOneWidget);
+
+      ElevatedButton elevatedButton = tester.firstWidget(elevatedButtonFinder);
+      expect(elevatedButton.onPressed != null, true);
     });
 
     testWidgets(
