@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Loader', () {
+  group('WeightHeaderRow', () {
     testWidgets(
       'has 3 Text Widgets',
       (WidgetTester tester) async {
