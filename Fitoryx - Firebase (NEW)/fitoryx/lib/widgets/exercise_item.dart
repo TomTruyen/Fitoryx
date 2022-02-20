@@ -39,10 +39,12 @@ class ExerciseItem extends StatelessWidget {
             : Theme.of(context).textTheme.subtitle2,
         overflow: TextOverflow.ellipsis,
       ),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete, color: Colors.black),
-        onPressed: onDelete,
-      ),
+      trailing: onDelete != null
+          ? IconButton(
+              icon: const Icon(Icons.delete, color: Colors.black),
+              onPressed: onDelete,
+            )
+          : null,
       onTap: onTap,
     );
   }

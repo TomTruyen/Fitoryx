@@ -141,7 +141,7 @@ class _ExercisesPagesState extends State<ExercisesPages> {
                                     },
                                   );
                                 }
-                              : () => {},
+                              : null,
                           selected: selected,
                           isSelectable: widget.isSelectable,
                           onTap: widget.isSelectable
