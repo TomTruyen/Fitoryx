@@ -25,7 +25,7 @@ class Dropdown extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(title),
-            Text(selectedValue),
+            Text(selectedValue == "" ? "None" : selectedValue),
           ],
         ),
         onTap: () {
