@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class SortButton extends StatefulWidget {
+class SortButton extends StatelessWidget {
   final bool isAscending;
   final String text;
   final Function() onPressed;
@@ -14,11 +14,6 @@ class SortButton extends StatefulWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  @override
-  State<SortButton> createState() => _SortButtonState();
-}
-
-class _SortButtonState extends State<SortButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -33,16 +28,15 @@ class _SortButtonState extends State<SortButton> {
         children: <Widget>[
           Transform(
             alignment: Alignment.center,
-            transform: !widget.isAscending
-                ? Matrix4.rotationX(pi)
-                : Matrix4.rotationX(0),
+            transform:
+                !isAscending ? Matrix4.rotationX(pi) : Matrix4.rotationX(0),
             child: const Icon(Icons.sort),
           ),
           const SizedBox(width: 5.0),
-          Text(widget.text),
+          Text(text),
         ],
       ),
-      onPressed: widget.onPressed,
+      onPressed: onPressed,
     );
   }
 }
