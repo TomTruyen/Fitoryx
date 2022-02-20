@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 class Dropdown extends StatelessWidget {
   final String title;
   final String selectedValue;
-  final String defaultValue;
   final List<String> options;
   final Function(String) onSelect;
 
   const Dropdown({
     Key? key,
     this.title = "",
-    this.selectedValue = "",
-    this.defaultValue = "None",
+    this.selectedValue = "None",
     required this.options,
     required this.onSelect,
   }) : super(key: key);
@@ -27,7 +25,7 @@ class Dropdown extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(title),
-            Text(selectedValue == "" ? "None" : selectedValue)
+            Text(selectedValue),
           ],
         ),
         onTap: () {

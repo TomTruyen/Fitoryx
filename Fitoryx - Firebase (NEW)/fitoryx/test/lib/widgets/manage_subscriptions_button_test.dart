@@ -22,7 +22,7 @@ void main() {
         expect(textButtonFinder, findsOneWidget);
 
         await tester.tap(textButtonFinder);
-
+        await tester.pumpAndSettle();
       },
     );
 
