@@ -39,8 +39,8 @@ void main() {
           ),
         );
 
-        expect(formInput.contentPadding?.horizontal, 6.0);
-        expect(formInput.contentPadding?.vertical, 6.0);
+        expect(formInput.contentPadding?.horizontal, 2 * 6.0);
+        expect(formInput.contentPadding?.vertical, 2 * 6.0);
       },
     );
   });
