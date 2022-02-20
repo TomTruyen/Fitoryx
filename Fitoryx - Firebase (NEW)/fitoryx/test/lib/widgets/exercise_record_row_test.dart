@@ -10,9 +10,13 @@ void main() {
         const title = "Title";
 
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
-              body: ExerciseRecordRow(title: title, value: ""),
+              body: ExerciseRecordRow(
+                key: UniqueKey(),
+                title: title,
+                value: "",
+              ),
             ),
           ),
         );
@@ -29,9 +33,13 @@ void main() {
         const value = "Value";
 
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
-              body: ExerciseRecordRow(title: "", value: value),
+              body: ExerciseRecordRow(
+                key: UniqueKey(),
+                title: "",
+                value: value,
+              ),
             ),
           ),
         );
@@ -46,9 +54,13 @@ void main() {
       'displays "-" in Row when value is null',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
-              body: ExerciseRecordRow(title: "", value: null),
+              body: ExerciseRecordRow(
+                key: UniqueKey(),
+                title: "",
+                value: null,
+              ),
             ),
           ),
         );

@@ -9,9 +9,11 @@ void main() {
       'has 3 Text Widgets',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
-              body: WeightHeaderRow(),
+              body: WeightHeaderRow(
+                key: UniqueKey(),
+              ),
             ),
           ),
         );
@@ -26,9 +28,11 @@ void main() {
       'has a widget with "SET" text',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
-              body: WeightHeaderRow(),
+              body: WeightHeaderRow(
+                key: UniqueKey(),
+              ),
             ),
           ),
         );
@@ -43,9 +47,11 @@ void main() {
       'has a widget with "REPS" text',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
-              body: WeightHeaderRow(),
+              body: WeightHeaderRow(
+                key: UniqueKey(),
+              ),
             ),
           ),
         );
@@ -60,9 +66,10 @@ void main() {
       'has a widget with "KG" text when unit is "metric"',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
               body: WeightHeaderRow(
+                key: UniqueKey(),
                 unit: UnitType.metric,
               ),
             ),
@@ -79,9 +86,10 @@ void main() {
       'has a widget with "LBS" text when unit is "imperial"',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
               body: WeightHeaderRow(
+                key: UniqueKey(),
                 unit: UnitType.imperial,
               ),
             ),

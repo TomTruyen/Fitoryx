@@ -21,6 +21,9 @@ void main() {
 
         IconButton iconButton = tester.firstWidget(iconButtonFinder);
         expect((iconButton.icon as Icon).icon, Icons.star_rounded);
+
+        await tester.tap(iconButtonFinder);
+        await tester.pumpAndSettle();
       },
     );
   });

@@ -8,9 +8,10 @@ void main() {
       'displays empty string when sets en name is empty',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
               body: ExerciseRow(
+                key: UniqueKey(),
                 sets: "",
                 name: "",
                 equipment: "",
@@ -34,9 +35,10 @@ void main() {
         const expected = "10 x ExerciseName";
 
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
               body: ExerciseRow(
+                key: UniqueKey(),
                 sets: sets,
                 name: name,
                 equipment: "",
@@ -61,9 +63,10 @@ void main() {
         const expected = "10 x ExerciseName (Equipment)";
 
         await tester.pumpWidget(
-          const MaterialApp(
+          MaterialApp(
             home: Scaffold(
               body: ExerciseRow(
+                key: UniqueKey(),
                 sets: sets,
                 name: name,
                 equipment: equipment,

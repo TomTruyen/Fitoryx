@@ -7,9 +7,10 @@ void main() {
     late GraphCard card;
 
     setUp(() {
-      card = const GraphCard(
+      card = GraphCard(
+        key: UniqueKey(),
         title: "GraphTitle",
-        graph: SizedBox(child: Text("Graph Widget")),
+        graph: const SizedBox(child: Text("Graph Widget")),
         popup: null,
       );
     });

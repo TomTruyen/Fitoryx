@@ -7,7 +7,9 @@ void main() {
     testWidgets(
       'has TextButton',
       (WidgetTester tester) async {
-        ManageSubscriptionsButton button = const ManageSubscriptionsButton();
+        ManageSubscriptionsButton button = ManageSubscriptionsButton(
+          key: UniqueKey(),
+        );
 
         await tester.pumpWidget(
           MaterialApp(
@@ -29,7 +31,9 @@ void main() {
     testWidgets(
       'has "MANAGE SUBSCRIPTIONS" text',
       (WidgetTester tester) async {
-        ManageSubscriptionsButton button = const ManageSubscriptionsButton();
+        ManageSubscriptionsButton button = ManageSubscriptionsButton(
+          key: UniqueKey(),
+        );
 
         await tester.pumpWidget(
           MaterialApp(

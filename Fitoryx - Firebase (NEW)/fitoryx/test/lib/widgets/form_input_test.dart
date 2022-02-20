@@ -10,7 +10,9 @@ void main() {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: FormInput(),
+              body: FormInput(
+                key: UniqueKey(),
+              ),
             ),
           ),
         );
@@ -18,6 +20,27 @@ void main() {
         final textFormFieldFinder = find.byType(TextFormField);
 
         expect(textFormFieldFinder, findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'with isDense sets contentPadding to all(6)',
+      (WidgetTester tester) async {
+        final formInput = FormInput(
+          isDense: true,
+          key: UniqueKey(),
+        );
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: formInput,
+            ),
+          ),
+        );
+
+        expect(formInput.contentPadding?.horizontal, 6.0);
+        expect(formInput.contentPadding?.vertical, 6.0);
       },
     );
   });
