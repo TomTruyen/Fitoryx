@@ -40,7 +40,7 @@ class _CompleteWorkoutPageState extends State<CompleteWorkoutPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           const SliverAppBar(
             leading: CloseButton(),
@@ -109,6 +109,7 @@ class _CompleteWorkoutPageState extends State<CompleteWorkoutPage>
                     color: Colors.grey[800],
                   ),
                 ),
+                const SizedBox(height: 20),
                 Expanded(
                   child: Center(
                     child: CompleteWorkoutCard(history: widget.history),

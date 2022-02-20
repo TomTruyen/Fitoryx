@@ -20,7 +20,7 @@ class CompleteWorkoutCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(12),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -48,6 +48,7 @@ class CompleteWorkoutCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Expanded(
+                  flex: 2,
                   child: Row(
                     children: <Widget>[
                       const Icon(Icons.schedule, size: 16),
@@ -59,7 +60,7 @@ class CompleteWorkoutCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 50),
                 Expanded(
                   child: Row(
                     children: <Widget>[
@@ -84,6 +85,7 @@ class CompleteWorkoutCard extends StatelessWidget {
             Row(
               children: const <Widget>[
                 Expanded(
+                  flex: 2,
                   child: Text(
                     "Exercise",
                     style: TextStyle(
@@ -91,7 +93,7 @@ class CompleteWorkoutCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: 50),
                 Expanded(
                   child: Text(
                     "Best set",
@@ -102,26 +104,37 @@ class CompleteWorkoutCard extends StatelessWidget {
                 ),
               ],
             ),
-            for (var exercise in history.workout.exercises)
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      "${exercise.sets.length} x ${exercise.getTitle()}",
-                      style: const TextStyle(fontSize: 14),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Text(
-                      _bestSetTitle(exercise),
-                      style: const TextStyle(fontSize: 14),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(0),
+                itemBuilder: (BuildContext context, int index) {
+                  final exercise = history.workout.exercises[index];
+
+                  return Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          "${exercise.sets.length} x ${exercise.getTitle()}",
+                          style: const TextStyle(fontSize: 14),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const SizedBox(width: 50),
+                      Expanded(
+                        child: Text(
+                          _bestSetTitle(exercise),
+                          style: const TextStyle(fontSize: 14),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                itemCount: history.workout.exercises.length,
               ),
+            ),
           ],
         ),
       ),
