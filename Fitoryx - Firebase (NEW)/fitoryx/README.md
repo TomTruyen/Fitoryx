@@ -64,6 +64,16 @@ Add `multiDexEnabled true` to `defaultConfig` in `/android/app/build.gradle`
 
 ---
 
+## RevenueCat Setup
+
+### Create revenue_cat_keys.dart in lib/
+
+This is used to store the API Key<br /> `const apiKey = "<Key Here>"`
+
+### Official Quickstart Guide
+
+[RevenueCat Quickstart Guide](https://docs.revenuecat.com/docs/getting-started)
+
 # SonarQube
 
 ## Docker

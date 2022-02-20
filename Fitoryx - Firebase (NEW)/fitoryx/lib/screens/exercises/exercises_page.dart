@@ -15,6 +15,7 @@ import 'package:fitoryx/services/firestore_service.dart';
 import 'package:fitoryx/services/settings_service.dart';
 import 'package:fitoryx/utils/utils.dart';
 import 'package:fitoryx/widgets/alert.dart';
+import 'package:fitoryx/widgets/confirm_alert.dart';
 import 'package:fitoryx/widgets/exercise_item.dart';
 import 'package:fitoryx/widgets/gradient_floating_action_button.dart';
 import 'package:fitoryx/widgets/list_divider.dart';
@@ -112,7 +113,35 @@ class _ExercisesPagesState extends State<ExercisesPages> {
 
                         return ExerciseItem(
                           exercise: item,
-                          deleteExercise: _deleteExercise,
+                          onDelete: item.userCreated && !widget.isSelectable
+                              ? () async {
+                                  clearFocus(context);
+
+                                  showConfirmAlert(
+                                    context,
+                                    content:
+                                        "You will be deleting \"${item.name}\". This action can't be reversed!",
+                                    onConfirm: () async {
+                                      try {
+                                        await _firestoreService.deleteExercise(
+                                          item.id,
+                                        );
+
+                                        _deleteExercise(item.id);
+
+                                        if (Navigator.canPop(context)) {
+                                          Navigator.pop(context);
+                                        }
+                                      } catch (e) {
+                                        showAlert(
+                                          context,
+                                          content: "Failed to delete exercise",
+                                        );
+                                      }
+                                    },
+                                  );
+                                }
+                              : () => {},
                           selected: selected,
                           isSelectable: widget.isSelectable,
                           onTap: widget.isSelectable

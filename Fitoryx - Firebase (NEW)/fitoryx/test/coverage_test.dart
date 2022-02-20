@@ -36,6 +36,7 @@ import 'package:fitoryx/models/workout.dart';
 import 'package:fitoryx/models/workout_history.dart';
 import 'package:fitoryx/providers/subscription_provider.dart';
 import 'package:fitoryx/providers/workout_change_notifier.dart';
+import 'package:fitoryx/revenue_cat_keys.dart';
 import 'package:fitoryx/screens/exercises/add_exercise_page.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/screens/exercises/exercise_detail_page.dart';

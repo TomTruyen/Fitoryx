@@ -1,12 +1,11 @@
+import 'package:fitoryx/revenue_cat_keys.dart';
 import 'package:flutter/services.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PurchaseService {
-  static const _apiKey = "goog_TjlrLhgHyBHGxfHVHyannMdKKcw";
-
   static Future<void> init() async {
     await Purchases.setDebugLogsEnabled(true);
-    await Purchases.setup(_apiKey);
+    await Purchases.setup(apiKey);
   }
 
   static Future<void> login(String? id) async {

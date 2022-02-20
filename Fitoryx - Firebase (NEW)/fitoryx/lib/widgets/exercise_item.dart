@@ -1,25 +1,20 @@
 import 'package:fitoryx/models/exercise.dart';
-import 'package:fitoryx/services/firestore_service.dart';
-import 'package:fitoryx/utils/utils.dart';
-import 'package:fitoryx/widgets/alert.dart';
-import 'package:fitoryx/widgets/confirm_alert.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseItem extends StatelessWidget {
-  final _firestoreService = FirestoreService();
   final Exercise exercise;
   final bool selected;
   final bool isSelectable;
   final Function()? onTap;
-  final Function(String?) deleteExercise;
+  final Function()? onDelete;
 
-  ExerciseItem({
+  const ExerciseItem({
     Key? key,
     required this.exercise,
     this.selected = false,
     this.isSelectable = false,
     this.onTap,
-    required this.deleteExercise,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -44,33 +39,10 @@ class ExerciseItem extends StatelessWidget {
             : Theme.of(context).textTheme.subtitle2,
         overflow: TextOverflow.ellipsis,
       ),
-      trailing: exercise.userCreated && !isSelectable
-          ? IconButton(
-              icon: const Icon(Icons.delete, color: Colors.black),
-              onPressed: () async {
-                clearFocus(context);
-
-                showConfirmAlert(
-                  context,
-                  content:
-                      "You will be deleting \"${exercise.name}\". This action can't be reversed!",
-                  onConfirm: () async {
-                    try {
-                      await _firestoreService.deleteExercise(exercise.id);
-
-                      deleteExercise(exercise.id);
-
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
-                    } catch (e) {
-                      showAlert(context, content: "Failed to delete exercise");
-                    }
-                  },
-                );
-              },
-            )
-          : null,
+      trailing: IconButton(
+        icon: const Icon(Icons.delete, color: Colors.black),
+        onPressed: onDelete,
+      ),
       onTap: onTap,
     );
   }
