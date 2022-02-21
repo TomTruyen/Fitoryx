@@ -10,7 +10,7 @@ void main() {
     setUp(() {
       dropdown = Dropdown(
         title: "Title",
-        selectedValue: "",
+        selectedValue: "MySelectedValue",
         options: options,
         onSelect: (String value) => {},
       );

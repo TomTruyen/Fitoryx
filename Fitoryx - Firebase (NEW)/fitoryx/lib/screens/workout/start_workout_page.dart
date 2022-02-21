@@ -53,19 +53,9 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
             ),
             actions: _started
                 ? <Widget>[
-                    InkWell(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: const Text(
-                          'FINISH',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      onTap: () async {
+                    IconButton(
+                      icon: const Icon(Icons.check),
+                      onPressed: () async {
                         if (!_workout.isWorkoutCompleted()) {
                           showConfirmAlert(
                             context,
