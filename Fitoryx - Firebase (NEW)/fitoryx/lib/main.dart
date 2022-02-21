@@ -118,6 +118,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Colors.blue[700],
         selectionHandleColor: Colors.blue[900],
         selectionColor: Colors.blue[100],
       ),
