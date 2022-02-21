@@ -31,6 +31,15 @@ class CacheService {
     _cachedFatPercentage = null;
   }
 
+  void setDefaults() {
+    _cachedHistory = [];
+    _cachedWorkouts = [];
+    _cachedExercises = [];
+    _cachedNutrition = [];
+    _cachedBodyweight = [];
+    _cachedFatPercentage = [];
+  }
+
   bool hasHistory() {
     return _cachedHistory != null;
   }

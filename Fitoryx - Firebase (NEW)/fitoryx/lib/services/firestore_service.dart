@@ -54,6 +54,8 @@ class FirestoreService {
       _cacheService.setNutrition(_toNutrition(doc));
       _cacheService.setBodyWeight(_toBodyWeight(doc));
       _cacheService.setFatPercentage(_toFatPercentage(doc));
+    } else {
+      _cacheService.setDefaults();
     }
 
     return true;
