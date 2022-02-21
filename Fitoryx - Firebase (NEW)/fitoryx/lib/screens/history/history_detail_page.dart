@@ -1,8 +1,9 @@
 import 'package:fitoryx/models/popup_option.dart';
 import 'package:fitoryx/models/unit_type.dart';
-import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/models/workout_history.dart';
+import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/services/firestore_service.dart';
+import 'package:fitoryx/utils/double_extension.dart';
 import 'package:fitoryx/widgets/alert.dart';
 import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:fitoryx/widgets/workout_exercise_card.dart';
@@ -100,7 +101,7 @@ class HistoryDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Total Volume: ${history.workout.getTotalVolume()} ${UnitTypeHelper.toValue(history.workout.unit)}",
+                    "Total Volume: ${history.workout.getTotalVolume().toIntString()} ${UnitTypeHelper.toValue(history.workout.unit)}",
                     style: const TextStyle(color: Colors.black),
                   ),
                   const SizedBox(height: 10.0),

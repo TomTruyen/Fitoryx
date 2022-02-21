@@ -179,24 +179,22 @@ class _StartWorkoutPageState extends State<StartWorkoutPage> {
           )
         ],
       ),
-      floatingActionButton: !_started
-          ? GradientFloatingActionButton(
-              icon: const Icon(Icons.add_outlined),
-              onPressed: () {
-                clearFocus(context);
+      floatingActionButton: GradientFloatingActionButton(
+        icon: const Icon(Icons.add_outlined),
+        onPressed: () {
+          clearFocus(context);
 
-                Navigator.of(context).push(
-                  CupertinoPageRoute(
-                    fullscreenDialog: true,
-                    builder: (_) => ExercisesPages(
-                      isSelectable: true,
-                      workout: _workout,
-                    ),
-                  ),
-                );
-              },
-            )
-          : null,
+          Navigator.of(context).push(
+            CupertinoPageRoute(
+              fullscreenDialog: true,
+              builder: (_) => ExercisesPages(
+                isSelectable: true,
+                workout: _workout,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

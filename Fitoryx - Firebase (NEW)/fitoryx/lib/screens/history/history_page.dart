@@ -183,9 +183,11 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                               _buildExerciseRows(history.workout.exercises),
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0,
-                                  vertical: 4.0,
+                                padding: const EdgeInsets.fromLTRB(
+                                  16,
+                                  4,
+                                  16,
+                                  16,
                                 ),
                                 child: Text(
                                   history.workout.exercises.length > 3

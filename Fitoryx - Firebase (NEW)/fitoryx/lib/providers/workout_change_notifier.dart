@@ -128,15 +128,6 @@ class WorkoutChangeNotifier extends ChangeNotifier {
     }
   }
 
-  void fillEmpty() {
-    for (var exercise in exercises) {
-      for (var set in exercise.sets) {
-        set.reps = set.reps ?? 0;
-        set.weight = set.weight ?? 0;
-      }
-    }
-  }
-
   Workout toWorkout() {
     var workout = Workout(
       id: id,

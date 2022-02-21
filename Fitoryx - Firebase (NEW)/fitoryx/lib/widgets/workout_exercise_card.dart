@@ -7,7 +7,6 @@ import 'package:fitoryx/models/unit_type.dart';
 import 'package:fitoryx/providers/workout_change_notifier.dart';
 import 'package:fitoryx/screens/exercises/exercises_page.dart';
 import 'package:fitoryx/utils/double_extension.dart';
-import 'package:fitoryx/utils/int_extension.dart';
 import 'package:fitoryx/widgets/form_input.dart';
 import 'package:fitoryx/widgets/popup_menu.dart';
 import 'package:fitoryx/widgets/rest_dialog.dart';
@@ -165,29 +164,6 @@ class WorkoutExerciseCard extends StatelessWidget {
   }
 
   Widget _cardOption(BuildContext context, WorkoutChangeNotifier workout) {
-    if (started) {
-      return exercise.restEnabled
-          ? Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.schedule,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  const SizedBox(width: 5.0),
-                  Text(
-                    "${(exercise.restSeconds ~/ 60).withZeroPadding()}:${(exercise.restSeconds % 60).withZeroPadding()}",
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : Container();
-    }
-
     return PopupMenu(
       items: _popupOptions,
       onSelected: (selected) {

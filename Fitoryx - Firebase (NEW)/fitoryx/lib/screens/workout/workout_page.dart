@@ -167,8 +167,6 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           );
                         }
 
-                        _workout.fillEmpty();
-
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
@@ -187,10 +185,10 @@ class _WorkoutPageState extends State<WorkoutPage> {
                               Flexible(
                                 child: Container(
                                   padding: const EdgeInsets.fromLTRB(
-                                    16.0,
-                                    0.0,
-                                    16.0,
-                                    12.0,
+                                    16,
+                                    0,
+                                    16,
+                                    12,
                                   ),
                                   child: Text(
                                     workout.name,
@@ -245,9 +243,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
                           ),
                           _buildExerciseRows(workout.exercises),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                              vertical: 4.0,
+                            padding: const EdgeInsets.fromLTRB(
+                              16,
+                              4,
+                              16,
+                              16,
                             ),
                             child: Text(
                               workout.exercises.length > 3 ? 'More...' : '',
