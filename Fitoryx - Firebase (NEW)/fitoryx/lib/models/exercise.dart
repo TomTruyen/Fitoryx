@@ -47,7 +47,9 @@ class Exercise {
       int setTime = set.time ?? 0;
 
       if (type == ExerciseType.weight) {
-        if (bestSetWeight < setWeight || bestSetReps < setReps) {
+        if (bestSetWeight < setWeight) {
+          bestSet = set;
+        } else if (bestSetReps < setReps) {
           bestSet = set;
         }
       } else if (type == ExerciseType.time) {
