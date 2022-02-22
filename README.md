@@ -3,7 +3,6 @@
 Fitoryx is an app that allows users to track their fitness progress. It allows tracking of their nutrition and workouts. Furthermore the app contains graphs show a more visual representation of a user his progress. The app does have settings so users can modify the app to their personal preference.
 
 ## Fitoryx Versions
-There are 4 different versions in this repository. 
 - Fitoryx (SQFlite), the version of the app that was actually used and has been released on the Play Store (deprecated)
 - Fitoryx (Firebase), newest version of the app that can be downloaded from the app store
 
